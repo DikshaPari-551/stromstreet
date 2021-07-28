@@ -14,7 +14,7 @@ class HomeAdaptor(
     var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event"),
 var lajpat  : List<String> =listOf("Lajpat Nagar"," Saket","Lajpat Nagar","Saket","Lajpat Nagar")):
     RecyclerView.Adapter<HomeAdaptor.MyViewHolder>() {
-    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
       var mweather=view.findViewById<TextView>(R.id.text_weather)
         var mokhla=view.findViewById<TextView>(R.id.text_okhla)
         var mevent=view.findViewById<TextView>(R.id.event_text)
