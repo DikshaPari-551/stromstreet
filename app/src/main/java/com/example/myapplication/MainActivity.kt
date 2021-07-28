@@ -19,14 +19,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         menu=findViewById(R.id.menu)
+        bubble=findViewById(R.id.bubble)
+        profile=findViewById(R.id.profile)
+        add=findViewById(R.id.add)
         menu.setOnClickListener{
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment()).commit()
-            chat.setBackgroundColor(resources.getColor(R.color.white))
-
+            profile.setColorFilter(resources.getColor(R.color.grey))
+            menu.setColorFilter(resources.getColor(R.color.white))
+            bubble.setColorFilter(resources.getColor(R.color.grey))
+            chat.setColorFilter(resources.getColor(R.color.grey))
         }
         chat=findViewById(R.id.chat)
         chat.setOnClickListener{
-            supportFragmentManager.beginTransaction().replace(R.id.linear_layout, secondFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.linear_layout, TrendingFragment()).commit()
+
+            profile.setColorFilter(resources.getColor(R.color.grey))
+            menu.setColorFilter(resources.getColor(R.color.grey))
+            bubble.setColorFilter(resources.getColor(R.color.grey))
+            chat.setColorFilter(resources.getColor(R.color.white))
+
 
         }
         //add.setBackgroundColor(resources.getColor(R.color.orange))
