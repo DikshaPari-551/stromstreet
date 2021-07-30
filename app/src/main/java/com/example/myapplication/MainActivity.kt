@@ -57,6 +57,15 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, ChatFragment()).commit()
 
         }
+        profile.setOnClickListener{
+            profile.setColorFilter(resources.getColor(R.color.white))
+            menu.setColorFilter(resources.getColor(R.color.grey))
+            bubble.setColorFilter(resources.getColor(R.color.grey))
+            chat.setColorFilter(resources.getColor(R.color.grey))
+            supportFragmentManager.beginTransaction().replace(R.id.linear_layout, ProfileFragment()).commit()
+
+
+        }
         //add.setBackgroundColor(resources.getColor(R.color.orange))
         supportFragmentManager.beginTransaction().add(R.id.linear_layout, HomeFragment()).commit()
 

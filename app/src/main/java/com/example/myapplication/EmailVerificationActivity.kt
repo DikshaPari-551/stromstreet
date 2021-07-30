@@ -28,6 +28,8 @@ class EmailVerificationActivity : AppCompatActivity() {
         et3=findViewById(R.id.et_3)
         et4=findViewById(R.id.et_4)
         submit.setOnClickListener{
+            var intent = Intent(this, ResetPasswordActivity::class.java)
+            startActivity(intent)
             var ett1=et1.text.toString()
             var ett2=et2.text.toString()
             var ett3=et3.text.toString()
@@ -39,8 +41,7 @@ class EmailVerificationActivity : AppCompatActivity() {
             }else{
                 backgroundd.setBackgroundResource(R.drawable.drawable_back)
                 error_text.setText("")
-                var intent = Intent(this, ResetPasswordActivity::class.java)
-                startActivity(intent)
+
             }
         }
 

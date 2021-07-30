@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -21,7 +22,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         send_otp = findViewById(R.id.layout_otp)
         send_otp.setOnClickListener {
             var email = forget_email.text.toString()
-            if (email != "jatin@gmail.com") {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 forget_back_error.setBackgroundResource(R.drawable.background_error)
                 forget_text_error.setText("please enter your register email id.")
             } else {

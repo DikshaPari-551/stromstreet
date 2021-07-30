@@ -33,6 +33,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:id="@+id/user"
+
                 android:layout_centerVertical="true"
                 android:src="@drawable/man" />
 
@@ -73,29 +74,29 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="13dp"
                 android:text="Local Posts"
                 android:id="@+id/text_local_post"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="13dp"
                 android:text="Following Posts"
                 android:id="@+id/text_following_post"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="130dp"
                 android:layout_height="25dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/search_background"
 
@@ -120,7 +121,7 @@
             <LinearLayout
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:background="@drawable/rectangle_back"
@@ -153,6 +154,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:id="@+id/recycler_view1"/>
 
         </androidx.cardview.widget.CardView>

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import layout.modal_class
 
 class lisAdaptor(
-    var list:ArrayList<modal_class> = arrayListOf()
+    var list: ArrayList<modal_class> = arrayListOf()
 
 ):
 RecyclerView.Adapter<lisAdaptor.MyViewHolder>() {
@@ -18,7 +18,7 @@ RecyclerView.Adapter<lisAdaptor.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
     var item =LayoutInflater.from(parent.context).
-    inflate(R.layout.layout_message,null)
+    inflate(R.layout.layout_list,null)
         return  MyViewHolder(item)
     }
 
@@ -27,7 +27,7 @@ RecyclerView.Adapter<lisAdaptor.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val modal=list[position]
-   holder.text.text=modal.getchat()
+
+   holder.text.setText(list.get(position).getchat())
     }
 }

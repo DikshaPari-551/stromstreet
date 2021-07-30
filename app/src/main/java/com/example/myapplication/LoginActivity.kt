@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.EditText
 import android.widget.RelativeLayout
@@ -48,8 +49,8 @@ class LoginActivity : AppCompatActivity() {
         var email=mEmailText.text.toString()
         var pasword=mPassword.text.toString()
 
-        if(email!="jatin@gmail.com" || pasword!="wildstone"){
-        merror.setText("UserName and Password doesnot match")
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches() || pasword.length>=10){
+        merror.setText("UserName and Password is not valid")
             mBackerror.setBackgroundResource(R.drawable.background_error)
           }
         else{

@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import layout.modal_class
 import org.w3c.dom.Text
 
 class HomeAdaptor(
-    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather"),
-    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1"),
-    var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event"),
-var lajpat  : List<String> =listOf("Lajpat Nagar"," Saket","Lajpat Nagar","Saket","Lajpat Nagar")):
+    var weather: List<String> =listOf("Weather","Crime","Weater","Crime","Weather"),
+    var okhla: List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1"),
+    var event: List<String> =listOf("Event","Traffic","Event","Traffic","Event"),
+    var lajpat: List<String> =listOf("Lajpat Nagar"," Saket","Lajpat Nagar","Saket","Lajpat Nagar")):
     RecyclerView.Adapter<HomeAdaptor.MyViewHolder>() {
         inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
       var mweather=view.findViewById<TextView>(R.id.text_weather)
