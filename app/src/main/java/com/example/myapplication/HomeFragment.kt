@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class HomeFragment : Fragment() {
-lateinit var user:ImageView
+
     var weather: List<String> = listOf("Weather", "Crime", "Weater", "Crime", "Weather")
     var okhla: List<String> =
         listOf("Okhla phase1", "Okhla phase2", "Okhla phase1", "Okhla phase2", "Okhla phase1")
@@ -58,11 +58,6 @@ lateinit var user:ImageView
         recycler_view1.layoutManager = layoutManager
         recycler_view1.adapter = adaptor
 
-        user=v.findViewById(R.id.user)
-        user.setOnClickListener{
-            getFragmentManager()?.beginTransaction()?.replace(R.id.linear_layout, ProfileFragment())
-                ?.commit()
-        }
         return v
     }
 

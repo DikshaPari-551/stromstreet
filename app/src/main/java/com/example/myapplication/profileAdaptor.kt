@@ -12,9 +12,9 @@ class profileAdaptor(
 }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): profileAdaptor.MyViewHolder {
-        var v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_profile,null)
-        return MyViewHolder(v)
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.layout_profile, parent, false)
+        return MyViewHolder(itemView)
     }
 
     override fun getItemCount(): Int {

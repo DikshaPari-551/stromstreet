@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class SeconddFragment : Fragment() {
-lateinit var recycler:RecyclerView
+lateinit var recyclerview:RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -17,11 +17,15 @@ lateinit var recycler:RecyclerView
     ): View? {
         // Inflate the layout for this fragment
         var v=  inflater.inflate(R.layout.fragment_secondd, container, false)
-        recycler=v.findViewById(R.id.recyclervieww)
+
+
+
+
+        recyclerview=v.findViewById(R.id.recyclervieww)
         var adaptor = profileAdaptor()
         val layoutManager = LinearLayoutManager(activity)
-        recycler.layoutManager = layoutManager
-        recycler.adapter = adaptor
+        recyclerview.layoutManager = layoutManager
+        recyclerview.adapter = adaptor
         return  v
     }
 
