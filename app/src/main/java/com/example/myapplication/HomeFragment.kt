@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -53,7 +54,7 @@ class HomeFragment : Fragment() {
                 ?.commit()
 
         }
-        var adaptor = HomeAdaptor(weather, okhla, event, lajpat)
+        var adaptor = activity?.let { HomeAdaptor(weather,okhla,event,lajpat,it) }
         val layoutManager = LinearLayoutManager(activity)
         recycler_view1.layoutManager = layoutManager
         recycler_view1.adapter = adaptor

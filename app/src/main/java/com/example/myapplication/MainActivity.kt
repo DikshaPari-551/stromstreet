@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             profile.setColorFilter(resources.getColor(R.color.grey))
             menu.setColorFilter(resources.getColor(R.color.white))
             bubble.setColorFilter(resources.getColor(R.color.grey))
+
             chat.setColorFilter(resources.getColor(R.color.grey))
         }
         chat=findViewById(R.id.chat)

@@ -11,14 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".PostActivity"></activity>
+        <activity android:name=".PostActivity">
+
+        </activity>
         <activity android:name=".ChatActivity"></activity>
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".EmailVerificationActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashActivity"></activity>
+        <activity android:name=".SplashActivity">
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
