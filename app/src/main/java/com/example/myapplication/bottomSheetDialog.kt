@@ -33,10 +33,10 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
         gallery=v.findViewById(R.id.gallery_open)
         camera = v.findViewById(R.id.camera_open)
         cancel=v.findViewById(R.id.cancel)
-        var bottomsheet=bottomSheetDialog()
+//        var bottomsheet=bottomSheetDialog()
 
         cancel.setOnClickListener{
-            bottomsheet.dismiss()
+           dismiss()
 
         }
         gallery.setOnClickListener{

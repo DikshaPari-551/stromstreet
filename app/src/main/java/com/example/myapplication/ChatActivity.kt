@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -12,13 +13,19 @@ class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
     lateinit var sendImgIcon: ImageView
     var list: ArrayList<String> = arrayListOf()
+    lateinit var rightArrowChat:ImageView
+    lateinit var chat_layout:LinearLayout
 lateinit var list_view:ListView
     lateinit var adapter: Adapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-
-
+       chat_layout=findViewById(R.id.chat_Activity)
+//       rightArrowChat=findViewById(R.id.right_arrow_chat)
+//        rightArrowChat.setOnClickListener{
+//            getFragmentManager()?.beginTransaction()?.replace(R.id.linear_layout, ChatFragment())
+//                ?.commit()
+//        }
        list_view=findViewById(R.id.list_view)
         adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, list)
         list_view.adapter= adapter as ArrayAdapter<String>

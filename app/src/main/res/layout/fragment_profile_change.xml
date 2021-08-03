@@ -21,7 +21,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/man"
+                android:id="@+id/man_Profile_change"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_centerVertical="true"
@@ -40,7 +40,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/filter"
+                android:id="@+id/filter_Profile_change"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_alignParentRight="true"

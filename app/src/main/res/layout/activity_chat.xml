@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:id="@+id/chat_Activity"
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
@@ -16,6 +17,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:id="@+id/right_arrow_chat"
             android:layout_marginLeft="20dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/left_arrow"/>

@@ -16,6 +16,8 @@ import com.google.android.material.tabs.TabLayout
 class ProfileFragment : Fragment() {
     lateinit var tag:ImageView
     lateinit var back_tab1:LinearLayout
+    lateinit var manProfile:ImageView
+    lateinit var filterProfile:ImageView
 
 lateinit var color_grid:ImageView
     lateinit var back_tab:LinearLayout
@@ -36,6 +38,18 @@ lateinit var color_grid:ImageView
                 ?.commit()
 
         }
+        manProfile=v.findViewById(R.id.man_profile)
+        manProfile.setOnClickListener{
+            getFragmentManager()?.beginTransaction()?.replace(R.id.linear_layout, ProfileFragment())
+                ?.commit()
+        }
+        filterProfile=v.findViewById(R.id.filter_profile)
+        filterProfile.setOnClickListener{
+            getFragmentManager()?.beginTransaction()?.replace(R.id.linear_layout, secondFragment())
+                ?.commit()
+
+        }
+
         color_grid=v.findViewById(R.id.color_grid)
         back_tab=v.findViewById(R.id.back_tab)
         layout_tab1=v.findViewById(R.id.layout_tab1)
