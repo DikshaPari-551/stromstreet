@@ -3,7 +3,9 @@ package com.example.myapplication
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.io.File
 
 
 class bottomSheetDialog : BottomSheetDialogFragment() {
@@ -41,8 +44,10 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
             startActivityForResult(gallery, pickImage)
         }
         camera.setOnClickListener {
-            val camera_intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivity(camera_intent);
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val f = File(Environment.getExternalStorageDirectory(), "temp.jpg")
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f))
+            startActivityForResult(intent, 1)
         }
         return v
     }
