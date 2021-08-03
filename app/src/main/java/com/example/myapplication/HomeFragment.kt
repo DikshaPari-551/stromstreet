@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class HomeFragment : Fragment() {
 
+    lateinit var man: ImageView
     var weather: List<String> = listOf("Weather", "Crime", "Weater", "Crime", "Weather")
     var okhla: List<String> =
         listOf("Okhla phase1", "Okhla phase2", "Okhla phase1", "Okhla phase2", "Okhla phase1")
@@ -34,15 +35,21 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_home, container, false)
         recycler_view1 = v.findViewById(R.id.recycler_view1)
-        home_text=v.findViewById(R.id.home_text)
+        home_text = v.findViewById(R.id.home_text)
         localpost = v.findViewById(R.id.text_local_post)
         followingPost = v.findViewById(R.id.text_following_post)
-     followingPost.setOnClickListener{
-         followingPost.setTextColor(resources.getColor(R.color.orange))
-         home_text.setText("Following Post")
-         localpost.setTextColor(resources.getColor(R.color.white))
-     }
-        localpost.setOnClickListener{
+        man=v.findViewById(R.id.user_home)
+        man.setOnClickListener{
+            getFragmentManager()?.beginTransaction()?.replace(R.id.linear_layout, ProfileFragment())
+                ?.commit()
+        }
+
+        followingPost.setOnClickListener {
+            followingPost.setTextColor(resources.getColor(R.color.orange))
+            home_text.setText("Following Post")
+            localpost.setTextColor(resources.getColor(R.color.white))
+        }
+        localpost.setOnClickListener {
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Post")
             localpost.setTextColor(resources.getColor(R.color.orange))
@@ -54,7 +61,7 @@ class HomeFragment : Fragment() {
                 ?.commit()
 
         }
-        var adaptor = activity?.let { HomeAdaptor(weather,okhla,event,lajpat,it) }
+        var adaptor = activity?.let { HomeAdaptor(weather, okhla, event, lajpat, it) }
         val layoutManager = LinearLayoutManager(activity)
         recycler_view1.layoutManager = layoutManager
         recycler_view1.adapter = adaptor

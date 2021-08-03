@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
@@ -23,6 +25,8 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         var v = inflater.inflate(R.layout.bottom_drawer, container, false)
+
+
         gallery=v.findViewById(R.id.gallery_open)
         camera = v.findViewById(R.id.camera_open)
         cancel=v.findViewById(R.id.cancel)
@@ -42,5 +46,7 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
         }
         return v
     }
-
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
 }
+
