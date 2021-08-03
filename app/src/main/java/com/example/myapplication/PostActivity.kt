@@ -1,16 +1,20 @@
 package com.example.myapplication
 
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.VideoView
+import androidx.appcompat.app.AppCompatActivity
 
 class PostActivity : AppCompatActivity() {
+
     lateinit var vedio: VideoView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
+
+
 
         vedio=findViewById(R.id.vedio)
 

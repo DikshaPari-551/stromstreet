@@ -35,6 +35,7 @@
             android:textSize="15sp"
             android:layout_gravity="center_vertical"
             android:textStyle="bold"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginLeft="10dp"/>
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -66,6 +67,7 @@
             android:background="@drawable/chat_text_back"
             android:layout_height="30dp"
             android:text="Hello"
+            android:fontFamily="@font/opensans_regular"
             android:paddingLeft="15dp"
             android:paddingTop="5dp"
             android:textStyle="bold"
@@ -79,6 +81,7 @@
             android:layout_height="30dp"
             android:layout_gravity="end"
             android:text="Hello"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginRight="20dp"
             android:paddingLeft="15dp"
             android:paddingTop="5dp"

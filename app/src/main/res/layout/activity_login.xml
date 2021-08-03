@@ -19,6 +19,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="Login Now"
+        android:fontFamily="@font/opensans_semibold"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -29,6 +30,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="Please enter the details below to continue"
+        android:fontFamily="@font/opensans_semibold"
         android:textColor="@color/darkgrey"
         android:textSize="15sp"
         android:textStyle="bold" />
@@ -74,6 +76,7 @@
             android:background="@null"
             android:layout_marginRight="30dp"
             android:hint="Enter Email ID/Phone Number"
+            android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
             android:textSize="12sp" />
     </LinearLayout>
@@ -98,6 +101,7 @@
             android:inputType="textPassword"
             android:layout_marginRight="30dp"
             android:hint="Enter Password"
+            android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
             android:textSize="12sp" />
         <ImageView
@@ -130,6 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Remember Me"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginRight="-5dp"
             android:textColor="@color/black"
             android:textSize="15sp" />
@@ -146,7 +151,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="end"
                 android:text="Forget Password"
-
+                android:fontFamily="@font/opensans_semibold"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="italic|bold" />
@@ -154,10 +159,10 @@
             <LinearLayout
                 android:layout_width="115dp"
                 android:layout_height="1dp"
-
                 android:layout_below="@id/text_forget_password"
                 android:layout_alignParentEnd="true"
-                android:background="@color/darkgrey" />
+                android:background="@color/darkgrey"
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -192,6 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Don't have an account?"
+            android:fontFamily="@font/opensans_regular"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="normal" />
@@ -204,6 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  Sign Up"
+                android:fontFamily="@font/opensans_regular"
                 android:id="@+id/text_sign_up"
                 android:textColor="@color/black"
                 android:textSize="15sp"

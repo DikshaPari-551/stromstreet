@@ -52,6 +52,7 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:text="64.9k"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -71,6 +72,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/comment"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/message_icon" />
@@ -80,6 +82,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="64k"
+                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -106,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="6k"
+                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
