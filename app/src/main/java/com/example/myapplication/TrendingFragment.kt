@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -72,9 +73,8 @@ class TrendingFragment : Fragment() {
         recycler_view2.layoutManager = layoutManager
         recycler_view2.adapter = adaptor
         Go.setOnClickListener {
-            getFragmentManager()?.beginTransaction()?.replace(R.id.linear_layout,Post2())
-                ?.commit()
-
+            var i = Intent(activity,PostActivity2()::class.java)
+            startActivity(i)
         }
         return v
 

@@ -20,6 +20,7 @@
         android:id="@+id/chat"
         android:src="@drawable/chat_home"/>
     <ImageView
+        android:backgroundTint="@color/black"
         android:layout_width="40dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="45dp"

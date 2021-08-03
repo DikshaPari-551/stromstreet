@@ -109,6 +109,7 @@
             android:layout_height="24dp"
             android:src="@drawable/eye_img"
             android:id="@+id/eye_img"
+            android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             />
@@ -150,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="end"
-                android:text="Forget Password"
+                android:text="Forget Password?"
                 android:fontFamily="@font/opensans_semibold"
                 android:textColor="@color/black"
                 android:textSize="15sp"
