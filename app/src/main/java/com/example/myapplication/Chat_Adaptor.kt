@@ -33,10 +33,10 @@ return 15
     }
 
     override fun onBindViewHolder(holder:MyViewHolder, position: Int) {
-    holder.chat.setOnClickListener{
+        holder.chat.setOnClickListener {
 
-        (mcontext as MainActivity).startActivity(Intent(mcontext,ChatActivity::class.java))
+            (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java))
+        }
     }
-    }
-
 }
+

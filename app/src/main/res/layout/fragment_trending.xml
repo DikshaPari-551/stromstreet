@@ -131,12 +131,14 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="0.5"
+                    android:id="@+id/go"
                     android:background="@drawable/rectangle_back"
                     android:gravity="center"
 
                     >
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="GO"
