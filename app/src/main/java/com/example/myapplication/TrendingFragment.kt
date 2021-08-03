@@ -6,13 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
 class TrendingFragment : Fragment() {
+    lateinit var Go : LinearLayout
     lateinit var textLocalPostTrending:TextView
     lateinit var textFollowingPostTrending:TextView
     var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
@@ -32,6 +35,10 @@ class TrendingFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var v= inflater.inflate(R.layout.fragment_trending, container, false)
+
+        Go = v.findViewById(R.id.go)
+
+
 
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
@@ -64,8 +71,14 @@ class TrendingFragment : Fragment() {
         val layoutManager = LinearLayoutManager(activity)
         recycler_view2.layoutManager = layoutManager
         recycler_view2.adapter = adaptor
+        Go.setOnClickListener {
+            getFragmentManager()?.beginTransaction()?.replace(R.id.linear_layout,Post2())
+                ?.commit()
 
+        }
         return v
+
+
     }
 }
 

@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
 
         }
-        //add.setBackgroundColor(resources.getColor(R.color.orange))
+        add.setBackgroundColor(resources.getColor(R.color.orange))
         supportFragmentManager.beginTransaction().add(R.id.linear_layout, HomeFragment()).commit()
 
 
