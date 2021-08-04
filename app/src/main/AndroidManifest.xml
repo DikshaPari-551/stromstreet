@@ -11,15 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".PostActivity2"></activity>
-        <activity android:name=".PostActivity"></activity>
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".EmailVerificationActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Activities.PostActivity3"></activity>
+        <activity android:name=".Activities.PostActivity2" />
+        <activity android:name=".Activities.PostActivity" />
+        <activity android:name=".Activities.ChatActivity" />
+        <activity android:name=".Activities.ResetPasswordActivity" />
+        <activity android:name=".Activities.ForgotPasswordActivity" />
+        <activity android:name=".Activities.EmailVerificationActivity" />
+        <activity android:name=".Activities.SignUpActivity" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,8 +28,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:name=".Activities.MainActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
