@@ -67,6 +67,7 @@ eyeImg.setOnClickListener{
         else{
             merror.setText("")
             mBackerror.setBackgroundResource(R.drawable.drawable_back)
+            LoginFlag.setLoginFlag(true)
             var intent=Intent(this,MainActivity::class.java)
             startActivity(intent)
         }

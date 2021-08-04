@@ -27,6 +27,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:text="Open Camera"
+                android:fontFamily="@font/opensans_semibold"
                 android:id="@+id/camera_open"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
@@ -38,6 +39,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:text="Open Gallery"
+                android:fontFamily="@font/opensans_semibold"
                 android:id="@+id/gallery_open"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
@@ -55,6 +57,7 @@
                     android:layout_centerInParent="true"
                     android:text="Cancel"
                     android:id="@+id/cancel"
+                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />

@@ -11,6 +11,7 @@
         android:layout_height="30dp"
         android:layout_gravity="end"
         android:text="Hello"
+        android:fontFamily="@font/opensans_regular"
         android:id="@+id/text_chat"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"

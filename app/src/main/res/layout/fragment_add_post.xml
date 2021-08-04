@@ -31,6 +31,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:text="ADD POST"
+            android:fontFamily="@font/opensans_regular"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -121,8 +122,10 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center"
                         android:text="Okhla Phase 1"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/opensans_light"
                         android:textColor="@color/black"
-                        android:textSize="35px" />
+                        android:textSize="30px" />
 
                 </LinearLayout>
 
@@ -137,6 +140,7 @@
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:hint="Write about post...."
+                        android:fontFamily="@font/opensans_regular"
                         android:inputType="textMultiLine"
                         android:lines="8"
                         android:minLines="6"
@@ -145,7 +149,7 @@
                         android:scrollbars="vertical"
                         android:paddingLeft="10dp"
                         android:paddingTop="20dp"
-                        android:textSize="15dp" />
+                        android:textSize="13dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -170,6 +174,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerVertical="true"
+                                android:fontFamily="@font/opensans_regular"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
@@ -208,7 +213,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="POST"
+                        android:fontFamily="@font/opensans_regular"
                         android:textStyle="bold"
+                        android:textSize="20dp"
                         android:textColor="@color/white"/>
                 </LinearLayout>
 

@@ -27,7 +27,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:text="Logout"
-
+        android:fontFamily="@font/opensans_semibold"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -38,7 +38,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:text="Are you sure you want to"
-
+        android:fontFamily="@font/opensans_light"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -48,7 +48,7 @@
         android:layout_gravity="center_horizontal"
 
         android:text="Logout"
-
+        android:fontFamily="@font/opensans_light"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:text="Cancel"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginLeft="20dp"
             android:id="@+id/cancel_logout"
             android:textColor="@color/blue"
@@ -86,6 +87,7 @@
             android:padding="20dp"
             android:id="@+id/logout"
             android:text="Logout"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:textColor="@color/orange"

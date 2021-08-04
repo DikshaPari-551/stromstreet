@@ -43,8 +43,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
                     android:text="Home"
+                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -85,6 +86,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="13dp"
                         android:text="Local Posts"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -96,6 +98,7 @@
                         android:layout_marginLeft="9dp"
                         android:layout_marginTop="13dp"
                         android:text="Following Posts"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -122,6 +125,7 @@
                         android:layout_marginLeft="7dp"
                         android:background="@null"
                         android:hint="Search Posts..........."
+                        android:fontFamily="@font/opensans_regular"
                         android:singleLine="true"
                         android:textColorHint="@color/black"
                         android:textSize="8sp" />
@@ -142,6 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="GO"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         android:textSize="12sp"

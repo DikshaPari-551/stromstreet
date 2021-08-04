@@ -35,6 +35,7 @@
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:text="Profile"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -103,6 +104,7 @@
                         android:layout_marginRight="30dp"
                         android:background="@null"
                         android:hint="Enter Full Name"
+                        android:fontFamily="@font/opensans_regular"
                         android:singleLine="true"
                         android:textColorHint="@color/darkgrey"
                         android:textSize="12sp" />
@@ -136,6 +138,7 @@
                         android:layout_marginRight="30dp"
                         android:background="@null"
                         android:hint="Enter UserName"
+                        android:fontFamily="@font/opensans_regular"
                         android:singleLine="true"
                         android:textColorHint="@color/darkgrey"
                         android:textSize="12sp" />
@@ -168,6 +171,7 @@
                         android:layout_marginRight="30dp"
                         android:background="@null"
                         android:hint="Enter Email ID"
+                        android:fontFamily="@font/opensans_regular"
                         android:singleLine="true"
                         android:textColorHint="@color/darkgrey"
                         android:textSize="12sp" />
@@ -182,7 +186,6 @@
                     android:textColor="@color/red"
                     android:textSize="12sp"
                     android:textStyle="bold" />
-
 
 
                 <TextView
@@ -212,6 +215,7 @@
                         android:layout_marginRight="30dp"
                         android:background="@null"
                         android:hint="Enter Phone Number"
+                        android:fontFamily="@font/opensans_regular"
                         android:inputType="number"
                         android:singleLine="true"
                         android:textColorHint="@color/darkgrey"
@@ -245,6 +249,7 @@
                         android:layout_marginRight="30dp"
                         android:background="@null"
                         android:hint="Bio"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColorHint="@color/darkgrey"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -255,6 +260,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:text="Social media Link"
+                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -290,7 +296,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
-
+                            android:fontFamily="@font/opensans_regular"
                             android:layout_marginRight="30dp"
                             android:background="@null"
                             android:hint="Enter Twitter Link"
@@ -333,7 +339,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
-
+                            android:fontFamily="@font/opensans_regular"
                             android:layout_marginRight="30dp"
                             android:background="@null"
                             android:hint="Enter Facebook Link"
@@ -376,7 +382,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
-
+                            android:fontFamily="@font/opensans_regular"
                             android:layout_marginRight="30dp"
                             android:background="@null"
                             android:hint="Enter Instagram Link"
@@ -419,7 +425,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
-
+                            android:fontFamily="@font/opensans_regular"
                             android:layout_marginRight="30dp"
                             android:background="@null"
                             android:hint="Enter YouTube Link"
@@ -439,8 +445,8 @@
                     android:gravity="center_horizontal">
 
                     <RelativeLayout
-                        android:layout_width="150dp"
                         android:id="@+id/layout_butoon_svae_changes"
+                        android:layout_width="150dp"
                         android:layout_height="30dp"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/rectangle_background_button">
@@ -450,6 +456,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:text="Save Changes"
+                            android:fontFamily="@font/opensans_regular"
                             android:textColor="@color/white"
                             android:textSize="12sp"
                             android:textStyle="bold" />
