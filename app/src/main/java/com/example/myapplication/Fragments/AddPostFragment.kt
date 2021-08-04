@@ -30,14 +30,14 @@ class AddPostFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private var recycler: RecyclerView? = null
-    private lateinit var spin : Spinner
-    private lateinit var post : LinearLayout
-    var source: ArrayList<String>? = null
-    var RecyclerViewLayoutManager: RecyclerView.LayoutManager? = null
-    var adapter: AddpostAdapter? = null
-    var HorizontalLayout: LinearLayoutManager? = null
-    var RecyclerViewItemPosition = 0
+//    private var recycler: RecyclerView? = null
+//    private lateinit var spin : Spinner
+//    private lateinit var post : LinearLayout
+//    var source: ArrayList<String>? = null
+//    var RecyclerViewLayoutManager: RecyclerView.LayoutManager? = null
+//    var adapter: AddpostAdapter? = null
+//    var HorizontalLayout: LinearLayoutManager? = null
+//    var RecyclerViewItemPosition = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,14 +54,17 @@ class AddPostFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view : View = inflater.inflate(R.layout.fragment_add_post, container, false)
-        post=view.findViewById(R.id.post)
+//        post=view.findViewById(R.id.post)
+//
+//        post.setOnClickListener{
+//            fragmentManager?.beginTransaction()?.replace(
+//                R.id.linear_layout,
+//                HomeFragment()
+//            )?.commit()
+//        }
 
-        post.setOnClickListener{
-            fragmentManager?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                HomeFragment()
-            )?.commit()
-        }
+
+
 //        recycler=view.findViewById(R.id.add_post_recycler_view)
 //        var adaptor = profileAdaptor()
 //        HorizontalLayout = LinearLayoutManager(
@@ -76,19 +79,23 @@ class AddPostFragment : Fragment() {
 
 
 //        Spinner code
-        spin = view.findViewById(R.id.spinner2)
+//        spin = view.findViewById(R.id.spinner2)
+//
+//        val objects = arrayOf<String?>(
+//            "Choose category", "Video", "Photo", "Video", "Photo"
+//        )
+//
+//        val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
+//            activity!!,
+//            android.R.layout.simple_list_item_1,
+//            objects
+//        )
+//
+//        spin.adapter = adapter
+//
 
-        val objects = arrayOf<String?>(
-            "Choose category", "Video", "Photo", "Video", "Photo"
-        )
 
-        val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
-            activity!!,
-            android.R.layout.simple_list_item_1,
-            objects
-        )
 
-        spin.adapter = adapter
 //        spin.setOnItemSelectedListener()
 
 

@@ -45,10 +45,10 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
 
         }
         gallery.setOnClickListener {
-//            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-//            startActivityForResult(gallery, pickImage)
-            fragmentManager?.beginTransaction()?.replace(R.id.layout, AddPostFragment())?.commit()
-            dismiss()
+            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery, pickImage)
+//            fragmentManager?.beginTransaction()?.replace(R.id.layout, AddPostFragment())?.commit()
+//            dismiss()
 
 
         }
