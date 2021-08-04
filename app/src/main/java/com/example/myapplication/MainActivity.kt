@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
             }
         }
 //        profile

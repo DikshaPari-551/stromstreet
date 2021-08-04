@@ -70,6 +70,7 @@ eyeImg.setOnClickListener{
             LoginFlag.setLoginFlag(true)
             var intent=Intent(this,MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }
