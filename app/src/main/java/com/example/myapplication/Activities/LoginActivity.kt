@@ -1,15 +1,16 @@
-package com.example.myapplication.Activities
+package com.example.myapplication
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Patterns
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.example.myapplication.R
+import androidx.core.view.isVisible
 
 class LoginActivity : AppCompatActivity() {
     lateinit var mEmailText:EditText
@@ -40,12 +41,11 @@ eyeImg.setOnClickListener{
         mPassword.inputType=InputType.TYPE_CLASS_TEXT
     }}
         text_forget.setOnClickListener{
-            var intent=Intent(this,
-                ForgotPasswordActivity::class.java)
+            var intent=Intent(this,ForgotPasswordActivity::class.java)
             startActivity(intent)
         }
         text_sign_up.setOnClickListener{
-            var intent=Intent(this, SignUpActivity::class.java)
+            var intent=Intent(this,SignUpActivity::class.java)
             startActivity(intent)
         }
         mLayout_Login.setOnClickListener{
@@ -67,7 +67,8 @@ eyeImg.setOnClickListener{
         else{
             merror.setText("")
             mBackerror.setBackgroundResource(R.drawable.drawable_back)
-            var intent=Intent(this, MainActivity::class.java)
+            LoginFlag.setLoginFlag(true)
+            var intent=Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
     }

@@ -44,6 +44,7 @@
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
                     android:text="Profile"
+                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -109,6 +110,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="20dp"
                                     android:text="Prince Rathod"
+                                    android:fontFamily="@font/opensans_light"
                                     android:textColor="@color/black"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
@@ -116,7 +118,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-
+                                    android:fontFamily="@font/opensans_semibold"
                                     android:text="Rocikingsprice$"
                                     android:textColor="@color/black"
                                     android:textSize="15sp"
@@ -142,6 +144,7 @@
                                 android:layout_centerInParent="true"
                                 android:layout_gravity="center"
                                 android:text="Profile details"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/white"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -161,6 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Phone       :"
+                        android:fontFamily="@font/opensans_semibold"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -170,6 +174,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:text="989999999999"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/darkgrey"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -186,6 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email         :"
+                        android:fontFamily="@font/opensans_semibold"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -195,6 +201,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:text="prince23@gmail.com"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/darkgrey"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -211,6 +218,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Bio             :"
+                        android:fontFamily="@font/opensans_semibold"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -220,6 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:maxLines="5"
+                        android:fontFamily="@font/opensans_regular"
                         android:text="Lorem ipsum dolor sit amet\n consectetur adipiscing elit. Aenean\n euismed bibendum laoreet. prion\n gravida dolor sit amet lacus accumsan\n et viverra justo commodo."
                         android:textColor="@color/darkgrey"
                         android:textSize="16sp"
@@ -237,6 +246,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Link           :     "
+                        android:fontFamily="@font/opensans_semibold"
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical"
                         android:textSize="16sp"
@@ -289,6 +299,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:text="Logout"
+                            android:fontFamily="@font/opensans_regular"
                             android:textColor="@color/white"
                             android:textSize="12sp"
                             android:textStyle="bold" />

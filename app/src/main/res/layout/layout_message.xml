@@ -23,6 +23,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:text="Peter"
+            android:fontFamily="@font/opensans_regular"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />

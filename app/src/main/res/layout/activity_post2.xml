@@ -93,6 +93,7 @@
                                         android:layout_height="wrap_content"
                                         android:paddingLeft="20dp"
                                         android:text="Rockingprince$"
+                                        android:fontFamily="@font/opensans_regular"
                                         android:textColor="@color/black"
                                         android:textSize="18dp"
                                         android:textStyle="bold" />
@@ -100,6 +101,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="+ follow"
+                                        android:fontFamily="@font/opensans_regular"
                                         android:textSize="15dp"
                                         android:layout_gravity="center_vertical"
                                         android:textColor="@color/black"
@@ -123,6 +125,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Okhla phase1"
+                                        android:fontFamily="@font/opensans_light"
                                         android:textColor="@color/black"
                                         android:textSize="12dp"
                                         />
@@ -132,6 +135,7 @@
                                         android:layout_height="wrap_content"
                                         android:paddingLeft="15dp"
                                         android:text="Event"
+                                        android:fontFamily="@font/opensans_regular"
                                         android:textColor="@color/black"
                                         android:textSize="12dp"
                                         android:textStyle="bold" />
@@ -154,6 +158,7 @@
                             android:textSize="12dp"
                             android:layout_height="wrap_content"
                             android:letterSpacing=".001"
+                            android:fontFamily="@font/opensans_regular"
                             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.......  More">
                         </TextView>
                     </LinearLayout>
@@ -185,6 +190,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="64.9k"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
@@ -207,6 +213,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="64k"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
@@ -229,6 +236,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="6k"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
@@ -246,6 +254,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:text="ADD COMMENT"
+                        android:fontFamily="@font/opensans_regular"
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:layout_margin="25dp"

@@ -18,6 +18,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="Sign Up"
+            android:fontFamily="@font/opensans_semibold"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -28,6 +29,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="Sign in to your account"
+            android:fontFamily="@font/opensans_semibold"
             android:textColor="@color/darkgrey"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -88,6 +90,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:hint="Enter Full Name"
+                android:fontFamily="@font/opensans_regular"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="12sp" />
@@ -119,6 +122,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:hint="Enter UserName"
+                android:fontFamily="@font/opensans_regular"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="12sp" />
@@ -149,6 +153,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:hint="Enter Email ID"
+                android:fontFamily="@font/opensans_regular"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="12sp" />
@@ -180,6 +185,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:hint="Enter Password"
+                android:fontFamily="@font/opensans_regular"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="12sp" />
@@ -212,6 +218,7 @@
                 android:background="@null"
                 android:inputType="number"
                 android:hint="Enter Phone Number"
+                android:fontFamily="@font/opensans_regular"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="12sp" />
@@ -243,6 +250,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:hint="Bio"
+                android:fontFamily="@font/opensans_regular"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -253,6 +261,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:text="Social media Link"
+            android:fontFamily="@font/opensans_regular"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -292,6 +301,7 @@
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:hint="Enter Twitter Link"
+                    android:fontFamily="@font/opensans_regular"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
                     android:textSize="12sp" />
@@ -337,6 +347,7 @@
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:hint="Enter Facebook Link"
+                    android:fontFamily="@font/opensans_regular"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
                     android:textSize="12sp" />
@@ -382,6 +393,7 @@ android:layout_marginRight="20dp"
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:hint="Enter Instagram Link"
+                    android:fontFamily="@font/opensans_regular"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
                     android:textSize="12sp" />
@@ -427,6 +439,7 @@ android:layout_marginRight="20dp"
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:hint="Enter YouTube Link"
+                    android:fontFamily="@font/opensans_regular"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
                     android:textSize="12sp" />
@@ -460,6 +473,7 @@ android:layout_marginRight="20dp"
                  information that is helpful to others, I
  understand violating this will result in my
  account removal "
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -485,6 +499,7 @@ android:layout_marginRight="20dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_vertical"
                 android:text="SIGN UP"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -501,6 +516,7 @@ android:layout_marginRight="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Already have an account?"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="normal" />
@@ -513,6 +529,7 @@ android:layout_marginRight="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="  Login"
+                    android:fontFamily="@font/opensans_regular"
                     android:id="@+id/text_login"
                     android:textColor="@color/black"
                     android:textSize="15sp"

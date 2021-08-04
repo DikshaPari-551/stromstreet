@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
 
 
-    tools:context=".Activities.PostActivity">
+    tools:context=".PostActivity">
 
-       <VideoView
-           android:layout_width="match_parent"
-           android:id="@+id/vedio"
-           android:layout_height="match_parent"/>
+    <VideoView
+        android:id="@+id/vedio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,9 +50,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_regular"
                         android:padding="5dp"
                         android:text="64.9k"
-                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -80,9 +80,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_regular"
                     android:padding="5dp"
                     android:text="64k"
-                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -107,9 +107,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_regular"
                     android:padding="5dp"
                     android:text="6k"
-                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -155,8 +155,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="0.3">
+            android:layout_weight="0.3"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -186,20 +186,23 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/opensans_semibold"
                             android:paddingLeft="20dp"
                             android:text="Rockingprince$"
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             android:textStyle="bold" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="+ follow"
-                            android:textStyle="bold"
-                            android:textSize="12sp"
                             android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/opensans_regular"
+                            android:paddingLeft="10dp"
+                            android:text="+ follow"
                             android:textColor="@color/white"
-                            android:paddingLeft="10dp"/>
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -211,14 +214,15 @@
 
                         <ImageView
                             android:layout_width="10dp"
-                            android:layout_gravity="center_vertical"
                             android:layout_height="10dp"
+                            android:layout_gravity="center_vertical"
                             android:src="@drawable/location_white" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
+                            android:fontFamily="@font/opensans_light"
                             android:text="Okhla phase1"
                             android:textColor="@color/white"
                             android:textSize="10sp"
@@ -227,9 +231,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/opensans_regular"
                             android:paddingLeft="15dp"
                             android:text="Event$"
-
                             android:textColor="@color/white"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -239,32 +243,21 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <RelativeLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:maxLines="6"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/text_more"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"
-                    android:text="Lorem ipsum dolor sit amet,consectetuar  elit, sed de eimuod\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\n lacus.......... "/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="More"
-                    android:layout_marginLeft="70dp"
-                    android:id="@+id/more"
-                    android:textStyle="bold"
-                    android:layout_marginTop="30dp"
+                    android:maxLines="4"
+                    android:text="Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\n pendisse ultrices gravida. Risus commado viverra maecenas accumsan\n lacus vel faclisis.......... "
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                   />
-            </RelativeLayout>
+                    android:textSize="12sp" />
+                    android:fontFamily="@font/opensans_regular"
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
