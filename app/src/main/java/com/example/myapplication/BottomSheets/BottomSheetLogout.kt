@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.myapplication.Activities.LoginActivity
+import com.example.myapplication.Fragments.ProfileChangeFragment
+import com.example.myapplication.LoginActivity
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -34,6 +36,7 @@ class BottomSheetLogout : BottomSheetDialogFragment() {
             var intent =Intent(activity,
                 LoginActivity::class.java)
             startActivity(intent)
+            MainActivity().finish()
         }
         cancel_logout.setOnClickListener {
            dismiss()

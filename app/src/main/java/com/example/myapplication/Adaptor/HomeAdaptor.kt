@@ -9,9 +9,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Activities.MainActivity
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Activities.PostActivity3
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 
 class HomeAdaptor(
@@ -49,7 +49,7 @@ class HomeAdaptor(
     }
         holder.layout_post_img.setOnClickListener{
             (mcontext as MainActivity).startActivity(Intent(mcontext,
-                PostActivity::class.java))
+                PostActivity3::class.java))
         }
     }
     override fun getItemCount(): Int {

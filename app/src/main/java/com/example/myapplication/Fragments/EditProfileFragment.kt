@@ -30,6 +30,7 @@ lateinit var layoutButtonProfileDetail:LinearLayout
             var bottomsheettt=
                 BottomSheetLogout()
             fragmentManager?.let { it1 -> bottomsheettt.show(it1,"bottomsheet") }
+
         }
         man_EditProfile=v.findViewById(R.id.man_editprofile)
         man_EditProfile.setOnClickListener{

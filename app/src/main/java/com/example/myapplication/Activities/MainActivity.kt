@@ -13,6 +13,10 @@ import android.security.identity.AccessControlProfile
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.Fragments.ChatFragment
+import com.example.myapplication.Fragments.HomeFragment
+import com.example.myapplication.Fragments.ProfileFragment
+import com.example.myapplication.Fragments.TrendingFragment
 import java.io.*
 
 

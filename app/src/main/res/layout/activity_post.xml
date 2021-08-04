@@ -244,20 +244,33 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="4"
-                    android:text="Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\n pendisse ultrices gravida. Risus commado viverra maecenas accumsan\n lacus vel faclisis.......... "
+                    android:maxLines="6"
+                    android:id="@+id/text_more"
+                    android:text="Lorem ipsum dolor sit amet,consectetuar  elit, sed de eimuod\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\n lacus.......... "
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
-                    android:fontFamily="@font/opensans_regular"
-            </LinearLayout>
+                    android:textSize="12sp"
+                    android:fontFamily="@font/opensans_regular"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:text="   More"
+                    android:id="@+id/more"
+                    android:layout_marginTop="33dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/opensans_regular"/>
+            </RelativeLayout>
 
         </LinearLayout>
     </LinearLayout>

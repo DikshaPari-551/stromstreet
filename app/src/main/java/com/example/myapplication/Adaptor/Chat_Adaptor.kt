@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.ChatActivity
-import com.example.myapplication.Activities.MainActivity
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 
 class Chat_Adaptor(

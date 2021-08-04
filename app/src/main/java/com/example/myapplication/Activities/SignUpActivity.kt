@@ -6,7 +6,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.ValidationExt.Validations
-import com.example.myapplication.BottomSheets.bottomSheetDialog
+import com.example.myapplication.LoginActivity
+import com.example.myapplication.MainActivity
+import com.example.myapplication.bottomSheetDialog
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var check: CheckBox
@@ -64,8 +66,7 @@ class SignUpActivity : AppCompatActivity() {
         error_text = findViewById(R.id.textView_error)
 
         camera.setOnClickListener {
-            var bottomsheet =
-                bottomSheetDialog()
+            var bottomsheet = bottomSheetDialog()
             bottomsheet.show(supportFragmentManager, "bottomsheet")
         }
         login.setOnClickListener {

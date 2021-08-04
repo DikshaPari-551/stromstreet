@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.example.myapplication.Activities.ForgotPasswordActivity
+import com.example.myapplication.Activities.SignUpActivity
 
 class LoginActivity : AppCompatActivity() {
     lateinit var mEmailText:EditText
@@ -41,11 +43,11 @@ eyeImg.setOnClickListener{
         mPassword.inputType=InputType.TYPE_CLASS_TEXT
     }}
         text_forget.setOnClickListener{
-            var intent=Intent(this,ForgotPasswordActivity::class.java)
+            var intent=Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
         }
         text_sign_up.setOnClickListener{
-            var intent=Intent(this,SignUpActivity::class.java)
+            var intent=Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
         mLayout_Login.setOnClickListener{
@@ -70,6 +72,7 @@ eyeImg.setOnClickListener{
             LoginFlag.setLoginFlag(true)
             var intent=Intent(this,MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

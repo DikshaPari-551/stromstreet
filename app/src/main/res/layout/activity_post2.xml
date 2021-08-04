@@ -98,6 +98,7 @@
                                         android:textSize="18dp"
                                         android:textStyle="bold" />
                                     <TextView
+                                        android:id="@+id/follow1"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="+ follow"
@@ -182,6 +183,7 @@
 
 
                             <ImageView
+                                android:id="@+id/like"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/grey_heart" />
@@ -205,6 +207,7 @@
 
 
                             <ImageView
+                                android:id="@+id/comment1"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/grey_comment" />
@@ -228,6 +231,7 @@
 
 
                             <ImageView
+                                android:id="@+id/share1"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/grey_share" />
