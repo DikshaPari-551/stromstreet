@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -11,15 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".PostActivity2"></activity>
-        <activity android:name=".PostActivity"></activity>
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".EmailVerificationActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Activities.PostActivity3"></activity>
+        <activity android:name=".Activities.PostActivity2" />
+        <activity android:name=".Activities.PostActivity" />
+        <activity android:name=".Activities.ChatActivity" />
+        <activity android:name=".Activities.ResetPasswordActivity" />
+        <activity android:name=".Activities.ForgotPasswordActivity" />
+        <activity android:name=".Activities.EmailVerificationActivity" />
+        <activity android:name=".Activities.SignUpActivity" />
+        <activity android:name="LoginActivity"
+            />
+        <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +31,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
