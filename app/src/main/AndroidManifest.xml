@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".Activities.ImageActivity"></activity>
+        <activity android:name=".Activities.GalleryPostActivity"></activity>
+        <activity android:name=".Activities.ImageActivity" />
         <activity android:name=".AddPostActivity" />
         <activity android:name=".Activities.PostActivity3" />
         <activity android:name=".Activities.PostActivity2" />

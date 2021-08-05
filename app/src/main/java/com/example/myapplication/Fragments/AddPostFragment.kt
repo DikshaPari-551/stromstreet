@@ -4,122 +4,79 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.Spinner
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Adaptor.AddpostAdapter
+import com.example.myapplication.Activities.GalleryPostActivity.Companion.galleryPostActivity
+import com.example.myapplication.Adaptor.ItemListAdapter
 import com.example.myapplication.R
+import com.github.chiragji.gallerykit.GalleryKitDialog
+import com.github.chiragji.gallerykit.callbacks.GalleryKitListener
+import com.github.chiragji.gallerykit.enums.GalleryKitViewStyle
+import com.google.android.material.button.MaterialButton
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class AddPostFragment : Fragment(), GalleryKitListener {
+
+    private lateinit var selectedItemsListView: RecyclerView
 
 
+    private var adapter: ItemListAdapter? = null
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddPostFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AddPostFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-//    private var recycler: RecyclerView? = null
-//    private lateinit var spin : Spinner
-//    private lateinit var post : LinearLayout
-//    var source: ArrayList<String>? = null
-//    var RecyclerViewLayoutManager: RecyclerView.LayoutManager? = null
-//    var adapter: AddpostAdapter? = null
-//    var HorizontalLayout: LinearLayoutManager? = null
-//    var RecyclerViewItemPosition = 0
+//    private var kitDialog: GalleryKitDialog? = null
+//    lateinit var gallery: TextView
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view : View = inflater.inflate(R.layout.fragment_add_post, container, false)
-//        post=view.findViewById(R.id.post)
-//
-//        post.setOnClickListener{
-//            fragmentManager?.beginTransaction()?.replace(
-//                R.id.linear_layout,
-//                HomeFragment()
-//            )?.commit()
-//        }
-
-
-
-//        recycler=view.findViewById(R.id.add_post_recycler_view)
-//        var adaptor = profileAdaptor()
-//        HorizontalLayout = LinearLayoutManager(
-//            activity,
-//            LinearLayoutManager.HORIZONTAL,
-//            false
-//        )
-//        val layoutManager = LinearLayoutManager(activity)
-//        recycler!!.layoutManager = layoutManager
-//        recycler!!.layoutManager = HorizontalLayout
-//        recycler!!.adapter = adaptor
-
-
-//        Spinner code
-//        spin = view.findViewById(R.id.spinner2)
-//
-//        val objects = arrayOf<String?>(
-//            "Choose category", "Video", "Photo", "Video", "Photo"
-//        )
-//
-//        val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
-//            activity!!,
-//            android.R.layout.simple_list_item_1,
-//            objects
-//        )
-//
-//        spin.adapter = adapter
-//
-
-
-
-//        spin.setOnItemSelectedListener()
-
-
-        return view
+        return inflater.inflate(R.layout.fragment_add_post, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddPostFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddPostFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        gallery = view.findViewById(R.id.gallery_open)
+        selectedItemsListView = view.findViewById(R.id.selectedItemsListView)
+        init()
+    }
+
+    private fun init() {
+//
+//
+//        gallery!!.setOnClickListener { view: View? ->
+//            galleryPostActivity.toggleGalleryFragment(
+//                true
+//            )
+//        }
+        selectedItemsListView!!.layoutManager = LinearLayoutManager(requireContext())
+        adapter = ItemListAdapter()
+        selectedItemsListView!!.setAdapter(adapter)
+//
+    }
+
+//    private fun toggleListView() {
+//        if (adapter?.getItemCount() === 0) {
+//            noSelectionView!!.visibility = View.VISIBLE
+//            selectedItemsListView!!.visibility = View.GONE
+//        } else {
+//            noSelectionView!!.visibility = View.GONE
+//            selectedItemsListView!!.visibility = View.VISIBLE
+//        }
+//    }
+
+    override fun onGalleryKitBackAction() {
+        galleryPostActivity.toggleGalleryFragment(false)    }
+
+    override fun onGalleryKitSelectionConfirmed(selectedDataUris: MutableList<String>) {
+        adapter?.setAllData(selectedDataUris)
+        galleryPostActivity.toggleGalleryFragment(false)
+//        toggleListView()
+    }
+
+    fun getSelectedData(): List<String> {
+        return adapter?.getSelectedDataList()!!
     }
 }
-

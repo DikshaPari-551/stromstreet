@@ -2,4 +2,22 @@
     <string name="app_name">My Application</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <string name="lbl_image_res">Image Resource</string>
+    <string name="lbl_image_select_box">Image Select Box</string>
+    <string name="lbl_video_icon">Video Icon</string>
+    <string name="lbl_sample_time">00:00</string>
+    <string name="lbl_selected_image">Selected Image</string>
+    <string name="lbl_clear_selected_image">Clear Selected Image</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_done">Done</string>
+
+
+    <string name="btn_clear_button">clear button</string>
+    <string name="lbl_image">image</string>
+    <string name="lbl_gallery"><![CDATA[gallery >]]></string>
+    <string name="msg_no_selection">Noting Selected\nOpen Gallery to select data</string>
+    <string name="btn_gallery_dialog">gallery dialog</string>
 </resources>
