@@ -8,8 +8,9 @@
     tools:context=".Activities.LoginActivity">
 
     <ImageView
-        android:layout_width="242dp"
-        android:layout_height="170dp"
+        android:layout_width="222dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/image_login" />
 
@@ -29,10 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Please enter the details below to continue"
+        android:text="Please enter the details below to continue."
         android:fontFamily="@font/opensans_semibold"
         android:textColor="@color/darkgrey"
-        android:textSize="15sp"
+        android:textSize="12sp"
         android:textStyle="bold" />
     <RelativeLayout
         android:layout_width="match_parent"
@@ -60,7 +61,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
@@ -83,7 +84,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
@@ -119,7 +120,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
+
         android:orientation="horizontal">
 
         <CheckBox
@@ -143,6 +144,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical">
 
             <TextView
@@ -158,7 +160,7 @@
                 android:textStyle="italic|bold" />
 
             <LinearLayout
-                android:layout_width="115dp"
+                android:layout_width="125dp"
                 android:layout_height="1dp"
                 android:layout_below="@id/text_forget_password"
                 android:layout_alignParentEnd="true"

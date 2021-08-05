@@ -28,7 +28,8 @@ class FragAdaptor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun getCount(): Int {
-        return 2 }
+        return 2
+    }
 
     override fun getPageTitle(position: Int): CharSequence? {
        when(position){

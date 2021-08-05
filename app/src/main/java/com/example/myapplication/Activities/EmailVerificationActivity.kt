@@ -1,11 +1,11 @@
 package com.example.myapplication.Activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 
 class EmailVerificationActivity : AppCompatActivity() {
@@ -15,6 +15,7 @@ class EmailVerificationActivity : AppCompatActivity() {
     lateinit var et2:EditText
     lateinit var et3:EditText
     lateinit var et4:EditText
+
     lateinit var submit:RelativeLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,12 @@ class EmailVerificationActivity : AppCompatActivity() {
         et2=findViewById(R.id.et_2)
         et3=findViewById(R.id.et_3)
         et4=findViewById(R.id.et_4)
+//        val edit = arrayOf<EditText>(et1, et2, et3, et4)
+//        et1.addTextChangedListener(GenericTextWatcher(edit,et1))
+//        et2.addTextChangedListener(GenericTextWatcher(edit,et2))
+//        et3.addTextChangedListener(GenericTextWatcher(edit,et3))
+//        et4.addTextChangedListener(GenericTextWatcher(edit, et4))
+
         submit.setOnClickListener{
             var intent = Intent(this, ResetPasswordActivity::class.java)
             startActivity(intent)
@@ -34,7 +41,7 @@ class EmailVerificationActivity : AppCompatActivity() {
             var ett2=et2.text.toString()
             var ett3=et3.text.toString()
             var ett4=et4.text.toString()
-            if(ett1!="1"||ett2!="2"||ett3!="3"||ett4!="4"){
+            if(ett1!="2"||ett2!="2"||ett3!="3"||ett4!="4"){
                 backgroundd.setBackgroundResource(R.drawable.background_error)
                 error_text.setText("Invalid OTP")
 
@@ -43,6 +50,8 @@ class EmailVerificationActivity : AppCompatActivity() {
                 error_text.setText("")
 
             }
+
+
         }
 
     }
