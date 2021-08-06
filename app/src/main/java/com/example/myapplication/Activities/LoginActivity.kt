@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
+import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity() {
     lateinit var mEmailText:EditText
@@ -22,6 +23,15 @@ class LoginActivity : AppCompatActivity() {
     lateinit var merror:TextView
     lateinit var eyeImg:ImageView
     private var passwordNotVisible = 0
+    lateinit var mLoginEmail:TextView
+    lateinit var mLoginPassword:TextView
+    private val PASSWORD_PATTERN =
+
+        "^" +
+                "(?=.*[@#$%^&+=])" +  // at least 1 special character
+                "(?=\\S+$)" +  // no white spaces
+                ".{4,}" +  // at least 4 characters
+                "$"
  var count=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +39,9 @@ class LoginActivity : AppCompatActivity() {
         mEmailText=findViewById(R.id.email_text)
         mBackerror=findViewById(R.id.back_error)
         text_sign_up=findViewById(R.id.text_sign_up)
+        mLoginPassword=findViewById(R.id.password_login_up)
         text_forget=findViewById(R.id.text_forget_password)
+        mLoginEmail=findViewById(R.id.username_login_up)
         mPassword=findViewById(R.id.password_text)
         merror=findViewById(R.id.text_error)
         mLayout_Login=findViewById(R.id.layout_login)
@@ -63,6 +75,9 @@ eyeImg.setOnClickListener{
         }
         mLayout_Login.setOnClickListener{
            validation()
+            var intent=Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
 
         }
 
@@ -73,20 +88,58 @@ eyeImg.setOnClickListener{
         var email=mEmailText.text.toString()
         var pasword=mPassword.text.toString()
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches() || pasword.length>=10){
+        if(email.length == 0 ){
             mBackerror.visibility = View.VISIBLE
-        merror.setText("UserName and Password is not valid")
+            merror.setText("UserName and Password is not valid")
             mBackerror.setBackgroundResource(R.drawable.background_error)
+            mLoginEmail.setText(" Input email field is empty ")
+            mLoginEmail.visibility = View.VISIBLE
+
           }
+        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            mBackerror.visibility = View.VISIBLE
+            merror.setText("UserName and Password is not valid")
+            mBackerror.setBackgroundResource(R.drawable.background_error)
+
+            mLoginEmail.setText(" Input email or username  is not valid ")
+            mLoginEmail.visibility = View.VISIBLE
+
+
+        }
+
+
+         if(pasword.length==0){
+            mBackerror.visibility = View.VISIBLE
+            merror.setText("UserName and Password is not valid")
+            mBackerror.setBackgroundResource(R.drawable.background_error)
+           mLoginPassword .setText(" Input Password field is empty ")
+             mLoginPassword.visibility = View.VISIBLE
+
+         }
+        else if(pasword.length>=8){
+            mBackerror.visibility = View.VISIBLE
+            merror.setText("UserName and Password is not valid")
+            mBackerror.setBackgroundResource(R.drawable.background_error)
+            mLoginPassword.setText(" Input password length will not be greater than 8")
+             mLoginPassword.visibility = View.VISIBLE
+
+         }
+
+        else if(!pasword.equals(PASSWORD_PATTERN)){
+             mBackerror.visibility = View.VISIBLE
+             merror.setText("UserName and Password is not valid")
+             mBackerror.setBackgroundResource(R.drawable.background_error)
+             mLoginPassword.setText(" Input Password is not valid ")
+             mLoginPassword.visibility = View.VISIBLE
+
+         }
         else{
             merror.setText("")
             mBackerror.setBackgroundResource(R.drawable.drawable_back)
             mBackerror.visibility = View.GONE
 
             LoginFlag.setLoginFlag(true)
-            var intent=Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+
         }
     }
 }
