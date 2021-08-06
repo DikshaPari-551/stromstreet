@@ -1,31 +1,45 @@
 package com.example.myapplication.Fragments
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Activities.GalleryPostActivity.Companion.galleryPostActivity
-import com.example.myapplication.Adaptor.ItemListAdapter
 import com.example.myapplication.R
-import com.github.chiragji.gallerykit.GalleryKitDialog
 import com.github.chiragji.gallerykit.callbacks.GalleryKitListener
-import com.github.chiragji.gallerykit.enums.GalleryKitViewStyle
-import com.google.android.material.button.MaterialButton
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 
-class AddPostFragment : Fragment(), GalleryKitListener {
-
-    private lateinit var selectedItemsListView: RecyclerView
+class AddPostFragment : Fragment() {
 
 
-    private var adapter: ItemListAdapter? = null
+    private var param1: String? = null
+    private var param2: String? = null
+    private var recycler: RecyclerView? = null
+    private lateinit var spin : Spinner
+    private lateinit var img : ImageView
+//    lateinit var mBitmap: Bitmap
 
-//    private var kitDialog: GalleryKitDialog? = null
-//    lateinit var gallery: TextView
+    private lateinit var post : LinearLayout
+    var source: ArrayList<String>? = null
+    var RecyclerViewLayoutManager: RecyclerView.LayoutManager? = null
+//    var adapter: AddpostAdapter? = null
+    var HorizontalLayout: LinearLayoutManager? = null
+    var RecyclerViewItemPosition = 0
+
+//    fun newInstance(b: Bitmap) {
+//        mBitmap = b
+//    }
 
 
     override fun onCreateView(
@@ -33,50 +47,73 @@ class AddPostFragment : Fragment(), GalleryKitListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_post, container, false)
-    }
+        var view : View = inflater.inflate(R.layout.fragment_add_post, container, false)
+        post=view.findViewById(R.id.post)
+        img = view.findViewById(R.id.image1)
+        var imageData: Bitmap? = arguments?.getParcelable("BitmapImage")
+        if(imageData!=null){
+            img.setImageBitmap(imageData)
+        }
+//        val strtext = arguments?.getString("edttext")
+//        val b: Bitmap? = StringToBitMap(strtext)
+//        img.setImageBitmap(b)
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        gallery = view.findViewById(R.id.gallery_open)
-        selectedItemsListView = view.findViewById(R.id.selectedItemsListView)
-        init()
-    }
 
-    private fun init() {
-//
-//
-//        gallery!!.setOnClickListener { view: View? ->
-//            galleryPostActivity.toggleGalleryFragment(
-//                true
-//            )
+//        if (strtext != null) {
+//            Log.d("Add Post Fragment :-",strtext)
 //        }
-        selectedItemsListView!!.layoutManager = LinearLayoutManager(requireContext())
-        adapter = ItemListAdapter()
-        selectedItemsListView!!.setAdapter(adapter)
-//
+
+
+        post.setOnClickListener{
+            fragmentManager?.beginTransaction()?.replace(
+                R.id.linear_layout,
+                HomeFragment()
+            )?.commit()
+        }
+//        recycler=view.findViewById(R.id.add_post_recycler_view)
+//        var adaptor = profileAdaptor()
+//        HorizontalLayout = LinearLayoutManager(
+//            activity,
+//            LinearLayoutManager.HORIZONTAL,
+//            false
+//        )
+//        val layoutManager = LinearLayoutManager(activity)
+//        recycler!!.layoutManager = layoutManager
+//        recycler!!.layoutManager = HorizontalLayout
+//        recycler!!.adapter = adaptor
+
+
+//        Spinner code
+        spin = view.findViewById(R.id.spinner2)
+
+        val objects = arrayOf<String?>(
+            "Choose category", "Video", "Photo", "Video", "Photo"
+        )
+
+        val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
+            activity!!,
+            android.R.layout.simple_list_item_1,
+            objects
+        )
+
+        spin.adapter = adapter
+//        spin.setOnItemSelectedListener()
+
+
+        return view
     }
 
-//    private fun toggleListView() {
-//        if (adapter?.getItemCount() === 0) {
-//            noSelectionView!!.visibility = View.VISIBLE
-//            selectedItemsListView!!.visibility = View.GONE
-//        } else {
-//            noSelectionView!!.visibility = View.GONE
-//            selectedItemsListView!!.visibility = View.VISIBLE
-//        }
-//    }
-
-    override fun onGalleryKitBackAction() {
-        galleryPostActivity.toggleGalleryFragment(false)    }
-
-    override fun onGalleryKitSelectionConfirmed(selectedDataUris: MutableList<String>) {
-        adapter?.setAllData(selectedDataUris)
-        galleryPostActivity.toggleGalleryFragment(false)
-//        toggleListView()
+    fun StringToBitMap(image: String?): Bitmap? {
+        return try {
+            val encodeByte: ByteArray = Base64.decode(image, Base64.DEFAULT)
+            val inputStream: InputStream = ByteArrayInputStream(encodeByte)
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            e.message
+            null
+        }
     }
 
-    fun getSelectedData(): List<String> {
-        return adapter?.getSelectedDataList()!!
-    }
 }
+
