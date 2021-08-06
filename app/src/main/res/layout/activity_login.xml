@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical"
-    tools:context=".Activities.LoginActivity">
+   >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="20.5dp"
+        android:layout_marginRight="20.5dp"
+        android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="222dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="229.5dp"
+        android:layout_height="116.5dp"
+        android:layout_marginTop="46dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/image_login" />
 
@@ -18,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:text="Login Now"
         android:fontFamily="@font/opensans_semibold"
         android:textColor="@color/black"
@@ -29,17 +36,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="21.5dp"
         android:text="Please enter the details below to continue."
         android:fontFamily="@font/opensans_semibold"
         android:textColor="@color/darkgrey"
-        android:textSize="12sp"
+        android:textSize="12.5sp"
         android:textStyle="bold" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:visibility="gone"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="18dp"
         android:layout_marginLeft="20dp"
         android:id="@+id/back_error"
 
@@ -62,20 +70,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginTop="18dp"
         android:background="@drawable/background_edit_text">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="12dp"
             android:id="@+id/email_text"
             android:singleLine="true"
             android:background="@null"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="40dp"
             android:hint="Enter Email ID/Phone Number"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
@@ -85,22 +91,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="20dp"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
         android:background="@drawable/background_edit_text">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="12dp"
             android:background="@null"
             android:singleLine="true"
             android:layout_centerVertical="true"
             android:id="@+id/password_text"
             android:inputType="textPassword"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="40dp"
             android:hint="Enter Password"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
@@ -110,7 +115,7 @@
             android:layout_height="24dp"
             android:src="@drawable/eye_img"
             android:id="@+id/eye_img"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="14dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             />
@@ -119,15 +124,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-
+        android:layout_marginTop="21.3dp"
         android:orientation="horizontal">
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
 
             />
 
@@ -141,18 +144,18 @@
             android:textColor="@color/black"
             android:textSize="15sp" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:orientation="vertical"
             android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@+id/text_forget_password"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="end"
+
+                android:gravity="end"
                 android:text="Forget Password?"
                 android:fontFamily="@font/opensans_semibold"
                 android:textColor="@color/black"
@@ -162,38 +165,40 @@
             <LinearLayout
                 android:layout_width="125dp"
                 android:layout_height="1dp"
+                android:layout_gravity="end"
                 android:layout_below="@id/text_forget_password"
                 android:layout_alignParentEnd="true"
                 android:background="@color/darkgrey"
                 android:layout_alignParentRight="true" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="61.8dp"
+        android:layout_marginTop="36.3dp"
         android:id="@+id/layout_login"
-        android:layout_marginRight="20dp"
         android:background="@drawable/rectangle_background_button">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center_vertical"
             android:text="LOGIN"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -205,8 +210,9 @@
             android:textSize="12sp"
             android:textStyle="normal" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
+            android:orientation="vertical"
             android:layout_height="wrap_content">
 
             <TextView
@@ -219,12 +225,13 @@
                 android:textSize="15sp"
                 android:textStyle="italic|bold" />
             <LinearLayout
-                android:layout_width="55dp"
+                android:layout_width="53dp"
                 android:layout_height="1dp"
                 android:layout_marginLeft="7dp"
                android:layout_below="@id/text_sign_up"
                 android:background="@color/darkgrey" />
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

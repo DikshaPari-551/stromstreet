@@ -1,28 +1,27 @@
 package com.example.myapplication
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.core.view.isVisible
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
 
 class LoginActivity : AppCompatActivity() {
     lateinit var mEmailText:EditText
     lateinit var mPassword:EditText
-    lateinit var mLayout_Login:RelativeLayout
+    lateinit var mLayout_Login:LinearLayout
     lateinit var text_sign_up:TextView
     lateinit var mBackerror:RelativeLayout
     lateinit var text_forget:TextView
     lateinit var merror:TextView
     lateinit var eyeImg:ImageView
+    private var passwordNotVisible = 0
  var count=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +35,24 @@ class LoginActivity : AppCompatActivity() {
         mLayout_Login=findViewById(R.id.layout_login)
         eyeImg=findViewById(R.id.eye_img)
 eyeImg.setOnClickListener{
-    if(eyeImg.isPressed){
-        mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+    if(passwordNotVisible==0){
+        mPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+        eyeImg.setImageDrawable(resources.getDrawable(R.drawable.eye_open_img))
+        passwordNotVisible = 1
+
+
     }
-        else{
-        mPassword.inputType=InputType.TYPE_CLASS_TEXT
-    }}
+        else if(passwordNotVisible==1){
+        mPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+        eyeImg.setImageDrawable(resources.getDrawable(R.drawable.eye_img))
+        passwordNotVisible = 0
+    }
+    else{
+        mPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+        eyeImg.setImageDrawable(resources.getDrawable(R.drawable.eye_open_img))
+        passwordNotVisible = 1
+    }
+}
         text_forget.setOnClickListener{
             var intent=Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
@@ -63,14 +74,17 @@ eyeImg.setOnClickListener{
         var pasword=mPassword.text.toString()
 
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches() || pasword.length>=10){
+            mBackerror.visibility = View.VISIBLE
         merror.setText("UserName and Password is not valid")
             mBackerror.setBackgroundResource(R.drawable.background_error)
           }
         else{
             merror.setText("")
             mBackerror.setBackgroundResource(R.drawable.drawable_back)
+            mBackerror.visibility = View.GONE
+
             LoginFlag.setLoginFlag(true)
-            var intent=Intent(this,MainActivity::class.java)
+            var intent=Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }

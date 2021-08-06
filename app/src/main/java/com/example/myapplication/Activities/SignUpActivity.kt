@@ -2,6 +2,7 @@ package com.example.myapplication.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
@@ -78,9 +79,11 @@ class SignUpActivity : AppCompatActivity() {
             if (!check.isChecked) {
                 background.setBackgroundResource(R.drawable.background_error)
                 error_text.setText("Accepting checkbox is necessary")
+                background.visibility = View.VISIBLE
             } else {
                 error_text.setText("")
                 background.setBackgroundResource(R.drawable.drawable_back)
+                background.visibility = View.GONE
                 var intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
