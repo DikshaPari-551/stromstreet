@@ -1,11 +1,13 @@
 package com.example.myapplication.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.myapplication.Fragments.HomeFragment
+import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 
 class ResetPasswordActivity : AppCompatActivity() {
@@ -38,11 +40,8 @@ class ResetPasswordActivity : AppCompatActivity() {
             else {
                 error_text.setText("")
                 background.setBackgroundResource(R.drawable.drawable_back)
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.linear_layout,
-                    HomeFragment()
-                ).commit()
-
+//              var i = Intent(this,LoginActivity::class.java)
+//              startActivity(i)
             }
         }
     }

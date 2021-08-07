@@ -8,14 +8,14 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="31dp"
         android:layout_height="20dp"
         android:id="@+id/menu"
         android:src="@drawable/menu_home"/>
     <ImageView
         android:layout_width="20dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="47dp"
+        android:layout_marginLeft="45.3dp"
         android:layout_height="20dp"
         android:id="@+id/chat"
         android:src="@drawable/chat_home"/>
@@ -23,21 +23,21 @@
         android:backgroundTint="@color/black"
         android:layout_width="40dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="45dp"
+        android:layout_marginLeft="45.3dp"
         android:layout_height="47dp"
         android:id="@+id/add"
         android:src="@drawable/circle_home"/>
     <ImageView
         android:layout_width="20dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="47dp"
+        android:layout_marginLeft="45.3dp"
         android:layout_height="20dp"
         android:id="@+id/bubble"
         android:src="@drawable/chats_hom"/>
     <ImageView
         android:layout_width="20dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="47dp"
+        android:layout_marginLeft="45.3dp"
         android:layout_height="20dp"
         android:id="@+id/profile"
         android:src="@drawable/mans"/>
