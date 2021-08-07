@@ -11,6 +11,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.security.identity.AccessControlProfile
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.Fragments.ChatFragment
@@ -26,7 +27,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var profile:ImageView
     lateinit var add:ImageView
     private var loginFlag : Boolean = false
-
+   lateinit var user_home:ImageView
+    lateinit var filter:ImageView
+    lateinit var  topText:TextView
     var file : File? = null
     private var GALLERY = 1
     private  var CAMERA:Int = 2
@@ -40,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         bubble=findViewById(R.id.bubble)
         profile=findViewById(R.id.profile)
         add=findViewById(R.id.add)
+
+
+
+
         loginFlag = LoginFlag.getLoginFlag()
         menu.setOnClickListener{
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment()).commit()

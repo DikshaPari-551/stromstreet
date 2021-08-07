@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,9 +7,25 @@
     android:orientation="vertical"
     tools:context=".Activities.SignUpActivity">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/opensans_semibold"
+        android:text="Sign Up"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:orientation="vertical">
 
         <TextView
@@ -17,40 +33,33 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:text="Sign Up"
             android:fontFamily="@font/opensans_semibold"
-            android:textColor="@color/black"
-            android:textSize="25sp"
+            android:text="Sign in to your account"
+            android:textColor="@color/darkgrey"
+            android:textSize="12.5sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="Sign in to your account"
-            android:fontFamily="@font/opensans_semibold"
-            android:textColor="@color/darkgrey"
-            android:textSize="12sp"
-            android:textStyle="bold" />
         <RelativeLayout
+            android:id="@+id/background_error"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:id="@+id/background_error"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:visibility="gone"
 
             >
 
             <TextView
+                android:id="@+id/textView_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_centerInParent="true"
                 android:text=""
-                android:id="@+id/textView_error"
+
+
                 android:textColor="@color/red"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -58,27 +67,31 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/circleprofile" />
+
+            android:layout_marginTop="30dp">
+
             <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/circleprofile" />
+
+            <ImageView
+                android:id="@+id/img_camera"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:id="@+id/img_camera"
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="80dp"
-                android:src="@drawable/camera"/>
+                android:src="@drawable/camera" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/background_edit_text">
 
@@ -90,25 +103,28 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
                 android:background="@null"
-                android:hint="Enter Full Name"
                 android:fontFamily="@font/opensans_regular"
+                android:hint="Enter Full Name"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
 
         </LinearLayout>
+
         <TextView
+            android:id="@+id/name_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/name_sign_up"
             android:layout_marginLeft="30dp"
+            android:text=""
+            android:visibility="gone"
             android:textColor="@color/red"
-            android:textStyle="bold"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -122,24 +138,27 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
                 android:background="@null"
-                android:hint="Enter UserName"
                 android:fontFamily="@font/opensans_regular"
+                android:hint="Enter UserName"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </LinearLayout>
+
         <TextView
+            android:id="@+id/username_sign_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/username_sign_text"
             android:layout_marginLeft="30dp"
+            android:text=""
+            android:visibility="gone"
             android:textColor="@color/red"
-            android:textStyle="bold"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -153,25 +172,27 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
                 android:background="@null"
-                android:hint="Enter Email ID"
                 android:fontFamily="@font/opensans_regular"
+                android:hint="Enter Email ID"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/email_sign_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/email_sign_text"
             android:layout_marginLeft="30dp"
+            android:text=""
+            android:visibility="gone"
             android:textColor="@color/red"
-            android:textStyle="bold"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -185,25 +206,27 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
                 android:background="@null"
-                android:hint="Enter Password"
                 android:fontFamily="@font/opensans_regular"
+                android:hint="Enter Password"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </LinearLayout>
+
         <TextView
+            android:id="@+id/password_sign_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/password_sign_text"
             android:layout_marginLeft="30dp"
+            android:text=""
+            android:visibility="gone"
             android:textColor="@color/red"
-            android:textStyle="bold"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -217,22 +240,24 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
                 android:background="@null"
-                android:inputType="number"
-                android:hint="Enter Phone Number"
                 android:fontFamily="@font/opensans_regular"
+                android:hint="Enter Phone Number"
+                android:inputType="number"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </LinearLayout>
+
         <TextView
+            android:id="@+id/phone_sign_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/phone_sign_text"
             android:layout_marginLeft="30dp"
+            android:text=""
+            android:visibility="gone"
             android:textColor="@color/red"
-            android:textStyle="bold"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -250,8 +275,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="30dp"
                 android:background="@null"
-                android:hint="Bio"
                 android:fontFamily="@font/opensans_regular"
+                android:hint="Bio"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -261,8 +286,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Social media Link"
             android:fontFamily="@font/opensans_regular"
+            android:text="Social media Link"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -301,14 +326,12 @@
 
                     android:layout_marginRight="30dp"
                     android:background="@null"
-                    android:hint="Enter Twitter Link"
                     android:fontFamily="@font/opensans_regular"
+                    android:hint="Enter Twitter Link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
                     android:textSize="12sp" />
             </LinearLayout>
-
-
 
 
         </LinearLayout>
@@ -334,8 +357,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginRight="20dp"
                 android:layout_height="60dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
 
@@ -347,14 +370,12 @@
 
                     android:layout_marginRight="30dp"
                     android:background="@null"
-                    android:hint="Enter Facebook Link"
                     android:fontFamily="@font/opensans_regular"
+                    android:hint="Enter Facebook Link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
                     android:textSize="12sp" />
             </LinearLayout>
-
-
 
 
         </LinearLayout>
@@ -381,7 +402,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-android:layout_marginRight="20dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
 
@@ -393,14 +414,12 @@ android:layout_marginRight="20dp"
 
                     android:layout_marginRight="30dp"
                     android:background="@null"
-                    android:hint="Enter Instagram Link"
                     android:fontFamily="@font/opensans_regular"
+                    android:hint="Enter Instagram Link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
                     android:textSize="12sp" />
             </LinearLayout>
-
-
 
 
         </LinearLayout>
@@ -427,7 +446,7 @@ android:layout_marginRight="20dp"
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-android:layout_marginRight="20dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
 
@@ -439,13 +458,12 @@ android:layout_marginRight="20dp"
 
                     android:layout_marginRight="30dp"
                     android:background="@null"
-                    android:hint="Enter YouTube Link"
                     android:fontFamily="@font/opensans_regular"
+                    android:hint="Enter YouTube Link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
                     android:textSize="12sp" />
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -458,39 +476,34 @@ android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
             <CheckBox
+                android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:id="@+id/check"
-                />
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lines="4"
                 android:layout_gravity="center_vertical"
+                android:fontFamily="@font/opensans_regular"
+                android:lines="4"
                 android:text="I agree to only post truthful and relevant
                  information that is helpful to others, I
  understand violating this will result in my
  account removal "
-                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
 
-
-
-
-
         <RelativeLayout
+            android:id="@+id/layout_signup"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"
-            android:id="@+id/layout_signup"
             android:layout_marginRight="20dp"
             android:background="@drawable/rectangle_background_button">
 
@@ -499,8 +512,8 @@ android:layout_marginRight="20dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_vertical"
-                android:text="SIGN UP"
                 android:fontFamily="@font/opensans_regular"
+                android:text="SIGN UP"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -516,32 +529,36 @@ android:layout_marginRight="20dp"
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Already have an account?"
                 android:fontFamily="@font/opensans_regular"
+                android:text="Already have an account?"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="normal" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_marginBottom="20dp"
+               android:orientation="vertical"
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/text_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  Login"
                     android:fontFamily="@font/opensans_regular"
-                    android:id="@+id/text_login"
+                    android:text="  Login"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="italic|bold" />
+
                 <LinearLayout
                     android:layout_width="55dp"
                     android:layout_height="1dp"
                     android:layout_below="@id/text_login"
                     android:background="@color/darkgrey" />
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

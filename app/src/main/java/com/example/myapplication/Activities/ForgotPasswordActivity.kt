@@ -14,6 +14,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     lateinit var send_otp: RelativeLayout
     lateinit var forget_back_error: RelativeLayout
     lateinit var forget_email: EditText
+    lateinit var mErrorTextForgotPassword:TextView
     lateinit var forget_text_error: TextView
     lateinit var mErrorTextForgotPassword : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +23,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         forget_back_error = findViewById(R.id.forget_back_error)
         forget_text_error = findViewById(R.id.forget_text_error)
         forget_email = findViewById(R.id.forget_email_text)
+        mErrorTextForgotPassword=findViewById(R.id.email_forgot_password)
         send_otp = findViewById(R.id.layout_otp)
         mErrorTextForgotPassword = findViewById(R.id.email_forgot_password)
 
@@ -32,6 +34,15 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 var intent = Intent(this, EmailVerificationActivity::class.java)
                 startActivity(intent)
             }
+//            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+//                forget_back_error.setBackgroundResource(R.drawable.background_error)
+//                forget_text_error.setText("please enter your register email id.")
+//            } else {
+//
+//                forget_text_error.setText("")
+//                forget_back_error.setBackgroundResource(R.drawable.drawable_back)
+
+//            }
         }
     }
 }

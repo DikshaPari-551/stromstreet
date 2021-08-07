@@ -1,29 +1,23 @@
 package com.example.myapplication.Activities
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.Fragments.AddPostFragment
 import com.example.myapplication.R
 import com.example.myapplication.ValidationExt.Validations
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.MainActivity
 import com.example.myapplication.bottomSheetDialog
-import java.io.IOException
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var check: CheckBox
     lateinit var nameSignUp: TextView
     lateinit var emailSignUp_text: TextView
-    private val GALLERY = 1
-    private var CAMERA: Int = 2
 
-        private val PASSWORD_PATTERN =
+
+    private val PASSWORD_PATTERN =
 
         "^" +
                 "(?=.*[@#$%^&+=])" +  // at least 1 special character
@@ -37,8 +31,6 @@ class SignUpActivity : AppCompatActivity() {
 
     lateinit var phone_et: EditText
     lateinit var phone_text: TextView
-    lateinit var profileImage: ImageView
-
 
     lateinit var emailSignUp_et: EditText
     lateinit var username_text: TextView
@@ -73,7 +65,6 @@ class SignUpActivity : AppCompatActivity() {
         layout_signup = findViewById(R.id.layout_signup)
         background = findViewById(R.id.background_error)
         error_text = findViewById(R.id.textView_error)
-        profileImage = findViewById(R.id.profileImage)
 
         camera.setOnClickListener {
             var bottomsheet = bottomSheetDialog()
@@ -88,9 +79,11 @@ class SignUpActivity : AppCompatActivity() {
             if (!check.isChecked) {
                 background.setBackgroundResource(R.drawable.background_error)
                 error_text.setText("Accepting checkbox is necessary")
+                background.visibility = View.VISIBLE
             } else {
                 error_text.setText("")
                 background.setBackgroundResource(R.drawable.drawable_back)
+                background.visibility = View.GONE
                 var intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
@@ -123,53 +116,5 @@ class SignUpActivity : AppCompatActivity() {
             phone_text
         )
         Validations.Password(password, password_text)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                val contentURI: Uri? = data.data
-                try {
-                    val bitmap =
-                        MediaStore.Images.Media.getBitmap(this?.contentResolver, contentURI)
-//                    val path: String? = saveImage(bitmap)
-                    Toast.makeText(this, "Image Saved!", Toast.LENGTH_SHORT).show()
-                    profileImage.setImageBitmap(bitmap)
-//                    val bundle = Bundle()
-//                    bundle.putParcelable("BitmapImage", bitmap)
-//// set Fragmentclass Arguments
-//// set Fragmentclass Arguments
-//                    val fragobj = AddPostFragment()
-//                    fragobj.setArguments(bundle)
-//                    fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
-//                        ?.commit()
-//                    finish()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
-                }
-            }
-        } else if (requestCode == CAMERA) {
-            if (data?.extras != null) {
-                val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
-                // val thumbnail = data?.extras!!["data"] as Bitmap?
-                profileImage.setImageBitmap(thumbnail)
-//                val bundle = Bundle()
-//                bundle.putParcelable("BitmapImage", thumbnail)
-//                val fragobj = AddPostFragment()
-//                fragobj.setArguments(bundle)
-//                fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
-//                    ?.commit()
-//                finish()
-//                if (thumbnail != null) {
-//                    saveImage(thumbnail)
-//                }
-                Toast.makeText(this, "Image Saved!", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 }
