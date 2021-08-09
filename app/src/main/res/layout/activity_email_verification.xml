@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="20.3dp"
+    android:layout_marginRight="20.3dp"
     android:orientation="vertical"
     tools:context=".Activities.EmailVerificationActivity">
 
@@ -180,12 +182,10 @@
     <RelativeLayout
         android:id="@+id/layout_submit"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
         android:background="@drawable/rectangle_background_button">
 
         <TextView
@@ -195,7 +195,7 @@
             android:layout_gravity="center_vertical"
             android:text="SUBMIT"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="17.5sp"
             android:textStyle="bold" />
     </RelativeLayout>
 

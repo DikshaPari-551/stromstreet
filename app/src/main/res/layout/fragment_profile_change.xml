@@ -22,7 +22,7 @@
 
             <ImageView
                 android:id="@+id/man_Profile_change"
-                android:layout_width="22dp"
+                android:layout_width="13.3dp"
                 android:layout_height="22dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
@@ -42,8 +42,8 @@
 
             <ImageView
                 android:id="@+id/filter_Profile_change"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="13.5dp"
+                android:layout_height="13.5dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
@@ -79,8 +79,8 @@
 
                     <ImageView
                         android:id="@+id/img_camera_profile"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
 
                         android:layout_marginLeft="80dp"
                         android:layout_marginTop="80dp"
@@ -89,7 +89,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
@@ -117,13 +117,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:text=""
+                    android:visibility="gone"
                     android:textColor="@color/red"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
@@ -156,7 +157,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
@@ -200,7 +201,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
@@ -262,31 +263,33 @@
                     android:text="Social media Link"
                     android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="12.5sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="55dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/rectangle_back">
 
                         <ImageView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="29dp"
+                            android:layout_height="24dp"
                             android:layout_centerInParent="true"
                             android:src="@drawable/twitter" />
                     </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="50dp"
+
                         android:layout_marginRight="20dp"
                         android:background="@drawable/background_edit_text">
 
@@ -313,11 +316,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
+                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="55dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/rectangle_back">
 
                         <ImageView
@@ -329,7 +333,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="50dp"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/background_edit_text">
 
@@ -359,8 +363,9 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="55dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
                         android:background="@drawable/rectangle_back">
 
                         <ImageView
@@ -372,7 +377,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="50dp"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/background_edit_text">
 
@@ -402,8 +407,9 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="55dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
                         android:background="@drawable/rectangle_back">
 
                         <ImageView
@@ -415,7 +421,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="50dp"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/background_edit_text">
 

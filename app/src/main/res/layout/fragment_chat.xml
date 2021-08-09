@@ -30,8 +30,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="13.3dp"
+                android:layout_height="13.5dp"
                 android:id="@+id/user_chat_frag"
                 android:layout_centerVertical="true"
                 android:src="@drawable/man" />
@@ -44,12 +44,12 @@
                 android:fontFamily="@font/opensans_regular"
                 android:layout_centerVertical="true"
                 android:textColor="@color/white"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="13.5dp"
+                android:layout_height="13.5dp"
                 android:id="@+id/filter_chat_frag"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
@@ -76,7 +76,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="17.5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
@@ -85,8 +85,8 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="8.5dp"
+                    android:layout_height="8.5dp"
                     android:layout_marginLeft="8dp"
                     android:src="@drawable/search" />
 
@@ -99,7 +99,7 @@
                     android:background="@null"
                     android:layout_marginLeft="7dp"
                     android:textColorHint="@color/black"
-                    android:textSize="8sp" />
+                    android:textSize="5sp" />
             </LinearLayout>
 
         </LinearLayout>

@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/man_profile"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="13.3dp"
+                android:layout_height="13.5dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:src="@drawable/man" />
@@ -44,8 +44,8 @@
 
             <ImageView
                 android:id="@+id/filter_profile"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="13.3dp"
+                android:layout_height="13.5dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
