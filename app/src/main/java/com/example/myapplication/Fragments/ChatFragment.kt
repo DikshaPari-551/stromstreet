@@ -14,8 +14,7 @@ import com.example.myapplication.R
 
 class ChatFragment : Fragment() {
     lateinit var recycler_view3:RecyclerView
-    lateinit var userChatImg:ImageView
-    lateinit var filterChatFrag:ImageView
+    lateinit var backButton:ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,18 +23,13 @@ class ChatFragment : Fragment() {
         // Inflate the layout for this fragment
         var v= inflater.inflate(R.layout.fragment_chat, container, false)
         recycler_view3=v.findViewById(R.id.recycler_view3)
-        userChatImg=v.findViewById(R.id.user_chat_frag)
-        userChatImg.setOnClickListener{
+        backButton=v.findViewById(R.id.back_arrow_chat)
+        backButton.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                ProfileFragment())?.commit()
+                HomeFragment())?.commit()
         }
-        filterChatFrag=v.findViewById(R.id.filter_chat_frag)
-        filterChatFrag.setOnClickListener{
-            getFragmentManager()?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                secondFragment())?.commit()
-        }
+
         var adaptor = activity?.let { Chat_Adaptor(it) }
         val layoutManager = LinearLayoutManager(activity)
         recycler_view3.layoutManager = layoutManager

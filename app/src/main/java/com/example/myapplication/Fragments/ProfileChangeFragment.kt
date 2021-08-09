@@ -24,8 +24,7 @@ class ProfileChangeFragment : Fragment() {
     lateinit var phoneNumberProfileEt: EditText
     lateinit var phoneNumberProfiletext: TextView
     lateinit var layoutButoonSaveChanges: RelativeLayout
-    lateinit var manProfileChange:ImageView
-    lateinit var  filterProfileChange:ImageView
+    lateinit var backButton:ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,23 +40,15 @@ class ProfileChangeFragment : Fragment() {
         emailProfileText=v.findViewById(R.id.email_profile_text)
         phoneNumberProfileEt=v.findViewById(R.id.phonenumber_profile_et)
         phoneNumberProfiletext=v.findViewById(R.id.phone_profile_text)
-        manProfileChange=v.findViewById(R.id.man_Profile_change)
-        manProfileChange.setOnClickListener{
+        backButton=v.findViewById(R.id.back_arrow_profile_change)
+        backButton.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 ProfileFragment()
             )
                 ?.commit()
         }
-        filterProfileChange=v.findViewById(R.id.filter_Profile_change)
-        filterProfileChange.setOnClickListener{
-            getFragmentManager()?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                secondFragment()
-            )
-                ?.commit()
 
-        }
         layoutButoonSaveChanges=v.findViewById(R.id.layout_butoon_svae_changes)
         cameraProfileimg = v.findViewById(R.id.img_camera_profile)
         cameraProfileimg.setOnClickListener {
