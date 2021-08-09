@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.github.chiragji.gallerykit.callbacks.GalleryKitListener
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 

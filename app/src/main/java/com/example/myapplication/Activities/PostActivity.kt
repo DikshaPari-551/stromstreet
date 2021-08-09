@@ -3,7 +3,9 @@ package com.example.myapplication.Activities
 import android.content.Intent
 import android.media.Image
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.LoginActivity
@@ -13,7 +15,7 @@ import com.example.myapplication.R
 class PostActivity : AppCompatActivity() {
 
     lateinit var comment: ImageView
-    lateinit var vedio: VideoView
+    lateinit var vedio: ImageView
     lateinit var more: TextView
     lateinit var video_post_like: ImageView
     lateinit var layoutMore: TextView
@@ -30,6 +32,12 @@ class PostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(R.color.black)
+        }
         sharePost=findViewById(R.id.share_post)
         savePost = findViewById(R.id.saved_post)
         layoutMore = findViewById(R.id.text_more)
@@ -104,14 +112,14 @@ class PostActivity : AppCompatActivity() {
 
         more.setOnClickListener {
 
-            layoutMore.setText("Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus")
+            layoutMore.setText("Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus")
             more.setText("")
         }
 
-        var path = "android.resource://com.example.myapplication/" + R.raw.vedio
-        var u: Uri = Uri.parse(path.toString())
-        vedio.setVideoURI(u)
-        vedio.start()
+//        var path = "android.resource://com.example.myapplication/" + R.raw.vedio
+//        var u: Uri = Uri.parse(path.toString())
+//        vedio.setVideoURI(u)
+//        vedio.start()
 
 
     }

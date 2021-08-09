@@ -1,8 +1,10 @@
 package com.example.myapplication.Activities
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -31,6 +33,12 @@ class PostActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post2)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(R.color.black)
+        }
         post2recycler=findViewById(R.id.post2recyclerview)
         loginFlag = LoginFlag.getLoginFlag()
 

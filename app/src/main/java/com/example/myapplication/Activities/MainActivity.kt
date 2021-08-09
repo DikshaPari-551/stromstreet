@@ -1,18 +1,12 @@
 package com.example.myapplication
 
+import  com.example.myapplication.R
 import android.content.Intent
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.security.identity.AccessControlProfile
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.myapplication.Fragments.ChatFragment
@@ -41,6 +35,17 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(R.color.black)
+        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            val window: Window = window
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//            window.setStatusBarColor(Color.)
+//        }
         menu=findViewById(R.id.menu)
         bubble=findViewById(R.id.bubble)
         profile=findViewById(R.id.profile)
@@ -63,7 +68,10 @@ class MainActivity : AppCompatActivity() {
         chat.setColorFilter(resources.getColor(R.color.grey))
 
         chat.setOnClickListener{
-            supportFragmentManager.beginTransaction().replace(R.id.linear_layout, TrendingFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(
+                R.id.linear_layout,
+                TrendingFragment()
+            ).commit()
 
             profile.setColorFilter(resources.getColor(R.color.grey))
             menu.setColorFilter(resources.getColor(R.color.grey))

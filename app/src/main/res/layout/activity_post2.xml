@@ -35,14 +35,14 @@
                         android:layout_marginTop="5dp"
                         android:src="@drawable/back_arrow" />
 
-                    <ImageView
-                        android:id="@+id/filter"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/filterhome" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/filter"-->
+<!--                        android:layout_width="13dp"-->
+<!--                        android:layout_height="13dp"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginRight="20dp"-->
+<!--                        android:src="@drawable/filterhome" />-->
 
                 </RelativeLayout>
                 <LinearLayout

@@ -45,14 +45,14 @@ class TrendingFragment : Fragment() {
         textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
         textLocalPostTrending.setOnClickListener{
             textLocalPostTrending.setTextColor(resources.getColor(R.color.orange))
-            trending_post_text.setText("Local Post")
+            trending_post_text.setText("Local Activity")
             textFollowingPostTrending.setTextColor(resources.getColor(R.color.white))
         }
 
         textFollowingPostTrending=v.findViewById(R.id.text_following_post_trending)
         textFollowingPostTrending.setOnClickListener{
             textFollowingPostTrending.setTextColor(resources.getColor(R.color.orange))
-            trending_post_text.setText("Following Post")
+            trending_post_text.setText("Following Activity")
             textLocalPostTrending.setTextColor(resources.getColor(R.color.white))
         }
 
