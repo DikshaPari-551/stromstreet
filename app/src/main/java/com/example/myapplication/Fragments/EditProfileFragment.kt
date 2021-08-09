@@ -15,8 +15,7 @@ import com.example.myapplication.BottomSheets.BottomSheetLogout
 class EditProfileFragment : Fragment() {
 lateinit var layoutButtonProfileDetail:LinearLayout
     lateinit var logout:RelativeLayout
-    lateinit var man_EditProfile:ImageView
-    lateinit var filter_EditProfile:ImageView
+    lateinit var backButton:ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,19 +31,11 @@ lateinit var layoutButtonProfileDetail:LinearLayout
             fragmentManager?.let { it1 -> bottomsheettt.show(it1,"bottomsheet") }
 
         }
-        man_EditProfile=v.findViewById(R.id.man_editprofile)
-        man_EditProfile.setOnClickListener{
+        backButton=v.findViewById(R.id.back_arrow_edit_profile)
+        backButton.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 ProfileFragment()
-            )
-                ?.commit()
-        }
-        filter_EditProfile=v.findViewById(R.id.filter_editprofile)
-        filter_EditProfile.setOnClickListener{
-            getFragmentManager()?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                secondFragment()
             )
                 ?.commit()
         }

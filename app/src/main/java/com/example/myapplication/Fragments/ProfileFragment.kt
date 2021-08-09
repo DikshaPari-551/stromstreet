@@ -14,8 +14,7 @@ import com.example.myapplication.R
 class ProfileFragment : Fragment() {
     lateinit var tag:ImageView
     lateinit var back_tab1:LinearLayout
-    lateinit var manProfile:ImageView
-    lateinit var filterProfile:ImageView
+    lateinit var backButton:ImageView
 
 lateinit var color_grid:ImageView
     lateinit var back_tab:LinearLayout
@@ -39,22 +38,13 @@ lateinit var color_grid:ImageView
                 ?.commit()
 
         }
-        manProfile=v.findViewById(R.id.man_profile)
-        manProfile.setOnClickListener{
+        backButton=v.findViewById(R.id.back_arrow)
+        backButton.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                ProfileFragment()
+                HomeFragment()
             )
                 ?.commit()
-        }
-        filterProfile=v.findViewById(R.id.filter_profile)
-        filterProfile.setOnClickListener{
-            getFragmentManager()?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                secondFragment()
-            )
-                ?.commit()
-
         }
 
         color_grid=v.findViewById(R.id.color_grid)

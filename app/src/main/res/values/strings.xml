@@ -13,8 +13,6 @@
     <string name="lbl_clear_selected_image">Clear Selected Image</string>
     <string name="btn_back">Back</string>
     <string name="btn_done">Done</string>
-
-
     <string name="btn_clear_button">clear button</string>
     <string name="lbl_image">image</string>
     <string name="lbl_gallery"><![CDATA[gallery >]]></string>

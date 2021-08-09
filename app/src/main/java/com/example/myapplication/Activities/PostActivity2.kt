@@ -22,6 +22,8 @@ class PostActivity2 : AppCompatActivity() {
     lateinit var comment : ImageView
     lateinit var share : ImageView
     lateinit var backButton : ImageView
+    lateinit var addComment : TextView
+
 
 
 
@@ -37,6 +39,8 @@ class PostActivity2 : AppCompatActivity() {
         comment = findViewById(R.id.comment1)
         share = findViewById(R.id.share1)
         backButton = findViewById(R.id.back_arrow)
+        addComment = findViewById(R.id.add_comment)
+
 
 
         var adaptor = Post2Adapter()
@@ -52,6 +56,7 @@ class PostActivity2 : AppCompatActivity() {
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
             }
 
         }
@@ -60,6 +65,7 @@ class PostActivity2 : AppCompatActivity() {
 
                 val i = Intent(this, PostActivity::class.java)
                 startActivity(i)
+
 
 
         }
@@ -71,6 +77,7 @@ class PostActivity2 : AppCompatActivity() {
                like.setColorFilter(resources.getColor(R.color.grey))
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
             }
 
         }
@@ -81,16 +88,35 @@ class PostActivity2 : AppCompatActivity() {
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
             }
 
         }
 
         share.setOnClickListener{
             if (loginFlag == true) {
-                share.setColorFilter(resources.getColor(R.color.red))
+                val i = Intent(Intent.ACTION_SEND)
+                i.setType("text/plain")
+                var shareBody: String = "Share Body"
+                var shareSubject: String = "Share Subject"
+                i.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
+                i.putExtra(Intent.EXTRA_TEXT, shareBody)
+                startActivity(Intent.createChooser(i, "Sharing using"))
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
+            }
+
+        }
+
+        addComment.setOnClickListener{
+            if (loginFlag == true) {
+                Toast.makeText(this,"Please comment",Toast.LENGTH_LONG).show()
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+
             }
 
         }
