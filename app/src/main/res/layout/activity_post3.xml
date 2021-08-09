@@ -37,6 +37,7 @@
                         android:layout_height="wrap_content" />
 
                     <ImageView
+                        android:id="@+id/like_post"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/heart" />
@@ -94,6 +95,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/share_post"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/forward_erro_icon" />
@@ -121,6 +123,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/saved_post"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/tag_icon_white" />
@@ -138,6 +141,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/notify_post"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/alert_icon_white" />
@@ -222,7 +226,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
-                            android:text="Event$"
+                            android:text="Event"
 
                             android:textColor="@color/white"
                             android:textSize="12sp"

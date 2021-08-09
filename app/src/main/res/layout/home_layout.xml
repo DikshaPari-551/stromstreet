@@ -3,10 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="horizontal"
-    android:padding="5dp"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:layout_weight="1"
     android:layout_height="wrap_content">
-<LinearLayout
+<RelativeLayout
     android:layout_width="0dp"
     android:layout_weight="0.5"
     android:paddingTop="6dp"
@@ -14,10 +16,12 @@
     android:paddingRight="3dp"
     android:paddingLeft="6dp"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:background="@color/cream"
         android:orientation="vertical">
 
@@ -29,38 +33,17 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_marginLeft="5dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/image_a" />
 
-            <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="23dp"
-                android:background="@drawable/rectangle_back">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="20dp"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="5dp"
-                    android:id="@+id/text_view_msajak"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="5dp"
-                    android:text="Msajankk"
-                    android:fontFamily="@font/opensans_regular"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
             </RelativeLayout>
-        </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cabinet approves idia-fiji Mou ford....."
             android:fontFamily="@font/opensans_light"
             android:textStyle="bold"
-            android:textSize="6sp"
+            android:textSize="7.5sp"
             android:id="@+id/text_cabinet"
             android:textColor="@color/black"
             android:layout_marginLeft="12dp"
@@ -72,7 +55,7 @@
             android:fontFamily="@font/opensans_regular"
             android:textStyle="bold"
             android:id="@+id/text_weather"
-            android:textSize="8sp"
+            android:textSize="8.8sp"
             android:textColor="@color/orange"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="5dp"/>
@@ -92,16 +75,39 @@
                 android:layout_height="wrap_content"
                 android:text="  Okhla Phase 1"
                 android:fontFamily="@font/opensans_light"
-                android:textSize="8sp"
+                android:textSize="7.5sp"
                 android:id="@+id/text_okhla"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="23dp"
+        android:background="@drawable/rectangle_back"
+        android:gravity="center">
 
-    <LinearLayout
+        <TextView
+            android:id="@+id/text_view_msajak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="20dp"
+            android:fontFamily="@font/opensans_regular"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:text="Msajankk"
+            android:textColor="@color/white"
+            android:textSize="7.5sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_weight="0.5"
         android:paddingTop="6dp"
@@ -124,29 +130,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_marginLeft="5dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/image_b" />
-
-            <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="23dp"
-                android:background="@drawable/rectangle_back">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="5dp"
-                    android:text="Ashvh Ajs"
-                    android:fontFamily="@font/opensans_regular"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
 
         </RelativeLayout>
         <TextView
@@ -155,7 +140,7 @@
             android:text="Cabinet fiji MoU for."
             android:fontFamily="@font/opensans_light"
             android:textStyle="bold"
-            android:textSize="6sp"
+            android:textSize="7.5sp"
             android:textColor="@color/black"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="10dp"/>
@@ -165,7 +150,7 @@
             android:text="Event"
             android:fontFamily="@font/opensans_regular"
             android:textStyle="bold"
-            android:textSize="8sp"
+            android:textSize="8.8sp"
             android:id="@+id/event_text"
             android:textColor="@color/orange"
             android:layout_marginLeft="12dp"
@@ -188,12 +173,32 @@
                 android:text="  Lajpat Nagar"
                 android:fontFamily="@font/opensans_light"
                 android:id="@+id/lajpat_nagar_text"
-                android:textSize="8sp"
+                android:textSize="7.5sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
         </LinearLayout>
     </LinearLayout>
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="23dp"
+            android:gravity="center"
+            android:background="@drawable/rectangle_back">
 
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="20dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="Ashvh Ajs"
+                android:fontFamily="@font/opensans_regular"
+                android:textColor="@color/white"
+                android:textSize="7.5sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+</RelativeLayout>
 </LinearLayout>
