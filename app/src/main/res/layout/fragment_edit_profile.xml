@@ -136,11 +136,11 @@
                             <LinearLayout
                                 android:id="@+id/layout_button_profile_details"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="35dp"
                                 android:layout_marginLeft="30dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginRight="30dp"
-                                android:background="@drawable/rectangle_background_button"
+                                android:background="@drawable/gradient_backgrounds"
                                 android:gravity="center">
 
                                 <TextView
@@ -151,7 +151,7 @@
                                     android:fontFamily="@font/opensans_regular"
                                     android:text="Profile details"
                                     android:textColor="@color/white"
-                                    android:textSize="18sp"
+                                    android:textSize="15sp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
@@ -302,11 +302,11 @@
                         <RelativeLayout
                             android:id="@+id/layout_logout_button"
                             android:layout_width="100dp"
-                            android:layout_height="30dp"
+                            android:layout_height="35dp"
                             android:layout_centerInParent="true"
                             android:layout_gravity="bottom"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/rectangle_background_button">
+                            android:background="@drawable/gradient_backgrounds"
+                            >
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -315,7 +315,7 @@
                                 android:fontFamily="@font/opensans_regular"
                                 android:text="Logout"
                                 android:textColor="@color/white"
-                                android:textSize="12sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                         </RelativeLayout>

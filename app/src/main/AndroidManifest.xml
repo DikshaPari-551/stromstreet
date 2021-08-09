@@ -32,7 +32,8 @@
         <activity android:name=".Activities.EmailVerificationActivity" />
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".Activities.SplashActivity">
+        <activity android:name=".Activities.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

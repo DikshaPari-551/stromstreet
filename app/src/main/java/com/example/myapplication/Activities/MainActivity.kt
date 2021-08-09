@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.Fragments.HomeFragment
 import com.example.myapplication.Fragments.ProfileFragment
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var chat:ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         menu=findViewById(R.id.menu)
@@ -66,7 +68,8 @@ class MainActivity : AppCompatActivity() {
             profile.setColorFilter(resources.getColor(R.color.grey))
             menu.setColorFilter(resources.getColor(R.color.grey))
             bubble.setColorFilter(resources.getColor(R.color.grey))
-            chat.setImageDrawable(resources.getDrawable(R.drawable.white_chat))
+            chat.setColorFilter(resources.getColor(R.color.white))
+
 
 
 
@@ -90,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             if (loginFlag == true) {
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
-                bubble.setImageDrawable(resources.getDrawable(R.drawable.white_bubble))
+                bubble.setColorFilter(resources.getColor(R.color.white))
                 chat.setColorFilter(resources.getColor(R.color.grey))
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.linear_layout, ChatFragment()).commit()
