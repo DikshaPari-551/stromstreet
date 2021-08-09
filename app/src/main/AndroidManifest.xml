@@ -3,8 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
 
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"
+        android:required="true"
+        android:requiredFeature="true"/>
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,20 +22,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".Activities.PostActivity3"></activity>
+
+         <activity android:name=".Activities.PostActivity3" />
         <activity android:name=".Activities.PostActivity2" />
         <activity android:name=".Activities.PostActivity" />
         <activity android:name=".Activities.ChatActivity" />
         <activity android:name=".Activities.ResetPasswordActivity" />
         <activity android:name=".Activities.ForgotPasswordActivity" />
-        <activity android:name=".Activities.EmailVerificationActivity" >
-
-        </activity>
+        <activity android:name=".Activities.EmailVerificationActivity" />
         <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name="LoginActivity"
-            >
-
-        </activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,9 +41,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan" >
-
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

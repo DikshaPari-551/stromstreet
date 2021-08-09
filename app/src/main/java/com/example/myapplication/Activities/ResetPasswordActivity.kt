@@ -29,7 +29,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         layout_submitt.setOnClickListener {
             var new_pass = new_password.text.toString()
             var re_enter_pass = re_enter_passeord.text.toString()
-            if ( new_pass.length>=10 ||  re_enter_pass.length>=10) {
+            if ( new_pass.length<=10 ||  re_enter_pass.length<=10) {
                 background.setBackgroundResource(R.drawable.background_error)
                 error_text.setText("password should not be less than 10 character")
             }
@@ -40,8 +40,9 @@ class ResetPasswordActivity : AppCompatActivity() {
             else {
                 error_text.setText("")
                 background.setBackgroundResource(R.drawable.drawable_back)
-//              var i = Intent(this,LoginActivity::class.java)
-//              startActivity(i)
+                val i = Intent(this,LoginActivity::class.java)
+                startActivity(i)
+
             }
         }
     }

@@ -21,6 +21,8 @@ class PostActivity2 : AppCompatActivity() {
     lateinit var like : ImageView
     lateinit var comment : ImageView
     lateinit var share : ImageView
+    lateinit var backButton : ImageView
+
 
 
 
@@ -34,6 +36,8 @@ class PostActivity2 : AppCompatActivity() {
         like = findViewById(R.id.like)
         comment = findViewById(R.id.comment1)
         share = findViewById(R.id.share1)
+        backButton = findViewById(R.id.back_arrow)
+
 
         var adaptor = Post2Adapter()
         val layoutManager = LinearLayoutManager(this)
@@ -49,6 +53,14 @@ class PostActivity2 : AppCompatActivity() {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
             }
+
+        }
+
+        backButton.setOnClickListener{
+
+                val i = Intent(this, PostActivity::class.java)
+                startActivity(i)
+
 
         }
 

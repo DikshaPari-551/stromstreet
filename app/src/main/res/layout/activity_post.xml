@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
 
-    tools:context=".PostActivity">
+    tools:context=".Activities.PostActivity">
 
     <VideoView
         android:id="@+id/vedio"
@@ -43,6 +43,7 @@
                         android:layout_height="wrap_content" />
 
                     <ImageView
+                        android:id="@+id/video_post_like"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/heart" />
@@ -100,8 +101,9 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/share_post"
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_height="26dp"
                     android:src="@drawable/forward_erro_icon" />
 
                 <TextView
@@ -127,6 +129,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/saved_post"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/tag_icon_white" />
@@ -144,6 +147,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/notify_post"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/alert_icon_white" />
@@ -194,6 +198,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/follow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

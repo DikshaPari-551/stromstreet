@@ -66,7 +66,8 @@ class MainActivity : AppCompatActivity() {
             profile.setColorFilter(resources.getColor(R.color.grey))
             menu.setColorFilter(resources.getColor(R.color.grey))
             bubble.setColorFilter(resources.getColor(R.color.grey))
-            chat.setColorFilter(resources.getColor(R.color.white))
+            chat.setImageDrawable(resources.getDrawable(R.drawable.white_chat))
+
 
 
         }
@@ -89,13 +90,14 @@ class MainActivity : AppCompatActivity() {
             if (loginFlag == true) {
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
-                bubble.setColorFilter(resources.getColor(R.color.white))
+                bubble.setImageDrawable(resources.getDrawable(R.drawable.white_bubble))
                 chat.setColorFilter(resources.getColor(R.color.grey))
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.linear_layout, ChatFragment()).commit()
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
             }
         }
         profile.setColorFilter(resources.getColor(R.color.grey))

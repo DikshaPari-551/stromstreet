@@ -16,6 +16,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     lateinit var forget_email: EditText
     lateinit var mErrorTextForgotPassword:TextView
     lateinit var forget_text_error: TextView
+//    lateinit var mErrorTextForgotPassword : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
@@ -24,6 +25,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
         forget_email = findViewById(R.id.forget_email_text)
         mErrorTextForgotPassword=findViewById(R.id.email_forgot_password)
         send_otp = findViewById(R.id.layout_otp)
+//        mErrorTextForgotPassword = findViewById(R.id.email_forgot_password)
+
         send_otp.setOnClickListener {
             var email = forget_email.text.toString()
             Validations.EmailLogin(email,mErrorTextForgotPassword,forget_text_error,forget_back_error)
