@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
 
         loginFlag = LoginFlag.getLoginFlag()
+
         menu.setOnClickListener{
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment()).commit()
             profile.setColorFilter(resources.getColor(R.color.grey))
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity() {
             chat.setColorFilter(resources.getColor(R.color.grey))
         }
         chat=findViewById(R.id.chat)
+        chat.setColorFilter(resources.getColor(R.color.grey))
+
         chat.setOnClickListener{
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, TrendingFragment()).commit()
 
@@ -80,6 +83,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(i)
             }
         }
+        bubble.setColorFilter(resources.getColor(R.color.grey))
+
         bubble.setOnClickListener{
             if (loginFlag == true) {
                 profile.setColorFilter(resources.getColor(R.color.grey))
@@ -93,7 +98,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(i)
             }
         }
-//        profile
+        profile.setColorFilter(resources.getColor(R.color.grey))
+
         profile.setOnClickListener{
             if (loginFlag == true) {
                 profile.setColorFilter(resources.getColor(R.color.white))

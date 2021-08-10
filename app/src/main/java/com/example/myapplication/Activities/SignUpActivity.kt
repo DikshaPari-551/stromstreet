@@ -76,45 +76,56 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         layout_signup.setOnClickListener {
-            if (!check.isChecked) {
-                background.setBackgroundResource(R.drawable.background_error)
-                error_text.setText("Accepting checkbox is necessary")
-                background.visibility = View.VISIBLE
-            } else {
-                error_text.setText("")
-                background.setBackgroundResource(R.drawable.drawable_back)
-                background.visibility = View.GONE
-                var intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
 
+
+            checkboxCheck()
 
             CheckValidations()
         }
     }
-    fun CheckValidations(){
+
+    fun CheckValidations() {
         var fullnameSignUp = sign_up_full_name.text.toString()
         var email_sign_up = emailSignUp_et.text.toString()
         var username_ett = username_et.text.toString()
         var phone_ett = phone_et.text.toString()
         var password = password_et.text.toString()
 
-        Validations.required(
-            fullnameSignUp,
-            nameSignUp
-        )
-        Validations.Email(
-            email_sign_up,
-            emailSignUp_text
-        )
-        Validations.required(
-            username_ett,
-            username_text
-        )
-        Validations.CheckPhoneNumber(
-            phone_ett,
-            phone_text
-        )
-        Validations.Password(password, password_text)
+        if (Validations.required(fullnameSignUp, nameSignUp)  && Validations.required(username_ett, username_text)&& Validations.Email(email_sign_up, emailSignUp_text) && Validations.Email(email_sign_up, emailSignUp_text) && Validations.CheckPhoneNumber(phone_ett, phone_text)&& Validations.Password(password, password_text)&&checkboxCheck()==true){
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+//        Validations.required(
+//            fullnameSignUp,
+//            nameSignUp
+//        )
+        //       Validations.Email(email_sign_up, emailSignUp_text)
+//        Validations.Email(
+//            email_sign_up,
+//            emailSignUp_text
+////        )
+//        Validations.required(
+//            username_ett,
+//            username_text
+//        )
+//        Validations.CheckPhoneNumber(
+//            phone_ett,
+//            phone_text
+//        )
+//            Validations.Password(password, password_text)
+    }
+    fun checkboxCheck():Boolean{
+        if (!check.isChecked) {
+            background.setBackgroundResource(R.drawable.background_error)
+            error_text.setText("Accepting checkbox is necessary")
+            background.visibility = View.VISIBLE
+        return false
+        } else {
+            error_text.setText("")
+            background.setBackgroundResource(R.drawable.drawable_back)
+            background.visibility = View.GONE
+        return true
+        }
+    return true
     }
 }

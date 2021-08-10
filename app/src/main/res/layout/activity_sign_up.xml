@@ -80,8 +80,8 @@
 
             <ImageView
                 android:id="@+id/img_camera"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="80dp"
                 android:src="@drawable/camera" />
@@ -199,40 +199,6 @@
             android:background="@drawable/background_edit_text">
 
             <EditText
-                android:id="@+id/password_sign_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
-                android:background="@null"
-                android:fontFamily="@font/opensans_regular"
-                android:hint="Enter Password"
-                android:singleLine="true"
-                android:textColorHint="@color/darkgrey"
-                android:textSize="10sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/password_sign_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text=""
-            android:visibility="gone"
-            android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/background_edit_text">
-
-            <EditText
                 android:id="@+id/phonenumber_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -258,6 +224,42 @@
             android:textColor="@color/red"
             android:textSize="12sp"
             android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/background_edit_text">
+
+            <EditText
+                android:id="@+id/password_sign_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:background="@null"
+                android:fontFamily="@font/opensans_regular"
+                android:hint="Enter Password"
+                android:singleLine="true"
+                android:textColorHint="@color/darkgrey"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/password_sign_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text=""
+            android:visibility="gone"
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -289,31 +291,32 @@
             android:fontFamily="@font/opensans_regular"
             android:text="Social media Link"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12.5sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="55dp"
+                android:layout_height="50dp"
                 android:background="@drawable/rectangle_back">
 
                 <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="29dp"
+                    android:layout_height="24dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/twitter" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
@@ -330,7 +333,7 @@
                     android:hint="Enter Twitter Link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
 
@@ -340,24 +343,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="55dp"
+                android:layout_height="50dp"
                 android:background="@drawable/rectangle_back">
 
                 <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="29dp"
+                    android:layout_height="24dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/facebook" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
@@ -374,7 +378,7 @@
                     android:hint="Enter Facebook Link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
 
@@ -384,24 +388,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="55dp"
+                android:layout_height="50dp"
                 android:background="@drawable/rectangle_back">
 
                 <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="29dp"
+                    android:layout_height="24dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/insta" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
@@ -418,7 +423,7 @@
                     android:hint="Enter Instagram Link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
 
@@ -429,23 +434,24 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
+            android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="55dp"
+                android:layout_height="50dp"
                 android:background="@drawable/rectangle_back">
 
                 <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="29dp"
+                    android:layout_height="24dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/youtube" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
@@ -462,7 +468,7 @@
                     android:hint="Enter YouTube Link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
 
@@ -479,7 +485,6 @@
                 android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp" />
 
             <TextView
@@ -515,7 +520,7 @@
                 android:fontFamily="@font/opensans_regular"
                 android:text="SIGN UP"
                 android:textColor="@color/white"
-                android:textSize="25sp"
+                android:textSize="17.5sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 

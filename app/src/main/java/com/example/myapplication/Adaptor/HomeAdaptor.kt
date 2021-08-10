@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,7 @@ class HomeAdaptor(
         var mokhla=view.findViewById<TextView>(R.id.text_okhla)
         var mevent=view.findViewById<TextView>(R.id.event_text)
         var mlajpat=view.findViewById<TextView>(R.id.lajpat_nagar_text)
-            var layout_vedio=view.findViewById<LinearLayout>(R.id.layout_vedio)
+            var layout_vedio=view.findViewById<RelativeLayout>(R.id.layout_vedio)
             var layout_post_img=view.findViewById<LinearLayout>(R.id.layout_post_img)
 
     }
