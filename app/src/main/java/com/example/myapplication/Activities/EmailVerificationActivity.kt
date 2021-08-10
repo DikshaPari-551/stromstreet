@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +20,7 @@ class EmailVerificationActivity : AppCompatActivity() {
     lateinit var et3: EditText
     lateinit var et4: EditText
 
-    lateinit var submit: RelativeLayout
+    lateinit var submit: LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_email_verification)

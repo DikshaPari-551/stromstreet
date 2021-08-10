@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.myapplication.Fragments.HomeFragment
@@ -17,7 +18,7 @@ import org.w3c.dom.Text
 class ResetPasswordActivity : AppCompatActivity() {
 
     lateinit var new_password:EditText
-    lateinit var layout_submitt:RelativeLayout
+    lateinit var layout_submitt:LinearLayout
     lateinit var background: RelativeLayout
     lateinit var error_text: TextView
 lateinit var resetPasswordErrText:TextView

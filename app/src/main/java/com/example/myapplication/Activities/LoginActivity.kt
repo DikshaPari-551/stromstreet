@@ -16,7 +16,8 @@ import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.ValidationExt.Validations
 import java.util.regex.Pattern
 
-class LoginActivity : AppCompatActivity() {
+class
+LoginActivity : AppCompatActivity() {
     lateinit var mEmailText: EditText
     lateinit var mPassword: EditText
     lateinit var mLayout_Login: LinearLayout
@@ -89,9 +90,10 @@ class LoginActivity : AppCompatActivity() {
             Validations.EmailLogin(email, mLoginEmail,merror,mBackerror)
             Validations.PasswordLogin(password, mLoginPassword,merror,mBackerror)
             if(Validations.EmailLogin(email, mLoginEmail,merror,mBackerror) && Validations.PasswordLogin(password, mLoginPassword,merror,mBackerror)==true  ){
-                LoginFlag.setLoginFlag(true)
+
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
+                LoginFlag.setLoginFlag(true)
             }
 
 
