@@ -50,12 +50,12 @@ class HomeFragment : Fragment() {
 
         followingPost.setOnClickListener {
             followingPost.setTextColor(resources.getColor(R.color.orange))
-            home_text.setText("Following Post")
+            home_text.setText("Following Activity")
             localpost.setTextColor(resources.getColor(R.color.white))
         }
         localpost.setOnClickListener {
             followingPost.setTextColor(resources.getColor(R.color.white))
-            home_text.setText("Local Post")
+            home_text.setText("Local Activity")
             localpost.setTextColor(resources.getColor(R.color.orange))
         }
 

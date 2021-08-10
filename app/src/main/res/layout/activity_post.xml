@@ -6,24 +6,25 @@
     android:layout_height="match_parent"
 
 
-    tools:context=".PostActivity">
+    tools:context=".Activities.PostActivity">
 
-    <VideoView
+    <ImageView
         android:id="@+id/vedio"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@drawable/taj_mahal"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1.2">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="end"
-            android:layout_weight="0.7"
+            android:layout_weight="1.15"
             android:gravity="bottom"
             android:orientation="vertical"
             android:paddingRight="10dp">
@@ -43,6 +44,7 @@
                         android:layout_height="wrap_content" />
 
                     <ImageView
+                        android:id="@+id/video_post_like"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/heart" />
@@ -100,8 +102,9 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/share_post"
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_height="26dp"
                     android:src="@drawable/forward_erro_icon" />
 
                 <TextView
@@ -127,6 +130,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/saved_post"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/tag_icon_white" />
@@ -144,6 +148,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
+                    android:id="@+id/notify_post"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/alert_icon_white" />
@@ -151,7 +156,14 @@
 
 
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -194,6 +206,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/follow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -233,7 +246,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/opensans_regular"
                             android:paddingLeft="15dp"
-                            android:text="Event$"
+                            android:text="Event"
                             android:textColor="@color/white"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -244,10 +257,11 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginBottom="10dp"
 
                 android:layout_marginLeft="20dp">
 
@@ -263,15 +277,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
-                    android:text="   More"
+                    android:text="More"
                     android:id="@+id/more"
-                    android:layout_marginTop="33dp"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:fontFamily="@font/opensans_regular"/>
-            </RelativeLayout>
-
+            </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -1,8 +1,10 @@
 package com.example.myapplication.Activities
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -21,12 +23,22 @@ class PostActivity2 : AppCompatActivity() {
     lateinit var like : ImageView
     lateinit var comment : ImageView
     lateinit var share : ImageView
+    lateinit var backButton : ImageView
+    lateinit var addComment : TextView
+
+
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post2)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(R.color.black)
+        }
         post2recycler=findViewById(R.id.post2recyclerview)
         loginFlag = LoginFlag.getLoginFlag()
 
@@ -34,6 +46,10 @@ class PostActivity2 : AppCompatActivity() {
         like = findViewById(R.id.like)
         comment = findViewById(R.id.comment1)
         share = findViewById(R.id.share1)
+        backButton = findViewById(R.id.back_arrow)
+        addComment = findViewById(R.id.add_comment)
+
+
 
         var adaptor = Post2Adapter()
         val layoutManager = LinearLayoutManager(this)
@@ -48,7 +64,17 @@ class PostActivity2 : AppCompatActivity() {
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
             }
+
+        }
+
+        backButton.setOnClickListener{
+
+                val i = Intent(this, PostActivity::class.java)
+                startActivity(i)
+
+
 
         }
 
@@ -59,6 +85,7 @@ class PostActivity2 : AppCompatActivity() {
                like.setColorFilter(resources.getColor(R.color.grey))
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
             }
 
         }
@@ -69,16 +96,35 @@ class PostActivity2 : AppCompatActivity() {
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
             }
 
         }
 
         share.setOnClickListener{
             if (loginFlag == true) {
-                share.setColorFilter(resources.getColor(R.color.red))
+                val i = Intent(Intent.ACTION_SEND)
+                i.setType("text/plain")
+                var shareBody: String = "Share Body"
+                var shareSubject: String = "Share Subject"
+                i.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
+                i.putExtra(Intent.EXTRA_TEXT, shareBody)
+                startActivity(Intent.createChooser(i, "Sharing using"))
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
+
+            }
+
+        }
+
+        addComment.setOnClickListener{
+            if (loginFlag == true) {
+                Toast.makeText(this,"Please comment",Toast.LENGTH_LONG).show()
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+
             }
 
         }

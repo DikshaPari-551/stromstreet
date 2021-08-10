@@ -8,7 +8,8 @@
     android:background="@color/black"
     tools:context=".Fragments.AddPostFragment">
 
-    <RelativeLayout
+
+        <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/black"
@@ -78,30 +79,18 @@
 <!--                        android:layout_height="wrap_content" />-->
 
 <!--                </FrameLayout>-->
+
+
                 <LinearLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:layout_height="80dp">
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/taj_mahal"
-                        android:padding="3dp"
-
-                        />
-                    <ImageView
+                        android:id="@+id/image1"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
-
-                        android:src="@drawable/people_imag"
-                        />
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent"
-                        android:padding="3dp"
-                        android:src="@drawable/dj_night_pic"
 
                         /></LinearLayout>
 

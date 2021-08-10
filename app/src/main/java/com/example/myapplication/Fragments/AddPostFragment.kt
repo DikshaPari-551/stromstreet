@@ -1,52 +1,45 @@
 package com.example.myapplication.Fragments
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Adaptor.AddpostAdapter
 import com.example.myapplication.R
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddPostFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddPostFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
+
     private var param1: String? = null
     private var param2: String? = null
     private var recycler: RecyclerView? = null
     private lateinit var spin : Spinner
+    private lateinit var img : ImageView
+//    lateinit var mBitmap: Bitmap
+
     private lateinit var post : LinearLayout
     var source: ArrayList<String>? = null
     var RecyclerViewLayoutManager: RecyclerView.LayoutManager? = null
-    var adapter: AddpostAdapter? = null
+//    var adapter: AddpostAdapter? = null
     var HorizontalLayout: LinearLayoutManager? = null
     var RecyclerViewItemPosition = 0
 
+//    fun newInstance(b: Bitmap) {
+//        mBitmap = b
+//    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +48,21 @@ class AddPostFragment : Fragment() {
         // Inflate the layout for this fragment
         var view : View = inflater.inflate(R.layout.fragment_add_post, container, false)
         post=view.findViewById(R.id.post)
+        img = view.findViewById(R.id.image1)
+        var imageData: Bitmap? = arguments?.getParcelable("BitmapImage")
+        if(imageData!=null){
+            img.setImageBitmap(imageData)
+        }
+//        val strtext = arguments?.getString("edttext")
+//        val b: Bitmap? = StringToBitMap(strtext)
+//        img.setImageBitmap(b)
+
+
+
+//        if (strtext != null) {
+//            Log.d("Add Post Fragment :-",strtext)
+//        }
+
 
         post.setOnClickListener{
             fragmentManager?.beginTransaction()?.replace(
@@ -95,24 +103,16 @@ class AddPostFragment : Fragment() {
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddPostFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddPostFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    fun StringToBitMap(image: String?): Bitmap? {
+        return try {
+            val encodeByte: ByteArray = Base64.decode(image, Base64.DEFAULT)
+            val inputStream: InputStream = ByteArrayInputStream(encodeByte)
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            e.message
+            null
+        }
     }
+
 }
 

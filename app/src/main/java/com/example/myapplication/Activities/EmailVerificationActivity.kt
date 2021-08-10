@@ -1,8 +1,10 @@
 package com.example.myapplication.Activities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -21,6 +23,12 @@ class EmailVerificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_email_verification)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(R.color.black)
+        }
 
         submit = findViewById(R.id.layout_submit)
         backgroundd = findViewById(R.id.backgroundd_error)

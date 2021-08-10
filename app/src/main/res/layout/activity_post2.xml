@@ -27,22 +27,22 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/man"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:id="@+id/back_arrow"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
-                        android:src="@drawable/man" />
+                        android:src="@drawable/back_arrow" />
 
-                    <ImageView
-                        android:id="@+id/filter"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/filterhome" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/filter"-->
+<!--                        android:layout_width="13dp"-->
+<!--                        android:layout_height="13dp"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginRight="20dp"-->
+<!--                        android:src="@drawable/filterhome" />-->
 
                 </RelativeLayout>
                 <LinearLayout
@@ -255,6 +255,7 @@
 
 
                     <TextView
+                        android:id="@+id/add_comment"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:text="ADD COMMENT"
@@ -263,7 +264,8 @@
                         android:textColor="@color/white"
                         android:layout_margin="25dp"
                         android:layout_marginTop="35dp"
-                        android:background="@drawable/gradient_backgrounds">
+                        android:background="@drawable/gradient_backgrounds"
+                        >
                     </TextView>
 
 

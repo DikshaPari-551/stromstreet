@@ -174,20 +174,12 @@
                 android:layout_height="wrap_content"
 
                 android:gravity="end"
-                android:text="Forget Password?"
+                android:text="@string/forgotpassword"
                 android:fontFamily="@font/opensans_semibold"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="italic|bold" />
 
-            <LinearLayout
-                android:layout_width="125dp"
-                android:layout_height="1dp"
-                android:layout_gravity="end"
-                android:layout_below="@id/text_forget_password"
-                android:layout_alignParentEnd="true"
-                android:background="@color/darkgrey"
-                android:layout_alignParentRight="true" />
         </LinearLayout>
     </LinearLayout>
 

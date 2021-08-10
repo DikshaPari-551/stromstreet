@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
     android:id="@+id/chat_Activity"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activities.ChatActivity">
 
     <LinearLayout
@@ -15,124 +15,135 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:id="@+id/right_arrow_chat"
-            android:layout_marginLeft="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/left_arrow"/>
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/back_arrow" />
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/female_img"/>
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/female_img" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/opensans_regular"
             android:text="Peter"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:layout_gravity="center_vertical"
-            android:textStyle="bold"
-            android:fontFamily="@font/opensans_regular"
-            android:layout_marginLeft="10dp"/>
+            android:textStyle="bold" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_centerVertical="true"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/side_menu"
-            />
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/side_menu" />
         </RelativeLayout>
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
 
-        android:background="@drawable/background_chat_screen"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/background_chat_screen">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/chat_text_back"
-            android:layout_height="30dp"
-            android:text="Hello"
-            android:fontFamily="@font/opensans_regular"
-            android:paddingLeft="15dp"
-            android:paddingTop="5dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_width="80dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/drawable_chat"
-            android:layout_height="30dp"
-            android:layout_gravity="end"
-            android:text="Hello"
-            android:fontFamily="@font/opensans_regular"
-            android:layout_marginRight="20dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="5dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
-            <RelativeLayout
-                android:layout_gravity="end"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <ListView
+            <TextView
                 android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/chat_text_back"
+                android:fontFamily="@font/opensans_regular"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:text="Hello"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/drawable_chat"
+                android:fontFamily="@font/opensans_regular"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:text="Hello"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-android:divider="@null"
-                android:layout_alignParentRight="true"
-                android:id="@+id/list_view"/>
+                android:gravity="end"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcycler_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                     />
             </RelativeLayout>
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="20dp"
             android:layout_height="60dp"
-            android:layout_gravity="bottom"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:background="@drawable/background_edit_text">
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/background_edit_text"
+            android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/text_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/text_add"
-                android:layout_centerVertical="true"
-                android:singleLine="true"
+                android:layout_marginRight="30dp"
                 android:background="@null"
 
-                android:layout_marginRight="30dp"
                 android:hint="Type Message...."
+                android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="12sp" />
+
             <ImageView
-                android:layout_width="20dp"
-                android:src="@drawable/send_arrow_img"
-                android:layout_marginRight="20dp"
                 android:id="@+id/send_img_icon"
-                android:layout_centerVertical="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
-                android:layout_height="20dp"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/send_arrow_img" />
         </RelativeLayout>
 
     </RelativeLayout>
