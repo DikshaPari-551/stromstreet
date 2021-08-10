@@ -149,6 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:theme="@style/BrandedCheckBox"
 
             />
 
@@ -166,19 +167,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/text_forget_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:gravity="end"
                 android:text="@string/forgotpassword"
-                android:fontFamily="@font/opensans_semibold"
+                android:fontFamily="@font/opensans_italic"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:textStyle="italic|bold" />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </LinearLayout>
@@ -213,33 +213,36 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Don't have an account?"
             android:fontFamily="@font/opensans_regular"
             android:textColor="@color/black"
+            android:gravity="center"
             android:textSize="12sp"
             android:textStyle="normal" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_height="wrap_content">
+            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  Sign Up"
-                android:fontFamily="@font/opensans_regular"
+                android:fontFamily="@font/opensans_italic"
                 android:id="@+id/text_sign_up"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:textStyle="italic|bold" />
-            <LinearLayout
-                android:layout_width="53dp"
-                android:layout_height="1dp"
+                android:textStyle="bold"
+
+                 />
+            <View
+                android:layout_width="match_parent"
                 android:layout_marginLeft="7dp"
-               android:layout_below="@id/text_sign_up"
-                android:background="@color/darkgrey" />
+                android:layout_height="1dp"
+                android:background="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>

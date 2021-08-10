@@ -26,34 +26,29 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
+            android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="13.3dp"
-                android:layout_height="13.5dp"
-                android:id="@+id/user_chat_frag"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/back_arrow_chat"
                 android:layout_centerVertical="true"
-                android:src="@drawable/man" />
+                android:src="@drawable/back_arrow" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Profile"
+                android:gravity="center"
                 android:fontFamily="@font/opensans_regular"
                 android:layout_centerVertical="true"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="13.5dp"
-                android:layout_height="13.5dp"
-                android:id="@+id/filter_chat_frag"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/filterhome" />
 
         </RelativeLayout>
 

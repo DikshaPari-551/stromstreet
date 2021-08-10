@@ -21,12 +21,12 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/man_Profile_change"
-                android:layout_width="13.3dp"
-                android:layout_height="22dp"
+                android:id="@+id/back_arrow_profile_change"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:src="@drawable/man" />
+                android:src="@drawable/back_arrow" />
 
             <TextView
                 android:id="@+id/home_text"
@@ -40,14 +40,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/filter_Profile_change"
-                android:layout_width="13.5dp"
-                android:layout_height="13.5dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/filterhome" />
 
         </RelativeLayout>
 
@@ -151,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:text=""
+                    android:visibility="gone"
                     android:textColor="@color/red"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -184,17 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:text=""
-                    android:textColor="@color/red"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-
-                <TextView
-                    android:id="@+id/password_profile_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:text=""
+                    android:visibility="gone"
                     android:textColor="@color/red"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -229,6 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:text=""
+                    android:visibility="gone"
                     android:textColor="@color/red"
                     android:textSize="12sp"
                     android:textStyle="bold" />

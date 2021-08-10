@@ -26,4 +26,9 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <style name="BrandedCheckBox" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="colorAccent">#F0F0F0</item>
+        <item name="colorControlNormal">#F0F0F0</item>
+    </style>
 </resources>

@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/opensans_semibold"
-        android:text="Sign Up"
+        android:text="Sign up"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -485,7 +485,8 @@
                 android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"
+                android:theme="@style/BrandedCheckBox"/>
 
             <TextView
                 android:layout_width="wrap_content"

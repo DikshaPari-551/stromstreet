@@ -33,10 +33,11 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="8.5dp"
-                android:layout_height="8.5dp"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/right_arrow" />
         </RelativeLayout>
     </LinearLayout>

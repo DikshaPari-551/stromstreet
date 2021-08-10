@@ -24,6 +24,9 @@ class HomeFragment : Fragment() {
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
+    lateinit var userHome : ImageView
+    lateinit var backArrowHome : ImageView
+
 
     lateinit var home_text: TextView
     lateinit var recycler_view1: RecyclerView
@@ -39,6 +42,9 @@ class HomeFragment : Fragment() {
         home_text = v.findViewById(R.id.home_text)
         localpost = v.findViewById(R.id.text_local_post)
         followingPost = v.findViewById(R.id.text_following_post)
+        userHome = v.findViewById(R.id.user_home)
+        backArrowHome = v.findViewById(R.id.back_arrow_home)
+
         man=v.findViewById(R.id.user_home)
         man.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
@@ -52,11 +58,24 @@ class HomeFragment : Fragment() {
             followingPost.setTextColor(resources.getColor(R.color.orange))
             home_text.setText("Following Activity")
             localpost.setTextColor(resources.getColor(R.color.white))
+            filter.visibility = View.GONE
+            userHome.visibility = View.GONE
+            backArrowHome.visibility = View.VISIBLE
+
         }
         localpost.setOnClickListener {
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Activity")
             localpost.setTextColor(resources.getColor(R.color.orange))
+            filter.visibility = View.GONE
+            userHome.visibility = View.GONE
+            backArrowHome.visibility = View.VISIBLE
+
+
+        }
+
+        backArrowHome.setOnClickListener{
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())?.commit()
         }
 
         filter = v.findViewById(R.id.filter)

@@ -8,8 +8,10 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.example.myapplication.Fragments.HomeFragment
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 
 class PostActivity3 : AppCompatActivity() {
@@ -20,6 +22,7 @@ class PostActivity3 : AppCompatActivity() {
     lateinit var morePost:TextView
     lateinit var textMoreAbove:TextView
     lateinit var notifyPost: ImageView
+    lateinit var backPostButton : ImageView
     private var loginFlag: Boolean = false
     var click: Boolean = false
 
@@ -40,6 +43,16 @@ class PostActivity3 : AppCompatActivity() {
         savePost = findViewById(R.id.saved_post)
         notifyPost = findViewById(R.id.notify_post)
         textMoreAbove=findViewById(R.id.text_more_above)
+        backPostButton = findViewById(R.id.back_arrow_post)
+
+        backPostButton.setOnClickListener{
+            val i = Intent(this,MainActivity::class.java)
+            startActivity(i)
+            finish()
+        }
+
+
+
         loginFlag = LoginFlag.getLoginFlag()
 
         morePost=findViewById(R.id.more_post)

@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 
 class PostActivity : AppCompatActivity() {
@@ -23,6 +24,8 @@ class PostActivity : AppCompatActivity() {
     lateinit var savePost:ImageView
     lateinit var notifyPost:ImageView
     lateinit var follow: TextView
+    lateinit var backPostButton : ImageView
+
     private var loginFlag: Boolean = false
 
 
@@ -38,6 +41,7 @@ class PostActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
+        backPostButton = findViewById(R.id.back_arrow_post)
         sharePost=findViewById(R.id.share_post)
         savePost = findViewById(R.id.saved_post)
         layoutMore = findViewById(R.id.text_more)
@@ -48,6 +52,12 @@ class PostActivity : AppCompatActivity() {
         more = findViewById(R.id.more)
         loginFlag = LoginFlag.getLoginFlag()
 
+
+        backPostButton.setOnClickListener{
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+            finish()
+        }
 
 
         comment = findViewById(R.id.comment)

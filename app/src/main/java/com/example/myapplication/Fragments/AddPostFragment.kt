@@ -27,6 +27,8 @@ class AddPostFragment : Fragment() {
     private var recycler: RecyclerView? = null
     private lateinit var spin : Spinner
     private lateinit var img : ImageView
+    private lateinit var postBackButton : ImageView
+
 //    lateinit var mBitmap: Bitmap
 
     private lateinit var post : LinearLayout
@@ -49,6 +51,8 @@ class AddPostFragment : Fragment() {
         var view : View = inflater.inflate(R.layout.fragment_add_post, container, false)
         post=view.findViewById(R.id.post)
         img = view.findViewById(R.id.image1)
+        postBackButton = view.findViewById(R.id.post_back_button)
+
         var imageData: Bitmap? = arguments?.getParcelable("BitmapImage")
         if(imageData!=null){
             img.setImageBitmap(imageData)
@@ -63,7 +67,12 @@ class AddPostFragment : Fragment() {
 //            Log.d("Add Post Fragment :-",strtext)
 //        }
 
-
+        postBackButton.setOnClickListener{
+            fragmentManager?.beginTransaction()?.replace(
+                R.id.linear_layout,
+                HomeFragment()
+            )?.commit()
+        }
         post.setOnClickListener{
             fragmentManager?.beginTransaction()?.replace(
                 R.id.linear_layout,
