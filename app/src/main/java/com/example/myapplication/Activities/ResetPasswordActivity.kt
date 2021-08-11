@@ -34,34 +34,47 @@ lateinit var reEnterPassword:TextView
             window.statusBarColor = resources.getColor(R.color.black)
         }
 
+
          layout_submitt=findViewById(R.id.layout_submittt)
         background = findViewById(R.id.forget_back_error)
         error_text = findViewById(R.id.forget_text_error)
         new_password=findViewById(R.id.new_password)
         re_enter_passeord=findViewById(R.id.Re_enter_password)
+        resetPasswordErrText=findViewById(R.id.reset_Password_errtext)
+        reEnterPassword=findViewById(R.id.reset_re_neterPassword_errtext)
+
+
         layout_submitt.setOnClickListener {
             var new_pass = new_password.text.toString()
             var re_enter_pass = re_enter_passeord.text.toString()
-            if ( new_pass.length<6 ||  re_enter_pass.length<6) {
+            if (new_pass.length <=6) {
 
 
                 background.setBackgroundResource(R.drawable.background_error)
-                error_text.setText("*Please enter new password more than 6-digits")
+                error_text.setText("*Please enter new password more than 6-digits.")
+                resetPasswordErrText.setText("*Please enter new password more than 6-digits.")
+                resetPasswordErrText.visibility = View.VISIBLE
                 background.visibility = View.VISIBLE
             }
             else if(!new_pass.equals(re_enter_pass)){
 
                 background.setBackgroundResource(R.drawable.background_error)
-                error_text.setText(" re-enter password is not equal to new password")
+                error_text.setText("*Re-enter password is not equal to new password.")
+                reEnterPassword.setText("*Re-enter password is not equal to new password.")
+                reEnterPassword.visibility = View.VISIBLE
                 background.visibility = View.VISIBLE
 
             }
             else {
                 error_text.setText("")
+                resetPasswordErrText.setText("")
+                reEnterPassword.setText("")
                 background.setBackgroundResource(R.drawable.drawable_back)
                 val i = Intent(this,LoginActivity::class.java)
                 startActivity(i)
                 background.visibility = View.GONE
+                resetPasswordErrText.visibility = View.GONE
+                reEnterPassword.visibility = View.GONE
 
 
             }

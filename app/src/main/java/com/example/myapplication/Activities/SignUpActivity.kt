@@ -1,10 +1,8 @@
 package com.example.myapplication.Activities
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
@@ -30,9 +28,6 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var password_et: EditText
     lateinit var password_text: TextView
 
-    lateinit var re_password_et: EditText
-    lateinit var re_password_text: TextView
-
 
     lateinit var phone_et: EditText
     lateinit var phone_text: TextView
@@ -49,12 +44,6 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-        if (Build.VERSION.SDK_INT >= 21) {
-            val window = window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = resources.getColor(R.color.black)
-        }
 
         emailSignUp_et = findViewById(R.id.email_sign_etext)
 
@@ -66,10 +55,6 @@ class SignUpActivity : AppCompatActivity() {
 
         password_et = findViewById(R.id.password_sign_et)
         password_text = findViewById(R.id.password_sign_text)
-
-
-        re_password_et = findViewById(R.id.re_password_confirm)
-        re_password_text = findViewById(R.id.re_password_sign_text)
 
         emailSignUp_text = findViewById(R.id.email_sign_text)
         sign_up_full_name = findViewById(R.id.fullname_text)
@@ -105,16 +90,6 @@ class SignUpActivity : AppCompatActivity() {
         var username_ett = username_et.text.toString()
         var phone_ett = phone_et.text.toString()
         var password = password_et.text.toString()
-        var rePassword = re_password_et.text.toString()
-        if(!password.equals(rePassword)){
-            re_password_text.visibility = View.VISIBLE
-            re_password_text.setText("*Both password should match.")
-        }else {
-            re_password_text.visibility = View.GONE
-            re_password_text.setText("")
-
-        }
-
 
         if (Validations.required(fullnameSignUp, nameSignUp)  && Validations.required(username_ett, username_text)&& Validations.Email(email_sign_up, emailSignUp_text) && Validations.Email(email_sign_up, emailSignUp_text) && Validations.CheckPhoneNumber(phone_ett, phone_text)&& Validations.Password(password, password_text)&&checkboxCheck()==true){
             var intent = Intent(this, MainActivity::class.java)

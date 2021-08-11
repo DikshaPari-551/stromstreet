@@ -18,6 +18,7 @@ class Chat_Adaptor(
         var chat=view.findViewById<LinearLayout>(R.id.chat_layout)
 
 
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Chat_Adaptor.MyViewHolder {

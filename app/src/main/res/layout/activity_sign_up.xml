@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/opensans_semibold"
-        android:text="Sign Up"
+        android:text="Sign up"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -259,39 +259,6 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/background_edit_text">
-
-            <EditText
-                android:id="@+id/re_password_confirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
-                android:background="@null"
-                android:fontFamily="@font/opensans_regular"
-                android:hint="Re-Enter Password"
-                android:singleLine="true"
-                android:textColorHint="@color/darkgrey"
-                android:textSize="10sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/re_password_sign_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text=""
-            android:visibility="gone"
-            android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
 
 
         <LinearLayout
@@ -519,7 +486,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:theme="@android:style/Theme.Holo.Light" />
+                android:theme="@style/BrandedCheckBox"/>
 
             <TextView
                 android:layout_width="wrap_content"

@@ -47,10 +47,14 @@ class HomeAdaptor(
         holder.layout_vedio.setOnClickListener{
         (mcontext as MainActivity).startActivity(Intent(mcontext,
             PostActivity::class.java))
-    }
+            (mcontext as MainActivity).finish()
+
+
+        }
         holder.layout_post_img.setOnClickListener{
             (mcontext as MainActivity).startActivity(Intent(mcontext,
                 PostActivity3::class.java))
+            (mcontext as MainActivity).finish()
         }
     }
     override fun getItemCount(): Int {
