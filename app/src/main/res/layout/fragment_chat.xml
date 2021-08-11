@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Profile"
+                android:text="Messages"
                 android:gravity="center"
                 android:fontFamily="@font/opensans_regular"
                 android:layout_centerVertical="true"
@@ -71,30 +71,32 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="17.5dp"
+                android:layout_height="25dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/search_background"
 
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="8.5dp"
-                    android:layout_height="8.5dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/search" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Search Posts..........."
+                    android:layout_marginLeft="7dp"
+                    android:background="@null"
+                    android:hint="Search posts..."
                     android:fontFamily="@font/opensans_regular"
                     android:singleLine="true"
-                    android:background="@null"
-                    android:layout_marginLeft="7dp"
                     android:textColorHint="@color/black"
-                    android:textSize="5sp" />
+                    android:textSize="12sp" />
+
             </LinearLayout>
 
         </LinearLayout>

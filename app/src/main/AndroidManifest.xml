@@ -29,7 +29,9 @@
         <activity android:name=".Activities.PostActivity3" />
         <activity android:name=".Activities.PostActivity2" />
         <activity android:name=".Activities.PostActivity" />
-        <activity android:name=".Activities.ChatActivity" />
+        <activity android:name=".Activities.ChatActivity" >
+
+        </activity>
         <activity android:name=".Activities.ResetPasswordActivity" />
         <activity android:name=".Activities.ForgotPasswordActivity" />
         <activity android:name=".Activities.EmailVerificationActivity">
@@ -38,18 +40,21 @@
             <activity
                 android:name=".MainActivity"
                 android:windowSoftInputMode="adjustPan" >
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
+
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
             </activity>
 
         <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity" >
+
+        </activity>
         <activity
             android:name=".Activities.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 

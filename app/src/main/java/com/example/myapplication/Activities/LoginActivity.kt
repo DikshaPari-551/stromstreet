@@ -3,10 +3,8 @@ package com.example.myapplication
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.InputType
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Patterns
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
@@ -19,6 +17,9 @@ import java.util.regex.Pattern
 class
 LoginActivity : AppCompatActivity() {
     lateinit var mEmailText: EditText
+    lateinit var check_login:CheckBox
+ lateinit var check_text_login:TextView
+
     lateinit var mPassword: EditText
     lateinit var mLayout_Login: LinearLayout
     lateinit var text_sign_up: TextView
@@ -47,6 +48,8 @@ LoginActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
+        check_login=findViewById(R.id.check_login)
+        check_text_login=findViewById(R.id.check_text_login)
         mEmailText = findViewById(R.id.email_text)
         mBackerror = findViewById(R.id.back_error)
         text_sign_up = findViewById(R.id.text_sign_up)
@@ -84,16 +87,25 @@ LoginActivity : AppCompatActivity() {
         }
         mLayout_Login.setOnClickListener {
 
-
             var email = mEmailText.text.toString()
             var password = mPassword.text.toString()
-            Validations.EmailLogin(email, mLoginEmail,merror,mBackerror)
-            Validations.PasswordLogin(password, mLoginPassword,merror,mBackerror)
-            if(Validations.EmailLogin(email, mLoginEmail,merror,mBackerror) && Validations.PasswordLogin(password, mLoginPassword,merror,mBackerror)==true  ){
+
+            if(Validations.Email(email, mLoginEmail)&&Validations.PasswordLogin(
+                    password,
+                    mLoginPassword
+                )==true  ){
 
                 var intent = Intent(applicationContext, MainActivity::class.java)
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                this.finish()
+
                 startActivity(intent)
-                LoginFlag.setLoginFlag(true)
+
+                LoginFlag.setLoginFlag( true)
+
+
             }
 
 
@@ -183,5 +195,17 @@ LoginActivity : AppCompatActivity() {
 ////
 ////         }
 //    }
+    }
+    fun checkboxCheck():Boolean{
+        if (!check_login.isChecked) {
+            check_text_login.setText("*Accepting checkbox is necessary")
+            check_text_login.visibility = View.VISIBLE
+            return false
+        } else {
+            check_text_login.setText("")
+            check_text_login.visibility = View.GONE
+            return true
+        }
+        return true
     }
 }

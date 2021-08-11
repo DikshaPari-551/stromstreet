@@ -47,14 +47,14 @@ lateinit var reEnterPassword:TextView
         layout_submitt.setOnClickListener {
             var new_pass = new_password.text.toString()
             var re_enter_pass = re_enter_passeord.text.toString()
-            if (new_pass.length <=6) {
+            if (new_pass.length <6) {
 
 
                 background.setBackgroundResource(R.drawable.background_error)
                 error_text.setText("*Please enter new password more than 6-digits.")
                 resetPasswordErrText.setText("*Please enter new password more than 6-digits.")
                 resetPasswordErrText.visibility = View.VISIBLE
-                background.visibility = View.VISIBLE
+                background.visibility = View.GONE
             }
             else if(!new_pass.equals(re_enter_pass)){
 
@@ -62,7 +62,7 @@ lateinit var reEnterPassword:TextView
                 error_text.setText("*Re-enter password is not equal to new password.")
                 reEnterPassword.setText("*Re-enter password is not equal to new password.")
                 reEnterPassword.visibility = View.VISIBLE
-                background.visibility = View.VISIBLE
+                background.visibility = View.GONE
 
             }
             else {

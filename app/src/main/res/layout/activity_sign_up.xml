@@ -117,10 +117,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:text=""
+            android:fontFamily="@font/opensans_regular"
             android:visibility="gone"
             android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="10sp"
+            android:textStyle="normal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -150,11 +151,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
+            android:fontFamily="@font/opensans_regular"
             android:text=""
             android:visibility="gone"
             android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="10sp"
+            android:textStyle="normal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -185,10 +187,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:text=""
+            android:fontFamily="@font/opensans_regular"
             android:visibility="gone"
             android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="10sp"
+            android:textStyle="normal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -222,8 +225,9 @@
             android:text=""
             android:visibility="gone"
             android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="10sp"
+            android:fontFamily="@font/opensans_regular"
+            android:textStyle="normal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -254,10 +258,47 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:text=""
+            android:fontFamily="@font/opensans_regular"
+
             android:visibility="gone"
             android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="10sp"
+            android:textStyle="normal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/background_edit_text">
+
+            <EditText
+                android:id="@+id/confirmpassword_sign_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:background="@null"
+                android:fontFamily="@font/opensans_regular"
+                android:hint="Enter Password"
+                android:singleLine="true"
+                android:textColorHint="@color/darkgrey"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/Confirmpassword_sign_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text=""
+            android:fontFamily="@font/opensans_regular"
+
+            android:visibility="gone"
+            android:textColor="@color/red"
+            android:textSize="10sp"
+            android:textStyle="normal" />
 
 
 
@@ -483,10 +524,11 @@
 
             <CheckBox
                 android:id="@+id/check"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:theme="@style/BrandedCheckBox"/>
+               />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -501,13 +543,25 @@
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/check_text"
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text=""
+            android:fontFamily="@font/opensans_regular"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            android:textSize="10sp"
+            android:textStyle="normal" />
         <RelativeLayout
             android:id="@+id/layout_signup"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"
             android:layout_marginRight="20dp"

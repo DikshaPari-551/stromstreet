@@ -21,7 +21,19 @@ object Validations : Activity() {
     fun required(value: String, msg: TextView): Boolean {
         if (value.length == 0) {
             msg.visibility = View.VISIBLE
-            msg.setText("Full Name input field is null")
+            msg.setText("*Please enter your full name")
+            return false
+        } else {
+            msg.setText("")
+            msg.visibility = View.GONE
+            return true
+        }
+        return true
+    }
+    fun user(value: String, msg: TextView): Boolean {
+        if (value.length == 0) {
+            msg.visibility = View.VISIBLE
+            msg.setText("*Please enter your user name")
             return false
         } else {
             msg.setText("")
@@ -33,11 +45,11 @@ object Validations : Activity() {
 
     fun Email(value: String, msg: TextView): Boolean {
         if (value.length == 0) {
-            msg.setText("Email Address input field is empty")
+            msg.setText("*Please enter your email address ")
             msg.visibility = View.VISIBLE
             return false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
-            msg.setText("Email Address input field is not valid")
+            msg.setText("*Please enter your valid email address")
             msg.visibility = View.VISIBLE
             return false
         } else {
@@ -50,11 +62,11 @@ object Validations : Activity() {
 
     fun CheckPhoneNumber(value: String, msg: TextView): Boolean {
         if (value.length == 0) {
-            msg.setText("phone number input field is empty")
+            msg.setText("*Please enter your phone number")
             msg.visibility = View.VISIBLE
             return false
-        } else if (value.length >= 12) {
-            msg.setText("phone number length must not greater than 12")
+        } else if (value.length > 10) {
+            msg.setText("*Please enter your phone number up to 10-digits")
             msg.visibility = View.VISIBLE
             return false
         } else {
@@ -67,17 +79,17 @@ object Validations : Activity() {
 
     fun Password(value: String, msg: TextView): Boolean {
         if (value.length == 0) {
-            msg.setText("password input is empty")
+            msg.setText("*Please enter your password")
             msg.visibility = View.VISIBLE
             return false
 
         } else if (!PASSWORD_PATTERN.matcher(value).matches()) {
 
-            msg.setText(" Password input field is not valid ")
+            msg.setText("*Please enter your valid password")
             msg.visibility = View.VISIBLE
             return false
-        } else if (value.length >= 8) {
-            msg.setText("password length must not greater than 8")
+        } else if (value.length < 6) {
+            msg.setText("*Please enter your password more than 6-digits ")
             msg.visibility = View.VISIBLE
             return false
         } else {
@@ -87,6 +99,42 @@ object Validations : Activity() {
         }
         return true
     }
+    fun PasswordLogin(
+        value: String,
+        msg: TextView
+
+    ): Boolean {
+        if (value.length == 0) {
+            msg.setText("*Plaese enter your password")
+            msg.visibility = View.VISIBLE
+
+            return false
+        }
+//        else if(!PASSWORD_PATTERN.matcher(value).matches()){
+//
+//            msg.setText(" Password input field is not valid ")
+//            msg.visibility = View.VISIBLE
+//            mBackground.visibility = View.VISIBLE
+//            mErrorMessage.setText("UserName and Password is not valid")
+//            mBackground.setBackgroundResource(R.drawable.background_error)
+//        }
+        else if (value.length < 6) {
+            msg.setText("*Please enter your password more than 6-digits")
+            msg.visibility = View.VISIBLE
+
+            return false
+        } else {
+            msg.setText("")
+            msg.visibility = View.GONE
+
+            return true
+        }
+        return true
+    }
+
+
+
+
 
 
 
@@ -98,40 +146,31 @@ object Validations : Activity() {
         mBackground: RelativeLayout
     ): Boolean {
         if (value.length == 0) {
-            msg.setText("Email  Address input field is empty")
+            msg.setText("*Please enter email address")
             msg.visibility = View.VISIBLE
-            mBackground.visibility = View.VISIBLE
+            mBackground.visibility = View.GONE
             mErrorMessage.setText("Email and Password is not valid")
             mBackground.setBackgroundResource(R.drawable.background_error)
             return false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
-            msg.setText("Email Address input field is not valid")
+            msg.setText("*Please enter your valid email address")
             msg.visibility = View.VISIBLE
-            mBackground.visibility = View.VISIBLE
+            mBackground.visibility = View.GONE
             mErrorMessage.setText("Email and Password is not valid")
             mBackground.setBackgroundResource(R.drawable.background_error)
-            return false
-        } else {
-            msg.setText("")
-            msg.visibility = View.GONE
-            mBackground.visibility = View.VISIBLE
-            mErrorMessage.setText("")
-            mBackground.setBackgroundResource(R.drawable.drawable_back)
-            return true
-        }
-        return true
-    }
-
-    fun PasswordLogin(
-        value: String,
-        msg: TextView,
-        mErrorMessage: TextView,
-        mBackground: RelativeLayout
-    ): Boolean {
-        if (value.length == 0) {
-            msg.setText("Password input field is empty")
+            return false}
+//        } else {
+//            msg.setText("")
+//            msg.visibility = View.GONE
+//            mBackground.visibility = View.GONE
+//            mErrorMessage.setText("")
+//            mBackground.setBackgroundResource(R.drawable.drawable_back)
+//            return true
+//        }
+         else if (value.length == 0) {
+            msg.setText("*Plaese enter your password")
             msg.visibility = View.VISIBLE
-            mBackground.visibility = View.VISIBLE
+            mBackground.visibility = View.GONE
             mErrorMessage.setText("UserName and Password is not valid")
             mBackground.setBackgroundResource(R.drawable.background_error)
             return false
@@ -144,17 +183,17 @@ object Validations : Activity() {
 //            mErrorMessage.setText("UserName and Password is not valid")
 //            mBackground.setBackgroundResource(R.drawable.background_error)
 //        }
-        else if (value.length <= 6) {
-            msg.setText("password length must not less than 6")
+        else if (value.length < 6) {
+            msg.setText("*Please enter your password more than 6-digits")
             msg.visibility = View.VISIBLE
-            mBackground.visibility = View.VISIBLE
+            mBackground.visibility = View.GONE
             mErrorMessage.setText("UserName and Password is not valid")
             mBackground.setBackgroundResource(R.drawable.background_error)
             return false
         } else {
             msg.setText("")
             msg.visibility = View.GONE
-            mBackground.visibility = View.VISIBLE
+            mBackground.visibility = View.GONE
             mErrorMessage.setText("")
             mBackground.setBackgroundResource(R.drawable.drawable_back)
             return true
@@ -162,5 +201,5 @@ object Validations : Activity() {
         return true
     }
 
+    }
 
-}

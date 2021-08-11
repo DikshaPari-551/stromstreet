@@ -11,6 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
+import org.w3c.dom.Text
 
 class EmailVerificationActivity : AppCompatActivity() {
     lateinit var et1: EditText
@@ -18,6 +19,7 @@ class EmailVerificationActivity : AppCompatActivity() {
     lateinit var error_text: TextView
     lateinit var et2: EditText
     lateinit var et3: EditText
+    lateinit var otp:TextView
     lateinit var et4: EditText
 
     lateinit var submit: LinearLayout
@@ -30,7 +32,7 @@ class EmailVerificationActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-
+otp=findViewById(R.id.otp)
         submit = findViewById(R.id.layout_submit)
         backgroundd = findViewById(R.id.backgroundd_error)
         error_text = findViewById(R.id.textView_errorrr)
@@ -58,33 +60,29 @@ class EmailVerificationActivity : AppCompatActivity() {
             var ett3 = et3.text.toString()
             var ett4 = et4.text.toString()
             if (ett1.length == 0) {
-                backgroundd.visibility = View.VISIBLE
+                otp.visibility = View.VISIBLE
 
-                backgroundd.setBackgroundResource(R.drawable.background_error)
-                error_text.setText("Invalid OTP")
+                otp.setText("*Please enter valid otp")
 
             } else if (ett2.length == 0) {
-                backgroundd.visibility = View.VISIBLE
+                otp.visibility = View.VISIBLE
 
-                backgroundd.setBackgroundResource(R.drawable.background_error)
-                error_text.setText("Invalid OTP")
+//                backgroundd.setBackgroundResource(R.drawable.background_error)
+                otp.setText("*Please enter valid otp")
 
             } else if (ett3.length == 0) {
-                backgroundd.visibility = View.VISIBLE
+                otp.visibility = View.VISIBLE
 
-                backgroundd.setBackgroundResource(R.drawable.background_error)
-                error_text.setText("Invalid OTP")
+                otp.setText("*Please enter valid otp")
             }
             else if (ett4.length == 0) {
-                backgroundd.visibility = View.VISIBLE
+                otp.visibility = View.VISIBLE
 
-                backgroundd.setBackgroundResource(R.drawable.background_error)
-                error_text.setText("Invalid OTP")
+                otp.setText("*Please enter valid otp")
             }
             else {
-                backgroundd.setBackgroundResource(R.drawable.drawable_back)
-                error_text.setText("")
-                backgroundd.visibility = View.GONE
+
+                otp.visibility = View.GONE
                 var intent = Intent(this, ResetPasswordActivity::class.java)
                 startActivity(intent)
 
