@@ -1,5 +1,6 @@
 package com.example.myapplication.Fragments
 
+import android.content.Intent.getIntent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,6 +30,13 @@ class ChatFragment : Fragment() {
                 R.id.linear_layout,
                 HomeFragment())?.commit()
         }
+//        var extras = getIntent("openF2").getExtras();
+//        if(extras!=null && extras.containsKey("openF2"))
+//            val openF2 = extras?.getBoolean("openF2");
+//        if(openF2 == true){
+//            //add or replace fragment F2 in container
+//        }
+//    }
 
         var adaptor = activity?.let { Chat_Adaptor(it) }
         val layoutManager = LinearLayoutManager(activity)

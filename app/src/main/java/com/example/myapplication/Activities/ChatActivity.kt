@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.MessageAdaptor
 import com.example.myapplication.Fragments.ChatFragment
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 
 
@@ -17,7 +18,6 @@ class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
     lateinit var right_arrow_Chat:ImageView
     lateinit var sendImgIcon: ImageView
-    var list: ArrayList<String> = arrayListOf()
     lateinit var backButtton: ImageView
     lateinit var recyclerList: RecyclerView
     lateinit var chat_layout: LinearLayout
@@ -63,6 +63,12 @@ class ChatActivity : AppCompatActivity() {
 //            startActivity(i)
 //
 //        }
+            var intent =  Intent(this,MainActivity::class.java)
+            intent .putExtra("openF2",true)
+            overridePendingTransition(0, 0);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();
+            startActivity(intent);
         }
     }
 }

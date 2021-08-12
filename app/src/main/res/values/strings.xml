@@ -18,6 +18,6 @@
     <string name="lbl_gallery"><![CDATA[gallery >]]></string>
     <string name="msg_no_selection">Noting Selected\nOpen Gallery to select data</string>
     <string name="btn_gallery_dialog">gallery dialog</string>
-    <string name="forgotpassword"><u>Forget Password?</u></string>
+    <string name="forgotpassword"><u>Forgot Password?</u></string>
     <string name="signup"><u>  Sign Up</u></string>
 </resources>

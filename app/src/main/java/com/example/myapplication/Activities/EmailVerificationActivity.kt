@@ -3,6 +3,7 @@ package com.example.myapplication.Activities
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
@@ -11,14 +12,17 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
-import org.w3c.dom.Text
+
 
 class EmailVerificationActivity : AppCompatActivity() {
     lateinit var et1: EditText
     lateinit var backgroundd: RelativeLayout
     lateinit var error_text: TextView
+
+
     lateinit var et2: EditText
     lateinit var et3: EditText
+    lateinit var timer_text:TextView
     lateinit var otp:TextView
     lateinit var et4: EditText
 
@@ -35,6 +39,7 @@ class EmailVerificationActivity : AppCompatActivity() {
 otp=findViewById(R.id.otp)
         submit = findViewById(R.id.layout_submit)
         backgroundd = findViewById(R.id.backgroundd_error)
+        timer_text=findViewById(R.id.timer_text)
         error_text = findViewById(R.id.textView_errorrr)
         et1 = findViewById(R.id.et_1)
         et2 = findViewById(R.id.et_2)
@@ -52,6 +57,25 @@ otp=findViewById(R.id.otp)
         et3.setOnKeyListener(GenericKeyEvent(et3, et2))
         et4.setOnKeyListener(GenericKeyEvent(et4, et3))
 
+        object : CountDownTimer(120000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                var seconds = (millisUntilFinished / 1000).toInt()
+                val hours = seconds / (60 * 60)
+                val tempMint = seconds - hours * 60 * 60
+                val minutes = tempMint / 60
+                seconds = tempMint - minutes * 60
+                timer_text.setText(
+                     String.format(
+                        "%02d",
+                        minutes
+                    ) + ":" + String.format("%02d", seconds)+"sec"
+                )
+            }
+
+            override fun onFinish() {
+                timer_text.setText("Completed")
+            }
+        }.start()
 
         submit.setOnClickListener {
 
@@ -62,23 +86,23 @@ otp=findViewById(R.id.otp)
             if (ett1.length == 0) {
                 otp.visibility = View.VISIBLE
 
-                otp.setText("*Please enter valid otp")
+                otp.setText(" *Invalid OTP")
 
             } else if (ett2.length == 0) {
                 otp.visibility = View.VISIBLE
 
 //                backgroundd.setBackgroundResource(R.drawable.background_error)
-                otp.setText("*Please enter valid otp")
+                otp.setText("*Invalid OTP")
 
             } else if (ett3.length == 0) {
                 otp.visibility = View.VISIBLE
 
-                otp.setText("*Please enter valid otp")
+                otp.setText("Invalid OTP")
             }
             else if (ett4.length == 0) {
                 otp.visibility = View.VISIBLE
 
-                otp.setText("*Please enter valid otp")
+                otp.setText("Invalid OTP")
             }
             else {
 

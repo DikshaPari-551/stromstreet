@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/opensans_semibold"
-        android:text="Sign up"
+        android:text="Signup"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -89,7 +89,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
@@ -104,10 +104,10 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:fontFamily="@font/opensans_regular"
-                android:hint="Enter Full Name"
+                android:hint="Enter fullname"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="10sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -125,7 +125,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -140,10 +140,10 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:fontFamily="@font/opensans_regular"
-                android:hint="Enter UserName"
+                android:hint="Enter username"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="10sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
@@ -160,7 +160,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -175,10 +175,10 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:fontFamily="@font/opensans_regular"
-                android:hint="Enter Email ID"
+                android:hint="Enter email address"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="10sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
@@ -195,7 +195,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -210,11 +210,11 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:fontFamily="@font/opensans_regular"
-                android:hint="Enter Phone Number"
+                android:hint="Enter phone number"
                 android:inputType="number"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="10sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
@@ -231,7 +231,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -246,10 +246,10 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:fontFamily="@font/opensans_regular"
-                android:hint="Enter Password"
+                android:hint="Enter password"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="10sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
@@ -266,7 +266,7 @@
             android:textStyle="normal" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -281,10 +281,10 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:fontFamily="@font/opensans_regular"
-                android:hint="Enter Password"
+                android:hint="Enter confirm password"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="10sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
@@ -321,7 +321,7 @@
                 android:fontFamily="@font/opensans_regular"
                 android:hint="Bio"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
@@ -330,7 +330,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/opensans_regular"
-            android:text="Social media Link"
+            android:text="Social media link"
             android:textColor="@color/black"
             android:textSize="12.5sp"
             android:textStyle="bold" />
@@ -345,7 +345,7 @@
 
             <RelativeLayout
                 android:layout_width="55dp"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:background="@drawable/rectangle_back">
 
                 <ImageView
@@ -357,7 +357,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
@@ -371,10 +371,10 @@
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:fontFamily="@font/opensans_regular"
-                    android:hint="Enter Twitter Link"
+                    android:hint="Enter twitter link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
-                    android:textSize="10sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
 
@@ -390,7 +390,7 @@
 
             <RelativeLayout
                 android:layout_width="55dp"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:background="@drawable/rectangle_back">
 
                 <ImageView
@@ -402,7 +402,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
@@ -416,10 +416,10 @@
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:fontFamily="@font/opensans_regular"
-                    android:hint="Enter Facebook Link"
+                    android:hint="Enter facebook link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
-                    android:textSize="10sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
 
@@ -435,7 +435,7 @@
 
             <RelativeLayout
                 android:layout_width="55dp"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:background="@drawable/rectangle_back">
 
                 <ImageView
@@ -447,7 +447,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
@@ -461,10 +461,10 @@
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:fontFamily="@font/opensans_regular"
-                    android:hint="Enter Instagram Link"
+                    android:hint="Enter instagram link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
-                    android:textSize="10sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
 
@@ -480,7 +480,7 @@
 
             <RelativeLayout
                 android:layout_width="55dp"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:background="@drawable/rectangle_back">
 
                 <ImageView
@@ -492,7 +492,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/background_edit_text">
 
@@ -506,10 +506,10 @@
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:fontFamily="@font/opensans_regular"
-                    android:hint="Enter YouTube Link"
+                    android:hint="Enter youTube link"
                     android:singleLine="true"
                     android:textColorHint="@color/darkgrey"
-                    android:textSize="10sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
 

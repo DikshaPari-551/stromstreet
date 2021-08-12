@@ -58,9 +58,9 @@ lateinit var reEnterPassword:TextView
             }
             else if(!new_pass.equals(re_enter_pass)){
 
-                background.setBackgroundResource(R.drawable.background_error)
-                error_text.setText("*Re-enter password is not equal to new password.")
-                reEnterPassword.setText("*Re-enter password is not equal to new password.")
+            //    background.setBackgroundResource(R.drawable.background_error)
+       //         error_text.setText("*Re-enter password is not equal to new password.")
+                reEnterPassword.setText("*Both password should match.")
                 reEnterPassword.visibility = View.VISIBLE
                 background.visibility = View.GONE
 

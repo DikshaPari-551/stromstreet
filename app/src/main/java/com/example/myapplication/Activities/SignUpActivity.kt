@@ -81,7 +81,7 @@ lateinit var check_text:TextView
 
         layout_signup.setOnClickListener {
 
-
+ConfirmPassword()
             checkboxCheck()
 
             CheckValidations()
@@ -96,7 +96,7 @@ lateinit var check_text:TextView
         var phone_ett = phone_et.text.toString()
         var password = password_et.text.toString()
 
-        if (Validations.required(fullnameSignUp, nameSignUp)  && Validations.user(username_ett, username_text)&& Validations.Email(email_sign_up, emailSignUp_text) && Validations.Email(email_sign_up, emailSignUp_text) && Validations.CheckPhoneNumber(phone_ett, phone_text)&& Validations.Password(password, password_text)&&checkboxCheck()&&ConfirmPassword()==true){
+        if (Validations.required(fullnameSignUp, nameSignUp)  && Validations.user(username_ett, username_text)&& Validations.Email(email_sign_up, emailSignUp_text) && Validations.Email(email_sign_up, emailSignUp_text) && Validations.Password(password, password_text)&&ConfirmPassword()&&checkboxCheck()==true){
             var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -124,17 +124,15 @@ lateinit var check_text:TextView
         var password = password_et.text.toString()
         var confirmPassword= confirmPasswordEt.text.toString()
 
-        if (password.length ==0) {
+        if (confirmPassword.length <6) {
 
 
-            confirmPasswordTEXT.setText("*Please enter your confirm password")
-
+            confirmPasswordTEXT.setText("*Please enter new password more than 6-digits.")
             confirmPasswordTEXT.visibility = View.VISIBLE
-            return false
         }
-         if(!password.equals(confirmPassword)){
+         else if(!confirmPassword.equals(password)){
 
-            confirmPasswordTEXT.setText("*Re-enter password is not equal to new password.")
+            confirmPasswordTEXT.setText("*Both password should match.")
 
             confirmPasswordTEXT.visibility = View.VISIBLE
 return false
@@ -142,8 +140,7 @@ return false
         else {
             confirmPasswordTEXT.setText("")
 
-            val i = Intent(this,LoginActivity::class.java)
-            startActivity(i)
+
             confirmPasswordTEXT.visibility = View.GONE
 
 return true
