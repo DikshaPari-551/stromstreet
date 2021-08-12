@@ -20,7 +20,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/opensans_semibold"
-            android:text="Email Varification"
+            android:text="Email Verification"
 
             android:textColor="@color/black"
             android:textSize="25sp"
@@ -191,13 +191,14 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/opensans_semibold"
-                android:text=" Resend OTP"
+                android:text=" Resend OTP  "
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="italic|bold" />
 
             <LinearLayout
                 android:layout_width="95dp"
+
                 android:layout_height="1dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/text_login"

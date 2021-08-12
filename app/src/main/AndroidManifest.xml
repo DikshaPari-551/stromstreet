@@ -32,7 +32,9 @@
         <activity android:name=".Activities.ChatActivity" >
 
         </activity>
-        <activity android:name=".Activities.ResetPasswordActivity" />
+        <activity android:name=".Activities.ResetPasswordActivity" >
+
+        </activity>
         <activity android:name=".Activities.ForgotPasswordActivity" />
         <activity android:name=".Activities.EmailVerificationActivity">
 

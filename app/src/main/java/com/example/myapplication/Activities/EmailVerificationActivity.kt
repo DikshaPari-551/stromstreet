@@ -57,7 +57,7 @@ otp=findViewById(R.id.otp)
         et3.setOnKeyListener(GenericKeyEvent(et3, et2))
         et4.setOnKeyListener(GenericKeyEvent(et4, et3))
 
-        object : CountDownTimer(120000, 1000) {
+        object : CountDownTimer(180000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()
                 val hours = seconds / (60 * 60)
@@ -68,12 +68,12 @@ otp=findViewById(R.id.otp)
                      String.format(
                         "%02d",
                         minutes
-                    ) + ":" + String.format("%02d", seconds)+"sec"
+                    ) + ":" + String.format("%02d", seconds)+" sec "
                 )
             }
 
             override fun onFinish() {
-                timer_text.setText("Completed")
+                timer_text.setText("Session Expired")
             }
         }.start()
 

@@ -47,21 +47,24 @@ class ChatActivity : AppCompatActivity() {
         recyclerList.adapter = adaptor
 
         sendImgIcon.setOnClickListener {
+
             var data = add.text.toString()
             var hash: HashMap<String, String> = HashMap()
             hash.put("Data", data)
             arr.add(hash)
+            adaptor.notifyDataSetChanged()
+
             add.setText("")
 
 //            list_view.setBackgroundResource(R.drawable.drawable_chat)
         }
 
         backButtton.setOnClickListener {
-            //var fragment : ChatFragment = ChatFragment()
-////            supportFragmentManager.beginTransaction().replace(R.id.chat_Activity,HomeFragment()).commit()
+            var fragment : ChatFragment = ChatFragment()
+//            supportFragmentManager.beginTransaction().replace(R.id.chat_Activity,HomeFragment()).commit()
 //            val i = Intent(this, ChatFragment::class.java)
 //            startActivity(i)
-//
+
 //        }
             var intent =  Intent(this,MainActivity::class.java)
             intent .putExtra("openF2",true)

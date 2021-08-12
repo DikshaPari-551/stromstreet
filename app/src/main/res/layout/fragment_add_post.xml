@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:text="ADD POST"
+            android:text="Add Post"
             android:fontFamily="@font/opensans_regular"
             android:textColor="@color/white"
             android:textSize="20sp"

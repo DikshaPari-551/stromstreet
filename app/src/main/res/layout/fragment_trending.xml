@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true"
-                    android:text="Trending Post"
+                    android:text="Trending Activity"
                     android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="20sp"

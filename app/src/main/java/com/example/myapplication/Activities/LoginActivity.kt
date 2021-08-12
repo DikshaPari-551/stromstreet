@@ -63,7 +63,7 @@ LoginActivity : AppCompatActivity() {
         eyeImg.setOnClickListener {
             if (passwordNotVisible == 0) {
                 mPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                eyeImg.setImageDrawable(resources.getDrawable(R.drawable.eye_open_img))
+                eyeImg.setImageDrawable(resources.getDrawable(R.drawable.eye_login))
                 passwordNotVisible = 1
 
 
@@ -73,7 +73,7 @@ LoginActivity : AppCompatActivity() {
                 passwordNotVisible = 0
             } else {
                 mPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                eyeImg.setImageDrawable(resources.getDrawable(R.drawable.eye_open_img))
+                eyeImg.setImageDrawable(resources.getDrawable(R.drawable.eye_login))
                 passwordNotVisible = 1
             }
         }

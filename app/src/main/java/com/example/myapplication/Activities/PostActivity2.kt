@@ -120,7 +120,7 @@ class PostActivity2 : AppCompatActivity() {
 
         addComment.setOnClickListener{
             if (loginFlag == true) {
-                Toast.makeText(this,"Please comment",Toast.LENGTH_LONG).show()
+
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
