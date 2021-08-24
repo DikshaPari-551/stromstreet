@@ -36,7 +36,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 //        mErrorTextForgotPassword = findViewById(R.id.email_forgot_password)
 
         send_otp.setOnClickListener {
-            var email = forget_email.text.toString()
+            var email = forget_email.text.toString().trim()
             Validations.EmailLogin(email,mErrorTextForgotPassword,forget_text_error,forget_back_error)
             if( Validations.EmailLogin(email,mErrorTextForgotPassword,forget_text_error,forget_back_error)== true){
                 var intent = Intent(this, EmailVerificationActivity::class.java)

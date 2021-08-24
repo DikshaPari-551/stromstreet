@@ -1,5 +1,6 @@
 package com.example.myapplication.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.HomeAdaptor
+import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
+import com.mobiloitte.hrms.utils.SavedPrefManager
 
 class HomeFragment : Fragment() {
 
@@ -47,12 +50,18 @@ class HomeFragment : Fragment() {
 
         man=v.findViewById(R.id.user_home)
         man.setOnClickListener{
+            if((  SavedPrefManager.getStringPreferences(activity,  SavedPrefManager.KEY_IS_LOGIN).equals("true"))){
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 ProfileFragment()
             )
                 ?.commit()
+        }else{
+                val i = Intent(activity, LoginActivity::class.java)
+                startActivity(i)
+            }
         }
+
 
         followingPost.setOnClickListener {
             followingPost.setTextColor(resources.getColor(R.color.orange))

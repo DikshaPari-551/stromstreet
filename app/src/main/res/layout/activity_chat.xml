@@ -130,7 +130,7 @@
 
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="60dp"
                 android:background="@null"
 
                 android:hint="Type Message...."

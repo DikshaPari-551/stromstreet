@@ -22,8 +22,8 @@ class EmailVerificationActivity : AppCompatActivity() {
 
     lateinit var et2: EditText
     lateinit var et3: EditText
-    lateinit var timer_text:TextView
-    lateinit var otp:TextView
+    lateinit var timer_text: TextView
+    lateinit var otp: TextView
     lateinit var et4: EditText
 
     lateinit var submit: LinearLayout
@@ -36,10 +36,10 @@ class EmailVerificationActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-otp=findViewById(R.id.otp)
+        otp = findViewById(R.id.otp)
         submit = findViewById(R.id.layout_submit)
         backgroundd = findViewById(R.id.backgroundd_error)
-        timer_text=findViewById(R.id.timer_text)
+        timer_text = findViewById(R.id.timer_text)
         error_text = findViewById(R.id.textView_errorrr)
         et1 = findViewById(R.id.et_1)
         et2 = findViewById(R.id.et_2)
@@ -65,10 +65,10 @@ otp=findViewById(R.id.otp)
                 val minutes = tempMint / 60
                 seconds = tempMint - minutes * 60
                 timer_text.setText(
-                     String.format(
+                    String.format(
                         "%02d",
                         minutes
-                    ) + ":" + String.format("%02d", seconds)+" sec "
+                    ) + ":" + String.format("%02d", seconds) + " sec "
                 )
             }
 
@@ -98,13 +98,11 @@ otp=findViewById(R.id.otp)
                 otp.visibility = View.VISIBLE
 
                 otp.setText("Invalid OTP")
-            }
-            else if (ett4.length == 0) {
+            } else if (ett4.length == 0) {
                 otp.visibility = View.VISIBLE
 
                 otp.setText("Invalid OTP")
-            }
-            else {
+            } else {
 
                 otp.visibility = View.GONE
                 var intent = Intent(this, ResetPasswordActivity::class.java)

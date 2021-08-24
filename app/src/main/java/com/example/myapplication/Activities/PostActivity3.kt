@@ -13,6 +13,7 @@ import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.mobiloitte.hrms.utils.SavedPrefManager
 
 class PostActivity3 : AppCompatActivity() {
     lateinit var comment: ImageView
@@ -81,7 +82,7 @@ class PostActivity3 : AppCompatActivity() {
 
 
         sharePost.setOnClickListener {
-            if (loginFlag == true) {
+            if(  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
                 val i = Intent(Intent.ACTION_SEND)
                 i.setType("text/plain")
                 var shareBody: String = "Share Body"

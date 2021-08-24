@@ -14,10 +14,10 @@ import com.example.myapplication.bottomSheetDialog
 class SignUpActivity : AppCompatActivity() {
     lateinit var check: CheckBox
     lateinit var nameSignUp: TextView
-    lateinit var confirmPasswordEt:EditText
-    lateinit var confirmPasswordTEXT:TextView
+    lateinit var confirmPasswordEt: EditText
+    lateinit var confirmPasswordTEXT: TextView
     lateinit var emailSignUp_text: TextView
-lateinit var check_text:TextView
+    lateinit var check_text: TextView
 
     private val PASSWORD_PATTERN =
 
@@ -48,7 +48,7 @@ lateinit var check_text:TextView
         setContentView(R.layout.activity_sign_up)
 
         emailSignUp_et = findViewById(R.id.email_sign_etext)
-        check_text=findViewById(R.id.check_text)
+        check_text = findViewById(R.id.check_text)
         phone_et = findViewById(R.id.phonenumber_et)
         phone_text = findViewById(R.id.phone_sign_text)
 
@@ -67,8 +67,8 @@ lateinit var check_text:TextView
         layout_signup = findViewById(R.id.layout_signup)
         background = findViewById(R.id.background_error)
         error_text = findViewById(R.id.textView_error)
-        confirmPasswordTEXT=findViewById(R.id.Confirmpassword_sign_text)
-        confirmPasswordEt=findViewById(R.id.confirmpassword_sign_et)
+        confirmPasswordTEXT = findViewById(R.id.Confirmpassword_sign_text)
+        confirmPasswordEt = findViewById(R.id.confirmpassword_sign_et)
 
         camera.setOnClickListener {
             var bottomsheet = bottomSheetDialog()
@@ -81,7 +81,7 @@ lateinit var check_text:TextView
 
         layout_signup.setOnClickListener {
 
-ConfirmPassword()
+            ConfirmPassword()
             checkboxCheck()
 
             CheckValidations()
@@ -89,14 +89,24 @@ ConfirmPassword()
     }
 
     fun CheckValidations() {
-        var confirmPassword= confirmPasswordEt.text.toString()
+        var confirmPassword = confirmPasswordEt.text.toString()
         var fullnameSignUp = sign_up_full_name.text.toString()
-        var email_sign_up = emailSignUp_et.text.toString()
+        var email_sign_up = emailSignUp_et.text.toString().trim()
         var username_ett = username_et.text.toString()
         var phone_ett = phone_et.text.toString()
         var password = password_et.text.toString()
 
-        if (Validations.required(fullnameSignUp, nameSignUp)  && Validations.user(username_ett, username_text)&& Validations.Email(email_sign_up, emailSignUp_text) && Validations.Email(email_sign_up, emailSignUp_text) && Validations.Password(password, password_text)&&ConfirmPassword()&&checkboxCheck()==true){
+        if (Validations.required(fullnameSignUp, nameSignUp) && Validations.user(
+                username_ett,
+                username_text
+            ) && Validations.Email(email_sign_up, emailSignUp_text) && Validations.Email(
+                email_sign_up,
+                emailSignUp_text
+            ) && Validations.Password(
+                password,
+                password_text
+            ) && ConfirmPassword() && checkboxCheck() == true
+        ) {
             var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -120,44 +130,44 @@ ConfirmPassword()
 //            Validations.Password(password, password_text)
 
     }
-    fun ConfirmPassword():Boolean{
-        var password = password_et.text.toString()
-        var confirmPassword= confirmPasswordEt.text.toString()
 
-        if (confirmPassword.length <6) {
+    fun ConfirmPassword(): Boolean {
+        var password = password_et.text.toString()
+        var confirmPassword = confirmPasswordEt.text.toString()
+
+        if (confirmPassword.length < 6) {
 
 
             confirmPasswordTEXT.setText("*Please enter new password more than 6-digits.")
             confirmPasswordTEXT.visibility = View.VISIBLE
-        }
-         else if(!confirmPassword.equals(password)){
+        } else if (!confirmPassword.equals(password)) {
 
             confirmPasswordTEXT.setText("*Both password should match.")
 
             confirmPasswordTEXT.visibility = View.VISIBLE
-return false
-        }
-        else {
+            return false
+        } else {
             confirmPasswordTEXT.setText("")
 
 
             confirmPasswordTEXT.visibility = View.GONE
 
-return true
+            return true
 
         }
         return true
     }
-    fun checkboxCheck():Boolean{
+
+    fun checkboxCheck(): Boolean {
         if (!check.isChecked) {
             check_text.setText("*Accepting checkbox is necessary")
             check_text.visibility = View.VISIBLE
-        return false
+            return false
         } else {
             check_text.setText("")
             check_text.visibility = View.GONE
-        return true
+            return true
         }
-    return true
+        return true
     }
 }

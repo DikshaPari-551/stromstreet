@@ -1,5 +1,6 @@
 package com.example.myapplication.Fragments
 
+import android.content.Intent
 import android.media.Image
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,7 +14,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.HomeAdaptor
+import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
+import com.mobiloitte.hrms.utils.SavedPrefManager
 
 
 class TrendingFragment : Fragment() {
@@ -75,11 +78,16 @@ class TrendingFragment : Fragment() {
 
         userTrendingImg=v.findViewById(R.id.user_treanding_img)
         userTrendingImg.setOnClickListener{
+            if(  SavedPrefManager.getStringPreferences(activity,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 ProfileFragment()
             )
                 ?.commit()
+        }else{
+                val i = Intent(activity, LoginActivity::class.java)
+                startActivity(i)
+            }
         }
         filter=v.findViewById(R.id.filter)
         filter.setOnClickListener{

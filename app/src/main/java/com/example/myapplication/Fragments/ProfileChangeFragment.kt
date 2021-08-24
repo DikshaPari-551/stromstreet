@@ -72,7 +72,7 @@ class ProfileChangeFragment : Fragment() {
     fun CheckValidations() {
         var fullName = fullNameProfileEt.text.toString()
         var userName= usernameProfileEt.text.toString()
-        var email = emailProfileEt.text.toString()
+        var email = emailProfileEt.text.toString().trim()
         var phoneNumber=phoneNumberProfileEt.text.toString()
 
       if(  Validations.required(fullName, nameProfileText)&&

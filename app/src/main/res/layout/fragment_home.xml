@@ -24,27 +24,29 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="13dp"
+                    android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/user_home"
                     android:layout_width="13.3dp"
                     android:layout_height="13.5dp"
-                    android:layout_centerVertical="true"
-                    android:visibility="visible"
-                    android:src="@drawable/man" />
-
+                    android:src="@drawable/man"
+                    android:visibility="visible" />
+                </LinearLayout>
                 <ImageView
                     android:id="@+id/back_arrow_home"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:visibility="gone"
-                    android:src="@drawable/back_arrow" />
+                    android:src="@drawable/back_arrow"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/home_text"
@@ -52,21 +54,27 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true"
-                    android:text="Home"
                     android:fontFamily="@font/opensans_regular"
+                    android:text="Home"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="13dp"
+
+                    android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/filter"
                     android:layout_width="13.3dp"
                     android:layout_height="13.5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:visibility="visible"
-                    android:src="@drawable/filterhome" />
 
+                    android:src="@drawable/filterhome"
+                    android:visibility="visible" />
+                </LinearLayout>
             </RelativeLayout>
 
             <View
@@ -94,9 +102,9 @@
                         android:id="@+id/text_local_post"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/opensans_regular"
                         android:gravity="center"
                         android:text="Local Activity"
-                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -111,43 +119,44 @@
                         android:id="@+id/text_following_post"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/opensans_regular"
                         android:gravity="center"
                         android:text="Following Activity"
-                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@color/white"
                 android:orientation="horizontal" />
             <!--            searchbox-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:weightSum="2"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1.7"
-                    android:background="@drawable/search_background"
-                    android:layout_marginRight="10dp">
+                    android:background="@drawable/search_background">
 
                     <ImageView
                         android:layout_width="12dp"
                         android:layout_height="12dp"
-                        android:layout_marginLeft="8dp"
                         android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
                         android:src="@drawable/search" />
 
                     <EditText
@@ -155,8 +164,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="7dp"
                         android:background="@null"
-                        android:hint="Search posts..."
                         android:fontFamily="@font/opensans_regular"
+                        android:hint="Search posts..."
                         android:singleLine="true"
                         android:textColorHint="@color/black"
                         android:textSize="12sp" />
@@ -169,17 +178,17 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight=".3"
+                    android:background="@drawable/gradient_backgrounds"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="@drawable/gradient_backgrounds">
+                    android:orientation="vertical">
 
                     <TextView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="GO"
-                        android:gravity="center"
                         android:fontFamily="@font/opensans_regular"
+                        android:gravity="center"
+                        android:text="GO"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         android:textSize="11sp"

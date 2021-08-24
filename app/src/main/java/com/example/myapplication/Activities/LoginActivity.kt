@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.ValidationExt.Validations
+import com.mobiloitte.hrms.utils.SavedPrefManager
 import java.util.regex.Pattern
 
 class
@@ -87,8 +88,8 @@ LoginActivity : AppCompatActivity() {
         }
         mLayout_Login.setOnClickListener {
 
-            var email = mEmailText.text.toString()
-            var password = mPassword.text.toString()
+            var email = mEmailText.text.toString().trim()
+            var password = mPassword.text.toString().trim()
 
             if(Validations.Email(email, mLoginEmail)&&Validations.PasswordLogin(
                     password,
@@ -99,6 +100,7 @@ LoginActivity : AppCompatActivity() {
 
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
                 this.finish()
 
                 startActivity(intent)

@@ -15,19 +15,20 @@ import com.example.myapplication.Fragments.ProfileFragment
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.R
+import com.mobiloitte.hrms.utils.SavedPrefManager
 
 class PostActivity2 : AppCompatActivity() {
-    private lateinit var post2recycler : RecyclerView
-    private var loginFlag : Boolean = false
-    lateinit var follow1 : TextView
-    lateinit var like : ImageView
-    lateinit var comment : ImageView
-    lateinit var share : ImageView
-    lateinit var backButton : ImageView
-    lateinit var addComment : TextView
+    private lateinit var post2recycler: RecyclerView
+    private var loginFlag: Boolean = false
+    lateinit var follow1: TextView
+    lateinit var like: ImageView
+    lateinit var comment: ImageView
+    lateinit var share: ImageView
+    lateinit var backButton: ImageView
+    lateinit var addComment: TextView
 
 
-
+    var click: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +40,7 @@ class PostActivity2 : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-        post2recycler=findViewById(R.id.post2recyclerview)
+        post2recycler = findViewById(R.id.post2recyclerview)
         loginFlag = LoginFlag.getLoginFlag()
 
         follow1 = findViewById(R.id.follow1)
@@ -50,17 +51,25 @@ class PostActivity2 : AppCompatActivity() {
         addComment = findViewById(R.id.add_comment)
 
 
-
         var adaptor = Post2Adapter()
         val layoutManager = LinearLayoutManager(this)
         post2recycler.layoutManager = layoutManager
         post2recycler.adapter = adaptor
 
 
-        follow1.setOnClickListener{
-            if (loginFlag == true) {
-                follow1.setText("Following")
-                follow1.setTextColor(resources.getColor(R.color.red))
+        follow1.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                if (click == false) {
+                    follow1.setText("Following")
+                    follow1.setTextColor(resources.getColor(R.color.red))
+                    click = true
+                } else if (click == true) {
+                    follow1.setText("+ follow")
+                    follow1.setTextColor(resources.getColor(R.color.black))
+                    click = false
+                }
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
@@ -69,20 +78,28 @@ class PostActivity2 : AppCompatActivity() {
 
         }
 
-        backButton.setOnClickListener{
+        backButton.setOnClickListener {
 
-                val i = Intent(this, PostActivity::class.java)
-                startActivity(i)
-
+            val i = Intent(this, PostActivity::class.java)
+            startActivity(i)
 
 
         }
 
-        like.setOnClickListener{
-            if (loginFlag == true) {
-                like.setColorFilter(resources.getColor(R.color.red))
+        like.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                if (click == false) {
+                    like.setColorFilter(resources.getColor(R.color.red))
+                    click=true
+                }
+                else if(click==true){
+                    like.setColorFilter(resources.getColor(R.color.colorGray))
+                    click=false
+                }
             } else {
-               like.setColorFilter(resources.getColor(R.color.grey))
+                like.setColorFilter(resources.getColor(R.color.grey))
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
 
@@ -90,9 +107,11 @@ class PostActivity2 : AppCompatActivity() {
 
         }
 
-        comment.setOnClickListener{
-            if (loginFlag == true) {
-               Toast.makeText(this,"Please comment",Toast.LENGTH_LONG).show()
+        comment.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                Toast.makeText(this, "Please comment", Toast.LENGTH_LONG).show()
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
@@ -101,8 +120,10 @@ class PostActivity2 : AppCompatActivity() {
 
         }
 
-        share.setOnClickListener{
-            if (loginFlag == true) {
+        share.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 val i = Intent(Intent.ACTION_SEND)
                 i.setType("text/plain")
                 var shareBody: String = "Share Body"
@@ -118,8 +139,10 @@ class PostActivity2 : AppCompatActivity() {
 
         }
 
-        addComment.setOnClickListener{
-            if (loginFlag == true) {
+        addComment.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
 
             } else {
                 val i = Intent(this, LoginActivity::class.java)
