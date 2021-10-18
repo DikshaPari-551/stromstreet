@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.ValidationExt.Validations
-import com.mobiloitte.hrms.utils.SavedPrefManager
+import com.example.myapplication.util.SavedPrefManager
 import java.util.regex.Pattern
 
 class

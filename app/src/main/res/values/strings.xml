@@ -20,4 +20,6 @@
     <string name="btn_gallery_dialog">gallery dialog</string>
     <string name="forgotpassword"><u>Forgot Password?</u></string>
     <string name="signup"><u>  Sign Up</u></string>
+    <string name="server_not_responding">server not responding</string>
+
 </resources>

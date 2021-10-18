@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
-import com.mobiloitte.hrms.utils.SavedPrefManager
+import com.example.myapplication.util.SavedPrefManager
 
 class HomeFragment : Fragment() {
 

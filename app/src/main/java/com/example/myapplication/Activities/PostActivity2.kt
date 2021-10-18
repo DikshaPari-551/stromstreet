@@ -15,7 +15,7 @@ import com.example.myapplication.Fragments.ProfileFragment
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.R
-import com.mobiloitte.hrms.utils.SavedPrefManager
+import com.example.myapplication.util.SavedPrefManager
 
 class PostActivity2 : AppCompatActivity() {
     private lateinit var post2recycler: RecyclerView

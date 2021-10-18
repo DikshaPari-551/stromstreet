@@ -13,7 +13,7 @@ import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.Fragments.HomeFragment
 import com.example.myapplication.Fragments.ProfileFragment
 import com.example.myapplication.Fragments.TrendingFragment
-import com.mobiloitte.hrms.utils.SavedPrefManager
+import com.example.myapplication.util.SavedPrefManager
 import java.io.*
 
 
