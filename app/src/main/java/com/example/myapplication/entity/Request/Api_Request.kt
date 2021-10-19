@@ -1,38 +1,61 @@
 package com.example.myapplication.entity.Request
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class Api_Request {
 
     @SerializedName("fullName")
-    var fullName : String? = null
-    @SerializedName("countryCode") val countryCode : String? = null
-    @SerializedName("phoneNumber") val phoneNumber : String? = null
-    @SerializedName("email")
-    var email : String? = null
-    @SerializedName("password")
-    var password : String? = null
-    @SerializedName("userName")
-    var userName : String? = null
-    @SerializedName("bio") val bio : String? = null
-    @SerializedName("deviceType")
-    var deviceType : String? = null
-    @SerializedName("deviceToken") val deviceToken : String? = null
-    @SerializedName("socialLinks")  lateinit var socialLinks: SocialLinks
+    var fullName: String? = null
 
+    @SerializedName("countryCode")
+    val countryCode: String? = null
+
+    @SerializedName("phoneNumber")
+    val phoneNumber: String? = null
+
+    @SerializedName("email")
+    var email: String? = null
+
+    @SerializedName("emailUserName")
+    var emailUserName: String? = null
+
+    @SerializedName("password")
+    var password: String? = null
+
+    @SerializedName("newPassword")
+    var newPassword: String? = null
+
+    @SerializedName("userName")
+    var userName: String? = null
+
+    @SerializedName("bio")
+    val bio: String? = null
+
+    @SerializedName("deviceType")
+    var deviceType: String? = null
+
+    @SerializedName("deviceToken")
+    var deviceToken: String? = null
+
+    @SerializedName("socialLinks")
+    lateinit var socialLinks: SocialLinks
+
+    @SerializedName("otp")
+    @Expose
+    var otp: Int? = null
 }
 
 class SocialLinks {
 
-    @SerializedName("facebook") val facebook : String?=null
-    @SerializedName("twitter") val twitter : String?=null
-    @SerializedName("instagram") val instagram : String?=null
-    @SerializedName("youtube") val youtube : String?=null
-
-
-
-
-
+    @SerializedName("facebook")
+    val facebook: String? = null
+    @SerializedName("twitter")
+    val twitter: String? = null
+    @SerializedName("instagram")
+    val instagram: String? = null
+    @SerializedName("youtube")
+    val youtube: String? = null
 
 
 //    @SerializedName("fname")

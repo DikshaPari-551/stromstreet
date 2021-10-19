@@ -1,5 +1,6 @@
 package com.example.myapplication.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -9,16 +10,28 @@ import android.view.WindowManager
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
+import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.ValidationExt.Validations
+import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Service_Base.ApiResponseListener
+import com.example.myapplication.entity.Service_Base.ServiceManager
+import okhttp3.ResponseBody
+import java.lang.Exception
 
-class ForgotPasswordActivity : AppCompatActivity() {
+class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     lateinit var send_otp: RelativeLayout
     lateinit var forget_back_error: RelativeLayout
     lateinit var forget_email: EditText
     lateinit var mErrorTextForgotPassword:TextView
     lateinit var forget_text_error: TextView
-//    lateinit var mErrorTextForgotPassword : TextView
+    var mContext: Context = this
+    lateinit var email : String
+
+    //    lateinit var mErrorTextForgotPassword : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
@@ -36,11 +49,13 @@ class ForgotPasswordActivity : AppCompatActivity() {
 //        mErrorTextForgotPassword = findViewById(R.id.email_forgot_password)
 
         send_otp.setOnClickListener {
-            var email = forget_email.text.toString().trim()
+            email = forget_email.text.toString().trim()
             Validations.EmailLogin(email,mErrorTextForgotPassword,forget_text_error,forget_back_error)
             if( Validations.EmailLogin(email,mErrorTextForgotPassword,forget_text_error,forget_back_error)== true){
-                var intent = Intent(this, EmailVerificationActivity::class.java)
-                startActivity(intent)
+                forgetpassword()
+
+//                var intent = Intent(this, EmailVerificationActivity::class.java)
+//                startActivity(intent)
             }
 //            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 //                forget_back_error.setBackgroundResource(R.drawable.background_error)
@@ -52,5 +67,41 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
 //            }
         }
+    }
+
+    private fun forgetpassword() {
+        val serviceManager = ServiceManager(mContext)
+        val callBack: ApiCallBack<Responce> =
+            ApiCallBack<Responce>(this, "ForgetPassword", mContext)
+        val apiRequest = Api_Request()
+        apiRequest.email = email
+//        apiRequest.email = intent.getStringExtra("VerifyEmail")
+//        apiRequest.confirm_password = resetConfirmPassword.getText().toString().trim()
+
+        try {
+            serviceManager.forget(callBack, apiRequest)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }    }
+
+    override fun onApiSuccess(response: Responce, apiName: String?) {
+        Toast.makeText(this, "Success"+response.result.otp, Toast.LENGTH_LONG).show()
+        var intent = Intent(this, EmailVerificationActivity::class.java)
+        intent.putExtra("EMAIL", response.result.email)
+
+        startActivity(intent)
+//        val intent = Intent(this, LoginActivity::class.java)
+//        startActivity(intent)
+//        finish()
+//        Toast.makeText(this,response.responseCode, Toast.LENGTH_LONG).show()
+
+    }
+
+    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
     }
 }

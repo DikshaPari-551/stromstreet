@@ -27,26 +27,29 @@ class ServiceManager(var mContext: Context?) {
 
     }
 
-//    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(jsonObject) }!!.enqueue(callBack)
-//
-//    }
-//
-//    fun otp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.getotp(jsonObject) }!!.enqueue(callBack)
-//
-//    }
-//
-//    fun vOtp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.verifyOtp(jsonObject) }!!.enqueue(callBack)
-//
-//    }
-//
-//    fun reset(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(jsonObject) }!!
-//            .enqueue(callBack)
-//
-//    }
+    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi("application/json",jsonObject) }!!.enqueue(callBack)
+
+    }
+
+    fun otp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, false)!!.getotp(jsonObject) }!!.enqueue(callBack)
+    }
+
+    fun vOtp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, false)!!.verifyOtp(jsonObject) }!!.enqueue(callBack)
+    }
+
+    fun reset(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, value : String) {
+        mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(value,jsonObject) }!!
+            .enqueue(callBack)
+
+    }
+    fun forget(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(jsonObject) }!!
+            .enqueue(callBack)
+
+    }
 //
 //    fun updateprofile(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
 //        mContext?.let { Remotedatasource.current(it,true)!!.update(jsonObject) }!!.enqueue(callBack)

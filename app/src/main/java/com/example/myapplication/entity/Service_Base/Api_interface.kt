@@ -18,17 +18,20 @@ interface Api_interface
     @POST("user/signUp")
     fun getRegisterApi(@Body apiRequest: Api_Request?): Call<Responce>?
 
-//    @POST("login")
-//    fun getloginApi(@Body apiRequest: Api_Request?): Call<Responce>?
-//
-//    @POST("resend_otp")
-//    fun getotp(@Body apiRequest: Api_Request?): Call<Responce>?
-//
-//    @POST("verify_otp")
-//    fun verifyOtp(@Body apiRequest: Api_Request?): Call<Responce>?
-//
-//    @POST("reset_password")
-//    fun resetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
+    @POST("user/login")
+    fun getloginApi(@Header("Content-Type") value : String, @Body apiRequest: Api_Request?): Call<Responce>?
+
+    @POST("user/resendOTP")
+    fun getotp(@Body apiRequest: Api_Request?): Call<Responce>?
+
+    @POST("user/verifyOTP")
+    fun verifyOtp(@Body apiRequest: Api_Request?): Call<Responce>?
+
+    @POST("user/resetPassword/{value}")
+    fun resetPassword(@Path("token") value: String, @Body apiRequest: Api_Request?): Call<Responce>?
+
+    @POST("user/forgotPassword")
+    fun forgetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?

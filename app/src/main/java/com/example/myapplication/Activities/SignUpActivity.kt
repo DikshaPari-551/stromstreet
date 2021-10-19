@@ -3,6 +3,7 @@ package com.example.myapplication.Activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -132,12 +133,15 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(this)
-            var intent = Intent(this, MainActivity::class.java)
+            Log.w("", "Response" + response.result)
+            var intent = Intent(this, EmailVerificationActivity::class.java)
+            intent.putExtra("EMAIL", response.result.email)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            this.finish()
-            Toast.makeText(this,"Success",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Success"+response.result.otp,Toast.LENGTH_LONG).show()
             startActivity(intent)
+            this.finish()
+
         }
         else
         {

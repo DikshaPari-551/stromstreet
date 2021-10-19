@@ -161,7 +161,11 @@ class SavedPrefManager(var context: Context) {
 
     companion object {
         //preferences variables
+        const val EMAIL = "email"
+        const val PASSWORD = "password"
+
         const val AUTH_TOKEN = "auth_token"
+        const val TOKEN = "token"
         private const val KEY_USER_DETAIL = "key_user_detail"
         private const val KEY_IS_REMEMBER_ME = "key_is_remember_me"
         const val KEY_IS_LOGIN = "key_is_login"

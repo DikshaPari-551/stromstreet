@@ -1,8 +1,10 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
@@ -12,15 +14,25 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.ValidationExt.Validations
+import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Service_Base.ApiResponseListener
+import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
+import com.example.sleeponcue.extension.diasplay_toast
+import okhttp3.ResponseBody
+import java.lang.Exception
 import java.util.regex.Pattern
 
 class
-LoginActivity : AppCompatActivity() {
+LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var mEmailText: EditText
-    lateinit var check_login:CheckBox
- lateinit var check_text_login:TextView
-
+    lateinit var check_login: CheckBox
+    lateinit var check_text_login: TextView
+    var mContext: Context = this
+    var savedPrefManager = SavedPrefManager
     lateinit var mPassword: EditText
     lateinit var mLayout_Login: LinearLayout
     lateinit var text_sign_up: TextView
@@ -31,6 +43,12 @@ LoginActivity : AppCompatActivity() {
     private var passwordNotVisible = 0
     lateinit var mLoginEmail: TextView
     lateinit var mLoginPassword: TextView
+    lateinit var uemail: String
+    lateinit var upassword: String
+    lateinit var deviceToken: String
+    private lateinit var email: EditText
+    private lateinit var password: EditText
+
     private val PASSWORD_PATTERN =
         Pattern.compile(
             "^" +
@@ -49,8 +67,12 @@ LoginActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-        check_login=findViewById(R.id.check_login)
-        check_text_login=findViewById(R.id.check_text_login)
+
+        initializedControl()
+
+
+        check_login = findViewById(R.id.check_login)
+        check_text_login = findViewById(R.id.check_text_login)
         mEmailText = findViewById(R.id.email_text)
         mBackerror = findViewById(R.id.back_error)
         text_sign_up = findViewById(R.id.text_sign_up)
@@ -61,6 +83,8 @@ LoginActivity : AppCompatActivity() {
         merror = findViewById(R.id.text_error)
         mLayout_Login = findViewById(R.id.layout_login)
         eyeImg = findViewById(R.id.eye_img)
+
+
         eyeImg.setOnClickListener {
             if (passwordNotVisible == 0) {
                 mPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
@@ -88,28 +112,28 @@ LoginActivity : AppCompatActivity() {
         }
         mLayout_Login.setOnClickListener {
 
-            var email = mEmailText.text.toString().trim()
-            var password = mPassword.text.toString().trim()
+            uemail = mEmailText.text.toString().trim()
+            upassword = mPassword.text.toString().trim()
 
-            if(Validations.Email(email, mLoginEmail)&&Validations.PasswordLogin(
-                    password,
+            if (Validations.Email(uemail, mLoginEmail) && Validations.PasswordLogin(
+                    upassword,
                     mLoginPassword
-                )==true  ){
-
-                var intent = Intent(applicationContext, MainActivity::class.java)
-
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-                this.finish()
-
-                startActivity(intent)
-
-                LoginFlag.setLoginFlag( true)
+                ) == true
+            ) {
+                LogIn()
+//                var intent = Intent(applicationContext, MainActivity::class.java)
+//
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
+//                this.finish()
+//
+//                startActivity(intent)
+//
+//                LoginFlag.setLoginFlag( true)
 
 
             }
-
 
 
         }
@@ -198,7 +222,76 @@ LoginActivity : AppCompatActivity() {
 ////         }
 //    }
     }
-    fun checkboxCheck():Boolean{
+
+    private fun initializedControl() {
+        deviceToken =
+            Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+//        if (SavedPrefManager.getStringPreferences(
+//                this,
+//                savedPrefManager.KEY_IS_LOGIN
+//            )!! == "false"
+//        ) {
+//            email.setText(SavedPrefManager.getStringPreferences(this, savedPrefManager.EMAIL))
+//            password.setText(SavedPrefManager.getStringPreferences(this, savedPrefManager.PASSWORD))
+//        }
+    }
+
+    private fun LogIn() {
+        if (androidextention.isOnline(this)) {
+            androidextention.showProgressDialog(this)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(this, "LoginApi", mContext)
+            val apiRequest = Api_Request()
+            apiRequest.email = uemail
+            apiRequest.password = upassword
+            apiRequest.deviceToken = deviceToken
+//            savedPrefManager.saveStringPreferences(
+//                this,
+//                savedPrefManager.PASSWORD,
+//                apiRequest.password
+//            )
+
+            try {
+                serviceManager.LoginUser(callBack, apiRequest)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+
+            diasplay_toast("Check Your Internet Connection")
+        }
+    }
+
+    override fun onApiSuccess(response: Responce, apiName: String?) {
+        if (response.responseCode == "200") {
+            Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+
+//            var intent = Intent(applicationContext, MainActivity::class.java)
+//
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
+//            this.finish()
+//
+//            startActivity(intent)
+//
+//            LoginFlag.setLoginFlag(true)
+        }
+    }
+
+    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        Toast.makeText(this, "failure", Toast.LENGTH_LONG).show()
+
+    }
+
+
+    fun checkboxCheck(): Boolean {
         if (!check_login.isChecked) {
             check_text_login.setText("*Accepting checkbox is necessary")
             check_text_login.visibility = View.VISIBLE

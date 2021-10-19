@@ -1,6 +1,7 @@
 package com.example.myapplication.entity
 
 import android.content.Context
+import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.R
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.extension.androidextention
@@ -12,7 +13,7 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class ApiCallBack<T>(var apiListener: ApiResponseListener<T>?,var apiName: String,var mContext: Context) : Callback<T> {
+class ApiCallBack<T>(var apiListener:ApiResponseListener<T>?,var apiName: String,var mContext: Context) : Callback<T> {
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
 
