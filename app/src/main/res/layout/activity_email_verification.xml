@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:text="Email Varification"
             android:fontFamily="@font/opensans_semibold"
+            android:text="Email Verification"
 
             android:textColor="@color/black"
             android:textSize="25sp"
@@ -31,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/opensans_semibold"
             android:text="Enter the OTP to the provided email address."
             android:textColor="@color/darkgrey"
-            android:fontFamily="@font/opensans_semibold"
 
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -42,10 +42,10 @@
             android:id="@+id/backgroundd_error"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:visibility="gone"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
+            android:visibility="gone"
 
             >
 
@@ -54,12 +54,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text=""
                 android:textColor="@color/red"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/opensans_regular"
+                android:textStyle="normal" />
 
         </RelativeLayout>
 
@@ -67,95 +67,124 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            >
+            android:weightSum="4">
 
             <RelativeLayout
-                android:layout_width="60dp"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/background_edit_text">
 
                 <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:maxLength="1"
-                    android:hint="*"
                     android:id="@+id/et_1"
-                    android:background="@null"
-                    android:inputType="number"
-                    android:textSize="18sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/background_edit_text">
-
-                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@null"
                     android:hint="*"
+                    android:padding="10dp"
+                    android:inputType="number"
                     android:maxLength="1"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_edit_text">
+
+                <EditText
                     android:id="@+id/et_2"
-                    android:inputType="number"
-                    android:textSize="18sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/background_edit_text">
-
-                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@null"
+                    android:hint="*"
+                    android:padding="10dp"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_edit_text">
+
+                <EditText
                     android:id="@+id/et_3"
-                    android:hint="*"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:textSize="18sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/background_edit_text">
-
-                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@null"
                     android:hint="*"
-                    android:maxLength="1"
-                    android:id="@+id/et_4"
+                    android:padding="10dp"
                     android:inputType="number"
+                    android:maxLength="1"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_edit_text">
+
+                <EditText
+                    android:id="@+id/et_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:hint="*"
+                    android:padding="10dp"
+                    android:inputType="number"
+                    android:maxLength="1"
                     android:textSize="18sp" />
             </RelativeLayout>
 
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/otp"
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+
+            android:fontFamily="@font/opensans_regular"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            android:textSize="10sp"
+            android:textStyle="normal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/opensans_semibold"
+            android:id="@+id/timer_text"
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
+            android:fontFamily="@font/opensans_semibold"
             android:text="If you don't receive OTP."
             android:textColor="@color/black"
-            android:fontFamily="@font/opensans_semibold"
             android:textSize="12sp"
             android:textStyle="bold" />
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp">
@@ -164,38 +193,47 @@
                 android:id="@+id/text_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" Resend OTP"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/opensans_semibold"
+                android:text=" Resend OTP  "
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:fontFamily="@font/opensans_semibold"
                 android:textStyle="italic|bold" />
 
             <LinearLayout
-                android:layout_width="90dp"
+                android:layout_width="95dp"
+
                 android:layout_height="1dp"
+                android:layout_centerHorizontal="true"
                 android:layout_below="@id/text_login"
                 android:background="@color/darkgrey" />
         </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingTop="70dp"
+            android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/layout_submit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="70dp"
+            android:background="@drawable/rectangle_background_button">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:text="SUBMIT"
+                android:textColor="@color/white"
+                android:textSize="17.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/layout_submit"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/rectangle_background_button">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
-            android:text="SUBMIT"
-            android:textColor="@color/white"
-            android:textSize="17.5sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
 
 </RelativeLayout>

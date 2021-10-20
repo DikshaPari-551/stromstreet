@@ -45,8 +45,9 @@
 
                     <ImageView
                         android:id="@+id/like_post"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center_horizontal"
                         android:src="@drawable/heart" />
 
                     <TextView
@@ -75,8 +76,9 @@
 
                 <ImageView
                     android:id="@+id/comment"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/message_icon" />
 
                 <TextView
@@ -103,8 +105,9 @@
 
                 <ImageView
                     android:id="@+id/share_post"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/forward_erro_icon" />
 
                 <TextView
@@ -131,8 +134,9 @@
 
                 <ImageView
                     android:id="@+id/saved_post"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/tag_icon_white" />
             </LinearLayout>
 
@@ -149,8 +153,9 @@
 
                 <ImageView
                     android:id="@+id/notify_post"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/alert_icon_white" />
             </LinearLayout>
 

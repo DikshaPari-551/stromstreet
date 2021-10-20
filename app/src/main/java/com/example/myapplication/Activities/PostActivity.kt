@@ -12,6 +12,7 @@ import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.util.SavedPrefManager
 
 class PostActivity : AppCompatActivity() {
 
@@ -88,7 +89,7 @@ class PostActivity : AppCompatActivity() {
         }
 
         sharePost.setOnClickListener {
-            if (loginFlag == true) {
+            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
                 val i = Intent(Intent.ACTION_SEND)
                 i.setType("text/plain")
                 var shareBody: String = "Share Body"

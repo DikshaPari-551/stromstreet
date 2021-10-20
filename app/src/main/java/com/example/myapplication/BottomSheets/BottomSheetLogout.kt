@@ -1,7 +1,9 @@
 package com.example.myapplication.BottomSheets
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +21,7 @@ class BottomSheetLogout : BottomSheetDialogFragment() {
     private val pickImage = 100
     lateinit var cancel_logout: TextView
     lateinit var logout: TextView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +40,8 @@ class BottomSheetLogout : BottomSheetDialogFragment() {
                 LoginActivity::class.java)
             startActivity(intent)
             MainActivity().finish()
+            (context as Activity).finishAffinity()
+
         }
         cancel_logout.setOnClickListener {
            dismiss()

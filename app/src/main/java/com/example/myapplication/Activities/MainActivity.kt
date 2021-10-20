@@ -13,6 +13,7 @@ import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.Fragments.HomeFragment
 import com.example.myapplication.Fragments.ProfileFragment
 import com.example.myapplication.Fragments.TrendingFragment
+import com.example.myapplication.util.SavedPrefManager
 import java.io.*
 
 
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
         }
         add.setOnClickListener{
-            if (loginFlag == true) {
+            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
                 var bottomsheet = bottomSheetDialog()
                 bottomsheet.show(supportFragmentManager, "bottomsheet")
                 profile.setColorFilter(resources.getColor(R.color.grey))
@@ -98,7 +99,9 @@ class MainActivity : AppCompatActivity() {
         bubble.setColorFilter(resources.getColor(R.color.grey))
 
         bubble.setOnClickListener{
-            if (loginFlag == true) {
+            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+
+
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.white))
@@ -114,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         profile.setColorFilter(resources.getColor(R.color.grey))
 
         profile.setOnClickListener{
-            if (loginFlag == true) {
+            if(  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
                 profile.setColorFilter(resources.getColor(R.color.white))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.grey))

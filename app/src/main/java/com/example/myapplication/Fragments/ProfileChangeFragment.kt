@@ -50,6 +50,11 @@ class ProfileChangeFragment : Fragment() {
         }
 
         layoutButoonSaveChanges=v.findViewById(R.id.layout_butoon_svae_changes)
+
+
+        layoutButoonSaveChanges.setOnClickListener{
+
+        }
         cameraProfileimg = v.findViewById(R.id.img_camera_profile)
         cameraProfileimg.setOnClickListener {
             var bottomsheet =
@@ -67,19 +72,23 @@ class ProfileChangeFragment : Fragment() {
     fun CheckValidations() {
         var fullName = fullNameProfileEt.text.toString()
         var userName= usernameProfileEt.text.toString()
-        var email = emailProfileEt.text.toString()
+        var email = emailProfileEt.text.toString().trim()
         var phoneNumber=phoneNumberProfileEt.text.toString()
 
-        Validations.required(fullName, nameProfileText)
-        Validations.required(
-            userName,
-            usernameProfileText
-        )
-        Validations.Email(email, emailProfileText)
+      if(  Validations.required(fullName, nameProfileText)&&
+        Validations.required(userName,usernameProfileText
+        )&&
+        Validations.Email(email, emailProfileText)&&
         Validations.CheckPhoneNumber(
             phoneNumber,
             phoneNumberProfiletext
-        )
+        )){
+          getFragmentManager()?.beginTransaction()?.replace(
+              R.id.linear_layout,
+              EditProfileFragment()
+          )
+              ?.commit()
+      }
     }
 
 }

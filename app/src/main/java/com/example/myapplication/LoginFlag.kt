@@ -2,9 +2,9 @@ package com.example.myapplication
 
 object LoginFlag {
 
-    private var loginFlag: Boolean = false
+    private var loginFlag: Boolean =false
 
-    fun setLoginFlag(flag : Boolean) {
+    fun setLoginFlag(flag: Boolean) {
         loginFlag = flag
     }
 

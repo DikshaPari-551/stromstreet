@@ -69,7 +69,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_marginTop="18dp"
         android:background="@drawable/background_edit_text">
 
@@ -80,26 +80,28 @@
             android:layout_marginLeft="12dp"
             android:id="@+id/email_text"
             android:singleLine="true"
+            android:inputType="textEmailAddress"
             android:background="@null"
             android:layout_marginRight="40dp"
-            android:hint="Enter Email ID/Phone Number"
+            android:hint="Enter email address/phone number"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
-            android:textSize="10sp" />
+            android:textSize="15sp" />
     </LinearLayout>
         <TextView
             android:id="@+id/username_login_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
+            android:fontFamily="@font/opensans_regular"
             android:text=""
             android:visibility="gone"
             android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="10sp"
+            android:textStyle="normal" />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
         android:background="@drawable/background_edit_text">
@@ -115,10 +117,10 @@
             android:id="@+id/password_text"
             android:inputType="textPassword"
             android:layout_marginRight="40dp"
-            android:hint="Enter Password"
+            android:hint="Enter password"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
-            android:textSize="10sp" />
+            android:textSize="15sp" />
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -134,11 +136,13 @@
             android:id="@+id/password_login_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginLeft="12dp"
+            android:visibility="gone"
             android:text=""
             android:textColor="@color/red"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="10sp"
+            android:textStyle="normal" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -146,10 +150,10 @@
         android:orientation="horizontal">
 
         <CheckBox
+            android:id="@+id/check_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:theme="@style/BrandedCheckBox"
 
             />
 
@@ -182,13 +186,24 @@
 
         </LinearLayout>
     </LinearLayout>
+        <TextView
+            android:id="@+id/check_text_login"
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text=""
+            android:fontFamily="@font/opensans_regular"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            android:textSize="10sp"
+            android:textStyle="normal" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="61.8dp"
-        android:layout_marginTop="36.3dp"
         android:id="@+id/layout_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30.3dp"
         android:background="@drawable/rectangle_background_button">
 
         <TextView
@@ -207,7 +222,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 

@@ -96,7 +96,7 @@ class AddPostFragment : Fragment() {
         spin = view.findViewById(R.id.spinner2)
 
         val objects = arrayOf<String?>(
-            "Choose category", "Video", "Photo", "Video", "Photo"
+            "Choose category","Weather","Crime","Traffic","WTF?","Aliens?"
         )
 
         val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
