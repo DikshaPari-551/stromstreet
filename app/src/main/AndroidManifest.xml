@@ -29,7 +29,6 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MyApplication">
-
         <activity android:name=".Activities.PostActivity3" />
         <activity android:name=".Activities.PostActivity2" />
         <activity android:name=".Activities.PostActivity" />

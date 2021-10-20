@@ -33,6 +33,7 @@ data class Result(
     @SerializedName("userName") val userName: String,
     @SerializedName("deviceType") val deviceType: String,
     @SerializedName("deviceToken") val deviceToken: String,
+    @SerializedName("profilePic") val profilePic: String,
     @SerializedName("socialLinks") var socialLinks: SocialLinks,
     @SerializedName("otp") val otp: Int,
     @SerializedName("otpTime") val otpTime: Long,
@@ -43,7 +44,8 @@ data class Result(
     @SerializedName("responseCode") val responseCode: Int,
     @SerializedName("__v") val __v: Int,
     @SerializedName("isReset") val isReset: Boolean,
-    @SerializedName("token") val token: String
+    @SerializedName("token") val token: String,
+    @SerializedName("bio") val bio: String
 )
 
 data class OtpResult(

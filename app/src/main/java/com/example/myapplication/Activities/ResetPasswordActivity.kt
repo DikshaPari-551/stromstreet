@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
@@ -18,6 +19,7 @@ import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 import org.w3c.dom.Text
@@ -114,7 +116,6 @@ class ResetPasswordActivity : AppCompatActivity(), ApiResponseListener<Responce>
             } else {
                 resetPasswordErrText.setText("")
                 reEnterPassword.setText("")
-
                 resetPasswordErrText.visibility = View.GONE
                 reEnterPassword.visibility = View.GONE
                 resetPassword()
@@ -125,10 +126,11 @@ class ResetPasswordActivity : AppCompatActivity(), ApiResponseListener<Responce>
     }
 
     private fun resetPassword() {
+        androidextention.showProgressDialog(this)
         val serviceManager = ServiceManager(mContext)
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-        val Token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmViNjlkZDg1ZGY5MmU0N2U5NmEzMyIsImVtYWlsIjoia2FyYW5AZ21haWwuY29tIiwidXNlclR5cGUiOiJVc2VyIiwiaWF0IjoxNjM0NjQ1Njg2LCJleHAiOjE2MzQ3MzIwODZ9.kUhrRRDpH7f6_0hCSp0CScdi1Ye98FUZHovETyTfgmM"
+        var token: String =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmViNDcwZDg1ZGY5MmU0N2U5NmEyNiIsImVtYWlsIjoiYWpheUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ3MTMzODcsImV4cCI6MTYzNDc5OTc4N30.A2DKYuca6WEGtpq7EIJS6knyjTvIEZkhr4MTcLEeXmg"
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(this, "ResetPassword", mContext)
         val apiRequest = Api_Request()
@@ -137,17 +139,20 @@ class ResetPasswordActivity : AppCompatActivity(), ApiResponseListener<Responce>
 //        apiRequest.confirm_password = resetConfirmPassword.getText().toString().trim()
 
         try {
-            serviceManager.reset(callBack, apiRequest, Token)
+            serviceManager.reset(callBack, apiRequest, token)
+            Log.d("token", token)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
-        val i = Intent(this, LoginActivity::class.java)
-        startActivity(i)
-
+        if (response.responseCode == "200") {
+            androidextention.disMissProgressDialog(this)
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
+            val i = Intent(this, LoginActivity::class.java)
+            startActivity(i)
+        }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {

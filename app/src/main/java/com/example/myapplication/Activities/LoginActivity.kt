@@ -246,12 +246,8 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             val apiRequest = Api_Request()
             apiRequest.email = uemail
             apiRequest.password = upassword
+            apiRequest.deviceType = "android"
             apiRequest.deviceToken = deviceToken
-//            savedPrefManager.saveStringPreferences(
-//                this,
-//                savedPrefManager.PASSWORD,
-//                apiRequest.password
-//            )
 
             try {
                 serviceManager.LoginUser(callBack, apiRequest)
@@ -282,7 +278,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "error" + response, Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {

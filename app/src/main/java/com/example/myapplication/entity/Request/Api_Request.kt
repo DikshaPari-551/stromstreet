@@ -9,10 +9,10 @@ class Api_Request {
     var fullName: String? = null
 
     @SerializedName("countryCode")
-    val countryCode: String? = null
+    var countryCode: String? = null
 
     @SerializedName("phoneNumber")
-    val phoneNumber: String? = null
+    var phoneNumber: String? = null
 
     @SerializedName("email")
     var email: String? = null
@@ -30,7 +30,7 @@ class Api_Request {
     var userName: String? = null
 
     @SerializedName("bio")
-    val bio: String? = null
+    var bio: String? = null
 
     @SerializedName("deviceType")
     var deviceType: String? = null
@@ -38,8 +38,12 @@ class Api_Request {
     @SerializedName("deviceToken")
     var deviceToken: String? = null
 
+    @SerializedName("lastName")
+    var lastName: String? = null
+
+
     @SerializedName("socialLinks")
-    lateinit var socialLinks: SocialLinks
+    var socialLinks: SocialLinks? = null
 
     @SerializedName("otp")
     @Expose
@@ -49,13 +53,13 @@ class Api_Request {
 class SocialLinks {
 
     @SerializedName("facebook")
-    val facebook: String? = null
+    var facebook: String? = null
     @SerializedName("twitter")
-    val twitter: String? = null
+    var twitter: String? = null
     @SerializedName("instagram")
-    val instagram: String? = null
+    var instagram: String? = null
     @SerializedName("youtube")
-    val youtube: String? = null
+    var youtube: String? = null
 
 
 //    @SerializedName("fname")
