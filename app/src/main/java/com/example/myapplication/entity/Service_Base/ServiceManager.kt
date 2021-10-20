@@ -65,6 +65,13 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
     }
 
+    fun getFollowing(callBack: ApiCallBack<Responce>, token : String, userId : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingUser(token,userId) }!!.enqueue(callBack)
+    }
+
+    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
+    }
 
 //    fun googleSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
 //        mContext?.let { Remotedatasource.current(it, false)!!.googleSignUp(jsonObject) }!!

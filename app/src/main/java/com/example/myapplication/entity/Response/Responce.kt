@@ -44,6 +44,8 @@ data class Result(
     @SerializedName("__v") val __v: Int,
     @SerializedName("isReset") val isReset: Boolean,
     @SerializedName("token") val token: String,
+    @SerializedName("userId") val userId: String,
+    @SerializedName("followerId") val followerId: String,
     @SerializedName("userResult") val userResult : UserResult,
     @SerializedName("followerCount") val followerCount : Int,
     @SerializedName("followingCount") val followingCount : Int

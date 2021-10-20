@@ -36,6 +36,12 @@ interface Api_interface
     @GET("user/getProfile")
     fun getUserProfile(@Header("token")value: String): Call<Responce>?
 
+    @GET("user/followerList")
+    fun followerUser(@Header("token")value: String): Call<Responce>?
+
+    @GET("user/followerList")
+    fun followingUser(@Header("token")value: String, @Query("userId")userId : String): Call<Responce>?
+
 //    @POST("user/forgotPassword")
 //    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
 //

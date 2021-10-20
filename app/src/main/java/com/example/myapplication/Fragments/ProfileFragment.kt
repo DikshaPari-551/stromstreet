@@ -1,12 +1,16 @@
 package com.example.myapplication.Fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.example.myapplication.Activities.EmailVerificationActivity
+import com.example.myapplication.Activities.Followers
+import com.example.myapplication.Activities.Following
 import com.example.myapplication.R
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Response.Responce
@@ -21,6 +25,8 @@ import java.lang.Exception
 class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
     lateinit var tag:ImageView
     lateinit var back_tab1:LinearLayout
+    lateinit var totalfollower:LinearLayout
+    lateinit var totalfollowing:LinearLayout
     lateinit var backButton:ImageView
     lateinit var mContext :Context
 
@@ -43,6 +49,8 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
         profileApi()
         tag=v.findViewById(R.id.tag)
         back_tab1=v.findViewById(R.id.back_tab1)
+        totalfollower=v.findViewById(R.id.totalfollower)
+        totalfollowing=v.findViewById(R.id.totalfollowing)
         buttonProfileDetail=v.findViewById(R.id.button_profile_detail)
         buttonProfileDetail.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
@@ -101,6 +109,16 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
                 SeconddFragment()
             )
                 ?.commit()
+        }
+
+        totalfollower.setOnClickListener{
+            var intent = Intent(activity, Followers::class.java)
+            startActivity(intent)
+        }
+
+        following.setOnClickListener{
+            var intent = Intent(activity, Following::class.java)
+            startActivity(intent)
         }
 //        tab_layout=v.findViewById(R.id.tab_layout)
 //        viewPager=v.findViewById(R.id.viewPager)

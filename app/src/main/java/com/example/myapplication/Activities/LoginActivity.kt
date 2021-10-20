@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.Activities.EmailVerificationActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.ValidationExt.Validations
@@ -268,7 +269,16 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     override fun onApiSuccess(response: Responce, apiName: String?) {
         if (response.responseCode == "200") {
             Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
-
+            if (response.result.otpVerification == false)
+            {
+                var intent = Intent(applicationContext, EmailVerificationActivity::class.java)
+                startActivity(intent)
+            }
+            else if (response.result.otpVerification == true)
+            {
+                var intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent)
+            }
 //            var intent = Intent(applicationContext, MainActivity::class.java)
 //
 //            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
