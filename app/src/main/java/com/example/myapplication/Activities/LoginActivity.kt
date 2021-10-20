@@ -11,7 +11,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.Activities.EmailVerificationActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.ValidationExt.Validations
@@ -247,7 +246,6 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             val apiRequest = Api_Request()
             apiRequest.email = uemail
             apiRequest.password = upassword
-            apiRequest.deviceType = "Android"
             apiRequest.deviceToken = deviceToken
 //            savedPrefManager.saveStringPreferences(
 //                this,

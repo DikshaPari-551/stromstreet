@@ -68,7 +68,6 @@ data class UserResult (
     @SerializedName("email") val email : String,
     @SerializedName("password") val password : String,
     @SerializedName("userName") val userName : String,
-    @SerializedName("bio") val bio : String,
     @SerializedName("deviceType") val deviceType : String,
     @SerializedName("deviceToken") val deviceToken : String,
     @SerializedName("profilePic") val profilePic : String,
@@ -77,7 +76,9 @@ data class UserResult (
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
     @SerializedName("__v") val __v : Int,
-    @SerializedName("isReset") val isReset : Boolean
+    @SerializedName("isReset") val isReset : Boolean,
+    @SerializedName("token") val token: String,
+    @SerializedName("bio") val bio: String
 )
 
 data class OtpResult(

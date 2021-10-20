@@ -41,8 +41,8 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, false)!!.verifyOtp(jsonObject) }!!.enqueue(callBack)
     }
 
-    fun reset(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, value : String) {
-        mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(value,jsonObject) }!!
+    fun reset(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, token : String) {
+        mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(token,jsonObject) }!!
             .enqueue(callBack)
 
     }
@@ -53,6 +53,18 @@ class ServiceManager(var mContext: Context?) {
 //        fun forget(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?,Header : String) {
 //            mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(Header,jsonObject) }!!
 //                .enqueue(callBack)
+
+    }
+
+    fun getUserDetails(callBack: ApiCallBack<Responce>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getProfile() }!!
+            .enqueue(callBack)
+
+    }
+
+    fun updateUserDetails(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.userDetails(jsonObject) }!!
+            .enqueue(callBack)
 
     }
 //

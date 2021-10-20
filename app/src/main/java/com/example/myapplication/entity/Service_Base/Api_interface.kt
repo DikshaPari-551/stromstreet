@@ -19,7 +19,7 @@ interface Api_interface
     fun getRegisterApi(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/login")
-    fun getloginApi(@Body apiRequest: Api_Request?): Call<Responce>?
+    fun getloginApi(@Header("Content-Type") value : String, @Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/resendOTP")
     fun getotp(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -27,8 +27,8 @@ interface Api_interface
     @POST("user/verifyOTP")
     fun verifyOtp(@Body apiRequest: Api_Request?): Call<Responce>?
 
-    @POST("user/resetPassword/{value}")
-    fun resetPassword(@Path("token") value: String, @Body apiRequest: Api_Request?): Call<Responce>?
+    @POST("user/resetPassword/{token}")
+    fun resetPassword(@Path("token") token: String, @Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/forgotPassword")
     fun forgetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -44,11 +44,18 @@ interface Api_interface
 
 //    @POST("user/forgotPassword")
 //    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
+
+    @POST("user/editProfile")
+    fun userDetails(@Body apiRequest: Api_Request?): Call<Responce>?
+
+    @GET("user/getProfile")
+    fun getProfile(): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?
 //
-
+//    @GET("profile")
+//     fun getUserProfile(): Call<Responce>?
 //
 //    @GET("website")
 //    fun getWebsite(): Call<Responce>?

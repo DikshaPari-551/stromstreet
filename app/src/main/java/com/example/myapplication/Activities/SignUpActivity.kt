@@ -84,7 +84,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         confirmPasswordEt = findViewById(R.id.confirmpassword_sign_et)
 
         camera.setOnClickListener {
-            var bottomsheet = bottomSheetDialog()
+            var bottomsheet = bottomSheetDialog("signup")
             bottomsheet.show(supportFragmentManager, "bottomsheet")
         }
         login.setOnClickListener {
