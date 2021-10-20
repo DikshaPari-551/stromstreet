@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
+import com.google.gson.JsonObject
 
 
 class ServiceManager(var mContext: Context?) {
@@ -28,7 +29,7 @@ class ServiceManager(var mContext: Context?) {
     }
 
     fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi("application/json",jsonObject) }!!.enqueue(callBack)
+        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(jsonObject) }!!.enqueue(callBack)
 
     }
 
@@ -48,6 +49,10 @@ class ServiceManager(var mContext: Context?) {
     fun forget(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
         mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(jsonObject) }!!
             .enqueue(callBack)
+
+//        fun forget(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?,Header : String) {
+//            mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(Header,jsonObject) }!!
+//                .enqueue(callBack)
 
     }
 //

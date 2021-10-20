@@ -28,7 +28,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.MyApplication">
+        android:theme="@style/Theme.MyApplication"
+        android:networkSecurityConfig="@xml/network_config">
 
         <activity android:name=".Activities.PostActivity3" />
         <activity android:name=".Activities.PostActivity2" />

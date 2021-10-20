@@ -19,7 +19,7 @@ interface Api_interface
     fun getRegisterApi(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/login")
-    fun getloginApi(@Header("Content-Type") value : String, @Body apiRequest: Api_Request?): Call<Responce>?
+    fun getloginApi(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/resendOTP")
     fun getotp(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -32,6 +32,9 @@ interface Api_interface
 
     @POST("user/forgotPassword")
     fun forgetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
+
+//    @POST("user/forgotPassword")
+//    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?

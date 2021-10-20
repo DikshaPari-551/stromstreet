@@ -11,10 +11,7 @@ class TokenInterceptor(var mContext: Context?) : Interceptor {
         //rewrite the request to add bearer token
         //rewrite the request to add bearer token
         val newRequest: Request = chain.request().newBuilder()
-            .header("Authorization", "Bearer "+
-                    SavedPrefManager.getStringPreferences(
-                mContext, SavedPrefManager.AUTH_TOKEN)
-            )
+            .header("accept", "application/json")
             .build()
 
         return chain.proceed(newRequest)
