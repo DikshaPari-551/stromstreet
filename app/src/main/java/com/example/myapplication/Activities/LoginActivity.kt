@@ -22,7 +22,6 @@ import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
-import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import java.lang.Exception
 import java.util.regex.Pattern
@@ -121,17 +120,17 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     mLoginPassword
                 ) == true
             ) {
-                LogIn()
-//                var intent = Intent(applicationContext, MainActivity::class.java)
-//
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-//                this.finish()
-//
-//                startActivity(intent)
-//
-//                LoginFlag.setLoginFlag( true)
+//                LogIn()
+                var intent = Intent(applicationContext, MainActivity::class.java)
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
+                this.finish()
+
+                startActivity(intent)
+
+                LoginFlag.setLoginFlag( true)
 
 
             }
@@ -247,6 +246,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             val apiRequest = Api_Request()
             apiRequest.email = uemail
             apiRequest.password = upassword
+            apiRequest.deviceType = "Android"
             apiRequest.deviceToken = deviceToken
 //            savedPrefManager.saveStringPreferences(
 //                this,

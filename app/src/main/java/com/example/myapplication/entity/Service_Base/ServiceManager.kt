@@ -60,11 +60,12 @@ class ServiceManager(var mContext: Context?) {
 //        mContext?.let { Remotedatasource.current(it,true)!!.update(jsonObject) }!!.enqueue(callBack)
 //
 //    }
-//
-//    fun getProfile(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile() }!!.enqueue(callBack)
-//
-//    }
+
+    fun getProfile(callBack: ApiCallBack<Responce>, token : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
+    }
+
+
 //    fun googleSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
 //        mContext?.let { Remotedatasource.current(it, false)!!.googleSignUp(jsonObject) }!!
 //            .enqueue(callBack)

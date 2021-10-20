@@ -33,14 +33,16 @@ interface Api_interface
     @POST("user/forgotPassword")
     fun forgetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
 
+    @GET("user/getProfile")
+    fun getUserProfile(@Header("token")value: String): Call<Responce>?
+
 //    @POST("user/forgotPassword")
 //    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?
 //
-//    @GET("profile")
-//     fun getUserProfile(): Call<Responce>?
+
 //
 //    @GET("website")
 //    fun getWebsite(): Call<Responce>?
