@@ -27,17 +27,23 @@ interface Api_interface
     @POST("user/verifyOTP")
     fun verifyOtp(@Body apiRequest: Api_Request?): Call<Responce>?
 
-    @POST("user/resetPassword/{token}")
-    fun resetPassword(@Path("token") token: String, @Body apiRequest: Api_Request?): Call<Responce>?
+    @POST("user/resetPassword/{value}")
+    fun resetPassword(@Path("token") value: String, @Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/forgotPassword")
     fun forgetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
 
-    @POST("user/editProfile")
-    fun userDetails(@Body apiRequest: Api_Request?): Call<Responce>?
-
     @GET("user/getProfile")
-    fun getProfile(): Call<Responce>?
+    fun getUserProfile(@Header("token")value: String): Call<Responce>?
+
+    @GET("user/followerList")
+    fun followerUser(@Header("token")value: String): Call<Responce>?
+
+    @GET("user/followerList")
+    fun followingUser(@Header("token")value: String, @Query("userId")userId : String): Call<Responce>?
+
+//    @POST("user/forgotPassword")
+//    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?

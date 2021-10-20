@@ -101,6 +101,7 @@
                                     android:orientation="vertical">
 
                                     <TextView
+                                        android:id="@+id/name"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
@@ -112,6 +113,7 @@
                                         android:textStyle="bold" />
 
                                     <TextView
+                                        android:id="@+id/username"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/opensans_semibold"
@@ -172,6 +174,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/phone_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
@@ -199,6 +202,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/email_id"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
@@ -226,6 +230,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/bio"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"

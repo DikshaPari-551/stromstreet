@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
-
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -25,50 +23,34 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Strom street"
+        android:networkSecurityConfig="@xml/network_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.MyApplication">
+        android:theme="@style/Theme.MyApplication"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activities.Following"></activity>
+        <activity android:name=".Activities.Followers" />
         <activity android:name=".Activities.PostActivity3" />
         <activity android:name=".Activities.PostActivity2" />
         <activity android:name=".Activities.PostActivity" />
-        <activity android:name=".Activities.ChatActivity"
-
-            >
-
-        </activity>
-        <activity android:name=".Activities.ResetPasswordActivity" >
-
-        </activity>
+        <activity android:name=".Activities.ChatActivity" />
+        <activity android:name=".Activities.ResetPasswordActivity" />
         <activity android:name=".Activities.ForgotPasswordActivity" />
-        <activity android:name=".Activities.EmailVerificationActivity">
-
-        </activity>
-            <activity
-                android:name=".MainActivity"
-                android:windowSoftInputMode="adjustPan" >
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN" />
-
-                    <category android:name="android.intent.category.LAUNCHER" />
-                </intent-filter>
-            </activity>
-
+        <activity android:name=".Activities.EmailVerificationActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".LoginActivity" >
-
-        </activity>
+        <activity android:name=".LoginActivity" />
         <activity
             android:name=".Activities.SplashActivity"
             android:screenOrientation="portrait">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

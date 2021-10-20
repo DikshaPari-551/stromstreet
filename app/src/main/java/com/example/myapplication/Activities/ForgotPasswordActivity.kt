@@ -82,7 +82,8 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
             serviceManager.forget(callBack, apiRequest)
         } catch (e: Exception) {
             e.printStackTrace()
-        }    }
+        }
+    }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
         Toast.makeText(this, "Success"+response.result.otp, Toast.LENGTH_LONG).show()

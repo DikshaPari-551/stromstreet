@@ -15,6 +15,7 @@ import android.net.NetworkInfo
 import android.net.ConnectivityManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.myapplication.Fragments.ProfileFragment
 import java.util.*
 
 
@@ -87,8 +88,8 @@ object androidextention {
         val netInfo = conMgr.activeNetworkInfo
         return !(netInfo == null || !netInfo.isConnected || !netInfo.isAvailable)
     }
-    
-    
+
+
     fun getCurrentTime(): Date {
 
         val currentTime = Calendar.getInstance().time

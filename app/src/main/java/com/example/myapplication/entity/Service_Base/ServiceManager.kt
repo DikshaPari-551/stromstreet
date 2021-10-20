@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
+import com.google.gson.JsonObject
 
 
 class ServiceManager(var mContext: Context?) {
@@ -28,7 +29,7 @@ class ServiceManager(var mContext: Context?) {
     }
 
     fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi("application/json",jsonObject) }!!.enqueue(callBack)
+        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(jsonObject) }!!.enqueue(callBack)
 
     }
 
@@ -49,6 +50,10 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(jsonObject) }!!
             .enqueue(callBack)
 
+//        fun forget(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?,Header : String) {
+//            mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(Header,jsonObject) }!!
+//                .enqueue(callBack)
+
     }
 
     fun getUserDetails(callBack: ApiCallBack<Responce>) {
@@ -67,11 +72,19 @@ class ServiceManager(var mContext: Context?) {
 //        mContext?.let { Remotedatasource.current(it,true)!!.update(jsonObject) }!!.enqueue(callBack)
 //
 //    }
-//
-//    fun getProfile(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile() }!!.enqueue(callBack)
-//
-//    }
+
+    fun getProfile(callBack: ApiCallBack<Responce>, token : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
+    }
+
+    fun getFollowing(callBack: ApiCallBack<Responce>, token : String, userId : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingUser(token,userId) }!!.enqueue(callBack)
+    }
+
+    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
+    }
+
 //    fun googleSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
 //        mContext?.let { Remotedatasource.current(it, false)!!.googleSignUp(jsonObject) }!!
 //            .enqueue(callBack)

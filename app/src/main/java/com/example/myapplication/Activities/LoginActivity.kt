@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.Activities.EmailVerificationActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.ValidationExt.Validations
@@ -120,17 +121,17 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     mLoginPassword
                 ) == true
             ) {
-                LogIn()
-//                var intent = Intent(applicationContext, MainActivity::class.java)
-//
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-//                this.finish()
-//
-//                startActivity(intent)
-//
-//                LoginFlag.setLoginFlag( true)
+//                LogIn()
+                var intent = Intent(applicationContext, MainActivity::class.java)
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
+                this.finish()
+
+                startActivity(intent)
+
+                LoginFlag.setLoginFlag( true)
 
 
             }
@@ -246,8 +247,13 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             val apiRequest = Api_Request()
             apiRequest.email = uemail
             apiRequest.password = upassword
-            apiRequest.deviceType = "android"
+            apiRequest.deviceType = "Android"
             apiRequest.deviceToken = deviceToken
+//            savedPrefManager.saveStringPreferences(
+//                this,
+//                savedPrefManager.PASSWORD,
+//                apiRequest.password
+//            )
 
             try {
                 serviceManager.LoginUser(callBack, apiRequest)
@@ -263,7 +269,16 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     override fun onApiSuccess(response: Responce, apiName: String?) {
         if (response.responseCode == "200") {
             Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
-
+            if (response.result.otpVerification == false)
+            {
+                var intent = Intent(applicationContext, EmailVerificationActivity::class.java)
+                startActivity(intent)
+            }
+            else if (response.result.otpVerification == true)
+            {
+                var intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent)
+            }
 //            var intent = Intent(applicationContext, MainActivity::class.java)
 //
 //            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -278,7 +293,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "error" + response, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {

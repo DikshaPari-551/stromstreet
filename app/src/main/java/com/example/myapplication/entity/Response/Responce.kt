@@ -33,7 +33,6 @@ data class Result(
     @SerializedName("userName") val userName: String,
     @SerializedName("deviceType") val deviceType: String,
     @SerializedName("deviceToken") val deviceToken: String,
-    @SerializedName("profilePic") val profilePic: String,
     @SerializedName("socialLinks") var socialLinks: SocialLinks,
     @SerializedName("otp") val otp: Int,
     @SerializedName("otpTime") val otpTime: Long,
@@ -45,7 +44,41 @@ data class Result(
     @SerializedName("__v") val __v: Int,
     @SerializedName("isReset") val isReset: Boolean,
     @SerializedName("token") val token: String,
-    @SerializedName("bio") val bio: String
+    @SerializedName("bio") val bio: String,
+    @SerializedName("userId") val userId: String,
+    @SerializedName("followerId") val followerId: String,
+    @SerializedName("userResult") val userResult : UserResult,
+    @SerializedName("followerCount") val followerCount : Int,
+    @SerializedName("followingCount") val followingCount : Int
+)
+
+
+data class UserResult (
+
+    @SerializedName("socialLinks") val socialLinks : SocialLinks,
+    @SerializedName("emailType") val emailType : String,
+    @SerializedName("phoneNumberType") val phoneNumberType : String,
+    @SerializedName("userType") val userType : String,
+    @SerializedName("otpVerification") val otpVerification : Boolean,
+    @SerializedName("status") val status : String,
+    @SerializedName("profileType") val profileType : String,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("fullName") val fullName : String,
+    @SerializedName("countryCode") val countryCode : String,
+    @SerializedName("phoneNumber") val phoneNumber : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("password") val password : String,
+    @SerializedName("userName") val userName : String,
+    @SerializedName("bio") val bio : String,
+    @SerializedName("deviceType") val deviceType : String,
+    @SerializedName("deviceToken") val deviceToken : String,
+    @SerializedName("profilePic") val profilePic : String,
+    @SerializedName("otp") val otp : Int,
+    @SerializedName("otpTime") val otpTime : Long,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int,
+    @SerializedName("isReset") val isReset : Boolean
 )
 
 data class OtpResult(
