@@ -19,7 +19,13 @@ interface Api_interface
     fun getRegisterApi(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/login")
-    fun getloginApi(@Path("token") token: String,@Body apiRequest: Api_Request?): Call<Responce>?
+    fun getloginApi(@Body apiRequest: Api_Request?): Call<Responce>?
+
+//    @POST("user/login")
+//    fun getloginApi(
+//        @Header("Content-Type") value: String,
+//        @Body apiRequest: Api_Request?
+//    ): Call<Responce>?
 
     @POST("user/resendOTP")
     fun getotp(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -43,7 +49,16 @@ interface Api_interface
     fun followerUser(): Call<Responce>?
 
     @GET("user/followerList")
-    fun followingUser(@Query("userId")userId : String): Call<Responce>?
+    fun followingUser(@Query("userId") userId: String): Call<Responce>?
+
+    @POST("user/followUser")
+    fun followingUnfollow(@Query("_id") _id: String): Call<Responce>?
+
+    @GET("user/likeUnlikePost")
+    fun likeUnlike(@Query("_id") _id: String): Call<Responce>?
+
+    @POST("user/savePost")
+    fun saveUnsave(@Query("postId") postId : String): Call<Responce>?
 
 //    @POST("user/forgotPassword")
 //    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?

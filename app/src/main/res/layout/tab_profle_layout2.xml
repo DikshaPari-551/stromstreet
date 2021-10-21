@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:background="@color/edit_color"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/layout_tab1"
+        >
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/color_grid"
+            android:id="@+id/color_grid"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+
+            />
+<!--        <LinearLayout-->
+<!--            android:layout_width="180dp"-->
+<!--            android:layout_height="3dp"-->
+
+<!--            android:id="@+id/back_tab"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:background="@drawable/rectangle_tab"/>-->
+    </RelativeLayout>
+<!--    <RelativeLayout-->
+<!--        android:layout_width="200dp"-->
+<!--        android:id="@+id/layout_tab2"-->
+<!--        android:layout_height="?actionBarSize">-->
+<!--        <ImageView-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/tag"-->
+<!--            android:id="@+id/tag"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:layout_centerVertical="true"-->
+
+<!--            />-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="205dp"-->
+<!--            android:layout_height="3dp"-->
+
+<!--            android:id="@+id/back_tab1"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:background="@color/edit_color"/>-->
+<!--    </RelativeLayout>-->
+</LinearLayout>

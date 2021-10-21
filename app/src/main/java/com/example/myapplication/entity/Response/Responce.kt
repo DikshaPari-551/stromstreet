@@ -46,6 +46,7 @@ data class Result(
     @SerializedName("token") val token: String,
     @SerializedName("userId") val userId: String,
     @SerializedName("followerId") val followerId: String,
+    @SerializedName("postId") val postId: String,
     @SerializedName("userResult") val userResult : UserResult,
     @SerializedName("followerCount") val followerCount : Int,
     @SerializedName("followingCount") val followingCount : Int,
