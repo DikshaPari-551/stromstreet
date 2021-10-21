@@ -48,9 +48,31 @@ data class Result(
     @SerializedName("followerId") val followerId: String,
     @SerializedName("userResult") val userResult : UserResult,
     @SerializedName("followerCount") val followerCount : Int,
-    @SerializedName("followingCount") val followingCount : Int
+    @SerializedName("followingCount") val followingCount : Int,
+    @SerializedName("docs") val docs : List<Docs>,
+    @SerializedName("total") val total : Int,
+    @SerializedName("limit") val limit : Int,
+    @SerializedName("page") val page : Int,
+    @SerializedName("pages") val pages : Int
 )
 
+data class Docs (
+
+    @SerializedName("status") val status : String,
+    @SerializedName("request") val request : String,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("followerId") val followerId : FollowerId,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int
+)
+data class FollowerId (
+
+    @SerializedName("_id") val _id : String,
+    @SerializedName("fullName") val fullName : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("userName") val userName : String
+)
 
 data class UserResult (
 

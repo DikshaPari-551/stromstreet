@@ -4,7 +4,6 @@ import android.content.Context
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
-import com.google.gson.JsonObject
 
 
 class ServiceManager(var mContext: Context?) {
@@ -28,8 +27,8 @@ class ServiceManager(var mContext: Context?) {
 
     }
 
-    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(jsonObject) }!!.enqueue(callBack)
+    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, s: String) {
+        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(s,jsonObject) }!!.enqueue(callBack)
 
     }
 
@@ -77,14 +76,17 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
     }
 
-    fun getFollowing(callBack: ApiCallBack<Responce>, token : String, userId : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followingUser(token,userId) }!!.enqueue(callBack)
+    fun getFollowing(callBack: ApiCallBack<Responce>,  userId : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingUser(userId) }!!.enqueue(callBack)
     }
 
-    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
+    fun getFollower(callBack: ApiCallBack<Responce>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followerUser() }!!.enqueue(callBack)
     }
 
+//    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
+//        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
+//    }
 //    fun googleSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
 //        mContext?.let { Remotedatasource.current(it, false)!!.googleSignUp(jsonObject) }!!
 //            .enqueue(callBack)

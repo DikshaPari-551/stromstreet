@@ -12,6 +12,7 @@ import com.example.myapplication.Adaptor.Following_Adaptor
 import com.example.myapplication.R
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Response.Docs
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
@@ -30,10 +31,7 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce> {
         setContentView(R.layout.activity_following)
         recycler_view3=findViewById(R.id.recycler_view3)
         followingApi()
-        adaptor = this?.let { Following_Adaptor(it) }!!
-        val layoutManager = LinearLayoutManager(this)
-        recycler_view3.layoutManager = layoutManager
-        recycler_view3.adapter = adaptor
+
     }
 
     private fun followingApi() {
@@ -51,7 +49,7 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce> {
 
 
             try {
-                serviceManager.getFollowing(callBack, Token,userId)
+                serviceManager.getFollowing(callBack, userId)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -62,17 +60,28 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce> {
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(this)
 //            username.setText(response.result.userName)
+            var list = ArrayList<Docs>()
+            list.addAll(response.result.docs)
+            setAdapter(list)
 
-            Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
+
         }
-
     }
 
+
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this,"Error",Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this,"fail",Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+    }
+
+
+    fun setAdapter(list: ArrayList<Docs>) {
+        adaptor = this?.let { Following_Adaptor(it,list) }!!
+        val layoutManager = LinearLayoutManager(this)
+        recycler_view3.layoutManager = layoutManager
+        recycler_view3.adapter = adaptor
     }
 }

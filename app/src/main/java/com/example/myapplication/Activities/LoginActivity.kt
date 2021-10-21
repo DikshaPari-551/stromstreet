@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.Activities.EmailVerificationActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.ValidationExt.Validations
@@ -254,7 +255,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 //            )
 
             try {
-                serviceManager.LoginUser(callBack, apiRequest)
+                serviceManager.LoginUser(callBack, apiRequest,"application/json")
             } catch (e: Exception) {
                 e.printStackTrace()
             }
