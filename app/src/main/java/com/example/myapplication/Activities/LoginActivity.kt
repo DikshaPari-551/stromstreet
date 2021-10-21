@@ -121,17 +121,8 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     mLoginPassword
                 ) == true
             ) {
-//                LogIn()
-                var intent = Intent(applicationContext, MainActivity::class.java)
+                LogIn()
 
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-                this.finish()
-
-                startActivity(intent)
-
-                LoginFlag.setLoginFlag( true)
 
 
             }
@@ -256,7 +247,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 //            )
 
             try {
-                serviceManager.LoginUser(callBack, apiRequest)
+                serviceManager.LoginUser(callBack, apiRequest,"application/json")
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -277,7 +268,12 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             else if (response.result.otpVerification == true)
             {
                 var intent = Intent(applicationContext, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
+                this.finish()
                 startActivity(intent)
+                LoginFlag.setLoginFlag( true)
             }
 //            var intent = Intent(applicationContext, MainActivity::class.java)
 //

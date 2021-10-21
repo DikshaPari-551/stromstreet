@@ -4,7 +4,6 @@ import android.content.Context
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
-import com.google.gson.JsonObject
 
 
 class ServiceManager(var mContext: Context?) {
@@ -28,8 +27,8 @@ class ServiceManager(var mContext: Context?) {
 
     }
 
-    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(jsonObject) }!!.enqueue(callBack)
+    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, s: String) {
+        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(s,jsonObject) }!!.enqueue(callBack)
 
     }
 
@@ -67,6 +66,7 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
 
     }
+
 //
 //    fun updateprofile(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
 //        mContext?.let { Remotedatasource.current(it,true)!!.update(jsonObject) }!!.enqueue(callBack)

@@ -287,6 +287,7 @@
 
 
                         <EditText
+                            android:id="@+id/twitter_link"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -331,6 +332,7 @@
 
 
                         <EditText
+                            android:id="@+id/facebook_link"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -375,6 +377,7 @@
 
 
                         <EditText
+                            android:id="@+id/instagram_link"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -419,6 +422,7 @@
 
 
                         <EditText
+                            android:id="@+id/youtube_link"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

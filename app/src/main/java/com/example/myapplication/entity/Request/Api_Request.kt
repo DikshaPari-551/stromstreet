@@ -50,17 +50,17 @@ class Api_Request {
     var otp: Int? = null
 }
 
-class SocialLinks {
+data class SocialLinks (
 
     @SerializedName("facebook")
-    var facebook: String? = null
+    var facebook: String? = null,
     @SerializedName("twitter")
-    var twitter: String? = null
+    var twitter: String? = null,
     @SerializedName("instagram")
-    var instagram: String? = null
+    var instagram: String? = null,
     @SerializedName("youtube")
     var youtube: String? = null
-
+)
 
 //    @SerializedName("fname")
 //    @Expose
@@ -197,5 +197,5 @@ class SocialLinks {
 //    @SerializedName("date")
 //    @Expose
 //    var date:String?=null
-}
+
 
