@@ -17,6 +17,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import java.lang.Exception
@@ -35,9 +36,8 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce> {
     }
 
     private fun followingApi() {
-//        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-        val Token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmZiMTBjZTYzMjY0MjA4ZDA4MWExNSIsImVtYWlsIjoiYWpheUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ3MzQzMzMsImV4cCI6MTYzNDgyMDczM30.wjAzfZhDXGY6JfbNWG6bnSPZoXefj4jSrR6Kllf6z-U"
-        val userId ="616fa8ecf9b5c419edbabb57"
+        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
+        val userId ="617119fbd830986dd4a453a5"
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
@@ -60,8 +60,10 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce> {
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(this)
 //            username.setText(response.result.userName)
+
+
             var list = ArrayList<Docs>()
-            list.addAll(response.result.docs)
+
             setAdapter(list)
 
 

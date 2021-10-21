@@ -14,6 +14,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
 class Followers : AppCompatActivity(), ApiResponseListener<Responce> {
@@ -26,17 +27,17 @@ class Followers : AppCompatActivity(), ApiResponseListener<Responce> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_followers)
-        followingApi()
+        followerApi()
 
         recycler_view3 = findViewById(R.id.recycler_view3)
 
 
     }
 
-    private fun followingApi() {
-//        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-        val Token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmZiMTBjZTYzMjY0MjA4ZDA4MWExNSIsImVtYWlsIjoiYWpheUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ3MzQzMzMsImV4cCI6MTYzNDgyMDczM30.wjAzfZhDXGY6JfbNWG6bnSPZoXefj4jSrR6Kllf6z-U"
+    private fun followerApi() {
+        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
+//        val Token =
+//            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmZiMTBjZTYzMjY0MjA4ZDA4MWExNSIsImVtYWlsIjoiYWpheUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ3MzQzMzMsImV4cCI6MTYzNDgyMDczM30.wjAzfZhDXGY6JfbNWG6bnSPZoXefj4jSrR6Kllf6z-U"
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)

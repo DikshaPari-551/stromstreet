@@ -27,10 +27,14 @@ class ServiceManager(var mContext: Context?) {
 
     }
 
-    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, s: String) {
-        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(s,jsonObject) }!!.enqueue(callBack)
-
+    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getloginApi(jsonObject) }!!
+            .enqueue(callBack)
     }
+//    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, s: String) {
+//        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(s,jsonObject) }!!.enqueue(callBack)
+//
+//    }
 
     fun otp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
         mContext?.let { Remotedatasource.current(it, false)!!.getotp(jsonObject) }!!.enqueue(callBack)
@@ -76,13 +80,28 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
     }
 
+    fun getFollower(callBack: ApiCallBack<Responce>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followerUser() }!!.enqueue(callBack)
+    }
+
     fun getFollowing(callBack: ApiCallBack<Responce>,  userId : String) {
         mContext?.let { Remotedatasource.current(it, true)!!.followingUser(userId) }!!.enqueue(callBack)
     }
 
-    fun getFollower(callBack: ApiCallBack<Responce>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followerUser() }!!.enqueue(callBack)
+    fun getFollowunfollow(callBack: ApiCallBack<Responce>,_id : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingUnfollow(_id) }!!.enqueue(callBack)
     }
+
+
+
+    fun getLikeunlike(callBack: ApiCallBack<Responce>,_id : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.likeUnlike(_id) }!!.enqueue(callBack)
+    }
+  fun getSavepost(callBack: ApiCallBack<Responce>,postId : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.saveUnsave(postId) }!!.enqueue(callBack)
+    }
+
+
 
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)

@@ -1,7 +1,6 @@
 package com.example.myapplication.entity.Service_Base
 
 
-
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
 
@@ -10,16 +9,19 @@ import retrofit2.http.*
 import retrofit2.http.GET
 
 
-
-
-interface Api_interface
-{
+interface Api_interface {
 
     @POST("user/signUp")
     fun getRegisterApi(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/login")
-    fun getloginApi(@Header("Content-Type") value : String, @Body apiRequest: Api_Request?): Call<Responce>?
+    fun getloginApi(@Body apiRequest: Api_Request?): Call<Responce>?
+
+//    @POST("user/login")
+//    fun getloginApi(
+//        @Header("Content-Type") value: String,
+//        @Body apiRequest: Api_Request?
+//    ): Call<Responce>?
 
     @POST("user/resendOTP")
     fun getotp(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -27,20 +29,29 @@ interface Api_interface
     @POST("user/verifyOTP")
     fun verifyOtp(@Body apiRequest: Api_Request?): Call<Responce>?
 
-    @POST("user/resetPassword/{token}")
+    @PUT("user/resetPassword/{token}")
     fun resetPassword(@Path("token") token: String, @Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/forgotPassword")
     fun forgetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @GET("user/getProfile")
-    fun getUserProfile(@Header("token")value: String): Call<Responce>?
+    fun getUserProfile(@Header("token") value: String): Call<Responce>?
 
     @GET("user/followerList")
     fun followerUser(): Call<Responce>?
 
     @GET("user/followerList")
-    fun followingUser(@Query("userId")userId : String): Call<Responce>?
+    fun followingUser(@Query("userId") userId: String): Call<Responce>?
+
+    @POST("user/followUser")
+    fun followingUnfollow(@Query("_id") _id: String): Call<Responce>?
+
+    @GET("user/likeUnlikePost")
+    fun likeUnlike(@Query("_id") _id: String): Call<Responce>?
+
+    @POST("user/savePost")
+    fun saveUnsave(@Query("postId") postId : String): Call<Responce>?
 
 //    @POST("user/forgotPassword")
 //    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
@@ -50,7 +61,7 @@ interface Api_interface
 
     @GET("user/getProfile")
     fun getProfile(): Call<Responce>?
-//
+
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?
 //

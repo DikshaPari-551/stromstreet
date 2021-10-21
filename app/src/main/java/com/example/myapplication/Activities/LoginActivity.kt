@@ -121,17 +121,17 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     mLoginPassword
                 ) == true
             ) {
-//                LogIn()
-                var intent = Intent(applicationContext, MainActivity::class.java)
-
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-                this.finish()
-
-                startActivity(intent)
-
-                LoginFlag.setLoginFlag( true)
+                LogIn()
+//                var intent = Intent(applicationContext, MainActivity::class.java)
+//
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
+//                this.finish()
+//
+//                startActivity(intent)
+//
+//                LoginFlag.setLoginFlag( true)
 
 
             }
@@ -245,8 +245,9 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "LoginApi", mContext)
             val apiRequest = Api_Request()
-            apiRequest.email = uemail
+            apiRequest.emailUserName = uemail
             apiRequest.password = upassword
+            apiRequest.deviceType = "android"
             apiRequest.deviceToken = deviceToken
 //            savedPrefManager.saveStringPreferences(
 //                this,
@@ -255,7 +256,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 //            )
 
             try {
-                serviceManager.LoginUser(callBack, apiRequest,"application/json")
+                serviceManager.LoginUser(callBack, apiRequest)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

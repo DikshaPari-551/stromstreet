@@ -28,7 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ChangePassword"></activity>
+        <activity android:name=".Activities.UserProfile"></activity>
+        <activity android:name=".Activities.ChangePassword" />
         <activity android:name=".Activities.Following" />
         <activity android:name=".Activities.Followers" />
         <activity android:name=".Activities.PostActivity3" />

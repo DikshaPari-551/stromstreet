@@ -24,7 +24,7 @@ class Follower_Adaptor(
         parent: ViewGroup,
         viewType: Int
     ): Follower_Adaptor.MyViewHolder {
-        var item = LayoutInflater.from(parent.context).inflate(R.layout.layout_message, null)
+        var item = LayoutInflater.from(parent.context).inflate(R.layout.lauout_follow, null)
         return MyViewHolder(item)
     }
 

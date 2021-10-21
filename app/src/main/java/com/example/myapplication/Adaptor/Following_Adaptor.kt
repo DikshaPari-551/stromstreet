@@ -24,7 +24,7 @@ class Following_Adaptor (
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Following_Adaptor.MyViewHolder {
-        var item = LayoutInflater.from(parent.context).inflate(R.layout.layout_message, null)
+        var item = LayoutInflater.from(parent.context).inflate(R.layout.lauout_follow, null)
         return MyViewHolder(item)
     }
 
