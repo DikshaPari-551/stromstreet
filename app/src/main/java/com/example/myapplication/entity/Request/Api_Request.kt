@@ -26,6 +26,9 @@ class Api_Request {
     @SerializedName("newPassword")
     var newPassword: String? = null
 
+    @SerializedName("oldPassword")
+    var oldPassword: String? = null
+
     @SerializedName("userName")
     var userName: String? = null
 
@@ -45,21 +48,47 @@ class Api_Request {
     @SerializedName("socialLinks")
     var socialLinks: SocialLinks? = null
 
+    @SerializedName("mediaType")
+    var mediaType: String? = null
+
+    @SerializedName("description")
+    var description: String? = null
+
+    @SerializedName("categoryId")
+    var categoryId: String? = null
+
+    @SerializedName("videoLink")
+    var videoLink: String? = null
+
+    @SerializedName("imageLinks")
+    var imageLinks: List<String>? = null
+
+    @SerializedName("location")
+    var location: Location? = null
+
     @SerializedName("otp")
     @Expose
     var otp: Int? = null
 }
 
-data class SocialLinks (
+data class SocialLinks(
 
     @SerializedName("facebook")
     var facebook: String? = null,
+
     @SerializedName("twitter")
     var twitter: String? = null,
+
     @SerializedName("instagram")
     var instagram: String? = null,
+
     @SerializedName("youtube")
     var youtube: String? = null
+)
+
+data class Location(
+    @SerializedName("type") val type: String,
+    @SerializedName("coordinates") val coordinates: List<Double>
 )
 
 //    @SerializedName("fname")

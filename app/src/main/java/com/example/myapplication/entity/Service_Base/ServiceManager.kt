@@ -40,11 +40,18 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, false)!!.verifyOtp(jsonObject) }!!.enqueue(callBack)
     }
 
-    fun reset(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, token : String) {
+    fun userRestPassword(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, token : String) {
         mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(token,jsonObject) }!!
             .enqueue(callBack)
 
     }
+
+    fun userChangePassword(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.changePassword(jsonObject) }!!
+            .enqueue(callBack)
+
+    }
+
     fun forget(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
         mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(jsonObject) }!!
             .enqueue(callBack)
@@ -67,6 +74,20 @@ class ServiceManager(var mContext: Context?) {
 
     }
 
+    fun getCategoryList(callBack: ApiCallBack<Responce>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.categoryList() }!!
+            .enqueue(callBack)
+
+    }
+
+    fun userAddPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.addPost(jsonObject) }!!
+            .enqueue(callBack)
+
+    }
+
+
+
 //
 //    fun updateprofile(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
 //        mContext?.let { Remotedatasource.current(it,true)!!.update(jsonObject) }!!.enqueue(callBack)
@@ -77,14 +98,17 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
     }
 
-    fun getFollowing(callBack: ApiCallBack<Responce>, token : String, userId : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followingUser(token,userId) }!!.enqueue(callBack)
+    fun getFollowing(callBack: ApiCallBack<Responce>,  userId : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingUser(userId) }!!.enqueue(callBack)
     }
 
-    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
+    fun getFollower(callBack: ApiCallBack<Responce>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followerUser() }!!.enqueue(callBack)
     }
 
+//    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
+//        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
+//    }
 //    fun googleSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
 //        mContext?.let { Remotedatasource.current(it, false)!!.googleSignUp(jsonObject) }!!
 //            .enqueue(callBack)

@@ -84,22 +84,22 @@ class MainActivity : AppCompatActivity() {
 
         }
         add.setOnClickListener{
-            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+//            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
                 var bottomsheet = bottomSheetDialog("addpost")
                 bottomsheet.show(supportFragmentManager, "bottomsheet")
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.grey))
                 chat.setColorFilter(resources.getColor(R.color.grey))
-            } else {
-                val i = Intent(this, LoginActivity::class.java)
-                startActivity(i)
-            }
+//            } else {
+//                val i = Intent(this, LoginActivity::class.java)
+//                startActivity(i)
+//            }
         }
         bubble.setColorFilter(resources.getColor(R.color.grey))
 
         bubble.setOnClickListener{
-            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+//            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
 
 
                 profile.setColorFilter(resources.getColor(R.color.grey))
@@ -108,11 +108,11 @@ class MainActivity : AppCompatActivity() {
                 chat.setColorFilter(resources.getColor(R.color.grey))
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.linear_layout, ChatFragment()).commit()
-            } else {
-                val i = Intent(this, LoginActivity::class.java)
-                startActivity(i)
-
-            }
+//            } else {
+//                val i = Intent(this, LoginActivity::class.java)
+//                startActivity(i)
+//
+//            }
         }
         profile.setColorFilter(resources.getColor(R.color.grey))
 

@@ -21,6 +21,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
@@ -121,7 +122,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     mLoginPassword
                 ) == true
             ) {
-                LogIn()
+//                LogIn()
 
 
 
@@ -238,13 +239,8 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             val apiRequest = Api_Request()
             apiRequest.email = uemail
             apiRequest.password = upassword
-            apiRequest.deviceType = "Android"
             apiRequest.deviceToken = deviceToken
-//            savedPrefManager.saveStringPreferences(
-//                this,
-//                savedPrefManager.PASSWORD,
-//                apiRequest.password
-//            )
+            SavedPrefManager.saveStringPreferences(this,AppConst.OLD_PASSWORD,apiRequest.password)
 
             try {
                 serviceManager.LoginUser(callBack, apiRequest,"application/json")
@@ -272,19 +268,11 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
                 this.finish()
+
                 startActivity(intent)
+
                 LoginFlag.setLoginFlag( true)
             }
-//            var intent = Intent(applicationContext, MainActivity::class.java)
-//
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-//            this.finish()
-//
-//            startActivity(intent)
-//
-//            LoginFlag.setLoginFlag(true)
         }
     }
 

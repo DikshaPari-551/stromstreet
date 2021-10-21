@@ -19,6 +19,7 @@ import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
 import okhttp3.ResponseBody
 import java.lang.Exception
 
@@ -70,6 +71,7 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
     }
 
     private fun forgetpassword() {
+        androidextention.showProgressDialog(this)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(this, "ForgetPassword", mContext)
@@ -86,23 +88,28 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-        Toast.makeText(this, "Success"+response.result.otp, Toast.LENGTH_LONG).show()
-        var intent = Intent(this, EmailVerificationActivity::class.java)
-        intent.putExtra("EMAIL", response.result.email)
-
-        startActivity(intent)
-//        val intent = Intent(this, LoginActivity::class.java)
-//        startActivity(intent)
-//        finish()
-//        Toast.makeText(this,response.responseCode, Toast.LENGTH_LONG).show()
-
+        if (androidextention.isOnline(this)) {
+            if (response.responseCode == "200") {
+                Toast.makeText(
+                    this,
+                    response.responseMessage + " and otp is " + response.result.otp,
+                    Toast.LENGTH_LONG
+                ).show()
+                var intent = Intent(this, EmailVerificationActivity::class.java)
+                intent.putExtra("FORGOTACTIVITY", "forgotactivity")
+                intent.putExtra("EMAIL", response.result.email)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, response.responseMessage, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "error" + response.toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "fail" + failureMessage, Toast.LENGTH_LONG).show()
     }
 }

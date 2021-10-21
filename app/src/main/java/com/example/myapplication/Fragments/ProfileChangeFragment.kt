@@ -133,7 +133,6 @@ class ProfileChangeFragment : Fragment() {
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(activity, "Success" + response.result.otp, Toast.LENGTH_LONG)
                     if (response.responseCode == "200") {
                         fullNameProfileEt.setText(response.result.userResult.fullName)
                         usernameProfileEt.setText(response.result.userResult.userName)
@@ -145,18 +144,24 @@ class ProfileChangeFragment : Fragment() {
                         etInstagramLink.setText(response.result.userResult.socialLinks.instagram)
                         etYoutubeLink.setText(response.result.userResult.socialLinks.youtube)
                     } else {
-                        Toast.makeText(activity,response.responseMessage,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, response.responseMessage, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 
                 override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(activity, "error response:" + response.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        mContext,
+                        "error response:" + response.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(activity, "failure respone:" + failureMessage, Toast.LENGTH_LONG).show()
+                    Toast.makeText(mContext, "failure respone:" + failureMessage, Toast.LENGTH_LONG)
+                        .show()
                 }
 
             }, "GetProfile", mContext)
@@ -175,34 +180,51 @@ class ProfileChangeFragment : Fragment() {
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(activity, "Success", Toast.LENGTH_LONG)
-                        .show()
                     if (response.responseCode == "200") {
+                        Toast.makeText(
+                            activity,
+                            response.responseMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
                         getFragmentManager()?.beginTransaction()?.replace(
                             R.id.linear_layout,
                             EditProfileFragment()
                         )
                             ?.commit()
+                    } else {
+                        Toast.makeText(
+                            activity,
+                            response.responseMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
 
                 override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(activity, "error response" + response.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        activity,
+                        "error response" + response.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(activity, "failure response:" + failureMessage, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        activity,
+                        "failure response:" + failureMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
 
             }, "EditProfile", mContext)
 
         val apiRequest = Api_Request()
-        val socialLinks = SocialLinks(facebookLink,twitterLink,instagramLink,youtubeLink)
+        val socialLinks = SocialLinks(facebookLink, twitterLink, instagramLink, youtubeLink)
         apiRequest.fullName = etfullName
         apiRequest.lastName = ""
-        apiRequest.countryCode = "+91"
+        apiRequest.countryCode = ""
         apiRequest.phoneNumber = etphoneNumber
         apiRequest.email = etemail
         apiRequest.userName = etuserName
@@ -215,11 +237,7 @@ class ProfileChangeFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-
     }
-
-
 
 
 }

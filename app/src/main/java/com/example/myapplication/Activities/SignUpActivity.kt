@@ -134,6 +134,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             androidextention.disMissProgressDialog(this)
             Log.w("", "Response" + response.result)
             var intent = Intent(this, EmailVerificationActivity::class.java)
+            intent.putExtra("FORGOTACTIVITY", "signupactivity")
             intent.putExtra("EMAIL", response.result.email)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

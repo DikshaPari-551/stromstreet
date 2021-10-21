@@ -19,7 +19,7 @@ interface Api_interface
     fun getRegisterApi(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/login")
-    fun getloginApi(@Header("Content-Type") value : String, @Body apiRequest: Api_Request?): Call<Responce>?
+    fun getloginApi(@Path("token") token: String,@Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/resendOTP")
     fun getotp(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -27,8 +27,11 @@ interface Api_interface
     @POST("user/verifyOTP")
     fun verifyOtp(@Body apiRequest: Api_Request?): Call<Responce>?
 
-    @POST("user/resetPassword/{value}")
-    fun resetPassword(@Path("token") value: String, @Body apiRequest: Api_Request?): Call<Responce>?
+    @PUT("user/resetPassword/{token}")
+    fun resetPassword(@Path("token") token: String, @Body apiRequest: Api_Request?): Call<Responce>?
+
+    @PATCH("user/changePassword")
+    fun changePassword(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/forgotPassword")
     fun forgetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -37,10 +40,13 @@ interface Api_interface
     fun getUserProfile(@Header("token")value: String): Call<Responce>?
 
     @GET("user/followerList")
-    fun followerUser(@Header("token")value: String): Call<Responce>?
+    fun followerUser(): Call<Responce>?
 
     @GET("user/followerList")
-    fun followingUser(@Header("token")value: String, @Query("userId")userId : String): Call<Responce>?
+    fun followingUser(@Query("userId")userId : String): Call<Responce>?
+
+//    @POST("user/forgotPassword")
+//    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/editProfile")
     fun userDetails(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -48,9 +54,11 @@ interface Api_interface
     @GET("user/getProfile")
     fun getProfile(): Call<Responce>?
 
+    @GET("user/categoryList")
+    fun categoryList(): Call<Responce>?
 
-//    @POST("user/forgotPassword")
-//    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
+    @POST("user/addPost")
+    fun addPost(@Body jsonObject: Api_Request?): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?

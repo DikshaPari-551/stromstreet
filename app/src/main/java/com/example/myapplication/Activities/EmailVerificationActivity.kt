@@ -39,6 +39,7 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
     lateinit var otp: TextView
     lateinit var et4: EditText
     lateinit var text_login: TextView
+    private var activityFlag = ""
 
     lateinit var submit: LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +73,7 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
         et3.setOnKeyListener(GenericKeyEvent(et3, et2))
         et4.setOnKeyListener(GenericKeyEvent(et4, et3))
         id = intent.getStringExtra("EMAIL").toString()
+        activityFlag = intent.getStringExtra("FORGOTACTIVITY")!!
         object : CountDownTimer(180000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()
@@ -127,8 +129,8 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
 
                 otp.visibility = View.GONE
                 verifyOtp()
-                var intent = Intent(this, ResetPasswordActivity::class.java)
-                startActivity(intent)
+//                var intent = Intent(this, ResetPasswordActivity::class.java)
+//                startActivity(intent)
             }
         }
     }
@@ -149,7 +151,8 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
             serviceManager.forget(callBack, apiRequest)
         } catch (e: Exception) {
             e.printStackTrace()
-        }    }
+        }
+    }
 
     private fun verifyOtp() {
         nameapi = "VerifyOtp"
@@ -170,22 +173,35 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+        androidextention.showProgressDialog(this)
         if (androidextention.isOnline(this)) {
             if (nameapi.equals("VerifyOtp")) {
-                if (response.responseCode == "200") {
-                    Log.w("", "Response" + response.result)
-                    androidextention.disMissProgressDialog(this)
-                    SavedPrefManager.saveStringPreferences(this,SavedPrefManager.TOKEN,response.result.token)
-                    Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
-                    var intent = Intent(this, LoginActivity::class.java)
-//                    intent.putExtra("VerifyEmail", id)
-                    startActivity(intent)
-                    finish()
+                if(activityFlag == "forgotactivity") {
+                    if (response.responseCode == "200") {
+                        androidextention.disMissProgressDialog(this)
+                        Toast.makeText(this, response.responseMessage, Toast.LENGTH_LONG).show()
+                        var intent = Intent(this, ResetPasswordActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                } else {
+                    if (response.responseCode == "200") {
+                        Log.w("", "Response" + response.result)
+                        androidextention.disMissProgressDialog(this)
+                        SavedPrefManager.saveStringPreferences(
+                            this,
+                            SavedPrefManager.TOKEN,
+                            response.result.token
+                        )
+                        Toast.makeText(this, response.responseMessage, Toast.LENGTH_LONG).show()
+                        var intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                    }
                 }
-            }
-            else if (nameapi.equals("ResendOtp")) {
+            } else if (nameapi.equals("ResendOtp")) {
                 if (response.responseCode == "200") {
-                    Toast.makeText(this, "Success"+response.result.otp, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Success" + response.result.otp, Toast.LENGTH_LONG).show()
 
                 }
 
@@ -194,10 +210,12 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        androidextention.disMissProgressDialog(this)
         Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        androidextention.disMissProgressDialog(this)
         Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
     }
 
