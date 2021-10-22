@@ -83,8 +83,28 @@
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
+                        android:scaleType="fitXY"
+                        />
 
-                        /></LinearLayout>
+                    <ImageView
+                        android:id="@+id/image2"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:padding="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:scaleType="fitXY"
+                        />
+
+                    <ImageView
+                        android:id="@+id/image3"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:padding="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:scaleType="fitXY"
+                        />
+
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -167,6 +187,7 @@
 
 
                             <ImageView
+                                android:id="@+id/spinDropDown"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"

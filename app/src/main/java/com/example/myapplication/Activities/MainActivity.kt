@@ -13,6 +13,7 @@ import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.Fragments.HomeFragment
 import com.example.myapplication.Fragments.ProfileFragment
 import com.example.myapplication.Fragments.TrendingFragment
+import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import java.io.*
 
@@ -84,50 +85,48 @@ class MainActivity : AppCompatActivity() {
 
         }
         add.setOnClickListener{
-//            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
                 var bottomsheet = bottomSheetDialog("addpost")
                 bottomsheet.show(supportFragmentManager, "bottomsheet")
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.grey))
                 chat.setColorFilter(resources.getColor(R.color.grey))
-//            } else {
-//                val i = Intent(this, LoginActivity::class.java)
-//                startActivity(i)
-//            }
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+            }
         }
         bubble.setColorFilter(resources.getColor(R.color.grey))
 
         bubble.setOnClickListener{
-//            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
-
-
+            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.white))
                 chat.setColorFilter(resources.getColor(R.color.grey))
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.linear_layout, ChatFragment()).commit()
-//            } else {
-//                val i = Intent(this, LoginActivity::class.java)
-//                startActivity(i)
-//
-//            }
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+
+            }
         }
         profile.setColorFilter(resources.getColor(R.color.grey))
 
         profile.setOnClickListener{
-//            if(  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
+            if(  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
                 profile.setColorFilter(resources.getColor(R.color.white))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.grey))
                 chat.setColorFilter(resources.getColor(R.color.grey))
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.linear_layout, ProfileFragment()).commit()
-//            } else {
-//                val i = Intent(this, LoginActivity::class.java)
-//                startActivity(i)
-//            }
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+            }
 
         }
         add.setBackgroundColor(resources.getColor(R.color.orange))
@@ -136,6 +135,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SavedPrefManager.saveStringPreferences(this, AppConst.IMAGEDATA, "false")
     }
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, d: Intent?) {

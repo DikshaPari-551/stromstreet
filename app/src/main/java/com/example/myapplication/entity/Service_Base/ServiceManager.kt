@@ -4,6 +4,9 @@ import android.content.Context
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Callback
 
 
 class ServiceManager(var mContext: Context?) {
@@ -123,68 +126,9 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.saveUnsave(postId) }!!.enqueue(callBack)
     }
 
-
-
-//    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
-//    }
-//    fun googleSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.googleSignUp(jsonObject) }!!
-//            .enqueue(callBack)
-//
-//    }
-//    fun getLogout(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.getlogout() }!!.enqueue(callBack)
-//
-//    }
-//    fun sendfeedback(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.sendFeedback(jsonObject) }!!
-//            .enqueue(callBack)
-//
-//    }
-//    fun deleteacc(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.deleteAccount(jsonObject) }!!
-//            .enqueue(callBack)
-//
-//    }
-//
-//    //sleep trainig
-//
-//    fun sleepTraining(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.sleeptraining(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
-//
-//    fun sleepTrainingRecording(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.sleeptrainingrecording(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
-//
-//    fun facebookSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.facebooksignup(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
-//
-//    fun getSleepTraining(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.getsleeptraining() }!!.enqueue(callBack)
-//    }
-//    fun getSleepTrainingRecording(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.getsleeptrainingrecording() }!!.enqueue(callBack)
-//    }
-//
-//    fun createTrailList(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.createTrail(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
-//
-//    fun getTrailList(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.trailList() }!!.enqueue(callBack)
-//    }
-//
-//    fun trailDetail(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.trailDetail(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
+    fun userUploadMedia( callback: Callback<Responce>, image: MultipartBody.Part?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.uploadMedia(image) }!!.enqueue(callback)
+    }
 
 }
 

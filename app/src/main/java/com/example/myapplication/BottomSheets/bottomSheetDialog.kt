@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.R.attr
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
@@ -15,21 +16,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Fragments.AddPostFragment
 import com.example.myapplication.Fragments.ProfileChangeFragment
-import com.github.chiragji.gallerykit.GalleryKitDialog
+import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.SavedPrefManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class bottomSheetDialog(var flag : String) : BottomSheetDialogFragment() {
+class bottomSheetDialog(var flag: String) : BottomSheetDialogFragment() {
     var pic_id = 123
     private val pickImage = 100
     lateinit var cancel: TextView
@@ -39,6 +44,9 @@ class bottomSheetDialog(var flag : String) : BottomSheetDialogFragment() {
     private var CAMERA: Int = 2
     private val IMAGE_DIRECTORY = "/demonuts"
     private var openFlag = ""
+    var imageList: ArrayList<Bitmap?> = ArrayList()
+    lateinit var bitmap: Bitmap
+    val threeImageFlag = 0
 
 
     override fun onCreateView(
@@ -60,14 +68,30 @@ class bottomSheetDialog(var flag : String) : BottomSheetDialogFragment() {
 
 
         gallery.setOnClickListener { view: View? ->
-            choosePhotoFromGallary()
-
+            if(SavedPrefManager.getStringPreferences(activity,AppConst.IMAGEDATA) == "true"){
+                Toast.makeText(
+                    activity,
+                    "Not add more than 3 photos",
+                    Toast.LENGTH_SHORT
+                ).show()
+                imageList.clear()
+            }else {
+                choosePhotoFromGallary()
+            }
         }
 
 
 
         camera.setOnClickListener {
-            takePhotoFromCamera()
+            if(SavedPrefManager.getStringPreferences(activity,AppConst.IMAGEDATA) == "true"){
+                Toast.makeText(
+                    activity,
+                    "Not add more than 3 photos",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                takePhotoFromCamera()
+            }
         }
         return v
     }
@@ -77,11 +101,16 @@ class bottomSheetDialog(var flag : String) : BottomSheetDialogFragment() {
         BottomSheetDialog(requireContext(), theme)
 
     fun choosePhotoFromGallary() {
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-        startActivityForResult(galleryIntent, GALLERY)
+
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+            intent.type = "image/* video/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent, intent.type), GALLERY)
+
     }
 
 
@@ -92,50 +121,97 @@ class bottomSheetDialog(var flag : String) : BottomSheetDialogFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                val contentURI: Uri? = data.data
-                try {
-                    val bitmap =
-                        MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
-                    val path: String? = saveImage(bitmap)
-                    Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
-                    val bundle = Bundle()
-                    bundle.putParcelable("BitmapImage", bitmap)
-                    if(flag.equals("addpost")){
-                    val fragobj = AddPostFragment()
-                    fragobj.setArguments(bundle)
-                    fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
-                        ?.commit()
-                    dismiss()
-                    }else {
-                        val fragobj = ProfileChangeFragment()
+        try {
+//            if (data!!.clipData!!.itemCount > 3) {
+//                Toast.makeText(activity,"Not select more than 3 photos",Toast.LENGTH_SHORT).show()
+//            }
+//            else {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                return
+            }
+            try {
+                if (requestCode == GALLERY) {
+                        if (data!!.clipData != null) {
+                            if (data!!.clipData!!.itemCount > 3) {
+                                Toast.makeText(
+                                    activity,
+                                    "Not select more than 3 photos",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                var clipDataCount: Int = data.clipData!!.itemCount
+//                            imageList = ArrayList<Bitmap?>(clipDataCount)
+//                                threeImageFlag = clipDataCount
+                                for (i in 0 until clipDataCount) {
+                                    var imageUri: Uri = data.getClipData()!!.getItemAt(i).getUri()
+                                    bitmap =
+                                        MediaStore.Images.Media.getBitmap(
+                                            activity?.contentResolver,
+                                            imageUri
+                                        )
+                                    imageList.add(bitmap)
+                                    //do something with the image (save it to some directory or whatever you need to do with it here)
+                                }
+                            }
+                        } else if (data != null && data.clipData == null) {
+                            var imageUri: Uri = data.data!!
+                            bitmap =
+                                MediaStore.Images.Media.getBitmap(
+                                    activity?.contentResolver,
+                                    imageUri
+                                )
+                            imageList.add(bitmap)
+                        }
+
+//                    val contentURI: Uri? = data.data
+                        try {
+                            val bundle = Bundle()
+                            bundle.putParcelableArrayList("BitmapImage", imageList)
+                            if (flag.equals("addpost")) {
+                                if(imageList.size > 0) {
+                                    val fragobj = AddPostFragment()
+                                    fragobj.setArguments(bundle)
+                                    fragmentManager?.beginTransaction()
+                                        ?.replace(R.id.linear_layout, fragobj)
+                                        ?.commit()
+                                    dismiss()
+                                }
+                            } else {
+                                val fragobj = ProfileChangeFragment()
+                                fragobj.setArguments(bundle)
+                                fragmentManager?.beginTransaction()
+                                    ?.replace(R.id.linear_layout, fragobj)
+                                    ?.commit()
+                                dismiss()
+                            }
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                            Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+                        }
+
+                } else if (requestCode == CAMERA) {
+                    if (data?.extras != null) {
+                        val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
+                        val bundle = Bundle()
+                        bundle.putParcelable("BitmapImage", thumbnail)
+                        val fragobj = AddPostFragment()
                         fragobj.setArguments(bundle)
                         fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
                             ?.commit()
                         dismiss()
+                        Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-        } else if (requestCode == CAMERA) {
-            if (data?.extras != null) {
-                val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
-                val bundle = Bundle()
-                bundle.putParcelable("BitmapImage", thumbnail)
-                val fragobj = AddPostFragment()
-                fragobj.setArguments(bundle)
-                fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
-                    ?.commit()
-                dismiss()
-                Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
-            }
+
+
+//            }
+        } catch (e: KotlinNullPointerException) {
+            e.printStackTrace()
         }
+
     }
 
     fun saveImage(myBitmap: Bitmap): String? {
