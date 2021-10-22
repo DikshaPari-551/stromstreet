@@ -1,15 +1,15 @@
 package com.example.myapplication.Activities
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Adaptor.Chat_Adaptor
-import com.example.myapplication.Adaptor.Follower_Adaptor
 import com.example.myapplication.Adaptor.Following_Adaptor
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docs
@@ -18,14 +18,14 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
-import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import java.lang.Exception
 
-class Following : AppCompatActivity() , ApiResponseListener<Responce> {
+class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClickListner {
     lateinit var adaptor: Following_Adaptor
     lateinit var recycler_view3: RecyclerView
     var mContext: Context = this
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +63,7 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce> {
 
 
             var list = ArrayList<Docs>()
+            list.addAll(response.result.docs)
 
             setAdapter(list)
 
@@ -81,9 +82,19 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce> {
 
 
     fun setAdapter(list: ArrayList<Docs>) {
-        adaptor = this?.let { Following_Adaptor(it,list) }!!
+        adaptor =  Following_Adaptor(this,this,list)
         val layoutManager = LinearLayoutManager(this)
         recycler_view3.layoutManager = layoutManager
         recycler_view3.adapter = adaptor
+    }
+
+    override fun customClick( value: Docs,type:String)
+    {
+        value.userId
+        if (type.equals("profile")){
+            var intent = Intent(applicationContext, UserProfile::class.java)
+            startActivity(intent)
+        }
+
     }
 }

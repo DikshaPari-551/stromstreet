@@ -48,7 +48,7 @@ interface Api_interface
     @GET("user/followerList")
     fun followerUser(): Call<Responce>?
 
-    @GET("user/followerList")
+    @GET("user/followingList")
     fun followingUser(@Query("userId") userId: String): Call<Responce>?
 
     @POST("user/followUser")
@@ -74,6 +74,15 @@ interface Api_interface
 
     @POST("user/addPost")
     fun addPost(@Body jsonObject: Api_Request?): Call<Responce>?
+
+    @PUT("user/logOut")
+    fun logoutUser(): Call<Responce>?
+
+    @GET("user/savePostList")
+    fun savedList(): Call<Responce>?
+
+    @POST("user/comment")
+    fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?

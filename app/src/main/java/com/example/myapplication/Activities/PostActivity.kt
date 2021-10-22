@@ -67,7 +67,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
         backPostButton.setOnClickListener{
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
-            finish()
+//            finish()
         }
 
 
@@ -79,13 +79,13 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
         video_post_like.setOnClickListener {
             likeunlike()
-            if(click == false){
-            video_post_like.setColorFilter(resources.getColor(R.color.red))
-                click = true
-            }else if(click == true){
-                video_post_like.setColorFilter(resources.getColor(R.color.white))
-                click=false
-            }
+//            if(click == false){
+//            video_post_like.setColorFilter(resources.getColor(R.color.red))
+//                click = true
+//            }else if(click == true){
+//                video_post_like.setColorFilter(resources.getColor(R.color.white))
+//                click=false
+//            }
         }
 
 
@@ -124,13 +124,13 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
         follow.setOnClickListener {
             followunfollow()
-            if(click == false){
-                follow.setText("Following")
-                 click = true
-            }else if(click == true){
-                follow.setText("+ Follow")
-                click=false
-            }
+//            if(click == false){
+//                follow.setText("Following")
+//                 click = true
+//            }else if(click == true){
+//                follow.setText("+ Follow")
+//                click=false
+//            }
         }
 
 
@@ -155,7 +155,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
-                ApiCallBack<Responce>(this, "LikeUnlike", mContext)
+                ApiCallBack<Responce>(this, "SaveUnsave", mContext)
 //            val apiRequest = Api_Request()
 //            apiRequest.email = emailSignUp_et.getText().toString().trim()
 
@@ -209,6 +209,18 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+    if (apiName.equals("LikeUnlike")){
+        video_post_like.setColorFilter(resources.getColor(R.color.red))
+
+    }
+    else if (apiName.equals("FollowUnfollow")){
+            follow.setText("Following")
+            click = true
+        }else if(click == true){
+            follow.setText("+ Follow")
+            click=false
+        }
+
 
         Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
     }

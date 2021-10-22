@@ -276,8 +276,11 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             }
             else if (response.result.otpVerification == true)
             {
+                SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.TOKEN,response.result.token)
+                SavedPrefManager.saveStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN,"true")
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
 //            var intent = Intent(applicationContext, MainActivity::class.java)
 //

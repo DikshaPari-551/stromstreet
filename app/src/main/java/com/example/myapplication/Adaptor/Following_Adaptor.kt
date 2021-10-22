@@ -6,21 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Activities.ChatActivity
+import com.example.myapplication.Activities.UserProfile
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.entity.Response.Docs
 
-class Following_Adaptor (
+class Following_Adaptor(
     var mcontext: Context,
+    var listener: CustomClickListner,
     var list: ArrayList<Docs>
 
 ) : RecyclerView.Adapter<Following_Adaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var followinglist = view.findViewById<LinearLayout>(R.id.chat_layout)
         var followername = view.findViewById<TextView>(R.id.followername)
+        var otheruserProfile = view.findViewById<RelativeLayout>(R.id.otheruserProfile)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Following_Adaptor.MyViewHolder {
@@ -33,11 +37,13 @@ class Following_Adaptor (
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.followername.setText(list[position].followerId.fullName.toString())
+        holder.followername.setText(list[position].userId.fullName.toString())
 
-        holder.followinglist.setOnClickListener {
+        holder.followername.setOnClickListener {
 
-//            (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java))
+            listener.customClick(list.get(position),"profile")
+
+
         }
     }
 }

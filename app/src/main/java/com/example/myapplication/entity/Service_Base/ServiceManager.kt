@@ -123,7 +123,18 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.saveUnsave(postId) }!!.enqueue(callBack)
     }
 
+    fun getLogout(callBack: ApiCallBack<Responce>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.logoutUser() }!!.enqueue(callBack)
+    }
 
+    fun getSavedList(callBack: ApiCallBack<Responce>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.savedList() }!!.enqueue(callBack)
+    }
+
+    fun commentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, postId : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.comment(postId,jsonObject) }!!
+            .enqueue(callBack)
+    }
 
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)

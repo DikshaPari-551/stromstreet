@@ -62,10 +62,42 @@ data class Docs (
     @SerializedName("status") val status : String,
     @SerializedName("request") val request : String,
     @SerializedName("_id") val _id : String,
-    @SerializedName("followerId") val followerId : FollowerId,
+    @SerializedName("followerIdd") val followerIdd : FollowerId,
+    @SerializedName("followerId") val followerId : String,
+    @SerializedName("userId") val userId : UserId,
+    @SerializedName("postId") val postId : PostId,
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
     @SerializedName("__v") val __v : Int
+)
+
+
+data class PostId (
+
+    @SerializedName("location") val location : Location,
+    @SerializedName("mediaType") val mediaType : String,
+    @SerializedName("imageLinks") val imageLinks : List<String>,
+    @SerializedName("status") val status : String,
+    @SerializedName("thumbNail") val thumbNail : String,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("videoLink") val videoLink : String,
+    @SerializedName("userId") val userId : String,
+    @SerializedName("categoryId") val categoryId : String,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int
+)
+data class Location (
+
+    @SerializedName("type") val type : String,
+    @SerializedName("coordinates") val coordinates : List<Double>
+)
+data class UserId (
+
+    @SerializedName("_id") val _id : String,
+    @SerializedName("fullName") val fullName : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("userName") val userName : String
 )
 data class FollowerId (
 

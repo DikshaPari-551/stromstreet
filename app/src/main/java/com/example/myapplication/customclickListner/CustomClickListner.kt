@@ -1,6 +1,8 @@
 package com.example.myapplication.customclickListner
 
+import com.example.myapplication.entity.Response.Docs
+
 interface CustomClickListner {
-    fun customClick(get: String, value: String)
+    fun customClick( value: Docs,type:String)
 
 }

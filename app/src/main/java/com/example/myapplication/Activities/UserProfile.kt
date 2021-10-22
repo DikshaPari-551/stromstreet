@@ -37,30 +37,30 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
-        color_grid=findViewById(R.id.color_grid)
-        back_tab=findViewById(R.id.back_tab)
-        layout_tab1=findViewById(R.id.layout_tab1)
-        layout_tab2=findViewById(R.id.layout_tab2)
-        username = findViewById(R.id.username)
-        followers = findViewById(R.id.followers)
-        following = findViewById(R.id.following)
-        profileApi()
+//        color_grid=findViewById(R.id.color_grid)
+////        back_tab=findViewById(R.id.back_tab)
+//        layout_tab1=findViewById(R.id.layout_tab1)
+////        layout_tab2=findViewById(R.id.layout_tab2)
+//        username = findViewById(R.id.username)
+//        followers = findViewById(R.id.followers)
+//        following = findViewById(R.id.following)
+//        profileApi()
 
 
-        color_grid.setImageDrawable(resources.getDrawable(R.drawable.color_grid))
-        back_tab.setBackgroundResource(R.drawable.rectangle_tab)
-        tag.setImageDrawable(resources.getDrawable(R.drawable.tag))
-        back_tab1.setBackgroundColor(resources.getColor(R.color.edit_color))
-
-        totalfollower.setOnClickListener{
-            var intent = Intent(this, Followers::class.java)
-            startActivity(intent)
-        }
-
-        following.setOnClickListener{
-            var intent = Intent(this, Following::class.java)
-            startActivity(intent)
-        }
+//        color_grid.setImageDrawable(resources.getDrawable(R.drawable.color_grid))
+//        back_tab.setBackgroundResource(R.drawable.rectangle_tab)
+//        tag.setImageDrawable(resources.getDrawable(R.drawable.tag))
+//        back_tab1.setBackgroundColor(resources.getColor(R.color.edit_color))
+//
+//        totalfollower.setOnClickListener{
+//            var intent = Intent(this, Followers::class.java)
+//            startActivity(intent)
+//        }
+//
+//        following.setOnClickListener{
+//            var intent = Intent(this, Following::class.java)
+//            startActivity(intent)
+//        }
     }
 
     private fun profileApi() {
@@ -69,7 +69,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce> {
         androidextention.showProgressDialog(this)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
-            ApiCallBack<Responce>(this, "Update", mContext)
+            ApiCallBack<Responce>(this, "Profile", mContext)
 
         try {
             serviceManager.getProfile(callBack,Token)
