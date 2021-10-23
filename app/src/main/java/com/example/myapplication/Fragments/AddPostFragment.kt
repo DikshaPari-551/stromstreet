@@ -96,7 +96,7 @@ class AddPostFragment : Fragment() {
         post.setOnClickListener{
             SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "false")
             addPost()
-            uploadMediaApi()
+//            uploadMediaApi()
         }
 
         spinDropDown.setOnClickListener{
@@ -104,6 +104,7 @@ class AddPostFragment : Fragment() {
         }
         return view
     }
+
 
 
     private fun categoryListApi() {
@@ -253,13 +254,13 @@ class AddPostFragment : Fragment() {
                 }
 
             }, "UploadMedia",mContext)
-        for(i in 0 until imageData1.size) {
-            var imageUrl = imageData1.get(i).toString()
-            var data1 = File(imageUrl)
-
-            val data: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), data1)
-            image = createFormData("image", data1.getName(), data)
-        }
+//        for(i in 0 until imageData1.size) {
+//            var imageUrl = imageData1.get(i).toString()
+//            var data1 = File(imageUrl)
+//
+//            val data: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), data1)
+//            image = createFormData("image", data1.getName(), data)
+//        }
 
         try {
             serviceManager.userUploadMedia(callBack,image)

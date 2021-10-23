@@ -9,9 +9,6 @@ class Responce {
     @SerializedName("result")
     lateinit var result: Result
 
-    @SerializedName("result")
-    lateinit var resultset: String
-
     @SerializedName("responseMessage")
     val responseMessage: String? = null
 
@@ -20,6 +17,8 @@ class Responce {
 }
 
 data class Result(
+    @SerializedName("mediaUrl") val mediaUrl: String,
+    @SerializedName("mediaType") val mediaType: String,
     @SerializedName("emailType") val emailType: String,
     @SerializedName("phoneNumberType") val phoneNumberType: String,
     @SerializedName("userType") val userType: String,

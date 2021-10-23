@@ -139,6 +139,16 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
+    fun userUploadMedia(callBack: ApiCallBack<Responce>, image: MultipartBody.Part) {
+        mContext?.let { Remotedatasource.current(it, true)!!.uploadMedia(image) }!!
+            .enqueue(callBack)
+    }
+
+    fun userUploadFile(callBack: ApiCallBack<Responce>, apiRequest: Api_Request) {
+        mContext?.let { Remotedatasource.current(it, false)!!.uploadFile(apiRequest) }!!
+            .enqueue(callBack)
+    }
+
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
 //    }

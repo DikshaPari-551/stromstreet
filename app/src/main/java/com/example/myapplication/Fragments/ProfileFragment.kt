@@ -2,13 +2,14 @@ package com.example.myapplication.Fragments
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.myapplication.Activities.EmailVerificationActivity
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.myapplication.Activities.Followers
 import com.example.myapplication.Activities.Following
 import com.example.myapplication.R
@@ -17,9 +18,10 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
+import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.ResponseBody
-import java.lang.Exception
 
 
 class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
@@ -31,6 +33,7 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
     lateinit var mContext :Context
 
     lateinit var color_grid:ImageView
+    lateinit var user_profile:CircleImageView
     lateinit var back_tab:LinearLayout
     lateinit var layout_tab1:RelativeLayout
     lateinit var layout_tab2:RelativeLayout
@@ -52,6 +55,7 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
         totalfollower=v.findViewById(R.id.totalfollower)
         totalfollowing=v.findViewById(R.id.totalfollowing)
         buttonProfileDetail=v.findViewById(R.id.button_profile_detail)
+        user_profile=v.findViewById(R.id.user_profile)
         buttonProfileDetail.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
@@ -152,6 +156,10 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
         username.setText(response.result.userResult.userName)
         followers.setText(response.result.followerCount.toString())
         following.setText(response.result.followingCount.toString())
+        Glide.with(mContext).load(SavedPrefManager.getStringPreferences(mContext,AppConst.USER_IMAGE_LINK))
+            .placeholder(R.drawable.circleprofile).into(user_profile)
+
+
 
         Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
 

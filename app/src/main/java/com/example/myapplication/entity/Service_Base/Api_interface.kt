@@ -88,6 +88,9 @@ interface Api_interface
     @Multipart
     @POST("user/uploadMedia")
     fun uploadMedia(@Part image: MultipartBody.Part?): Call<Responce>?
+
+    @POST("admin/uploadFile")
+    fun uploadFile(apiRequest: Api_Request): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.myapplication.*
-import com.example.myapplication.Adaptor.lisAdaptor
 import com.example.myapplication.ValidationExt.Validations
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
@@ -90,7 +89,7 @@ class ProfileChangeFragment : Fragment() {
         cameraProfileimg = v.findViewById(R.id.img_camera_profile)
         cameraProfileimg.setOnClickListener {
             var bottomsheet =
-                bottomSheetDialog("profilechange")
+                bottomSheetDialog("profilechange", null)
             fragmentManager?.let { it1 -> bottomsheet.show(it1, "bottomsheet") }
         }
 

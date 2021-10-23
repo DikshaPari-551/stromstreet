@@ -180,6 +180,7 @@
                                 android:fontFamily="@font/opensans_regular"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="5dp"
+                                android:autofillHints="@string/app_name"
                                 android:background="@android:color/transparent"
                                 android:gravity="center"
                                 android:spinnerMode="dropdown" />
