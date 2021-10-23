@@ -12,7 +12,7 @@ class TokenInterceptor(var mContext: Context?) : Interceptor {
         //rewrite the request to add bearer token
         val newRequest: Request = chain.request().newBuilder()
             .header("token", Token)
-//            .header("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNzExOWZiZDgzMDk4NmRkNGE0NTNhNSIsImVtYWlsIjoiYWpheUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ4ODczMzEsImV4cCI6MTYzNDk3MzczMX0.kSAg6l-nDzrHdwj2n9MLx7dOBzt0wW9XXqhqb9w7Hjc")
+//            .header("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNzJjMzJmNWEzZTc3YmIwMjc0NWU5MCIsImVtYWlsIjoic3RyaW5nMUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ5NzQ1OTMsImV4cCI6MTYzNTA2MDk5M30.A0SS9_XpeejTsBIeo55ztB2eE65nZOaSRgdv2bSmsvo")
             .build()
 
         return chain.proceed(newRequest)

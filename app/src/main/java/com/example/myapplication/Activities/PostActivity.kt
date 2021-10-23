@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.MainActivity
@@ -29,13 +30,18 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     lateinit var vedio: ImageView
     lateinit var more: TextView
     lateinit var video_post_like: ImageView
-    lateinit var layoutMore: TextView
     lateinit var sharePost:ImageView
     lateinit var savePost:ImageView
     lateinit var notifyPost:ImageView
     lateinit var follow: TextView
     lateinit var backPostButton : ImageView
     var mContext: Context = this
+    lateinit var username:TextView
+    lateinit var layoutMore: TextView
+    lateinit var eventType: TextView
+    lateinit var totalLike: TextView
+    lateinit var commentcount: TextView
+//    lateinit var totalshare: TextView
 
     private var loginFlag: Boolean = false
 
@@ -56,13 +62,18 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
         backPostButton = findViewById(R.id.back_arrow_post)
         sharePost=findViewById(R.id.share_post)
         savePost = findViewById(R.id.saved_post)
-        layoutMore = findViewById(R.id.text_more)
         video_post_like = findViewById(R.id.video_post_like)
         notifyPost = findViewById(R.id.notify_post)
         follow = findViewById(R.id.follow)
         vedio = findViewById(R.id.vedio)
         more = findViewById(R.id.more)
         loginFlag = LoginFlag.getLoginFlag()
+        username = findViewById(R.id.username)
+        layoutMore = findViewById(R.id.text_more)
+        eventType = findViewById(R.id.eventType)
+        totalLike = findViewById(R.id.totalLike)
+        commentcount = findViewById(R.id.commentcount)
+//        totalshare = findViewById(R.id.totalshare)
 
 
         backPostButton.setOnClickListener{
@@ -135,11 +146,11 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
         }
 
 
-        more.setOnClickListener {
-
-            layoutMore.setText("Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus")
-            more.setText("")
-        }
+//        more.setOnClickListener {
+//
+////            layoutMore.setText("Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus")
+//            more.setText("")
+//        }
 
 //        var path = "android.resource://com.example.myapplication/" + R.raw.vedio
 //        var u: Uri = Uri.parse(path.toString())
@@ -228,8 +239,18 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(this)
 
-        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+        username.setText(response.result.postResult.userId.userName)
+        layoutMore.setText(response.result.postResult.description)
+        eventType.setText(response.result.postResult.categoryId.categoryName.toString())
+        totalLike.setText(response.result.likeCount.toString())
+        commentcount.setText(response.result.commentCount.toString())
+//        totalshare.setText(response.result.commentCount)
 
+        var filedata = response.result.postResult.thumbNail
+        Glide.with(this).load(filedata).into(vedio);
+
+
+//        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
         if (apiName.equals("LikeUnlike")){
         video_post_like.setColorFilter(resources.getColor(R.color.red))
 

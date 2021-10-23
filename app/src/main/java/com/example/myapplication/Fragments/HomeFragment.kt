@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.HomeAdaptor
@@ -105,7 +106,9 @@ class HomeFragment : Fragment() {
                 it
             )
         }
-        val layoutManager = LinearLayoutManager(activity)
+
+        val layoutManager = GridLayoutManager(activity,2)
+
         recycler_view1.layoutManager = layoutManager
         recycler_view1.adapter = adaptor
 

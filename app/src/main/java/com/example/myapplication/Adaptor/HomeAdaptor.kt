@@ -26,10 +26,7 @@ class HomeAdaptor(
         inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
       var mweather=view.findViewById<TextView>(R.id.text_weather)
         var mokhla=view.findViewById<TextView>(R.id.text_okhla)
-        var mevent=view.findViewById<TextView>(R.id.event_text)
-        var mlajpat=view.findViewById<TextView>(R.id.lajpat_nagar_text)
             var layout_vedio=view.findViewById<RelativeLayout>(R.id.layout_vedio)
-            var layout_post_img=view.findViewById<LinearLayout>(R.id.layout_post_img)
 
     }
     @NonNull
@@ -41,8 +38,7 @@ class HomeAdaptor(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
      holder.mokhla.setText(okhla[position])
         holder.mweather.setText(weather[position])
-        holder.mevent.setText(event[position])
-        holder.mlajpat.setText(lajpat[position])
+
         //(mcontexttt as MainActivity).startActivity(Intent(mcontexttt,PostActivity::class.java))
         holder.layout_vedio.setOnClickListener{
         (mcontext as MainActivity).startActivity(Intent(mcontext,
@@ -51,11 +47,7 @@ class HomeAdaptor(
 
 
         }
-        holder.layout_post_img.setOnClickListener{
-            (mcontext as MainActivity).startActivity(Intent(mcontext,
-                PostActivity3::class.java))
-            (mcontext as MainActivity).finish()
-        }
+
     }
     override fun getItemCount(): Int {
         return 5
