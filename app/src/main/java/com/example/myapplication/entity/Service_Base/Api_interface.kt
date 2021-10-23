@@ -49,7 +49,7 @@ interface Api_interface
     @GET("user/followerList")
     fun followerUser(): Call<Responce>?
 
-    @GET("user/followerList")
+    @GET("user/followingList")
     fun followingUser(@Query("userId") userId: String): Call<Responce>?
 
     @POST("user/followUser")
@@ -85,12 +85,8 @@ interface Api_interface
     @POST("user/comment")
     fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
 
-    @Multipart
-    @POST("user/uploadMedia")
-    fun uploadMedia(@Part image: MultipartBody.Part?): Call<Responce>?
-
-    @POST("admin/uploadFile")
-    fun uploadFile(apiRequest: Api_Request): Call<Responce>?
+    @GET("user/getPost")
+    fun postDetails(@Query("postId") postId : String): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?

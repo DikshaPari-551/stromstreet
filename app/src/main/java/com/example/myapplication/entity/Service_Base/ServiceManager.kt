@@ -138,6 +138,9 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.comment(postId,jsonObject) }!!
             .enqueue(callBack)
     }
+    fun getPostDetails(callBack: ApiCallBack<Responce>,postId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!.enqueue(callBack)
+    }
 
     fun userUploadMedia(callBack: ApiCallBack<Responce>, image: MultipartBody.Part) {
         mContext?.let { Remotedatasource.current(it, true)!!.uploadMedia(image) }!!

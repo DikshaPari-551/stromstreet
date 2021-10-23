@@ -56,7 +56,45 @@ data class Result(
     @SerializedName("limit") val limit : Int,
     @SerializedName("page") val page : Int,
     @SerializedName("pages") val pages : Int,
-    @SerializedName("categoryResult") val categoryResult : List<CategoryResult>
+    @SerializedName("categoryResult") val categoryResult : List<CategoryResult>,
+    @SerializedName("postResult") val postResult : PostResult,
+    @SerializedName("likeCount") val likeCount : Int,
+    @SerializedName("commentCount") val commentCount : Int
+)
+
+data class PostResult (
+
+    @SerializedName("location") val location : Location,
+    @SerializedName("mediaType") val mediaType : String,
+    @SerializedName("description") val description : String,
+    @SerializedName("imageLinks") val imageLinks : List<String>,
+    @SerializedName("status") val status : String,
+    @SerializedName("thumbNail") val thumbNail : String,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("videoLink") val videoLink : String,
+    @SerializedName("userId") val userId : UserId,
+    @SerializedName("categoryId") val categoryId : CategoryId,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int
+)
+
+data class Location (
+
+    @SerializedName("type") val type : String,
+    @SerializedName("coordinates") val coordinates : List<Double>
+)
+data class UserId (
+
+    @SerializedName("_id") val _id : String,
+    @SerializedName("fullName") val fullName : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("userName") val userName : String
+)
+data class CategoryId (
+
+    @SerializedName("_id") val _id : String,
+    @SerializedName("categoryName") val categoryName : String
 )
 
 data class Docs (
@@ -88,18 +126,7 @@ data class PostId (
     @SerializedName("updatedAt") val updatedAt : String,
     @SerializedName("__v") val __v : Int
 )
-data class Location (
 
-    @SerializedName("type") val type : String,
-    @SerializedName("coordinates") val coordinates : List<Double>
-)
-data class UserId (
-
-    @SerializedName("_id") val _id : String,
-    @SerializedName("fullName") val fullName : String,
-    @SerializedName("email") val email : String,
-    @SerializedName("userName") val userName : String
-)
 data class FollowerId (
     @SerializedName("_id") val _id : String,
     @SerializedName("fullName") val fullName : String,
@@ -146,12 +173,16 @@ data class OtpResult(
 )
 
 data class SocialLinks(
+
     @SerializedName("facebook") val facebook: String,
     @SerializedName("twitter") val twitter: String,
     @SerializedName("instagram") val instagram: String,
     @SerializedName("youtube") val youtube: String
 )
-
+//    @SerializedName("status")
+//    var status: String,
+//    @SerializedName("images")
+//    var images: ArrayList<Data> = ArrayList<Data>()
 
 data class CategoryResult (
 

@@ -52,6 +52,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
+        postdetails()
         backPostButton = findViewById(R.id.back_arrow_post)
         sharePost=findViewById(R.id.share_post)
         savePost = findViewById(R.id.saved_post)
@@ -148,6 +149,23 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
     }
 
+    private fun postdetails() {
+//        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
+        val userId ="61711c7ec473b124b7369219"
+        if (androidextention.isOnline(this)) {
+            androidextention.showProgressDialog(this)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(this, "PostDetails", mContext)
+
+
+            try {
+                serviceManager.getPostDetails(callBack, userId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
     private fun saveunsave()  {
         val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         val userId ="61711c7ec473b124b7369219"
@@ -176,8 +194,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "LikeUnlike", mContext)
-//            val apiRequest = Api_Request()
-//            apiRequest.email = emailSignUp_et.getText().toString().trim()
+
 
 
             try {
@@ -209,7 +226,11 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-    if (apiName.equals("LikeUnlike")){
+        androidextention.disMissProgressDialog(this)
+
+        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+
+        if (apiName.equals("LikeUnlike")){
         video_post_like.setColorFilter(resources.getColor(R.color.red))
 
     }
@@ -222,7 +243,6 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
         }
 
 
-        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {

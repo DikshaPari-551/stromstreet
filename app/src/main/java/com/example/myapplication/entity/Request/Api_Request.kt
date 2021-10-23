@@ -22,6 +22,12 @@ class Api_Request {
     @SerializedName("emailUserName")
     var emailUserName: String? = null
 
+    @SerializedName("commentType")
+    var commentType: String? = null
+
+    @SerializedName("comment")
+    var comment: String? = null
+
     @SerializedName("password")
     var password: String? = null
 

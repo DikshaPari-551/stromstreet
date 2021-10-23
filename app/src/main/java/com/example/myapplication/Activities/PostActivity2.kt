@@ -1,10 +1,12 @@
 package com.example.myapplication.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -15,17 +17,31 @@ import com.example.myapplication.Fragments.ProfileFragment
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.R
+import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Service_Base.ApiResponseListener
+import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
+import com.example.sleeponcue.extension.diasplay_toast
+import okhttp3.ResponseBody
+import java.lang.Exception
 
-class PostActivity2 : AppCompatActivity() {
+class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
     private lateinit var post2recycler: RecyclerView
     private var loginFlag: Boolean = false
     lateinit var follow1: TextView
+    lateinit var add_comment: TextView
     lateinit var like: ImageView
     lateinit var comment: ImageView
     lateinit var share: ImageView
     lateinit var backButton: ImageView
+    lateinit var loadcomment: TextView
     lateinit var addComment: TextView
+    lateinit var commenttext: EditText
+    lateinit var commentvalue: String
+    var mContext: Context = this
 
 
     var click: Boolean = false
@@ -44,11 +60,14 @@ class PostActivity2 : AppCompatActivity() {
         loginFlag = LoginFlag.getLoginFlag()
 
         follow1 = findViewById(R.id.follow1)
+        add_comment = findViewById(R.id.add_comment)
         like = findViewById(R.id.like)
         comment = findViewById(R.id.comment1)
         share = findViewById(R.id.share1)
         backButton = findViewById(R.id.back_arrow)
         addComment = findViewById(R.id.add_comment)
+        loadcomment = findViewById(R.id.loadcomment)
+        commenttext = findViewById(R.id.commenttext)
 
 
         var adaptor = Post2Adapter()
@@ -84,6 +103,10 @@ class PostActivity2 : AppCompatActivity() {
             startActivity(i)
 
 
+        }
+        loadcomment.setOnClickListener {
+            commentvalue = commenttext.text.toString().trim()
+            postcomment()
         }
 
         like.setOnClickListener {
@@ -153,5 +176,46 @@ class PostActivity2 : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun postcomment() {
+        val userId ="617119fbd830986dd4a453a5"
+
+        if (androidextention.isOnline(this)) {
+            androidextention.showProgressDialog(this)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(this, "LoginApi", mContext)
+            val apiRequest = Api_Request()
+            apiRequest.commentType = "String"
+            apiRequest.comment = commentvalue
+
+//            savedPrefManager.saveStringPreferences(
+//                this,
+//                savedPrefManager.PASSWORD,
+//                apiRequest.password
+//            )
+
+            try {
+                serviceManager.commentOnPost(callBack, apiRequest,userId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+
+            diasplay_toast("Check Your Internet Connection")
+        }
+    }
+
+    override fun onApiSuccess(response: Responce, apiName: String?) {
+        Toast.makeText(this, "sucess", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
     }
 }
