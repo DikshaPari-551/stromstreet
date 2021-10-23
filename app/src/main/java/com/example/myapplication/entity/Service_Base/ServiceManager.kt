@@ -147,8 +147,8 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-    fun userUploadFile(callBack: ApiCallBack<Responce>, apiRequest: Api_Request) {
-        mContext?.let { Remotedatasource.current(it, false)!!.uploadFile(apiRequest) }!!
+    fun userUploadFile(callBack: ApiCallBack<Responce>, file : MultipartBody.Part?) {
+        mContext?.let { Remotedatasource.current(it, false)!!.uploadFile(file!!) }!!
             .enqueue(callBack)
     }
 

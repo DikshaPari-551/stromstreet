@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.myapplication.Fragments.AddPostFragment
@@ -27,10 +26,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import de.hdodenhof.circleimageview.CircleImageView
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -162,7 +158,6 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
                         image = data.data!!
-
                     }
                 }
             } else if (requestCode == CAMERA) {
@@ -261,10 +256,11 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
                 dismiss()
             }
         } else if (flag == "signup") {
+
             SavedPrefManager.saveStringPreferences(
                 activity,
                 AppConst.USER_SIGNUP_IMAGE,
-                image.toString()
+                image.path
             )
             SavedPrefManager.saveStringPreferences(
                 activity,
@@ -361,6 +357,34 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
             .check()
     }
 
+    /*
+     */
+    /*this method is used for open crop image */ /*
+	public static void startCropImage(Activity context, String fileName) {
+		Uri mImageCaptureUri = null;
+		mImageCaptureUri = Uri.fromFile(new File(context.getExternalFilesDir("temp"), fileName));
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(mImageCaptureUri, "image*/
+    /*");
+		intent.putExtra("crop", "true");
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+		intent.putExtra("return-data", false);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		intent.putExtra("noFaceDetection", true);
+		if (intent.resolveActivity(context.getPackageManager()) != null) {
+			context.startActivityForResult(intent, CROP_FROM_CAMERA);
+		} else {
+			Toast.makeText(context, "No Crop App Available", Toast.LENGTH_SHORT).show();
+		}
+	}*/
+    @Throws(IOException::class)
+    fun copyStream(input: InputStream, output: OutputStream) {
+        val buffer = ByteArray(1024)
+        var bytesRead: Int
+        while (input.read(buffer).also { bytesRead = it } != -1) {
+            output.write(buffer, 0, bytesRead)
+        }
+    }
 
 }
 

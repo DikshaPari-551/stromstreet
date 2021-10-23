@@ -123,16 +123,6 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 ) == true
             ) {
                 LogIn()
-//                var intent = Intent(applicationContext, MainActivity::class.java)
-//
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-//                this.finish()
-//
-//                startActivity(intent)
-//
-//                LoginFlag.setLoginFlag( true)
 
 
             }

@@ -14,6 +14,7 @@ import com.example.myapplication.ValidationExt.Validations
 import com.example.myapplication.bottomSheetDialog
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Request.SocialLinks
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
@@ -22,13 +23,14 @@ import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import de.hdodenhof.circleimageview.CircleImageView
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import java.io.File
+import java.io.InputStream
+
 
 class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var check: CheckBox
@@ -63,7 +65,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var circleProfile: CircleImageView
     lateinit var sign_up_full_name: EditText
     lateinit var error_text: TextView
-    var mContext: Context = this
+    lateinit var mContext: Context
     lateinit var image : Uri
     lateinit var imageFile : File
     lateinit var serviceManager : ServiceManager
@@ -73,7 +75,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-
+        mContext = this
         emailSignUp_et = findViewById(R.id.email_sign_etext)
         check_text = findViewById(R.id.check_text)
         phone_et = findViewById(R.id.phonenumber_et)
@@ -97,9 +99,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         error_text = findViewById(R.id.textView_error)
         confirmPasswordTEXT = findViewById(R.id.Confirmpassword_sign_text)
         confirmPasswordEt = findViewById(R.id.confirmpassword_sign_et)
-        image = Uri.parse(SavedPrefManager.getStringPreferences(mContext,AppConst.USER_SIGNUP_IMAGE))
 
-        imageFile = File(image.toString())
         camera.setOnClickListener {
             var bottomsheet = bottomSheetDialog("signup",circleProfile)
             bottomsheet.show(supportFragmentManager, "bottomsheet")
@@ -116,9 +116,18 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             checkboxCheck()
 
             CheckValidations()
-            if(SavedPrefManager.getStringPreferences(this,AppConst.USER_IMAGE_UPLOADED) == "true") {
-                uploadUserImageApi()
-            }
+//            if(SavedPrefManager.getStringPreferences(this,AppConst.USER_IMAGE_UPLOADED) == "true") {
+            image = Uri.parse(SavedPrefManager.getStringPreferences(mContext,AppConst.USER_SIGNUP_IMAGE))
+            imageFile = File(image.toString())
+//try {
+//    var inStream = contentResolver.openInputStream(image)!!
+//    print(inStream)
+//
+//    uploadUserImageApi(inStream)
+//}catch (e: java.lang.Exception){
+//    e.printStackTrace()
+//}
+//            }
 
             Signup()
         }
@@ -131,7 +140,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "SignupApi", mContext)
             val apiRequest = Api_Request()
-
+            val socialLinks = SocialLinks("facebookLink", "twitterLink", "instagramLink", "youtubeLink")
             apiRequest.email = emailSignUp_et.getText().toString().trim()
             apiRequest.fullName = sign_up_full_name.getText().toString().trim()
             apiRequest.userName = username_et.getText().toString().trim()
@@ -139,6 +148,8 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 //            apiRequest.password = password.getText().toString().trim()
             apiRequest.deviceType = "Android"
             apiRequest.profilePic = SavedPrefManager.getStringPreferences(mContext,AppConst.USER_IMAGE_LINK)
+            apiRequest.socialLinks = socialLinks
+
 
             try {
                 serviceManager.requestLoginUser(callBack, apiRequest)
@@ -264,7 +275,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         return true
     }
 
-    private fun uploadUserImageApi() {
+    private fun uploadUserImageApi(inStream: InputStream) {
         androidextention.showProgressDialog(mContext)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
@@ -276,7 +287,11 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                             response.responseMessage,
                             Toast.LENGTH_LONG
                         ).show()
-                        SavedPrefManager.saveStringPreferences(this@SignUpActivity,AppConst.USER_IMAGE_LINK,response.result.mediaUrl)
+                        SavedPrefManager.saveStringPreferences(
+                            this@SignUpActivity,
+                            AppConst.USER_IMAGE_LINK,
+                            response.result.mediaUrl
+                        )
                     } else {
                         Toast.makeText(
                             mContext,
@@ -304,15 +319,21 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     ).show()
                 }
 
-            }, "UploadFile",mContext)
+            }, "UploadFile", mContext)
 
-        val surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-        val apiRequest = Api_Request()
-        apiRequest.uploaded_file = createFormData("image", imageFile.name, surveyBody)
 
+        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+        var uploaded_file: MultipartBody.Part = createFormData("image", imageFile.name, surveyBody)
+
+        val part = MultipartBody.Part.createFormData(
+            "pic", "myPic", RequestBody.create(
+                "image/*".toMediaTypeOrNull(),
+                inStream?.readBytes()!!
+            )
+        )
 
         try {
-            serviceManager.userUploadFile(callBack,apiRequest)
+            serviceManager.userUploadFile(callBack, part)
         } catch (e: Exception) {
             e.printStackTrace()
         }
