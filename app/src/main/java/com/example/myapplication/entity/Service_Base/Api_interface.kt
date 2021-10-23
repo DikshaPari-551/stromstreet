@@ -83,6 +83,9 @@ interface Api_interface
 
     @POST("user/comment")
     fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
+
+    @GET("user/getPost")
+    fun postDetails(@Query("postId") postId : String): Call<Responce>?
 //
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?
