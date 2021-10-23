@@ -33,7 +33,7 @@ class Follower_Adaptor(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.followername.setText(list[position].followerId.fullName.toString())
+        holder.followername.setText(list[position].followerIdd.fullName.toString())
 
         holder.followerlist.setOnClickListener {
 

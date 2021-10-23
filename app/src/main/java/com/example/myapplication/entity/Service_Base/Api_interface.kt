@@ -76,6 +76,15 @@ interface Api_interface
     @POST("user/addPost")
     fun addPost(@Body jsonObject: Api_Request?): Call<Responce>?
 
+    @PUT("user/logOut")
+    fun logoutUser(): Call<Responce>?
+
+    @GET("user/savePostList")
+    fun savedList(): Call<Responce>?
+
+    @POST("user/comment")
+    fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
+
     @Multipart
     @POST("user/uploadMedia")
     fun uploadMedia(@Part image: MultipartBody.Part?): Call<Responce>?
