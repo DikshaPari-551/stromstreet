@@ -14,6 +14,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/mainlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
@@ -41,7 +42,7 @@
                 android:fontFamily="@font/opensans_light"
                 android:textStyle="bold"
                 android:textSize="7.5sp"
-                android:id="@+id/text_cabinet"
+                android:id="@+id/bio"
                 android:textColor="@color/black"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="5dp"/>
@@ -85,7 +86,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/text_view_msajak"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="20dp"

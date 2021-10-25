@@ -3,6 +3,7 @@ package com.example.myapplication.entity.Service_Base
 
 
 import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
 
 import retrofit2.Call
@@ -86,7 +87,10 @@ interface Api_interface
 
     @GET("user/getPost")
     fun postDetails(@Query("postId") postId : String): Call<Responce>?
-//
+
+    @POST("user/localActivities")
+    fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double): Call<LocalActivityResponse>?
+
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?
 //

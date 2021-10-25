@@ -41,12 +41,11 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     lateinit var eventType: TextView
     lateinit var totalLike: TextView
     lateinit var commentcount: TextView
+    var USERID: String = ""
+    var LikeUnlike: Boolean = false
 //    lateinit var totalshare: TextView
 
     private var loginFlag: Boolean = false
-
-
-
 
     var click :Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +57,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
+        getINent()
         postdetails()
         backPostButton = findViewById(R.id.back_arrow_post)
         sharePost=findViewById(R.id.share_post)
@@ -74,6 +74,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
         totalLike = findViewById(R.id.totalLike)
         commentcount = findViewById(R.id.commentcount)
 //        totalshare = findViewById(R.id.totalshare)
+
 
 
         backPostButton.setOnClickListener{
@@ -160,9 +161,16 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
     }
 
+    private fun getINent() {
+        try {
+            USERID = intent.getStringExtra("userId").toString()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
     private fun postdetails() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-        val userId ="61711c7ec473b124b7369219"
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
@@ -171,7 +179,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
 
             try {
-                serviceManager.getPostDetails(callBack, userId)
+                serviceManager.getPostDetails(callBack, USERID)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -179,7 +187,6 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     }
     private fun saveunsave()  {
         val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-        val userId ="61711c7ec473b124b7369219"
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
@@ -190,7 +197,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
 
             try {
-                serviceManager.getSavepost(callBack, userId)
+                serviceManager.getSavepost(callBack, USERID)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -199,7 +206,6 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
     private fun likeunlike() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-        val userId ="617119fbd830986dd4a453a5"
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
@@ -209,7 +215,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
 
             try {
-                serviceManager.getLikeunlike(callBack, userId)
+                serviceManager.getLikeunlike(callBack, USERID)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -219,7 +225,6 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
     private fun followunfollow() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-        val userId ="617119fbd830986dd4a453a5"
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
@@ -229,7 +234,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 //            apiRequest.email = emailSignUp_et.getText().toString().trim()
 
             try {
-                serviceManager.getFollowunfollow(callBack, userId)
+                serviceManager.getFollowunfollow(callBack, USERID)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -238,22 +243,35 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(this)
-
-        username.setText(response.result.postResult.userId.userName)
-        layoutMore.setText(response.result.postResult.description)
-        eventType.setText(response.result.postResult.categoryId.categoryName.toString())
-        totalLike.setText(response.result.likeCount.toString())
         commentcount.setText(response.result.commentCount.toString())
-//        totalshare.setText(response.result.commentCount)
-
-        var filedata = response.result.postResult.thumbNail
-        Glide.with(this).load(filedata).into(vedio);
-
-
+        LikeUnlike = response.result.isLike
 //        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
-        if (apiName.equals("LikeUnlike")){
-        video_post_like.setColorFilter(resources.getColor(R.color.red))
+        if (apiName.equals("PostDetails")){
+            username.setText(response.result.postResult.userId.userName.toString())
+            layoutMore.setText(response.result.postResult.description)
+            eventType.setText(response.result.postResult.categoryId.categoryName.toString())
+            totalLike.setText(response.result.likeCount.toString())
+            commentcount.setText(response.result.commentCount.toString())
 
+//        totalshare.setText(response.result.commentCount)
+            if(LikeUnlike == true){
+                video_post_like.setColorFilter(resources.getColor(R.color.red))
+
+            }
+            else if(LikeUnlike == false){
+                video_post_like.setColorFilter(resources.getColor(R.color.white))
+
+            }
+            var filedata = response.result.postResult.thumbNail
+            Glide.with(this).load(filedata).into(vedio);
+    }
+      else if (apiName.equals("LikeUnlike")){
+          if(LikeUnlike == true){
+              video_post_like.setColorFilter(resources.getColor(R.color.white))
+          }
+    else if(LikeUnlike == false){
+              video_post_like.setColorFilter(resources.getColor(R.color.red))
+          }
     }
     else if (apiName.equals("FollowUnfollow")){
             follow.setText("Following")

@@ -3,6 +3,7 @@ package com.example.myapplication.entity.Service_Base
 import android.content.Context
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
 
 
@@ -137,6 +138,10 @@ class ServiceManager(var mContext: Context?) {
     }
     fun getPostDetails(callBack: ApiCallBack<Responce>,postId: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!.enqueue(callBack)
+    }
+
+    fun getLocalActivity(callBack: ApiCallBack<LocalActivityResponse>, lat: Double, lng: Double) {
+        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng) }!!.enqueue(callBack)
     }
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
