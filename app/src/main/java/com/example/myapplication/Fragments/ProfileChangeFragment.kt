@@ -1,6 +1,8 @@
 package com.example.myapplication.Fragments
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Binder
@@ -29,6 +31,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import java.io.File
+import java.io.IOException
 
 
 class ProfileChangeFragment : Fragment() {
@@ -101,6 +104,7 @@ class ProfileChangeFragment : Fragment() {
         ) {
             userProfile.setImageURI(FileUpload.getImageFile())
         }
+
         backButton.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
@@ -127,6 +131,15 @@ class ProfileChangeFragment : Fragment() {
         }
         return v
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Glide.with(mContext).load(SavedPrefManager.getStringPreferences(activity, AppConst.USER_IMAGE_LINK))
+            .placeholder(R.drawable.circleprofile).into(userProfile)
+    }
+
+
 
     fun CheckValidations() {
         etfullName = fullNameProfileEt.text.toString()

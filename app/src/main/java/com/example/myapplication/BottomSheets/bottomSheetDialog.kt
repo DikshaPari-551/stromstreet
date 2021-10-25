@@ -349,14 +349,10 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
                 AppConst.USER_IMAGE_UPLOADED,
                 "true"
             )
-//            Glide.with(mContext).load(Saved)
-//                .placeholder(R.drawable.circleprofile).into(circleProfile)
-//            circleProfile?.setImageURI(image)
+            circleProfile?.setImageURI(image)
             FileUpload.setImageFile(image)
             dismiss()
             uploadUserImageApi()
-//            val fragobj = ProfileChangeFragment()
-//            fragobj.setArguments(bundle)
             fragmentManager?.beginTransaction()
                 ?.replace(R.id.linear_layout,ProfileChangeFragment())
                 ?.commit()
