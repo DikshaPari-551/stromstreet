@@ -2,7 +2,9 @@ package com.example.myapplication
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -15,9 +17,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.myapplication.Fragments.AddPostFragment
 import com.example.myapplication.Fragments.ProfileChangeFragment
+import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Service_Base.ApiResponseListener
+import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.FileUpload
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -26,6 +35,10 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import de.hdodenhof.circleimageview.CircleImageView
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -46,6 +59,11 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
     lateinit var bitmap: Bitmap
     val threeImageFlag = 0
     lateinit var image: Uri
+    lateinit var mContext : Context
+    lateinit var imageFile: File
+
+    lateinit var serviceManager: ServiceManager
+    lateinit var callBack: ApiCallBack<Responce>
 
 
     override fun onCreateView(
@@ -54,8 +72,10 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
         savedInstanceState: Bundle?
     ): View? {
         var v = inflater.inflate(R.layout.bottom_drawer, container, false)
-
+        requestMultiplePermissions()
 //        galleryPostActivity = GalleryPostActivity()
+        mContext = activity!!.applicationContext
+        serviceManager = ServiceManager(mContext)
         gallery = v.findViewById(R.id.gallery_open)
         camera = v.findViewById(R.id.camera_open)
         cancel = v.findViewById(R.id.cancel)
@@ -79,7 +99,13 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
                     choosePhotoFromGallary()
                 }
             } else {
-                choosePhotoFromGallary()
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.type = "image/*"
+                startActivityForResult(
+                    Intent.createChooser(intent, "Select Picture"),
+                    GALLERY
+                )
             }
         }
 
@@ -146,7 +172,48 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
     }
 
     private fun changeProfile(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return
+        }
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return
+        }
+        try {
+            if (requestCode == GALLERY) {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        image = data.data!!
+                        val path = getPathFromURI(image)
+                        if (path != null) {
+                            imageFile = File(path)
+                            image = Uri.fromFile(imageFile)
 
+                        }
+                    }
+                }
+            } else if (requestCode == CAMERA) {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        image = data.data!!
+                        val path = getPathFromURI(image)
+                        if (path != null) {
+                            imageFile = File(path)
+                            image = Uri.fromFile(imageFile)
+
+                        }
+                    }
+                }
+            }
+            try {
+                moveDataAnotherScreen(image, imageList)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+            }
+
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun signUpProfileUpload(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -158,12 +225,26 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
                         image = data.data!!
+                        val path = getPathFromURI(image)
+                        if (path != null) {
+                            imageFile = File(path)
+//                            FileUpload.setImageFile(f)
+                            image = Uri.fromFile(imageFile)
+
+                        }
                     }
                 }
             } else if (requestCode == CAMERA) {
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
                         image = data.data!!
+                        val path = getPathFromURI(image)
+                        if (path != null) {
+                            imageFile = File(path)
+//                            FileUpload.setImageFile(f)
+                            image = Uri.fromFile(imageFile)
+
+                        }
                     }
                 }
             }
@@ -244,36 +325,40 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
     }
 
     private fun moveDataAnotherScreen(image: Uri, imageList: ArrayList<Bitmap?>) {
-        val bundle = Bundle()
-        bundle.putParcelableArrayList("BitmapImage", imageList)
         if (flag.equals("addpost")) {
             if (imageList.size > 0) {
                 val fragobj = AddPostFragment()
-                fragobj.setArguments(bundle)
+//                fragobj.setArguments(bundle)
                 fragmentManager?.beginTransaction()
                     ?.replace(R.id.linear_layout, fragobj)
                     ?.commit()
                 dismiss()
             }
         } else if (flag == "signup") {
-
-            SavedPrefManager.saveStringPreferences(
-                activity,
-                AppConst.USER_SIGNUP_IMAGE,
-                image.path
-            )
             SavedPrefManager.saveStringPreferences(
                 activity,
                 AppConst.USER_IMAGE_UPLOADED,
                 "true"
             )
             circleProfile?.setImageURI(image)
+            uploadUserImageApi()
             dismiss()
         } else if (flag == "profilechange") {
-            val fragobj = ProfileChangeFragment()
-            fragobj.setArguments(bundle)
+            SavedPrefManager.saveStringPreferences(
+                activity,
+                AppConst.USER_IMAGE_UPLOADED,
+                "true"
+            )
+//            Glide.with(mContext).load(Saved)
+//                .placeholder(R.drawable.circleprofile).into(circleProfile)
+//            circleProfile?.setImageURI(image)
+            FileUpload.setImageFile(image)
+            dismiss()
+            uploadUserImageApi()
+//            val fragobj = ProfileChangeFragment()
+//            fragobj.setArguments(bundle)
             fragmentManager?.beginTransaction()
-                ?.replace(R.id.linear_layout, fragobj)
+                ?.replace(R.id.linear_layout,ProfileChangeFragment())
                 ?.commit()
             dismiss()
         }
@@ -357,34 +442,74 @@ class bottomSheetDialog(var flag: String, var circleProfile: CircleImageView?) :
             .check()
     }
 
-    /*
-     */
-    /*this method is used for open crop image */ /*
-	public static void startCropImage(Activity context, String fileName) {
-		Uri mImageCaptureUri = null;
-		mImageCaptureUri = Uri.fromFile(new File(context.getExternalFilesDir("temp"), fileName));
-		Intent intent = new Intent("com.android.camera.action.CROP");
-		intent.setDataAndType(mImageCaptureUri, "image*/
-    /*");
-		intent.putExtra("crop", "true");
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-		intent.putExtra("return-data", false);
-		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-		intent.putExtra("noFaceDetection", true);
-		if (intent.resolveActivity(context.getPackageManager()) != null) {
-			context.startActivityForResult(intent, CROP_FROM_CAMERA);
-		} else {
-			Toast.makeText(context, "No Crop App Available", Toast.LENGTH_SHORT).show();
-		}
-	}*/
-    @Throws(IOException::class)
-    fun copyStream(input: InputStream, output: OutputStream) {
-        val buffer = ByteArray(1024)
-        var bytesRead: Int
-        while (input.read(buffer).also { bytesRead = it } != -1) {
-            output.write(buffer, 0, bytesRead)
+   fun getPathFromURI(contentUri: Uri?): String? {
+        var res: String? = null
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor? = activity!!.getContentResolver().query(contentUri!!, proj, null, null, null)
+        if (cursor!!.moveToFirst()) {
+            val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            res = cursor.getString(column_index)
+        }
+        cursor.close()
+        return res
+    }
+
+    private fun uploadUserImageApi() {
+        androidextention.showProgressDialog(mContext)
+        callBack =
+            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+                override fun onApiSuccess(response: Responce, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    if (response.responseCode == "200") {
+                        Toast.makeText(
+                            mContext,
+                            response.responseMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        SavedPrefManager.saveStringPreferences(mContext, AppConst.USER_IMAGE_LINK,response.result.mediaUrl)
+                        SavedPrefManager.saveStringPreferences(mContext, AppConst.MEDIA_TYPE,response.result.mediaType)
+                    } else {
+                        Toast.makeText(
+                            mContext,
+                            response.responseMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    Toast.makeText(
+                        mContext,
+                        "error response" + response.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    Toast.makeText(
+                        mContext,
+                        "failure response:" + failureMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            }, "UploadFile", mContext)
+
+//        imageFile = FileUpload.getImageFile()
+        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+        var uploaded_file: MultipartBody.Part =
+            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
+
+
+        try {
+            serviceManager.userUploadFile(callBack, uploaded_file)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
+
 
 }
 

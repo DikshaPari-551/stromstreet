@@ -1,12 +1,16 @@
 package com.example.myapplication.Fragments
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Binder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.myapplication.*
 import com.example.myapplication.ValidationExt.Validations
 import com.example.myapplication.entity.ApiCallBack
@@ -16,11 +20,20 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.FileUpload
+import com.example.myapplication.util.SavedPrefManager
+import de.hdodenhof.circleimageview.CircleImageView
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import java.io.File
 
 
 class ProfileChangeFragment : Fragment() {
     lateinit var cameraProfileimg: ImageView
+    lateinit var userProfile: CircleImageView
     lateinit var fullNameProfileEt: EditText
     lateinit var nameProfileText: TextView
     lateinit var usernameProfileEt: EditText
@@ -46,12 +59,19 @@ class ProfileChangeFragment : Fragment() {
     private var facebookLink: String? = ""
     private var instagramLink: String? = ""
     private var youtubeLink: String? = ""
+    private var userProfileLink: String? = ""
+    private var imageType = ""
+    lateinit var imageFile: File
+    lateinit var serviceManager: ServiceManager
+    lateinit var callBack: ApiCallBack<Responce>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_profile_change, container, false)
+        mContext = activity!!.applicationContext
+        serviceManager = ServiceManager(mContext)
 
         fullNameProfileEt = v.findViewById(R.id.fullname_profile_et)
         nameProfileText = v.findViewById(R.id.name_profile_text)
@@ -67,11 +87,20 @@ class ProfileChangeFragment : Fragment() {
         etFacebookLink = v.findViewById(R.id.facebook_link)
         etInstagramLink = v.findViewById(R.id.instagram_link)
         etYoutubeLink = v.findViewById(R.id.youtube_link)
+        userProfile = v.findViewById(R.id.cuserProfile)
 
 
         mContext = activity!!
 
         getProfile()
+
+        if (SavedPrefManager.getStringPreferences(
+                mContext,
+                AppConst.USER_IMAGE_UPLOADED
+            ) == "true"
+        ) {
+            userProfile.setImageURI(FileUpload.getImageFile())
+        }
         backButton.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
@@ -89,13 +118,12 @@ class ProfileChangeFragment : Fragment() {
         cameraProfileimg = v.findViewById(R.id.img_camera_profile)
         cameraProfileimg.setOnClickListener {
             var bottomsheet =
-                bottomSheetDialog("profilechange", null)
+                bottomSheetDialog("profilechange", userProfile)
             fragmentManager?.let { it1 -> bottomsheet.show(it1, "bottomsheet") }
         }
 
         layoutButoonSaveChanges.setOnClickListener {
             CheckValidations()
-
         }
         return v
     }
@@ -121,7 +149,11 @@ class ProfileChangeFragment : Fragment() {
                 phoneNumberProfiletext
             )
         ) {
-            updateProfileDeatils()
+            if (SavedPrefManager.getStringPreferences(mContext, AppConst.USER_IMAGE_LINK) != null) {
+                updateProfileDeatils()
+            } else {
+                updateProfileDeatils()
+            }
         }
     }
 
@@ -142,6 +174,9 @@ class ProfileChangeFragment : Fragment() {
                         etFacebookLink.setText(response.result.userResult.socialLinks.facebook)
                         etInstagramLink.setText(response.result.userResult.socialLinks.instagram)
                         etYoutubeLink.setText(response.result.userResult.socialLinks.youtube)
+                        Glide.with(mContext).load(response.result.userResult.profilePic)
+                            .placeholder(R.drawable.circleprofile).into(userProfile)
+                        
                     } else {
                         Toast.makeText(activity, response.responseMessage, Toast.LENGTH_SHORT)
                             .show()
@@ -228,6 +263,8 @@ class ProfileChangeFragment : Fragment() {
         apiRequest.email = etemail
         apiRequest.userName = etuserName
         apiRequest.bio = etbio
+        apiRequest.profilePic =
+            SavedPrefManager.getStringPreferences(mContext, AppConst.USER_IMAGE_LINK)
         apiRequest.socialLinks = socialLinks
 
 
@@ -237,6 +274,4 @@ class ProfileChangeFragment : Fragment() {
             e.printStackTrace()
         }
     }
-
-
 }

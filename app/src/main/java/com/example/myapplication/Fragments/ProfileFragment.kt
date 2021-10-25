@@ -156,7 +156,7 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
         username.setText(response.result.userResult.userName)
         followers.setText(response.result.followerCount.toString())
         following.setText(response.result.followingCount.toString())
-        Glide.with(mContext).load(SavedPrefManager.getStringPreferences(mContext,AppConst.USER_IMAGE_LINK))
+        Glide.with(mContext).load(response.result.userResult.profilePic)
             .placeholder(R.drawable.circleprofile).into(user_profile)
 
 

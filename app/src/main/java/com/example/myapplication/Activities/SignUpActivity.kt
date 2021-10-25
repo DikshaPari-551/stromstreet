@@ -20,6 +20,7 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.FileUpload
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import de.hdodenhof.circleimageview.CircleImageView
@@ -64,18 +65,26 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var camera: ImageView
     lateinit var circleProfile: CircleImageView
     lateinit var sign_up_full_name: EditText
+    lateinit var twitterLink: EditText
+    lateinit var facebookLink: EditText
+    lateinit var instagramLink: EditText
+    lateinit var youtubeLink: EditText
+    lateinit var bio_text: EditText
     lateinit var error_text: TextView
     lateinit var mContext: Context
-    lateinit var image : Uri
-    lateinit var imageFile : File
-    lateinit var serviceManager : ServiceManager
+    lateinit var image: Uri
+    lateinit var imageFile: File
+    lateinit var serviceManager: ServiceManager
     lateinit var callBack: ApiCallBack<Responce>
+    var userProfile = ""
+    var imageType = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         mContext = this
+        serviceManager = ServiceManager(mContext)
         emailSignUp_et = findViewById(R.id.email_sign_etext)
         check_text = findViewById(R.id.check_text)
         phone_et = findViewById(R.id.phonenumber_et)
@@ -99,9 +108,14 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         error_text = findViewById(R.id.textView_error)
         confirmPasswordTEXT = findViewById(R.id.Confirmpassword_sign_text)
         confirmPasswordEt = findViewById(R.id.confirmpassword_sign_et)
+        twitterLink = findViewById(R.id.su_twitter_link)
+        facebookLink = findViewById(R.id.su_facebook_link)
+        instagramLink = findViewById(R.id.su_instagram_link)
+        youtubeLink = findViewById(R.id.su_youtube_link)
+        bio_text = findViewById(R.id.bio_text)
 
         camera.setOnClickListener {
-            var bottomsheet = bottomSheetDialog("signup",circleProfile)
+            var bottomsheet = bottomSheetDialog("signup", circleProfile)
             bottomsheet.show(supportFragmentManager, "bottomsheet")
         }
         login.setOnClickListener {
@@ -111,43 +125,35 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
 
         layout_signup.setOnClickListener {
-
             ConfirmPassword()
             checkboxCheck()
-
             CheckValidations()
-//            if(SavedPrefManager.getStringPreferences(this,AppConst.USER_IMAGE_UPLOADED) == "true") {
-            image = Uri.parse(SavedPrefManager.getStringPreferences(mContext,AppConst.USER_SIGNUP_IMAGE))
-            imageFile = File(image.toString())
-//try {
-//    var inStream = contentResolver.openInputStream(image)!!
-//    print(inStream)
-//
-//    uploadUserImageApi(inStream)
-//}catch (e: java.lang.Exception){
-//    e.printStackTrace()
-//}
-//            }
-
             Signup()
         }
     }
-    private fun Signup() {
 
+    private fun Signup() {
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "SignupApi", mContext)
             val apiRequest = Api_Request()
-            val socialLinks = SocialLinks("facebookLink", "twitterLink", "instagramLink", "youtubeLink")
-            apiRequest.email = emailSignUp_et.getText().toString().trim()
-            apiRequest.fullName = sign_up_full_name.getText().toString().trim()
+            val socialLinks =
+                SocialLinks(
+                    facebookLink.text.toString().trim(),
+                    twitterLink.text.toString().trim(),
+                    instagramLink.text.toString().trim(),
+                    youtubeLink.text.toString().trim()
+                )
+            apiRequest.fullName = sign_up_full_name.getText().toString()
             apiRequest.userName = username_et.getText().toString().trim()
+            apiRequest.email = emailSignUp_et.getText().toString().trim()
             apiRequest.password = password_et.getText().toString().trim()
-//            apiRequest.password = password.getText().toString().trim()
+            apiRequest.bio = bio_text.getText().toString()
             apiRequest.deviceType = "Android"
             apiRequest.profilePic = SavedPrefManager.getStringPreferences(mContext,AppConst.USER_IMAGE_LINK)
+
             apiRequest.socialLinks = socialLinks
 
 
@@ -161,6 +167,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             diasplay_toast("Check Your Internet Connection")
         }
     }
+
     override fun onApiSuccess(response: Responce, apiName: String?) {
 
         if (response.responseCode == "200") {
@@ -171,13 +178,11 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             intent.putExtra("EMAIL", response.result.email)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Toast.makeText(this,"Success"+response.result.otp,Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Success" + response.result.otp, Toast.LENGTH_LONG).show()
             startActivity(intent)
             this.finish()
 
-        }
-        else
-        {
+        } else {
             response.responseMessage?.let { androidextention.alertBox(it, this) }
 //            Toast.makeText(this,"",Toast.LENGTH_LONG).show()
 
@@ -187,10 +192,12 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this,"Error",Toast.LENGTH_LONG).show()    }
+        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+    }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this,"Failure",Toast.LENGTH_LONG).show()    }
+        Toast.makeText(this, "Failure", Toast.LENGTH_LONG).show()
+    }
 
     fun CheckValidations() {
         var confirmPassword = confirmPasswordEt.text.toString()
@@ -275,69 +282,61 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         return true
     }
 
-    private fun uploadUserImageApi(inStream: InputStream) {
-        androidextention.showProgressDialog(mContext)
-        callBack =
-            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
-                override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    if (response.responseCode == "200") {
-                        Toast.makeText(
-                            mContext,
-                            response.responseMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        SavedPrefManager.saveStringPreferences(
-                            this@SignUpActivity,
-                            AppConst.USER_IMAGE_LINK,
-                            response.result.mediaUrl
-                        )
-                    } else {
-                        Toast.makeText(
-                            mContext,
-                            response.responseMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(
-                        mContext,
-                        "error response" + response.toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-
-                override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(
-                        mContext,
-                        "failure response:" + failureMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-
-            }, "UploadFile", mContext)
-
-
-        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-        var uploaded_file: MultipartBody.Part = createFormData("image", imageFile.name, surveyBody)
-
-        val part = MultipartBody.Part.createFormData(
-            "pic", "myPic", RequestBody.create(
-                "image/*".toMediaTypeOrNull(),
-                inStream?.readBytes()!!
-            )
-        )
-
-        try {
-            serviceManager.userUploadFile(callBack, part)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+//    private fun uploadUserImageApi() {
+//        androidextention.showProgressDialog(mContext)
+//        callBack =
+//            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+//                override fun onApiSuccess(response: Responce, apiName: String?) {
+//                    androidextention.disMissProgressDialog(mContext)
+//                    if (response.responseCode == "200") {
+//                        Toast.makeText(
+//                            mContext,
+//                            response.responseMessage,
+//                            Toast.LENGTH_LONG
+//                        ).show()
+//                        userProfile = response.result.mediaUrl
+//                        imageType = response.result.mediaType
+//                    } else {
+//                        Toast.makeText(
+//                            mContext,
+//                            response.responseMessage,
+//                            Toast.LENGTH_LONG
+//                        ).show()
+//                    }
+//                }
+//
+//                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+//                    androidextention.disMissProgressDialog(mContext)
+//                    Toast.makeText(
+//                        mContext,
+//                        "error response" + response.toString(),
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                }
+//
+//                override fun onApiFailure(failureMessage: String?, apiName: String?) {
+//                    androidextention.disMissProgressDialog(mContext)
+//                    Toast.makeText(
+//                        mContext,
+//                        "failure response:" + failureMessage,
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                }
+//
+//            }, "UploadFile", mContext)
+//
+//        imageFile = FileUpload.getImageFile()
+//        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+//        var uploaded_file: MultipartBody.Part =
+//            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
+//
+//
+//        try {
+//            serviceManager.userUploadFile(callBack, uploaded_file)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//    }
 
 
 }

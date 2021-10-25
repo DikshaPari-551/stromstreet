@@ -9,5 +9,6 @@ class AppConst {
         var USER_SIGNUP_IMAGE : String = "user_image"
         var USER_IMAGE_UPLOADED : String = "false"
         var USER_IMAGE_LINK : String = "user_image_link"
+        var MEDIA_TYPE : String = "media_type"
     }
 }
