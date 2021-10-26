@@ -13,7 +13,7 @@ import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
-import com.mobiloitte.hrms.utils.SavedPrefManager
+import com.example.myapplication.util.SavedPrefManager
 
 class PostActivity3 : AppCompatActivity() {
     lateinit var comment: ImageView

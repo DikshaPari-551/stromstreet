@@ -1,13 +1,11 @@
 package com.example.myapplication.Fragments
 
 import android.content.Intent
-import android.media.Image
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,17 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
-import com.mobiloitte.hrms.utils.SavedPrefManager
+import com.example.myapplication.util.SavedPrefManager
 
 
 class TrendingFragment : Fragment() {
     lateinit var Go : LinearLayout
     lateinit var textLocalPostTrending:TextView
     lateinit var textFollowingPostTrending:TextView
-    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
-    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1")
-    var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event")
-    var lajpat  : List<String> =listOf("Lajpat Nagar","Okhla Saket","Lajpat Nagar","Saket","Lajpat Nagar")
+//    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
+//    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1")
+//    var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event")
+//    var lajpat  : List<String> =listOf("Lajpat Nagar","Okhla Saket","Lajpat Nagar","Saket","Lajpat Nagar")
     lateinit var recycler_view2: RecyclerView
     lateinit var trending_post_text:TextView
     lateinit var trandingBackButton: ImageView
@@ -98,18 +96,12 @@ class TrendingFragment : Fragment() {
                 ?.commit()
 
         }
-        var adaptor = activity?.let {
-            HomeAdaptor(
-                weather,
-                okhla,
-                event,
-                lajpat,
-                it
-            )
-        }
-        val layoutManager = LinearLayoutManager(activity)
-        recycler_view2.layoutManager = layoutManager
-        recycler_view2.adapter = adaptor
+//        var adaptor = activity?.let {
+//
+//        }
+//        val layoutManager = LinearLayoutManager(activity)
+//        recycler_view2.layoutManager = layoutManager
+//        recycler_view2.adapter = adaptor
         return v
 
 

@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Fragments.AddPostFragment
+import com.example.myapplication.Fragments.ProfileChangeFragment
 import com.github.chiragji.gallerykit.GalleryKitDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -28,7 +29,7 @@ import java.io.*
 import java.util.*
 
 
-class bottomSheetDialog : BottomSheetDialogFragment() {
+class bottomSheetDialog(var flag : String) : BottomSheetDialogFragment() {
     var pic_id = 123
     private val pickImage = 100
     lateinit var cancel: TextView
@@ -37,6 +38,7 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
     private val GALLERY = 1
     private var CAMERA: Int = 2
     private val IMAGE_DIRECTORY = "/demonuts"
+    private var openFlag = ""
 
 
     override fun onCreateView(
@@ -85,8 +87,6 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
 
     private fun takePhotoFromCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        val f = File(Environment.getExternalStorageDirectory(), "temp.jpg")
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f))
         startActivityForResult(intent, CAMERA)
     }
 
@@ -103,16 +103,21 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
                         MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
                     val path: String? = saveImage(bitmap)
                     Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
-//                    imageview.setImageBitmap(bitmap)
                     val bundle = Bundle()
                     bundle.putParcelable("BitmapImage", bitmap)
-// set Fragmentclass Arguments
-// set Fragmentclass Arguments
+                    if(flag.equals("addpost")){
                     val fragobj = AddPostFragment()
                     fragobj.setArguments(bundle)
                     fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
                         ?.commit()
                     dismiss()
+                    }else {
+                        val fragobj = ProfileChangeFragment()
+                        fragobj.setArguments(bundle)
+                        fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
+                            ?.commit()
+                        dismiss()
+                    }
                 } catch (e: IOException) {
                     e.printStackTrace()
                     Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
@@ -121,8 +126,6 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
         } else if (requestCode == CAMERA) {
             if (data?.extras != null) {
                 val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
-                // val thumbnail = data?.extras!!["data"] as Bitmap?
-//            imageview.setImageBitmap(thumbnail)
                 val bundle = Bundle()
                 bundle.putParcelable("BitmapImage", thumbnail)
                 val fragobj = AddPostFragment()
@@ -130,9 +133,6 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
                 fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
                     ?.commit()
                 dismiss()
-//                if (thumbnail != null) {
-//                    saveImage(thumbnail)
-//                }
                 Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -144,7 +144,7 @@ class bottomSheetDialog : BottomSheetDialogFragment() {
         val wallpaperDirectory = File(
             Environment.getExternalStorageState() + IMAGE_DIRECTORY
         )
-        // have the object build the directory structure, if needed.
+
         if (!wallpaperDirectory.exists()) {
             wallpaperDirectory.mkdirs()
         }

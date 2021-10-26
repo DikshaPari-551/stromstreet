@@ -1,7 +1,9 @@
 package com.example.myapplication.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +12,17 @@ import com.example.myapplication.ValidationExt.Validations
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.MainActivity
 import com.example.myapplication.bottomSheetDialog
+import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Service_Base.ApiResponseListener
+import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
+import com.example.sleeponcue.extension.diasplay_toast
+import okhttp3.ResponseBody
+import java.lang.Exception
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var check: CheckBox
     lateinit var nameSignUp: TextView
     lateinit var confirmPasswordEt: EditText
@@ -43,6 +54,8 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var camera: ImageView
     lateinit var sign_up_full_name: EditText
     lateinit var error_text: TextView
+    var mContext: Context = this
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -71,7 +84,7 @@ class SignUpActivity : AppCompatActivity() {
         confirmPasswordEt = findViewById(R.id.confirmpassword_sign_et)
 
         camera.setOnClickListener {
-            var bottomsheet = bottomSheetDialog()
+            var bottomsheet = bottomSheetDialog("signup")
             bottomsheet.show(supportFragmentManager, "bottomsheet")
         }
         login.setOnClickListener {
@@ -85,8 +98,66 @@ class SignUpActivity : AppCompatActivity() {
             checkboxCheck()
 
             CheckValidations()
+            Signup()
         }
     }
+    private fun Signup() {
+
+        if (androidextention.isOnline(this)) {
+            androidextention.showProgressDialog(this)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(this, "SignupApi", mContext)
+            val apiRequest = Api_Request()
+
+            apiRequest.email = emailSignUp_et.getText().toString().trim()
+            apiRequest.fullName = sign_up_full_name.getText().toString().trim()
+            apiRequest.userName = username_et.getText().toString().trim()
+            apiRequest.password = password_et.getText().toString().trim()
+//            apiRequest.password = password.getText().toString().trim()
+            apiRequest.deviceType = "Android"
+//            apiRequest.profile_pic = "data:image/png;base64," + base64
+
+            try {
+                serviceManager.requestLoginUser(callBack, apiRequest)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+
+            diasplay_toast("Check Your Internet Connection")
+        }
+    }
+    override fun onApiSuccess(response: Responce, apiName: String?) {
+
+        if (response.responseCode == "200") {
+            androidextention.disMissProgressDialog(this)
+            Log.w("", "Response" + response.result)
+            var intent = Intent(this, EmailVerificationActivity::class.java)
+            intent.putExtra("FORGOTACTIVITY", "signupactivity")
+            intent.putExtra("EMAIL", response.result.email)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Toast.makeText(this,"Success"+response.result.otp,Toast.LENGTH_LONG).show()
+            startActivity(intent)
+            this.finish()
+
+        }
+        else
+        {
+            response.responseMessage?.let { androidextention.alertBox(it, this) }
+//            Toast.makeText(this,"",Toast.LENGTH_LONG).show()
+
+        }
+
+
+    }
+
+    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        Toast.makeText(this,"Error",Toast.LENGTH_LONG).show()    }
+
+    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        Toast.makeText(this,"Failure",Toast.LENGTH_LONG).show()    }
 
     fun CheckValidations() {
         var confirmPassword = confirmPasswordEt.text.toString()
@@ -107,8 +178,8 @@ class SignUpActivity : AppCompatActivity() {
                 password_text
             ) && ConfirmPassword() && checkboxCheck() == true
         ) {
-            var intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+
+
         }
 //        Validations.required(
 //            fullnameSignUp,
@@ -170,4 +241,8 @@ class SignUpActivity : AppCompatActivity() {
         }
         return true
     }
+
+
+
+
 }

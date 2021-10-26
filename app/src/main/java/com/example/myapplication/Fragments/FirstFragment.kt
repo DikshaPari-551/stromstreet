@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Adaptor.profileAdaptor
+import com.example.myapplication.Adaptor.ProfileAdaptor
 import com.example.myapplication.R
 
 class FirstFragment : Fragment() {
@@ -24,11 +24,11 @@ lateinit var recycler:RecyclerView
 
 
         recycler=v.findViewById(R.id.recycler_view_tab1)
-        var adaptor = profileAdaptor()
-        val layoutManager = LinearLayoutManager(activity)
+
+        val adaptor = ProfileAdaptor()
+        val layoutManager = GridLayoutManager(activity,3)
         recycler.layoutManager = layoutManager
         recycler.adapter = adaptor
-
         return v
 
     }

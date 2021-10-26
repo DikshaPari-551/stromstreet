@@ -2,6 +2,7 @@ package com.example.myapplication.BottomSheets
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -9,18 +10,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import com.example.myapplication.Fragments.ProfileChangeFragment
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Service_Base.ApiResponseListener
+import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.SavedPrefManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import okhttp3.ResponseBody
 
-class BottomSheetLogout : BottomSheetDialogFragment() {
+class BottomSheetLogout : BottomSheetDialogFragment(), ApiResponseListener<Responce> {
     var pic_id = 123
     private val pickImage = 100
     lateinit var cancel_logout: TextView
     lateinit var logout: TextView
+    lateinit var mContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +38,7 @@ class BottomSheetLogout : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         var v = inflater.inflate(R.layout.logout_screen, container, false)
+        mContext = activity!!
 
 
         logout=v.findViewById(R.id.logout)
@@ -36,19 +47,63 @@ class BottomSheetLogout : BottomSheetDialogFragment() {
               BottomSheetLogout()
 
         logout.setOnClickListener{
-            var intent =Intent(activity,
-                LoginActivity::class.java)
-            startActivity(intent)
-            MainActivity().finish()
-            (context as Activity).finishAffinity()
-
+            logoutApi()
+//            var intent =Intent(activity,
+//                LoginActivity::class.java)
+//            startActivity(intent)
+//            MainActivity().finish()
+//            (context as Activity).finishAffinity()
         }
         cancel_logout.setOnClickListener {
            dismiss()
         }
         return v
     }
+
     override fun getTheme(): Int =
         R.style.BottomSheetDialogTheme
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
+
+    private fun logoutApi() {
+//        val Token = SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
+
+
+        if (androidextention.isOnline(mContext)) {
+            androidextention.showProgressDialog(mContext)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(this, "Logout", mContext)
+//            val apiRequest = Api_Request()
+
+//            apiRequest.email = emailSignUp_et.getText().toString().trim()
+
+
+            try {
+                serviceManager.getLogout(callBack)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    override fun onApiSuccess(response: Responce, apiName: String?) {
+//        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
+
+        var intent =Intent(activity,
+                LoginActivity::class.java)
+            startActivity(intent)
+            MainActivity().finish()
+            (context as Activity).finishAffinity()    }
+
+    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+
+    }
+
+    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+
+    }
+
+
 }

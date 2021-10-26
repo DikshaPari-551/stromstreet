@@ -1,6 +1,9 @@
 package com.example.myapplication.Fragments
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,15 +11,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
-import com.mobiloitte.hrms.utils.SavedPrefManager
+import com.example.myapplication.customclickListner.CustomClickListner
+import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Response.Docs
 
-class HomeFragment : Fragment() {
+import com.example.myapplication.entity.Response.Docss
+import com.example.myapplication.entity.Response.LocalActivityResponse
+import com.example.myapplication.entity.Service_Base.ApiResponseListener
+import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.SavedPrefManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import okhttp3.ResponseBody
 
+class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , CustomClickListner2 {
+    lateinit var mContext: Context
+    private val LOCATION_PERMISSION_REQ_CODE = 1000;
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
     lateinit var man: ImageView
     var weather: List<String> = listOf("Weather", "Crime", "Weater", "Crime", "Weather")
     var okhla: List<String> =
@@ -27,17 +51,23 @@ class HomeFragment : Fragment() {
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
-    lateinit var userHome : ImageView
-    lateinit var backArrowHome : ImageView
+    lateinit var userHome: ImageView
+    lateinit var backArrowHome: ImageView
+    lateinit var adaptor: HomeAdaptor
+    lateinit var USERID: String
 
 
     lateinit var home_text: TextView
     lateinit var recycler_view1: RecyclerView
     lateinit var filter: ImageView
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mContext = activity!!
+        fusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
 
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_home, container, false)
@@ -47,16 +77,19 @@ class HomeFragment : Fragment() {
         followingPost = v.findViewById(R.id.text_following_post)
         userHome = v.findViewById(R.id.user_home)
         backArrowHome = v.findViewById(R.id.back_arrow_home)
-
-        man=v.findViewById(R.id.user_home)
-        man.setOnClickListener{
-            if((  SavedPrefManager.getStringPreferences(activity,  SavedPrefManager.KEY_IS_LOGIN).equals("true"))){
-            getFragmentManager()?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                ProfileFragment()
-            )
-                ?.commit()
-        }else{
+        man = v.findViewById(R.id.user_home)
+        locationpermission()
+        getLocalActivityApi()
+        man.setOnClickListener {
+            if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true"))
+            ) {
+                getFragmentManager()?.beginTransaction()?.replace(
+                    R.id.linear_layout,
+                    ProfileFragment()
+                )
+                    ?.commit()
+            } else {
                 val i = Intent(activity, LoginActivity::class.java)
                 startActivity(i)
             }
@@ -83,8 +116,9 @@ class HomeFragment : Fragment() {
 
         }
 
-        backArrowHome.setOnClickListener{
-            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())?.commit()
+        backArrowHome.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
+                ?.commit()
         }
 
         filter = v.findViewById(R.id.filter)
@@ -96,21 +130,109 @@ class HomeFragment : Fragment() {
                 ?.commit()
 
         }
-        var adaptor = activity?.let {
-            HomeAdaptor(
-                weather,
-                okhla,
-                event,
-                lajpat,
-                it
-            )
-        }
-        val layoutManager = LinearLayoutManager(activity)
-        recycler_view1.layoutManager = layoutManager
-        recycler_view1.adapter = adaptor
+//        var adaptor = activity?.let {
+//            HomeAdaptor(
+//                weather,
+//                okhla,
+//                event,
+//                lajpat,
+//                it
+//            )
+//        }
+
+
+
+//        val layoutManager = GridLayoutManager(activity, 2)
+//
+//        recycler_view1.layoutManager = layoutManager
+//        recycler_view1.adapter = adaptor
 
         return v
     }
+
+    private fun getLocalActivityApi() {
+        if (androidextention.isOnline(mContext)) {
+            androidextention.showProgressDialog(mContext)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<LocalActivityResponse> =
+                ApiCallBack<LocalActivityResponse>(this, "LocalActivity", mContext)
+
+
+            try {
+                serviceManager.getLocalActivity(callBack,latitude,longitude)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
+        androidextention.disMissProgressDialog(activity)
+        var list = ArrayList<Docss>()
+        list.addAll(response.result.docs)
+        setAdapter(list)
+
+
+//            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+    }
+
+    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+    }
+
+    fun setAdapter(list: ArrayList<Docss>) {
+        adaptor = this?.let { HomeAdaptor(it, list,this) }!!
+        val layoutManager = GridLayoutManager(activity,2)
+        recycler_view1?.layoutManager = layoutManager
+        recycler_view1?.adapter = adaptor
+    }
+
+
+    private fun locationpermission() {
+        // checking location permission
+        if (ActivityCompat.checkSelfPermission(
+                mContext,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // request permission
+            ActivityCompat.requestPermissions(
+                mContext as Activity,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQ_CODE
+            );
+            return
+        }
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                // getting the last known or current location
+                latitude = location.latitude
+                longitude = location.longitude
+                           }
+            .addOnFailureListener {
+                Toast.makeText(mContext, "Failed on getting current location",
+                    Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    override fun customClick(value: Docss, type: String)
+    {
+//        USERID =   "61711c7ec473b124b7369219"
+        USERID =   value._id
+
+        if (type.equals("profile")){
+
+            var intent = Intent(mContext, PostActivity::class.java)
+            intent.putExtra("userId", USERID)
+            startActivity(intent)
+        }
+
+    }
+
 
 
 }

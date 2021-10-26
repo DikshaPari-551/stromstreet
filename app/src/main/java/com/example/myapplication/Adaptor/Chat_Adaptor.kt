@@ -13,17 +13,15 @@ import com.example.myapplication.R
 
 class Chat_Adaptor(
     var mcontext: Context
-): RecyclerView.Adapter<Chat_Adaptor.MyViewHolder>() {
+) : RecyclerView.Adapter<Chat_Adaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var chat=view.findViewById<LinearLayout>(R.id.chat_layout)
-
+        var chat = view.findViewById<LinearLayout>(R.id.chat_layout)
 
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Chat_Adaptor.MyViewHolder {
-        var item = LayoutInflater.from(parent.context).
-        inflate(R.layout.layout_message,null)
+        var item = LayoutInflater.from(parent.context).inflate(R.layout.layout_message, null)
         return MyViewHolder(item)
     }
 
@@ -31,7 +29,7 @@ class Chat_Adaptor(
         return 15
     }
 
-    override fun onBindViewHolder(holder:MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.chat.setOnClickListener {
 
             (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java))

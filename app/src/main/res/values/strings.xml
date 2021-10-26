@@ -4,7 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <string name="lbl_image_res">Image Resource</string>
     <string name="lbl_image_select_box">Image Select Box</string>
     <string name="lbl_video_icon">Video Icon</string>
@@ -20,4 +19,6 @@
     <string name="btn_gallery_dialog">gallery dialog</string>
     <string name="forgotpassword"><u>Forgot Password?</u></string>
     <string name="signup"><u>  Sign Up</u></string>
+    <string name="server_not_responding">server not responding</string>
+
 </resources>

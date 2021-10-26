@@ -98,6 +98,7 @@
                         android:src="@drawable/location" />
 
                     <TextView
+                        android:id="@+id/location"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
@@ -117,6 +118,7 @@
                     android:background="@drawable/rount_rect">
 
                     <EditText
+                        android:id="@+id/post_description"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"

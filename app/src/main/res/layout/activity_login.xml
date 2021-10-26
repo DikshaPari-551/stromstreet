@@ -200,10 +200,10 @@
             android:textStyle="normal" />
 
     <LinearLayout
+        android:id="@+id/layout_login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="30.3dp"
-        android:id="@+id/layout_login"
         android:background="@drawable/rectangle_background_button">
 
         <TextView
