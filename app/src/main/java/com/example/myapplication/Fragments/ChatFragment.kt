@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.Chat_Adaptor
 import com.example.myapplication.R
+import io.socket.client.IO
+import io.socket.client.Socket
+import java.net.URISyntaxException
 
 
 class ChatFragment : Fragment() {
@@ -18,11 +21,17 @@ class ChatFragment : Fragment() {
     lateinit var backButton:ImageView
 
     lateinit var adaptor:Chat_Adaptor
+    private var mSocket: Socket? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        try {
+            mSocket = IO.socket("http://172.16.2.19:3027")
+        } catch (e: URISyntaxException) {
+        }
         var v= inflater.inflate(R.layout.fragment_chat, container, false)
         recycler_view3=v.findViewById(R.id.recycler_view3)
         backButton=v.findViewById(R.id.back_arrow_chat)
@@ -38,13 +47,7 @@ class ChatFragment : Fragment() {
 
 
         }
-//        var extras = getIntent("openF2").getExtras();
-//        if(extras!=null && extras.containsKey("openF2"))
-//            val openF2 = extras?.getBoolean("openF2");
-//        if(openF2 == true){
-//            //add or replace fragment F2 in container
-//        }
-//    }
+        mSocket!!.connect();
 
 
         return v
