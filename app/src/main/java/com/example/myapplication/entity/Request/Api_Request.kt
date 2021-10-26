@@ -8,6 +8,9 @@ class Api_Request {
     @SerializedName("fullName")
     var fullName: String? = null
 
+    @SerializedName("userId")
+    var userId: String? = null
+
     @SerializedName("countryCode")
     var countryCode: String? = null
 
@@ -75,6 +78,8 @@ class Api_Request {
     @SerializedName("otp")
     @Expose
     var otp: Int? = null
+
+
 }
 
 data class SocialLinks(

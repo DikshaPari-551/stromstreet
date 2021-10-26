@@ -3,6 +3,7 @@ package com.example.myapplication.Activities
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,13 @@ import com.example.myapplication.Adaptor.MessageAdaptor
 import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.socket.SocketInstance
+import com.google.gson.JsonObject
+import io.socket.client.IO
+import io.socket.client.Socket
+import io.socket.emitter.Emitter
+import org.json.JSONObject
+import java.net.URISyntaxException
 
 
 class ChatActivity : AppCompatActivity() {
@@ -23,11 +31,22 @@ class ChatActivity : AppCompatActivity() {
     lateinit var chat_layout: LinearLayout
     lateinit var list_view: ListView
     var arr: ArrayList<HashMap<String, String>> = arrayListOf()
-
+     var  socket: Socket?=null
     lateinit var adapter: Adapter
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        val rmApplication: SocketInstance = applicationContext as SocketInstance
+        socket= rmApplication.getMSocket()
+
+        val options = IO.Options()
+        options.reconnection = true //reconnection
+        options.forceNew = true
+
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -48,13 +67,13 @@ class ChatActivity : AppCompatActivity() {
 
         sendImgIcon.setOnClickListener {
 
-            var data = add.text.toString()
+            var text = add.text.toString()
             var hash: HashMap<String, String> = HashMap()
-            hash.put("Data", data)
+            hash.put("Data", text)
             arr.add(hash)
             adaptor.notifyDataSetChanged()
-
             add.setText("")
+            Update(text)
 
 //            list_view.setBackgroundResource(R.drawable.drawable_chat)
         }
@@ -73,5 +92,29 @@ class ChatActivity : AppCompatActivity() {
             finish();
             startActivity(intent);
         }
+        ONLINE()
     }
+
+    private fun ONLINE() {
+      val jsonObject: JSONObject = JSONObject()
+          .put("userId", "616dccdab83a9818f8080f3c")
+        socket?.connect()
+        socket?.on("onlineUser", `onNewMessage`);
+        socket?.emit("onlineUser",jsonObject.toString());
+    }
+
+    private fun Update(text: String) {
+        val data = JSONObject()
+        data.put("senderId", "616dccdab83a9818f8080f3c");
+        data.put("receiverId", "616e08960a9d5515902f7ae2");
+        data.put("message", text);
+        socket?.emit("oneToOneChat", data);
+    }
+}
+
+object onNewMessage : Emitter.Listener {
+    override fun call(vararg args: Any?) {
+Log.d("check",args.toString())
+    }
+
 }

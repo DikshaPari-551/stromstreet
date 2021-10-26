@@ -24,6 +24,7 @@
 
     <application
         android:allowBackup="true"
+        android:name="com.example.myapplication.socket.SocketInstance"
         android:icon="@mipmap/ic_launcher"
         android:label="Strom street"
         android:networkSecurityConfig="@xml/network_config"
