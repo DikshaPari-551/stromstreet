@@ -3,10 +3,12 @@ package com.example.myapplication.Fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Binder
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.MediaStore.Images
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.myapplication.*
 import com.example.myapplication.ValidationExt.Validations
+import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Request.SocialLinks
@@ -23,18 +26,17 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
-import com.example.myapplication.util.FileUpload
 import com.example.myapplication.util.SavedPrefManager
 import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.IOException
 
 
-class ProfileChangeFragment : Fragment() {
+class ProfileChangeFragment : Fragment(), ClickListner {
     lateinit var cameraProfileimg: ImageView
     lateinit var userProfile: CircleImageView
     lateinit var fullNameProfileEt: EditText
@@ -63,10 +65,15 @@ class ProfileChangeFragment : Fragment() {
     private var instagramLink: String? = ""
     private var youtubeLink: String? = ""
     private var userProfileLink: String? = ""
+    private var USER_IMAGE_UPLOADED: String? = ""
     private var imageType = ""
     lateinit var imageFile: File
     lateinit var serviceManager: ServiceManager
     lateinit var callBack: ApiCallBack<Responce>
+    private val GALLERY = 1
+    private var CAMERA: Int = 2
+    lateinit var image: Uri
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,20 +98,11 @@ class ProfileChangeFragment : Fragment() {
         etInstagramLink = v.findViewById(R.id.instagram_link)
         etYoutubeLink = v.findViewById(R.id.youtube_link)
         userProfile = v.findViewById(R.id.cuserProfile)
-
-
+        cameraProfileimg = v.findViewById(R.id.img_camera_profile)
+        layoutButoonSaveChanges = v.findViewById(R.id.layout_butoon_svae_changes)
         mContext = activity!!
 
-        getProfile()
-
-        if (SavedPrefManager.getStringPreferences(
-                mContext,
-                AppConst.USER_IMAGE_UPLOADED
-            ) == "true"
-        ) {
-            userProfile.setImageURI(FileUpload.getImageFile())
-        }
-
+        //clicks
         backButton.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
@@ -113,33 +111,28 @@ class ProfileChangeFragment : Fragment() {
                 ?.commit()
         }
 
-        layoutButoonSaveChanges = v.findViewById(R.id.layout_butoon_svae_changes)
-
-
         layoutButoonSaveChanges.setOnClickListener {
 
         }
-        cameraProfileimg = v.findViewById(R.id.img_camera_profile)
+
         cameraProfileimg.setOnClickListener {
             var bottomsheet =
-                bottomSheetDialog("profilechange", userProfile)
+                bottomSheetDialog("profilechange",this)
             fragmentManager?.let { it1 -> bottomsheet.show(it1, "bottomsheet") }
         }
 
         layoutButoonSaveChanges.setOnClickListener {
             CheckValidations()
         }
+
+        //api
+//        if(USER_IMAGE_UPLOADED == "ture"){
+//
+//        }
+        getProfile()
+
         return v
     }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Glide.with(mContext).load(SavedPrefManager.getStringPreferences(activity, AppConst.USER_IMAGE_LINK))
-            .placeholder(R.drawable.circleprofile).into(userProfile)
-    }
-
-
 
     fun CheckValidations() {
         etfullName = fullNameProfileEt.text.toString()
@@ -189,7 +182,7 @@ class ProfileChangeFragment : Fragment() {
                         etYoutubeLink.setText(response.result.userResult.socialLinks.youtube)
                         Glide.with(mContext).load(response.result.userResult.profilePic)
                             .placeholder(R.drawable.circleprofile).into(userProfile)
-                        
+
                     } else {
                         Toast.makeText(activity, response.responseMessage, Toast.LENGTH_SHORT)
                             .show()
@@ -276,8 +269,7 @@ class ProfileChangeFragment : Fragment() {
         apiRequest.email = etemail
         apiRequest.userName = etuserName
         apiRequest.bio = etbio
-        apiRequest.profilePic =
-            SavedPrefManager.getStringPreferences(mContext, AppConst.USER_IMAGE_LINK)
+        apiRequest.profilePic = userProfileLink
         apiRequest.socialLinks = socialLinks
 
 
@@ -287,4 +279,142 @@ class ProfileChangeFragment : Fragment() {
             e.printStackTrace()
         }
     }
+
+    private fun uploadUserImageApi() {
+        androidextention.showProgressDialog(mContext)
+        callBack =
+            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+                override fun onApiSuccess(response: Responce, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    if (response.responseCode == "200") {
+                        userProfileLink = response.result.mediaUrl
+                        imageType = response.result.mediaType
+
+                    } else {
+                        Toast.makeText(
+                            mContext,
+                            response.responseMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    Toast.makeText(
+                        mContext,
+                        "error response" + response.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    Toast.makeText(
+                        mContext,
+                        "failure response:" + failureMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            }, "UploadFile", mContext)
+
+        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+        var uploaded_file: MultipartBody.Part =
+            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
+
+
+        try {
+            serviceManager.userUploadFile(callBack, uploaded_file)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun clickListner(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        bottomSheetDialog: bottomSheetDialog
+    ) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return
+        }
+        try {
+            if (requestCode == GALLERY) {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        image = data.data!!
+                        userProfile.setImageURI(image)
+                        bottomSheetDialog.dismiss()
+                        val path = getPathFromURI(image)
+                        if (path != null) {
+                            imageFile = File(path)
+//                            image = Uri.fromFile(imageFile)
+
+                        }
+                        USER_IMAGE_UPLOADED = "ture"
+                        uploadUserImageApi()
+                    }
+
+                }
+            } else if (requestCode == CAMERA) {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
+                        userProfile.setImageBitmap(thumbnail)
+                        bottomSheetDialog.dismiss()
+
+                        // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                        val tempUri: Uri =
+                            getImageUri(activity!!.applicationContext, thumbnail)!!
+                        val path = getPathFromURI(tempUri)
+                        if (path != null) {
+                            imageFile = File(path)
+//                            image = Uri.fromFile(imageFile)
+
+                        }
+                        USER_IMAGE_UPLOADED = "ture"
+                        uploadUserImageApi()
+                    }
+                }
+            }
+//            try {
+//
+//                userProfile.setImageURI(image)
+//
+//                uploadUserImageApi()
+////                fragmentManager?.beginTransaction()
+////                    ?.replace(R.id.linear_layout,ProfileChangeFragment())
+////                    ?.commit()
+//                bottomSheetDialog.dismiss()
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//                Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+//            }
+
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
+    }
+
+    fun getPathFromURI(contentUri: Uri?): String? {
+        var res: String? = null
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor? = activity!!.getContentResolver().query(contentUri!!, proj, null, null, null)
+        if (cursor!!.moveToFirst()) {
+            val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            res = cursor.getString(column_index)
+        }
+        cursor.close()
+        return res
+    }
+
+
 }

@@ -5,8 +5,6 @@ import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.Callback
 
 
 class ServiceManager(var mContext: Context?) {
@@ -151,6 +149,13 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, false)!!.uploadFile(file!!) }!!
             .enqueue(callBack)
     }
+    fun addUpost(callBack: ApiCallBack<Responce>, file: ArrayList<MultipartBody.Part>?) {
+        mContext?.let { Remotedatasource.current(it, false)!!.addUPost(file!!) }!!
+            .enqueue(callBack)
+    }
+
+
+
 
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)

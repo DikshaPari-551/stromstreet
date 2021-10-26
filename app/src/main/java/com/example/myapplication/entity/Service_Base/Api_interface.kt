@@ -5,7 +5,6 @@ package com.example.myapplication.entity.Service_Base
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
 import retrofit2.Call
 import retrofit2.http.*
@@ -95,6 +94,11 @@ interface Api_interface
     @Multipart
     @POST("admin/uploadFile")
     fun uploadFile(@Part file : MultipartBody.Part?): Call<Responce>?
+
+
+    @Multipart
+    @POST("admin/uploadFile")
+    fun addUPost(file: ArrayList<MultipartBody.Part>?): Call<Responce>?
 
 
 //

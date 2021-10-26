@@ -8,17 +8,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.myapplication.Fragments.ChatFragment
-import com.example.myapplication.Fragments.HomeFragment
-import com.example.myapplication.Fragments.ProfileFragment
-import com.example.myapplication.Fragments.TrendingFragment
+import com.example.myapplication.Fragments.*
+import com.example.myapplication.customclickListner.AddPostClickListner
+import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import java.io.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , ClickListner{
    lateinit var menu:ImageView
     lateinit var bubble:ImageView
     lateinit var profile:ImageView
@@ -30,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     var file : File? = null
     private var GALLERY = 1
     private  var CAMERA:Int = 2
-
+    private lateinit var addPostListner : AddPostClickListner
 
     lateinit var chat:ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
             RequestPermission.requestMultiplePermissions(this)
         }
+
         menu=findViewById(R.id.menu)
         bubble=findViewById(R.id.bubble)
         profile=findViewById(R.id.profile)
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
         add.setOnClickListener{
             if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
-                var bottomsheet = bottomSheetDialog("addpost",null)
+                var bottomsheet = bottomSheetDialog("addpost", this)
                 bottomsheet.show(supportFragmentManager, "bottomsheet")
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
@@ -139,5 +139,15 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         SavedPrefManager.saveStringPreferences(this, AppConst.IMAGEDATA, "false")
     }
+
+    override fun clickListner(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        bottomSheetDialog: bottomSheetDialog
+    ) {
+        supportFragmentManager.beginTransaction().replace(R.id.linear_layout,AddPostFragment(requestCode,resultCode,data,bottomSheetDialog)).commit()
+    }
+
 
 }

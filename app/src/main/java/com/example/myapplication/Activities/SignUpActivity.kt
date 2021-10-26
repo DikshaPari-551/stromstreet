@@ -1,9 +1,13 @@
 package com.example.myapplication.Activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -12,6 +16,7 @@ import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.ValidationExt.Validations
 import com.example.myapplication.bottomSheetDialog
+import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Request.SocialLinks
@@ -20,20 +25,18 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
-import com.example.myapplication.util.FileUpload
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.InputStream
 
 
-class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
+class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickListner {
     lateinit var check: CheckBox
     lateinit var nameSignUp: TextView
     lateinit var confirmPasswordEt: EditText
@@ -72,12 +75,15 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var bio_text: EditText
     lateinit var error_text: TextView
     lateinit var mContext: Context
+    private var USER_IMAGE_UPLOADED: String? = ""
     lateinit var image: Uri
     lateinit var imageFile: File
     lateinit var serviceManager: ServiceManager
     lateinit var callBack: ApiCallBack<Responce>
     var userProfile = ""
     var imageType = ""
+    private val GALLERY = 1
+    private var CAMERA: Int = 2
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,7 +121,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         bio_text = findViewById(R.id.bio_text)
 
         camera.setOnClickListener {
-            var bottomsheet = bottomSheetDialog("signup", circleProfile)
+            var bottomsheet = bottomSheetDialog("signup", this)
             bottomsheet.show(supportFragmentManager, "bottomsheet")
         }
         login.setOnClickListener {
@@ -149,11 +155,11 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             apiRequest.fullName = sign_up_full_name.getText().toString()
             apiRequest.userName = username_et.getText().toString().trim()
             apiRequest.email = emailSignUp_et.getText().toString().trim()
+            apiRequest.phoneNumber = phone_et.getText().toString().trim()
             apiRequest.password = password_et.getText().toString().trim()
             apiRequest.bio = bio_text.getText().toString()
             apiRequest.deviceType = "Android"
-            apiRequest.profilePic = SavedPrefManager.getStringPreferences(mContext,AppConst.USER_IMAGE_LINK)
-
+            apiRequest.profilePic = userProfile
             apiRequest.socialLinks = socialLinks
 
 
@@ -282,61 +288,129 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         return true
     }
 
-//    private fun uploadUserImageApi() {
-//        androidextention.showProgressDialog(mContext)
-//        callBack =
-//            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
-//                override fun onApiSuccess(response: Responce, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
-//                    if (response.responseCode == "200") {
-//                        Toast.makeText(
-//                            mContext,
-//                            response.responseMessage,
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                        userProfile = response.result.mediaUrl
-//                        imageType = response.result.mediaType
-//                    } else {
-//                        Toast.makeText(
-//                            mContext,
-//                            response.responseMessage,
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                    }
-//                }
-//
-//                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
-//                    Toast.makeText(
-//                        mContext,
-//                        "error response" + response.toString(),
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//                }
-//
-//                override fun onApiFailure(failureMessage: String?, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
-//                    Toast.makeText(
-//                        mContext,
-//                        "failure response:" + failureMessage,
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//                }
-//
-//            }, "UploadFile", mContext)
-//
+    override fun clickListner(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        bottomSheetDialog: bottomSheetDialog
+    ) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return
+        }
+        try {
+            if (requestCode == GALLERY) {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        image = data.data!!
+                        circleProfile.setImageURI(image)
+                        bottomSheetDialog.dismiss()
+                        val path = getPathFromURI(image)
+                        if (path != null) {
+                            imageFile = File(path)
+//                            image = Uri.fromFile(imageFile)
+
+                        }
+                        USER_IMAGE_UPLOADED = "ture"
+                        uploadUserImageApi()
+                    }
+
+                }
+            } else if (requestCode == CAMERA) {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
+                        circleProfile.setImageBitmap(thumbnail)
+                        bottomSheetDialog.dismiss()
+
+                        // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                        val tempUri: Uri =
+                            getImageUri(this, thumbnail)!!
+                        val path = getPathFromURI(tempUri)
+                        if (path != null) {
+                            imageFile = File(path)
+//                            image = Uri.fromFile(imageFile)
+
+                        }
+                        USER_IMAGE_UPLOADED = "ture"
+                        uploadUserImageApi()
+                    }
+                }
+            }
+
+
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
+    }
+
+    fun getPathFromURI(contentUri: Uri?): String? {
+        var res: String? = null
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor? = contentResolver.query(contentUri!!, proj, null, null, null)
+        if (cursor!!.moveToFirst()) {
+            val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            res = cursor.getString(column_index)
+        }
+        cursor.close()
+        return res
+    }
+
+    private fun uploadUserImageApi() {
+        androidextention.showProgressDialog(mContext)
+        callBack =
+            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+                override fun onApiSuccess(response: Responce, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    if (response.responseCode == "200") {
+                        userProfile = response.result.mediaUrl
+                        imageType = response.result.mediaType
+                    } else {
+                        Toast.makeText(
+                            mContext,
+                            response.responseMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    Toast.makeText(
+                        mContext,
+                        "error response" + response.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    Toast.makeText(
+                        mContext,
+                        "failure response:" + failureMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            }, "UploadFile", mContext)
+
 //        imageFile = FileUpload.getImageFile()
-//        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-//        var uploaded_file: MultipartBody.Part =
-//            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
-//
-//
-//        try {
-//            serviceManager.userUploadFile(callBack, uploaded_file)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
+        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+        var uploaded_file: MultipartBody.Part =
+            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
+
+
+        try {
+            serviceManager.userUploadFile(callBack, uploaded_file)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
 
 }
