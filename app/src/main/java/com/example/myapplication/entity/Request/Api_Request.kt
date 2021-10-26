@@ -75,6 +75,12 @@ class Api_Request {
     @SerializedName("otp")
     @Expose
     var otp: Int? = null
+
+    @SerializedName("reportType")
+    var reportType: String? = null
+
+
+
 }
 
 data class SocialLinks(

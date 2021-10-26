@@ -47,7 +47,7 @@ interface Api_interface
     fun getUserProfile(@Header("token")value: String): Call<Responce>?
 
     @GET("user/followerList")
-    fun followerUser(): Call<Responce>?
+    fun followerUser(): Call<LocalActivityResponse>?
 
     @GET("user/followingList")
     fun followingUser(@Query("userId") userId: String): Call<Responce>?
@@ -60,9 +60,6 @@ interface Api_interface
 
     @POST("user/savePost")
     fun saveUnsave(@Query("postId") postId : String): Call<Responce>?
-
-//    @POST("user/forgotPassword")
-//    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/editProfile")
     fun userDetails(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -85,12 +82,17 @@ interface Api_interface
     @POST("user/comment")
     fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
 
+    @POST("user/createReport")
+    fun reportPost(@Query("_id") _id: String, @Body apiRequest: Api_Request?): Call<Responce>?
+
     @GET("user/getPost")
     fun postDetails(@Query("postId") postId : String): Call<Responce>?
 
     @POST("user/localActivities")
     fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double): Call<LocalActivityResponse>?
 
+    @POST("user/trendingPostList")
+    fun trendingPost(): Call<LocalActivityResponse>?
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?
 //

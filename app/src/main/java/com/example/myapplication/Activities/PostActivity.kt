@@ -24,30 +24,32 @@ import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 import java.lang.Exception
 
-class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
+class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
     lateinit var comment: ImageView
     lateinit var vedio: ImageView
     lateinit var more: TextView
     lateinit var video_post_like: ImageView
-    lateinit var sharePost:ImageView
-    lateinit var savePost:ImageView
-    lateinit var notifyPost:ImageView
+    lateinit var sharePost: ImageView
+    lateinit var savePost: ImageView
+    lateinit var notifyPost: ImageView
     lateinit var follow: TextView
-    lateinit var backPostButton : ImageView
+    lateinit var backPostButton: ImageView
     var mContext: Context = this
-    lateinit var username:TextView
+    lateinit var username: TextView
     lateinit var layoutMore: TextView
     lateinit var eventType: TextView
     lateinit var totalLike: TextView
     lateinit var commentcount: TextView
     var USERID: String = ""
+    var postid: String = ""
     var LikeUnlike: Boolean = false
+    var isFollow: Boolean = false
 //    lateinit var totalshare: TextView
 
     private var loginFlag: Boolean = false
 
-    var click :Boolean = false
+    var click: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
@@ -60,7 +62,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
         getINent()
         postdetails()
         backPostButton = findViewById(R.id.back_arrow_post)
-        sharePost=findViewById(R.id.share_post)
+        sharePost = findViewById(R.id.share_post)
         savePost = findViewById(R.id.saved_post)
         video_post_like = findViewById(R.id.video_post_like)
         notifyPost = findViewById(R.id.notify_post)
@@ -76,8 +78,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 //        totalshare = findViewById(R.id.totalshare)
 
 
-
-        backPostButton.setOnClickListener{
+        backPostButton.setOnClickListener {
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
 //            finish()
@@ -104,17 +105,19 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
         savePost.setOnClickListener {
             saveunsave()
-            if(click == false){
-//                Toast.makeText(this,"Post Saved", Toast.LENGTH_SHORT).show()
+            if (click == false) {
+                Toast.makeText(this,"Post Saved", Toast.LENGTH_SHORT).show()
                 click = true
-            }else if(click == true){
-//                Toast.makeText(this,"Post Unsaved", Toast.LENGTH_SHORT).show()
-                click=false
+            } else if (click == true) {
+                Toast.makeText(this,"Post Unsaved", Toast.LENGTH_SHORT).show()
+                click = false
             }
         }
 
         sharePost.setOnClickListener {
-            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 val i = Intent(Intent.ACTION_SEND)
                 i.setType("text/plain")
                 var shareBody: String = "Share Body"
@@ -131,7 +134,7 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
         }
 
         notifyPost.setOnClickListener {
-            Toast.makeText(this,"Notification", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
 
         }
 
@@ -163,8 +166,9 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
 
     private fun getINent() {
         try {
-            USERID = intent.getStringExtra("userId").toString()
-        }catch (e:Exception){
+            USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager._id).toString()
+
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -176,8 +180,6 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "PostDetails", mContext)
-
-
             try {
                 serviceManager.getPostDetails(callBack, USERID)
             } catch (e: Exception) {
@@ -185,17 +187,16 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
             }
         }
     }
-    private fun saveunsave()  {
-        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
+
+    private fun saveunsave() {
+        val Token = SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "SaveUnsave", mContext)
 //            val apiRequest = Api_Request()
 //            apiRequest.email = emailSignUp_et.getText().toString().trim()
-
-
             try {
                 serviceManager.getSavepost(callBack, USERID)
             } catch (e: Exception) {
@@ -207,13 +208,10 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     private fun likeunlike() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "LikeUnlike", mContext)
-
-
-
             try {
                 serviceManager.getLikeunlike(callBack, USERID)
             } catch (e: Exception) {
@@ -226,15 +224,11 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
     private fun followunfollow() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "FollowUnfollow", mContext)
-//            val apiRequest = Api_Request()
-//            apiRequest.email = emailSignUp_et.getText().toString().trim()
-
             try {
-                serviceManager.getFollowunfollow(callBack, USERID)
+                serviceManager.getFollowunfollow(callBack, postid)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -245,43 +239,43 @@ class PostActivity : AppCompatActivity() , ApiResponseListener<Responce> {
         androidextention.disMissProgressDialog(this)
         commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike
-//        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
-        if (apiName.equals("PostDetails")){
+        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+        if (apiName.equals("PostDetails")) {
             username.setText(response.result.postResult.userId.userName.toString())
             layoutMore.setText(response.result.postResult.description)
             eventType.setText(response.result.postResult.categoryId.categoryName.toString())
             totalLike.setText(response.result.likeCount.toString())
             commentcount.setText(response.result.commentCount.toString())
+            postid =  response.result.postResult.userId._id.toString()
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
 
 //        totalshare.setText(response.result.commentCount)
-            if(LikeUnlike == true){
+            if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))
 
-            }
-            else if(LikeUnlike == false){
+            } else if (LikeUnlike == false) {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
-
             }
             var filedata = response.result.postResult.thumbNail
             Glide.with(this).load(filedata).into(vedio);
-    }
-      else if (apiName.equals("LikeUnlike")){
-          if(LikeUnlike == true){
-              video_post_like.setColorFilter(resources.getColor(R.color.white))
-          }
-    else if(LikeUnlike == false){
-              video_post_like.setColorFilter(resources.getColor(R.color.red))
-          }
-    }
-    else if (apiName.equals("FollowUnfollow")){
-            follow.setText("Following")
-            click = true
-        }else if(click == true){
-            follow.setText("+ Follow")
-            click=false
         }
 
+        else if (apiName.equals("LikeUnlike")) {
+            if (LikeUnlike == true) {
+                video_post_like.setColorFilter(resources.getColor(R.color.white))
+            } else if (LikeUnlike == false) {
+                video_post_like.setColorFilter(resources.getColor(R.color.red))
+            }
+        }
 
+        else if (apiName.equals("FollowUnfollow"))
+        {
+            if (isFollow == true) {
+                follow.setText("Following")
+            } else if (isFollow == false) {
+                follow.setText("Unfollow")
+            }
+        }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {

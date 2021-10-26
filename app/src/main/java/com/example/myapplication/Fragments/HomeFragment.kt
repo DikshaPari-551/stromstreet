@@ -42,12 +42,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     lateinit var man: ImageView
-    var weather: List<String> = listOf("Weather", "Crime", "Weater", "Crime", "Weather")
-    var okhla: List<String> =
-        listOf("Okhla phase1", "Okhla phase2", "Okhla phase1", "Okhla phase2", "Okhla phase1")
-    var event: List<String> = listOf("Event", "Traffic", "Event", "Traffic", "Event")
-    var lajpat: List<String> =
-        listOf("Lajpat Nagar", "Okhla Saket", "Lajpat Nagar", "Saket", "Lajpat Nagar")
+//    var weather: List<String> = listOf("Weather", "Crime", "Weater", "Crime", "Weather")
+//    var okhla: List<String> =
+//        listOf("Okhla phase1", "Okhla phase2", "Okhla phase1", "Okhla phase2", "Okhla phase1")
+//    var event: List<String> = listOf("Event", "Traffic", "Event", "Traffic", "Event")
+//    var lajpat: List<String> =
+//        listOf("Lajpat Nagar", "Okhla Saket", "Lajpat Nagar", "Saket", "Lajpat Nagar")
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
@@ -168,9 +168,11 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
+
         var list = ArrayList<Docss>()
         list.addAll(response.result.docs)
         setAdapter(list)
+
 
 
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
@@ -185,6 +187,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
     }
 
     fun setAdapter(list: ArrayList<Docss>) {
+
         adaptor = this?.let { HomeAdaptor(it, list,this) }!!
         val layoutManager = GridLayoutManager(activity,2)
         recycler_view1?.layoutManager = layoutManager
@@ -225,10 +228,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         USERID =   value._id
 
         if (type.equals("profile")){
-
             var intent = Intent(mContext, PostActivity::class.java)
-            intent.putExtra("userId", USERID)
-            startActivity(intent)
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id,USERID)
+
+                startActivity(intent)
         }
 
     }

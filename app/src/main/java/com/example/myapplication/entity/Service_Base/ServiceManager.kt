@@ -103,7 +103,7 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
     }
 
-    fun getFollower(callBack: ApiCallBack<Responce>) {
+    fun getFollower(callBack: ApiCallBack<LocalActivityResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.followerUser() }!!.enqueue(callBack)
     }
 
@@ -136,12 +136,19 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.comment(postId,jsonObject) }!!
             .enqueue(callBack)
     }
+    fun reportPostApi(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, _id : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.reportPost(_id,jsonObject) }!!
+            .enqueue(callBack)
+    }
     fun getPostDetails(callBack: ApiCallBack<Responce>,postId: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!.enqueue(callBack)
     }
 
     fun getLocalActivity(callBack: ApiCallBack<LocalActivityResponse>, lat: Double, lng: Double) {
         mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng) }!!.enqueue(callBack)
+    }
+    fun getTrendingPost(callBack: ApiCallBack<LocalActivityResponse>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.trendingPost() }!!.enqueue(callBack)
     }
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)

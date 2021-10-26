@@ -21,12 +21,18 @@ data class Result(
     @SerializedName("userType") val userType: String,
     @SerializedName("otpVerification") val otpVerification: Boolean,
     @SerializedName("status") val status: String,
+    @SerializedName("request") val request: String,
+    @SerializedName("responseStatus") val responseStatus: String,
     @SerializedName("profileType") val profileType: String,
     @SerializedName("_id") val _id: String,
     @SerializedName("fullName") val fullName: String,
     @SerializedName("countryCode") val countryCode: String,
     @SerializedName("phoneNumber") val phoneNumber: String,
     @SerializedName("email") val email: String,
+    @SerializedName("fromEmail") val fromEmail: String,
+    @SerializedName("toEmail") val toEmail: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("reportType") val reportType: String,
     @SerializedName("password") val password: String,
     @SerializedName("userName") val userName: String,
     @SerializedName("deviceType") val deviceType: String,
@@ -57,7 +63,8 @@ data class Result(
     @SerializedName("postResult") val postResult : PostResult,
     @SerializedName("likeCount") val likeCount : Int,
     @SerializedName("commentCount") val commentCount : Int,
-    @SerializedName("isLike") val isLike : Boolean
+    @SerializedName("isLike") val isLike : Boolean,
+    @SerializedName("isFollow") val isFollow : Boolean
 )
 
 

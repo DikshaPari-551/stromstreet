@@ -4,7 +4,7 @@ class ServiceConstant
 {
     companion object {
         // staging
-//        val BASE_URL="https://acb8-182-71-75-106.ngrok.io/api/v1/"
+//        val BASE_URL="https://975b-182-71-75-106.ngrok.io/api/v1/"
         val BASE_URL="https://node-stromestreet.mobiloitte.com/api/v1/"
 
 
