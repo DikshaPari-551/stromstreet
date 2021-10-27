@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
     <uses-permission
         android:name="android.permission.CAMERA"
         android:required="true"
@@ -28,7 +30,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.UserProfile"></activity>
+        <activity android:name=".Activities.ReportPost"></activity>
+        <activity android:name=".Activities.UserProfile" />
         <activity android:name=".Activities.ChangePassword" />
         <activity android:name=".Activities.Following" />
         <activity android:name=".Activities.Followers" />

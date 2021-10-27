@@ -8,11 +8,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.entity.Response.Docs
+import com.example.myapplication.entity.Response.Docss
 
 class Follower_Adaptor(
     var mcontext: Context,
-    var list: ArrayList<Docs>
+    var list: ArrayList<Docss>
 ) : RecyclerView.Adapter<Follower_Adaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var followerlist = view.findViewById<LinearLayout>(R.id.chat_layout)
@@ -33,7 +33,7 @@ class Follower_Adaptor(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.followername.setText(list[position].followerIdd.fullName.toString())
+        holder.followername.setText(list[position].followerId.fullName.toString())
 
         holder.followerlist.setOnClickListener {
 

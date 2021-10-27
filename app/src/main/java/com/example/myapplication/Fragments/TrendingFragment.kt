@@ -1,46 +1,62 @@
 package com.example.myapplication.Fragments
 
+import android.content.Context
 import android.content.Intent
-import android.media.Image
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.HomeAdaptor
+import com.example.myapplication.Adaptor.TrendingListAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Response.Docss
+import com.example.myapplication.entity.Response.LocalActivityResponse
+import com.example.myapplication.entity.Service_Base.ApiResponseListener
+import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
+import okhttp3.ResponseBody
 
 
-class TrendingFragment : Fragment() {
+class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
+    CustomClickListner2 {
+    lateinit var mContext: Context
+    lateinit var adaptor: TrendingListAdaptor
+    lateinit var USERID: String
     lateinit var Go : LinearLayout
     lateinit var textLocalPostTrending:TextView
     lateinit var textFollowingPostTrending:TextView
-    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
-    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1")
-    var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event")
-    var lajpat  : List<String> =listOf("Lajpat Nagar","Okhla Saket","Lajpat Nagar","Saket","Lajpat Nagar")
     lateinit var recycler_view2: RecyclerView
     lateinit var trending_post_text:TextView
     lateinit var trandingBackButton: ImageView
-
     lateinit var filter: ImageView
-
     lateinit var userTrendingImg:ImageView
+    //    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
+//    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1")
+//    var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event")
+//    var lajpat  : List<String> =listOf("Lajpat Nagar","Okhla Saket","Lajpat Nagar","Saket","Lajpat Nagar")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mContext = activity!!
+
         // Inflate the layout for this fragment
         var v= inflater.inflate(R.layout.fragment_trending, container, false)
+        getTrendingPostApi()
 
         Go = v.findViewById(R.id.go)
 
@@ -98,20 +114,68 @@ class TrendingFragment : Fragment() {
                 ?.commit()
 
         }
-        var adaptor = activity?.let {
-            HomeAdaptor(
-                weather,
-                okhla,
-                event,
-                lajpat,
-                it
-            )
-        }
-        val layoutManager = LinearLayoutManager(activity)
-        recycler_view2.layoutManager = layoutManager
-        recycler_view2.adapter = adaptor
+//        var adaptor = activity?.let {
+//
+//        }
+//        val layoutManager = LinearLayoutManager(activity)
+//        recycler_view2.layoutManager = layoutManager
+//        recycler_view2.adapter = adaptor
         return v
 
+
+    }
+
+    private fun getTrendingPostApi() {
+        if (androidextention.isOnline(mContext)) {
+            androidextention.showProgressDialog(mContext)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<LocalActivityResponse> =
+                ApiCallBack<LocalActivityResponse>(this, "LocalActivity", mContext)
+
+
+            try {
+                serviceManager.getTrendingPost(callBack)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
+        androidextention.disMissProgressDialog(activity)
+        var list = ArrayList<Docss>()
+        list.addAll(response.result.docs)
+        setAdapter(list)
+
+
+            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+    }
+
+    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+    }
+
+    fun setAdapter(list: ArrayList<Docss>) {
+        adaptor = this?.let { TrendingListAdaptor(it, list,this) }!!
+        val layoutManager = GridLayoutManager(activity,2)
+        recycler_view2?.layoutManager = layoutManager
+        recycler_view2?.adapter = adaptor
+    }
+
+    override fun customClick(value: Docss, type: String)   {
+//        USERID =   "61711c7ec473b124b7369219"
+        USERID =   value._id
+
+        if (type.equals("profile")){
+
+            var intent = Intent(mContext, PostActivity::class.java)
+            intent.putExtra("userId", USERID)
+            startActivity(intent)
+        }
 
     }
 }

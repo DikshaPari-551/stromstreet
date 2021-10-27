@@ -3,6 +3,7 @@ package com.example.myapplication.entity.Service_Base
 
 
 import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
 import okhttp3.MultipartBody
 
@@ -85,6 +86,9 @@ interface Api_interface
     @POST("user/comment")
     fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
 
+    @POST("user/createReport")
+    fun reportPost(@Query("_id") _id: String, @Body apiRequest: Api_Request?): Call<Responce>?
+
     @GET("user/getPost")
     fun postDetails(@Query("postId") postId : String): Call<Responce>?
 
@@ -102,6 +106,12 @@ interface Api_interface
 
 
 //
+
+    @POST("user/localActivities")
+    fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double): Call<LocalActivityResponse>?
+
+    @POST("user/trendingPostList")
+    fun trendingPost(): Call<LocalActivityResponse>?
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?
 //

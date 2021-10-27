@@ -84,6 +84,12 @@ class Api_Request {
     @SerializedName("uploaded_file")
     @Expose
     var uploaded_file: MultipartBody.Part? = null
+
+    @SerializedName("reportType")
+    var reportType: String? = null
+
+
+
 }
 
 data class SocialLinks(

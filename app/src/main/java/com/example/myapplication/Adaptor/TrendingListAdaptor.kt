@@ -1,6 +1,5 @@
 package com.example.myapplication.Adaptor
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,23 +9,22 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.myapplication.Fragments.HomeFragment
+import com.example.myapplication.Fragments.TrendingFragment
 import com.example.myapplication.R
-import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.Response.Docss
-import com.example.myapplication.util.SavedPrefManager
 
-class HomeAdaptor(
 
-    var context: HomeFragment,
+class TrendingListAdaptor(
+
+    var context: TrendingFragment,
     var list: ArrayList<Docss>,
     var listener: CustomClickListner2
 
-    ) : RecyclerView.Adapter<HomeAdaptor.MyViewHolder>()
+) : RecyclerView.Adapter<TrendingListAdaptor.MyViewHolder>()
 {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            var layout_vedio=view.findViewById<RelativeLayout>(R.id.layout_vedio)
+        var layout_vedio=view.findViewById<RelativeLayout>(R.id.layout_vedio)
         var postView=view.findViewById<ImageView>(R.id.postView)
         var name = view.findViewById<TextView>(R.id.name)
         var bio = view.findViewById<TextView>(R.id.bio)
@@ -34,10 +32,9 @@ class HomeAdaptor(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdaptor.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingListAdaptor.MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.home_layout, parent, false)
-
         return MyViewHolder(itemView)
     }
 
@@ -45,12 +42,12 @@ class HomeAdaptor(
         return list.size
     }
 
-    override fun onBindViewHolder(holder: HomeAdaptor.MyViewHolder, position: Int) {
-        holder.name.setText(list[position].userDetails.userName.toString())
-        holder.name.setText(list[position].userDetails.bio.toString())
-        holder.name.setText(list[position].userDetails.userName.toString())
+    override fun onBindViewHolder(holder: TrendingListAdaptor.MyViewHolder, position: Int) {
+//        holder.name.setText(list[position].userDetails.userName.toString())
+//        holder.name.setText(list[position].userDetails.bio.toString())
+//        holder.name.setText(list[position].userDetails.userName.toString())
 
-        var filedata = list[position].imageLinks
+        var filedata = list[position].thumbNail
         Glide.with(context).load(filedata).into(holder.postView);
 
         holder.mainlayout.setOnClickListener {

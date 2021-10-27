@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.Follower_Adaptor
 import com.example.myapplication.R
 import com.example.myapplication.entity.ApiCallBack
-import com.example.myapplication.entity.Response.Docs
+import com.example.myapplication.entity.Response.Docss
+import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
@@ -17,7 +18,7 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
-class Followers : AppCompatActivity(), ApiResponseListener<Responce> {
+class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse> {
     lateinit var adaptor: Follower_Adaptor
     lateinit var recycler_view3: RecyclerView
 
@@ -41,8 +42,8 @@ class Followers : AppCompatActivity(), ApiResponseListener<Responce> {
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
-            val callBack: ApiCallBack<Responce> =
-                ApiCallBack<Responce>(this, "Following", mContext)
+            val callBack: ApiCallBack<LocalActivityResponse> =
+                ApiCallBack<LocalActivityResponse>(this, "Follower", mContext)
 //            val apiRequest = Api_Request()
 
 //            apiRequest.email = emailSignUp_et.getText().toString().trim()
@@ -56,12 +57,13 @@ class Followers : AppCompatActivity(), ApiResponseListener<Responce> {
         }
     }
 
-    override fun onApiSuccess(response: Responce, apiName: String?) {
+    override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(this)
             Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-            var list = ArrayList<Docs>()
+            var list = ArrayList<Docss>()
             list.addAll(response.result.docs)
+//            list.addAll(response.result.docss)
             setAdapter(list)
 
 
@@ -78,7 +80,7 @@ class Followers : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
 
-    fun setAdapter(list: ArrayList<Docs>) {
+    fun setAdapter(list: ArrayList<Docss>) {
         adaptor = this?.let { Follower_Adaptor(it, list) }!!
         val layoutManager = LinearLayoutManager(this)
         recycler_view3.layoutManager = layoutManager

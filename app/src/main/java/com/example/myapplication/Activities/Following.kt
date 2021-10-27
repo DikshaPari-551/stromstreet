@@ -88,7 +88,7 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
         recycler_view3.adapter = adaptor
     }
 
-    override fun customClick( value: Docs,type:String)
+    override fun customClick(value: Docs, type:String)
     {
         value.userId
         if (type.equals("profile")){
