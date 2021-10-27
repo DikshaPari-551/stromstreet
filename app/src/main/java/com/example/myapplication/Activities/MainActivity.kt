@@ -144,7 +144,8 @@ class MainActivity : AppCompatActivity() , ClickListner{
         requestCode: Int,
         resultCode: Int,
         data: Intent?,
-        bottomSheetDialog: bottomSheetDialog
+        bottomSheetDialog: bottomSheetDialog,
+        imagePath: String
     ) {
         supportFragmentManager.beginTransaction().replace(R.id.linear_layout,AddPostFragment(requestCode,resultCode,data,bottomSheetDialog)).commit()
     }

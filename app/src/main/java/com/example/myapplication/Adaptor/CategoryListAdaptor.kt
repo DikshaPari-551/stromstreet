@@ -1,14 +1,23 @@
 package com.example.myapplication.Adaptor
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.FilterCustomListener
 import com.example.myapplication.entity.Response.CategoryResult
 
-class CategoryListAdaptor(var list: List<CategoryResult>) :  RecyclerView.Adapter<CategoryListAdaptor.MyViewHolder>() {
+
+class CategoryListAdaptor(
+    var list: List<CategoryResult>,
+    var secondFragment: FilterCustomListener,
+    var mContext: Context
+) :  RecyclerView.Adapter<CategoryListAdaptor.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.category_list, null)
@@ -17,6 +26,10 @@ class CategoryListAdaptor(var list: List<CategoryResult>) :  RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.categoryName.setText(list.get(position).categoryName)
+        holder.radioButton.setOnClickListener{
+            secondFragment.filterCustomListener(list.get(position)._id)
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -25,6 +38,8 @@ class CategoryListAdaptor(var list: List<CategoryResult>) :  RecyclerView.Adapte
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
         var categoryName = view.findViewById<TextView>(R.id.list1)
+        var radioButton = view.findViewById<RadioButton>(R.id.radio)
+        var radioGroup = view.findViewById<RadioGroup>(R.id.group)
 
     }
 }

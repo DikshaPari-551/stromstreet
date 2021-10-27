@@ -1,5 +1,6 @@
 package com.example.myapplication.Activities
 
+import android.R.attr
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -25,16 +26,13 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.extension.androidextention
-import com.example.myapplication.util.AppConst
-import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import java.io.ByteArrayOutputStream
-import java.io.File
+import java.io.*
 
 
 class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickListner {
@@ -294,14 +292,15 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         requestCode: Int,
         resultCode: Int,
         data: Intent?,
-        bottomSheetDialog: bottomSheetDialog
+        bottomSheetDialog: bottomSheetDialog,
+        imagePath: String
     ) {
-        if (resultCode == Activity.RESULT_CANCELED) {
+        if (resultCode == RESULT_CANCELED) {
             return
         }
         try {
             if (requestCode == GALLERY) {
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     if (data != null) {
                         image = data.data!!
                         circleProfile.setImageURI(image)
@@ -318,21 +317,29 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
 
                 }
             } else if (requestCode == CAMERA) {
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     if (data != null) {
                         val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
                         circleProfile.setImageBitmap(thumbnail)
                         bottomSheetDialog.dismiss()
+                        var createFolder = File(this.getExternalFilesDir("temp"), imagePath)
+                        if(!createFolder.exists())
+                            createFolder.mkdir();
+
+                        val saveImage = File(createFolder, ""+System.currentTimeMillis()+".jpg")
+
+                        var image = saveImage.getAbsolutePath()
+                        imageFile = File(image)
 
                         // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-                        val tempUri: Uri =
-                            getImageUri(this, thumbnail)!!
-                        val path = getPathFromURI(tempUri)
-                        if (path != null) {
-                            imageFile = File(path)
-//                            image = Uri.fromFile(imageFile)
-
-                        }
+//                        val tempUri: Uri =
+//                            getImageUri(this, thumbnail)!!
+//                        val path = getPathFromURI(tempUri)
+//                        if (path != null) {
+//                            imageFile = File(path)
+////                            image = Uri.fromFile(imageFile)
+//
+//                        }
                         USER_IMAGE_UPLOADED = "ture"
                         uploadUserImageApi()
                     }

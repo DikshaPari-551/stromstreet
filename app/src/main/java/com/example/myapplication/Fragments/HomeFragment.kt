@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,6 +21,7 @@ import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docs
 
 import com.example.myapplication.entity.Response.Docss
@@ -47,7 +46,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 //        listOf("Okhla phase1", "Okhla phase2", "Okhla phase1", "Okhla phase2", "Okhla phase1")
 //    var event: List<String> = listOf("Event", "Traffic", "Event", "Traffic", "Event")
 //    var lajpat: List<String> =
-//        listOf("Lajpat Nagar", "Okhla Saket", "Lajpat Nagar", "Saket", "Lajpat Nagar")
+//        listOf("Lajpat Nagar", "Okhla Saket", "Lajpat Nagar", "Saket", "Lajpat N
+    //        agar")
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
@@ -55,11 +55,14 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
     lateinit var backArrowHome: ImageView
     lateinit var adaptor: HomeAdaptor
     lateinit var USERID: String
-
-
     lateinit var home_text: TextView
     lateinit var recycler_view1: RecyclerView
     lateinit var filter: ImageView
+    lateinit var searchText: EditText
+    lateinit var goButton: LinearLayout
+    var getSearchText = ""
+ var catId: String =""
+    var maxDis: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -78,6 +81,15 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         userHome = v.findViewById(R.id.user_home)
         backArrowHome = v.findViewById(R.id.back_arrow_home)
         man = v.findViewById(R.id.user_home)
+        searchText = v.findViewById(R.id.search_text)
+        goButton = v.findViewById(R.id.go)
+        getSearchText = searchText.text.toString()
+        try {
+            catId = arguments?.getString("CAT_ID")!!
+            maxDis = arguments?.getInt("MAX_DIS")!!
+        } catch(e : java.lang.Exception) {
+            e.printStackTrace()
+        }
         locationpermission()
         getLocalActivityApi()
         man.setOnClickListener {
@@ -94,7 +106,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
                 startActivity(i)
             }
         }
-
+        goButton.setOnClickListener{
+            getLocalActivityApi()
+        }
 
         followingPost.setOnClickListener {
             followingPost.setTextColor(resources.getColor(R.color.orange))
@@ -157,9 +171,19 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "LocalActivity", mContext)
 
-
+            val apiRequest = Api_Request()
+            apiRequest.categoryId = catId
+            apiRequest.search = searchText.text.toString()
             try {
-                serviceManager.getLocalActivity(callBack,latitude,longitude)
+                if(catId != null && !catId.equals("")) {
+                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
+                }
+                else if(getSearchText != null) {
+                    serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
+                }
+                else {
+                    serviceManager.getLocalActivity(callBack,latitude,longitude,null)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -173,13 +197,11 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         list.addAll(response.result.docs)
         setAdapter(list)
 
-
-
-//            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -213,8 +235,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 // getting the last known or current location
-                latitude = location.latitude
-                longitude = location.longitude
+                try {
+                    latitude = location.latitude
+                    longitude = location.longitude
+                } catch(e : Exception) {
+                    e.printStackTrace()
+                }
                            }
             .addOnFailureListener {
                 Toast.makeText(mContext, "Failed on getting current location",

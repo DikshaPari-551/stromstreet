@@ -52,6 +52,9 @@ class Api_Request {
     @SerializedName("lastName")
     var lastName: String? = null
 
+    @SerializedName("search")
+    var search: String? = null
+
 
     @SerializedName("socialLinks")
     var socialLinks: SocialLinks? = null

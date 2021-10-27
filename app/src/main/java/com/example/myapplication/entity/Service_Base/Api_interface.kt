@@ -48,7 +48,7 @@ interface Api_interface
     fun getUserProfile(@Header("token")value: String): Call<Responce>?
 
     @GET("user/followerList")
-    fun followerUser(): Call<Responce>?
+    fun followerUser(): Call<LocalActivityResponse>?
 
     @GET("user/followingList")
     fun followingUser(@Query("userId") userId: String): Call<Responce>?
@@ -108,7 +108,7 @@ interface Api_interface
 //
 
     @POST("user/localActivities")
-    fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double): Call<LocalActivityResponse>?
+    fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
 
     @POST("user/trendingPostList")
     fun trendingPost(): Call<LocalActivityResponse>?

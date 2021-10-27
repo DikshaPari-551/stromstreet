@@ -335,7 +335,8 @@ class ProfileChangeFragment : Fragment(), ClickListner {
         requestCode: Int,
         resultCode: Int,
         data: Intent?,
-        bottomSheetDialog: bottomSheetDialog
+        bottomSheetDialog: bottomSheetDialog,
+        imagePath: String
     ) {
         if (resultCode == Activity.RESULT_CANCELED) {
             return

@@ -8,6 +8,7 @@ interface ClickListner {
         requestCode: Int,
         resultCode: Int,
         data: Intent?,
-        bottomSheetDialog: bottomSheetDialog
+        bottomSheetDialog: bottomSheetDialog,
+        imagePath: String
     )
 }

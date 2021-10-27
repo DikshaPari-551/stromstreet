@@ -145,8 +145,8 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!.enqueue(callBack)
     }
 
-    fun getLocalActivity(callBack: ApiCallBack<LocalActivityResponse>, lat: Double, lng: Double) {
-        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng) }!!.enqueue(callBack)
+    fun getLocalActivity(callBack: ApiCallBack<LocalActivityResponse>, lat: Double, lng: Double,apiRequest: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest) }!!.enqueue(callBack)
     }
     fun getTrendingPost(callBack: ApiCallBack<LocalActivityResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost() }!!.enqueue(callBack)

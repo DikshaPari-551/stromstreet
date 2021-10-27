@@ -6,13 +6,14 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.VmPolicy
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import com.example.myapplication.Activities.SignUpActivity
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Response.Responce
@@ -22,7 +23,6 @@ import com.example.myapplication.util.SavedPrefManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -46,7 +46,7 @@ class bottomSheetDialog(
     lateinit var image: Uri
     lateinit var mContext : Context
     lateinit var imageFile: File
-
+    var imagePath =""
     lateinit var serviceManager: ServiceManager
     lateinit var callBack: ApiCallBack<Responce>
 
@@ -96,6 +96,7 @@ class bottomSheetDialog(
 
 
         camera.setOnClickListener {
+
             if (flag == "addpost") {
                 if (SavedPrefManager.getStringPreferences(activity, AppConst.IMAGEDATA) == "true") {
                     Toast.makeText(
@@ -104,9 +105,11 @@ class bottomSheetDialog(
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
+                    imagePath = ""+System.currentTimeMillis() + ".jpg";
                     takePhotoFromCamera()
                 }
             } else {
+                imagePath = ""+System.currentTimeMillis() + ".jpg";
                 takePhotoFromCamera()
             }
         }
@@ -132,23 +135,34 @@ class bottomSheetDialog(
 
 
     private fun takePhotoFromCamera() {
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        startActivityForResult(intent, CAMERA)
+        val builder = VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, CAMERA)
+        try {
+            var mImageCaptureUri = Uri.fromFile(File(activity!!.getExternalFilesDir("temp"), imagePath))
+            intent.putExtra(MediaStore.ACTION_IMAGE_CAPTURE, mImageCaptureUri)
+            intent.putExtra("return-data", true)
+            startActivityForResult(intent, CAMERA)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (flag == "addpost") {
 
-            myClickListner.clickListner(requestCode, resultCode, data, this)
+            myClickListner.clickListner(requestCode, resultCode, data, this,imagePath)
 
         } else if (flag == "signup") {
 
-            myClickListner.clickListner(requestCode, resultCode, data, this)
+            myClickListner.clickListner(requestCode, resultCode, data, this,imagePath)
 
         } else if (flag == "profilechange") {
 
-            myClickListner.clickListner(requestCode, resultCode, data, this)
+            myClickListner.clickListner(requestCode, resultCode, data, this,imagePath)
 
         }
 

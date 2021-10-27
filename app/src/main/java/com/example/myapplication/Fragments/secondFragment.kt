@@ -8,14 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.CategoryListAdaptor
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.FilterCustomListener
 import com.example.myapplication.entity.ApiCallBack
-import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.CategoryResult
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
@@ -24,7 +23,7 @@ import com.example.myapplication.extension.androidextention
 import okhttp3.ResponseBody
 
 
-class secondFragment : Fragment() {
+class secondFragment : Fragment(), FilterCustomListener {
 lateinit var man:ImageView
     lateinit var textSearch1: LinearLayout
     lateinit var textSearch2: LinearLayout
@@ -40,6 +39,9 @@ lateinit var man:ImageView
     lateinit var callBack: ApiCallBack<Responce>
     lateinit var mContext : Context
     lateinit var adaptor: CategoryListAdaptor
+    lateinit var catId: String
+     var maxDis: Int = 0
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,6 +73,7 @@ lateinit var man:ImageView
             textSearch4.setBackgroundResource(R.drawable.background_edit_text)
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
             textSearch6.setBackgroundResource(R.drawable.background_edit_text)
+            maxDis =5
         }
         textSearch3.setOnClickListener{
             textSearch3.setBackgroundResource(R.drawable.drawable_chat)
@@ -79,6 +82,7 @@ lateinit var man:ImageView
             textSearch4.setBackgroundResource(R.drawable.background_edit_text)
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
             textSearch6.setBackgroundResource(R.drawable.background_edit_text)
+            maxDis=10
         }
         textSearch4.setOnClickListener{
             textSearch4.setBackgroundResource(R.drawable.drawable_chat)
@@ -87,6 +91,7 @@ lateinit var man:ImageView
             textSearch1.setBackgroundResource(R.drawable.background_edit_text)
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
             textSearch6.setBackgroundResource(R.drawable.background_edit_text)
+            maxDis=15
         }
         textSearch5.setOnClickListener{
             textSearch5.setBackgroundResource(R.drawable.drawable_chat)
@@ -95,6 +100,8 @@ lateinit var man:ImageView
             textSearch4.setBackgroundResource(R.drawable.background_edit_text)
             textSearch1.setBackgroundResource(R.drawable.background_edit_text)
             textSearch6.setBackgroundResource(R.drawable.background_edit_text)
+            maxDis = 20
+
         }
         textSearch6.setOnClickListener{
             textSearch6.setBackgroundResource(R.drawable.drawable_chat)
@@ -103,6 +110,7 @@ lateinit var man:ImageView
             textSearch4.setBackgroundResource(R.drawable.background_edit_text)
             textSearch1.setBackgroundResource(R.drawable.background_edit_text)
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
+            maxDis = 30
         }
         textSearch2.setOnClickListener{
             textSearch2.setBackgroundResource(R.drawable.drawable_chat)
@@ -111,15 +119,20 @@ lateinit var man:ImageView
             textSearch4.setBackgroundResource(R.drawable.background_edit_text)
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
             textSearch6.setBackgroundResource(R.drawable.background_edit_text)
-
+            maxDis = 50
 
 
         }
 
         man.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putString("CAT_ID", catId)
+            bundle.putInt("MAX_DIS", maxDis)
+            val fragObj = HomeFragment()
+            fragObj.arguments = bundle
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                HomeFragment()
+                fragObj
             )
                 ?.commit()
         }
@@ -220,13 +233,17 @@ lateinit var man:ImageView
     }
 
     fun setCategoryListAdaptor(list: List<CategoryResult>) {
-        adaptor = CategoryListAdaptor(list)
+        adaptor = CategoryListAdaptor(list,this,mContext)
         val layoutManager = LinearLayoutManager(activity)
         categoryList.layoutManager = layoutManager
         categoryList.adapter = adaptor
+        adaptor.notifyDataSetChanged()
 
     }
 
+    override fun filterCustomListener(id: String) {
+        catId = id
+    }
 
 
 }
