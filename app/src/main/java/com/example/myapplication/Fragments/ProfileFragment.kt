@@ -153,7 +153,7 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
         followers.setText(response.result.followerCount.toString())
         following.setText(response.result.followingCount.toString())
 
-        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
+//        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
 
     }
 

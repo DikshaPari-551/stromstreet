@@ -46,9 +46,13 @@ class TrendingListAdaptor(
 //        holder.name.setText(list[position].userDetails.userName.toString())
 //        holder.name.setText(list[position].userDetails.bio.toString())
 //        holder.name.setText(list[position].userDetails.userName.toString())
+        try {
+            var filedata = list[position].imageLinks[0]
+            Glide.with(context).load(filedata).into(holder.postView);
+        }catch (e: IndexOutOfBoundsException){
+            e.printStackTrace()
+        }
 
-        var filedata = list[position].thumbNail
-        Glide.with(context).load(filedata).into(holder.postView);
 
         holder.mainlayout.setOnClickListener {
 

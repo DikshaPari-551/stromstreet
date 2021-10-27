@@ -213,8 +213,13 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 // getting the last known or current location
-                latitude = location.latitude
-                longitude = location.longitude
+                try {
+                    latitude = location.latitude
+                    longitude = location.longitude
+                }catch (e: java.lang.Exception){
+                    e.printStackTrace()
+                }
+
                            }
             .addOnFailureListener {
                 Toast.makeText(mContext, "Failed on getting current location",

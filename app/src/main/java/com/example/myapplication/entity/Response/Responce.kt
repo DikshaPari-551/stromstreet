@@ -64,9 +64,39 @@ data class Result(
     @SerializedName("likeCount") val likeCount : Int,
     @SerializedName("commentCount") val commentCount : Int,
     @SerializedName("isLike") val isLike : Boolean,
-    @SerializedName("isFollow") val isFollow : Boolean
+    @SerializedName("isFollow") val isFollow : Boolean,
+    @SerializedName("likeType") val likeType : String,
+    @SerializedName("profileResult") val profileResult : ProfileResult,
+    @SerializedName("isRequested") val isRequested : Boolean
+
 )
 
+data class ProfileResult (
+
+    @SerializedName("socialLinks") val socialLinks : SocialLinks,
+    @SerializedName("emailType") val emailType : String,
+    @SerializedName("phoneNumberType") val phoneNumberType : String,
+    @SerializedName("userType") val userType : String,
+    @SerializedName("otpVerification") val otpVerification : Boolean,
+    @SerializedName("status") val status : String,
+    @SerializedName("profileType") val profileType : String,
+    @SerializedName("notification") val notification : Boolean,
+    @SerializedName("inActive") val inActive : Boolean,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("bio") val bio : String,
+    @SerializedName("deviceType") val deviceType : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("fullName") val fullName : String,
+    @SerializedName("password") val password : String,
+    @SerializedName("profilePic") val profilePic : String,
+    @SerializedName("userName") val userName : String,
+    @SerializedName("otp") val otp : Int,
+    @SerializedName("otpTime") val otpTime : Long,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int,
+    @SerializedName("deviceToken") val deviceToken : String
+)
 
 data class PostResult (
 

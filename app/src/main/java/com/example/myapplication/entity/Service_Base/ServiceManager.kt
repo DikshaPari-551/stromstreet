@@ -103,12 +103,13 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
     }
 
+
     fun getFollower(callBack: ApiCallBack<LocalActivityResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.followerUser() }!!.enqueue(callBack)
     }
 
-    fun getFollowing(callBack: ApiCallBack<Responce>,  userId : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followingUser(userId) }!!.enqueue(callBack)
+    fun getFollowing(callBack: ApiCallBack<Responce>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingUser() }!!.enqueue(callBack)
     }
 
     fun getFollowunfollow(callBack: ApiCallBack<Responce>,_id : String) {
@@ -117,8 +118,8 @@ class ServiceManager(var mContext: Context?) {
 
 
 
-    fun getLikeunlike(callBack: ApiCallBack<Responce>,_id : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.likeUnlike(_id) }!!.enqueue(callBack)
+    fun getLikeunlike(callBack: ApiCallBack<Responce>,postId : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.likeUnlike(postId) }!!.enqueue(callBack)
     }
   fun getSavepost(callBack: ApiCallBack<Responce>,postId : String) {
         mContext?.let { Remotedatasource.current(it, true)!!.saveUnsave(postId) }!!.enqueue(callBack)
@@ -149,6 +150,9 @@ class ServiceManager(var mContext: Context?) {
     }
     fun getTrendingPost(callBack: ApiCallBack<LocalActivityResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost() }!!.enqueue(callBack)
+    }
+    fun getOtherProfile(callBack: ApiCallBack<Responce>,_id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getOtherProfile(_id) }!!.enqueue(callBack)
     }
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)

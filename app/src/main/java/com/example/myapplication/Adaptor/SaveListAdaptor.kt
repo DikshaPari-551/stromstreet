@@ -31,8 +31,15 @@ class SaveListAdaptor(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var filedata = list[position].postId.thumbNail
+        try {
+            var filedata = list[position].postId.imageLinks[0]
 
-        Glide.with(context).load(filedata).into(holder.item);
+            Glide.with(context).load(filedata).into(holder.item);
+        }catch (e: IndexOutOfBoundsException){
+            e.printStackTrace()
+        }
+
+
+
     }
 }
