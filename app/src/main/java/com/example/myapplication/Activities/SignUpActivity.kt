@@ -23,6 +23,7 @@ import com.example.myapplication.entity.Request.SocialLinks
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
@@ -89,6 +90,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        RequestPermission.requestMultiplePermissions(this)
         mContext = this
         serviceManager = ServiceManager(mContext)
         emailSignUp_et = findViewById(R.id.email_sign_etext)
