@@ -161,7 +161,7 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
 
 
 
-        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
+//        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
 
     }
 

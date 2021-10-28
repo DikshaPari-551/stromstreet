@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import  com.example.myapplication.R
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -18,7 +19,7 @@ import com.example.myapplication.util.SavedPrefManager
 import java.io.*
 
 
-class MainActivity : AppCompatActivity() , ClickListner{
+class MainActivity : AppCompatActivity() {
    lateinit var menu:ImageView
     lateinit var bubble:ImageView
     lateinit var profile:ImageView
@@ -43,33 +44,36 @@ class MainActivity : AppCompatActivity() , ClickListner{
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-        if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+        if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                .equals("true")
+        ) {
             RequestPermission.requestMultiplePermissions(this)
         }
 
-        menu=findViewById(R.id.menu)
-        bubble=findViewById(R.id.bubble)
-        profile=findViewById(R.id.profile)
-        add=findViewById(R.id.add)
+        menu = findViewById(R.id.menu)
+        bubble = findViewById(R.id.bubble)
+        profile = findViewById(R.id.profile)
+        add = findViewById(R.id.add)
 
 
 
 
         loginFlag = LoginFlag.getLoginFlag()
 
-        menu.setOnClickListener{
+        menu.setOnClickListener {
             ImageCount.setImageCount(bottomSheetDialog.count++)
-            supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment())
+                .commit()
             profile.setColorFilter(resources.getColor(R.color.grey))
             menu.setColorFilter(resources.getColor(R.color.white))
             bubble.setColorFilter(resources.getColor(R.color.grey))
 
             chat.setColorFilter(resources.getColor(R.color.grey))
         }
-        chat=findViewById(R.id.chat)
+        chat = findViewById(R.id.chat)
         chat.setColorFilter(resources.getColor(R.color.grey))
 
-        chat.setOnClickListener{
+        chat.setOnClickListener {
             ImageCount.setImageCount(bottomSheetDialog.count++)
             supportFragmentManager.beginTransaction().replace(
                 R.id.linear_layout,
@@ -82,12 +86,12 @@ class MainActivity : AppCompatActivity() , ClickListner{
             chat.setColorFilter(resources.getColor(R.color.white))
 
 
-
-
         }
-        add.setOnClickListener{
-            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
-                var bottomsheet = bottomSheetDialog("addpost", this)
+        add.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                var bottomsheet = bottomSheetDialog("addpost")
                 bottomsheet.show(supportFragmentManager, "bottomsheet")
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
@@ -100,60 +104,71 @@ class MainActivity : AppCompatActivity() , ClickListner{
         }
         bubble.setColorFilter(resources.getColor(R.color.grey))
 
-        bubble.setOnClickListener{
+        bubble.setOnClickListener {
             ImageCount.setImageCount(bottomSheetDialog.count++)
-            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
-                profile.setColorFilter(resources.getColor(R.color.grey))
-                menu.setColorFilter(resources.getColor(R.color.grey))
-                bubble.setColorFilter(resources.getColor(R.color.white))
-                chat.setColorFilter(resources.getColor(R.color.grey))
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.linear_layout, ChatFragment()).commit()
-            } else {
-                val i = Intent(this, LoginActivity::class.java)
-                startActivity(i)
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                        .equals("true")
+                ) {
+
+
+                    profile.setColorFilter(resources.getColor(R.color.grey))
+                    menu.setColorFilter(resources.getColor(R.color.grey))
+                    bubble.setColorFilter(resources.getColor(R.color.white))
+                    chat.setColorFilter(resources.getColor(R.color.grey))
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.linear_layout, ChatFragment()).commit()
+                } else {
+                    val i = Intent(this, LoginActivity::class.java)
+                    startActivity(i)
+
+                }
+            }
+            profile.setColorFilter(resources.getColor(R.color.grey))
+
+            profile.setOnClickListener {
+                if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                        .equals("true")
+                ) {
+                    ImageCount.setImageCount(bottomSheetDialog.count++)
+                    profile.setColorFilter(resources.getColor(R.color.white))
+                    menu.setColorFilter(resources.getColor(R.color.grey))
+                    bubble.setColorFilter(resources.getColor(R.color.grey))
+                    chat.setColorFilter(resources.getColor(R.color.grey))
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.linear_layout, ProfileFragment()).commit()
+                } else {
+                    val i = Intent(this, LoginActivity::class.java)
+                    startActivity(i)
+                }
 
             }
-        }
-        profile.setColorFilter(resources.getColor(R.color.grey))
+            add.setBackgroundColor(resources.getColor(R.color.orange))
+            supportFragmentManager.beginTransaction().add(R.id.linear_layout, HomeFragment())
+                .commit()
 
-        profile.setOnClickListener{
-            if(  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
-                ImageCount.setImageCount(bottomSheetDialog.count++)
-                profile.setColorFilter(resources.getColor(R.color.white))
-                menu.setColorFilter(resources.getColor(R.color.grey))
-                bubble.setColorFilter(resources.getColor(R.color.grey))
-                chat.setColorFilter(resources.getColor(R.color.grey))
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.linear_layout, ProfileFragment()).commit()
-            } else {
-                val i = Intent(this, LoginActivity::class.java)
-                startActivity(i)
-            }
 
         }
-        add.setBackgroundColor(resources.getColor(R.color.orange))
-        supportFragmentManager.beginTransaction().add(R.id.linear_layout, HomeFragment()).commit()
 
+        override fun onDestroy() {
+            super.onDestroy()
+            SavedPrefManager.saveStringPreferences(this, AppConst.IMAGEDATA, "false")
+        }
 
-
+        override fun clickListner(
+            requestCode: Int,
+            resultCode: Int,
+            data: Intent?,
+            bottomSheetDialog: bottomSheetDialog,
+            imagePath: String
+        ) {
+            supportFragmentManager.beginTransaction().replace(
+                R.id.linear_layout,
+                AddPostFragment(requestCode, resultCode, data, bottomSheetDialog, imagePath)
+            ).commit()
+        }
 
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        SavedPrefManager.saveStringPreferences(this, AppConst.IMAGEDATA, "false")
-    }
-
-    override fun clickListner(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?,
-        bottomSheetDialog: bottomSheetDialog,
-        imagePath: String
-    ) {
-        supportFragmentManager.beginTransaction().replace(R.id.linear_layout,AddPostFragment(requestCode,resultCode,data,bottomSheetDialog,imagePath)).commit()
-    }
-
-
 }

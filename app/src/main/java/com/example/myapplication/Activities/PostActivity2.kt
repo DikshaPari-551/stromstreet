@@ -2,17 +2,17 @@ package com.example.myapplication.Activities
 
 import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.myapplication.Adaptor.MessageAdaptor
 import com.example.myapplication.Adaptor.Post2Adapter
 import com.example.myapplication.Fragments.ProfileFragment
 import com.example.myapplication.LoginActivity
@@ -24,6 +24,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
@@ -45,9 +46,10 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
     lateinit var share: ImageView
     lateinit var backButton: ImageView
     lateinit var loadcomment: TextView
-    lateinit var addComment: TextView
     lateinit var commenttext: EditText
     lateinit var commentvalue: String
+    lateinit var commentLayout: RelativeLayout
+
     var mContext: Context = this
     lateinit var vedio: ImageView
     var USERID: String = ""
@@ -78,7 +80,6 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
         comment = findViewById(R.id.comment1)
         share = findViewById(R.id.share1)
         backButton = findViewById(R.id.back_arrow)
-        addComment = findViewById(R.id.add_comment)
         loadcomment = findViewById(R.id.loadcomment)
         commenttext = findViewById(R.id.commenttext)
         report = findViewById(R.id.report)
@@ -88,6 +89,7 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
         post_description = findViewById(R.id.post_description)
         eventType = findViewById(R.id.eventType)
         commentcount = findViewById(R.id.commentcount)
+        commentLayout = findViewById(R.id.commentLayout)
 
 
         var adaptor = Post2Adapter()
@@ -95,6 +97,10 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
         post2recycler.layoutManager = layoutManager
         post2recycler.adapter = adaptor
 
+//        val layoutManager = LinearLayoutManager(this)
+//        var adaptor = MessageAdaptor(arr)
+//        recyclerList.layoutManager = layoutManager
+//        recyclerList.adapter = adaptor
 
         follow1.setOnClickListener {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
@@ -121,9 +127,8 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
 
             val i = Intent(this, PostActivity::class.java)
             startActivity(i)
-
-
         }
+
         loadcomment.setOnClickListener {
             commentvalue = commenttext.text.toString().trim()
             postcomment()
@@ -188,7 +193,8 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
 
         }
 
-        addComment.setOnClickListener {
+        add_comment.setOnClickListener {
+            commentLayout.visibility=View.VISIBLE
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
@@ -197,9 +203,7 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
                 val i = Intent(this, LoginActivity::class.java)
 
                 startActivity(i)
-
             }
-
         }
 
 
@@ -227,25 +231,19 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
         }
     }
     private fun postcomment() {
-        val userId ="617119fbd830986dd4a453a5"
+
 
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
-                ApiCallBack<Responce>(this, "LoginApi", mContext)
+                ApiCallBack<Responce>(this, "Comment", mContext)
             val apiRequest = Api_Request()
             apiRequest.commentType = "String"
             apiRequest.comment = commentvalue
 
-//            savedPrefManager.saveStringPreferences(
-//                this,
-//                savedPrefManager.PASSWORD,
-//                apiRequest.password
-//            )
-
             try {
-                serviceManager.commentOnPost(callBack, apiRequest,userId)
+                serviceManager.commentOnPost(callBack, apiRequest,USERID)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -271,11 +269,42 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
             } else if (LikeUnlike == false) {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
-            var filedata = response.result.postResult.thumbNail
-            Glide.with(this).load(filedata).into(vedio);
+            try {
+                var filedata = response.result.postResult.imageLinks[0]
+                Glide.with(this).load(filedata).into(vedio);
+            }catch (e: IndexOutOfBoundsException){
+                e.printStackTrace()
+            }
+        }
+
+        if(apiName.equals("Comment")){
+            commenttext.setText(null)
+            commentLayout.visibility=View.GONE
+            AppConst.hideKeyboard(this);
         }
         Toast.makeText(this, "sucess", Toast.LENGTH_LONG).show()
+//        val layoutManager = LinearLayoutManager(this)
+//        var adaptor = MessageAdaptor(arr)
+//        recyclerList.layoutManager = layoutManager
+//        recyclerList.adapter = adaptor
+//
+//        sendImgIcon.setOnClickListener {
+//
+//            var data = add.text.toString()
+//            var hash: HashMap<String, String> = HashMap()
+//            hash.put("Data", data)
+//            arr.add(hash)
+//            adaptor.notifyDataSetChanged()
+//
+//            add.setText("")
+//
+////            list_view.setBackgroundResource(R.drawable.drawable_chat)
+//        }
+
+
+
     }
+
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
         Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()

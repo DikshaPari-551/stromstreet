@@ -239,7 +239,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         androidextention.disMissProgressDialog(this)
         commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike
-        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+        isFollow = response.result.isFollow
+//        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
         if (apiName.equals("PostDetails")) {
             username.setText(response.result.postResult.userId.userName.toString())
             layoutMore.setText(response.result.postResult.description)
@@ -249,15 +250,19 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             postid =  response.result.postResult.userId._id.toString()
             SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
 
-//        totalshare.setText(response.result.commentCount)
             if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))
 
             } else if (LikeUnlike == false) {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
-            var filedata = response.result.postResult.thumbNail
-            Glide.with(this).load(filedata).into(vedio);
+            try {
+                var filedata = response.result.postResult.imageLinks[0]
+                Glide.with(this).load(filedata).into(vedio);
+            }catch (e: IndexOutOfBoundsException){
+                e.printStackTrace()
+            }
+
         }
 
         else if (apiName.equals("LikeUnlike")) {
@@ -271,9 +276,9 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         else if (apiName.equals("FollowUnfollow"))
         {
             if (isFollow == true) {
-                follow.setText("Following")
-            } else if (isFollow == false) {
                 follow.setText("Unfollow")
+            } else if (isFollow == false) {
+                follow.setText("Follow")
             }
         }
     }

@@ -47,17 +47,20 @@ interface Api_interface
     @GET("user/getProfile")
     fun getUserProfile(@Header("token")value: String): Call<Responce>?
 
+    @GET("user/seeOtherProfile")
+    fun getOtherProfile(@Query("_id") _id : String): Call<Responce>?
+
     @GET("user/followerList")
     fun followerUser(): Call<LocalActivityResponse>?
 
     @GET("user/followingList")
-    fun followingUser(@Query("userId") userId: String): Call<Responce>?
+    fun followingUser(): Call<Responce>?
 
     @POST("user/followUser")
     fun followingUnfollow(@Query("_id") _id: String): Call<Responce>?
 
     @GET("user/likeUnlikePost")
-    fun likeUnlike(@Query("_id") _id: String): Call<Responce>?
+    fun likeUnlike(@Query("postId") postId: String): Call<Responce>?
 
     @POST("user/savePost")
     fun saveUnsave(@Query("postId") postId : String): Call<Responce>?

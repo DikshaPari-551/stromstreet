@@ -37,7 +37,7 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
 
     private fun followingApi() {
         val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-        val userId ="617119fbd830986dd4a453a5"
+//        val userId ="617119fbd830986dd4a453a5"
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
@@ -49,7 +49,7 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
 
 
             try {
-                serviceManager.getFollowing(callBack, userId)
+                serviceManager.getFollowing(callBack)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -66,8 +66,6 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
             list.addAll(response.result.docs)
 
             setAdapter(list)
-
-
         }
     }
 
@@ -90,9 +88,13 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
 
     override fun customClick(value: Docs, type:String)
     {
-        value.userId
+//        value.userId
+        var otherUserId = value.userId._id
+
         if (type.equals("profile")){
             var intent = Intent(applicationContext, UserProfile::class.java)
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.otherUserId,otherUserId)
+
             startActivity(intent)
         }
 

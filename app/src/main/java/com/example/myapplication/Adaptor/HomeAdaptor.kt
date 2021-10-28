@@ -16,6 +16,7 @@ import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.util.SavedPrefManager
+import java.lang.Exception
 
 class HomeAdaptor(
 
@@ -49,9 +50,13 @@ class HomeAdaptor(
         holder.name.setText(list[position].userDetails.userName.toString())
         holder.name.setText(list[position].userDetails.bio.toString())
         holder.name.setText(list[position].userDetails.userName.toString())
+        try {
+            var filedata = list[position].imageLinks[0]
+            Glide.with(context).load(filedata).into(holder.postView);
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
-        var filedata = list[position].imageLinks
-        Glide.with(context).load(filedata).into(holder.postView);
 
         holder.mainlayout.setOnClickListener {
 

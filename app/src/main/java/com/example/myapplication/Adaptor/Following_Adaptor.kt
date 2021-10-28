@@ -36,7 +36,7 @@ class Following_Adaptor(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.followername.setText(list[position].userId.fullName.toString())
 
-        holder.followername.setOnClickListener {
+        holder.otheruserProfile.setOnClickListener {
 
             listener.customClick(list.get(position),"profile")
 

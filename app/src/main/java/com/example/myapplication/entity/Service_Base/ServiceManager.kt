@@ -145,8 +145,8 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!.enqueue(callBack)
     }
 
-    fun getLocalActivity(callBack: ApiCallBack<LocalActivityResponse>, lat: Double, lng: Double,apiRequest: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest) }!!.enqueue(callBack)
+    fun getLocalActivity(callBack: ApiCallBack<LocalActivityResponse>, lat: Double, lng: Double) {
+        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng) }!!.enqueue(callBack)
     }
     fun getTrendingPost(callBack: ApiCallBack<LocalActivityResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost() }!!.enqueue(callBack)
@@ -169,6 +169,9 @@ class ServiceManager(var mContext: Context?) {
 
 
 
+    fun getOtherProfile(callBack: ApiCallBack<Responce>,_id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getOtherProfile(_id) }!!.enqueue(callBack)
+    }
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
 //    }

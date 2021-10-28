@@ -65,6 +65,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/opensans_regular"
                         android:padding="5dp"
+
                         android:text="64.9k"
                         android:textColor="@color/white"
                         android:textSize="12sp"

@@ -46,8 +46,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 //        listOf("Okhla phase1", "Okhla phase2", "Okhla phase1", "Okhla phase2", "Okhla phase1")
 //    var event: List<String> = listOf("Event", "Traffic", "Event", "Traffic", "Event")
 //    var lajpat: List<String> =
-//        listOf("Lajpat Nagar", "Okhla Saket", "Lajpat Nagar", "Saket", "Lajpat N
-    //        agar")
+//        listOf("Lajpat Nagar", "Okhla Saket", "Lajpat Nagar", "Saket", "Lajpat Nagar")
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
@@ -55,6 +54,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
     lateinit var backArrowHome: ImageView
     lateinit var adaptor: HomeAdaptor
     lateinit var USERID: String
+
+
     lateinit var home_text: TextView
     lateinit var recycler_view1: RecyclerView
     lateinit var filter: ImageView
@@ -106,9 +107,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
                 startActivity(i)
             }
         }
-        goButton.setOnClickListener{
-            getLocalActivityApi()
-        }
+
 
         followingPost.setOnClickListener {
             followingPost.setTextColor(resources.getColor(R.color.orange))

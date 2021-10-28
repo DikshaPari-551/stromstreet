@@ -279,10 +279,9 @@
 
                     <TextView
                         android:id="@+id/add_comment"
-                        android:layout_width="367dp"
-                        android:layout_height="36dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
                         android:layout_margin="25dp"
-
                         android:layout_marginTop="35dp"
                         android:background="@drawable/gradient_backgrounds"
                         android:fontFamily="@font/opensans_regular"
@@ -329,9 +328,10 @@
             app:contentPadding="2dp">
 
             <RelativeLayout
+                android:id="@+id/commentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:visibility="gone"
                 >
 
 
@@ -356,12 +356,12 @@
                 <TextView
                     android:id="@+id/loadcomment"
                     android:layout_width="wrap_content"
-                    android:text="Send"
-                    android:textSize="25dp"
+                    android:text="Post"
+                    android:textSize="15dp"
                     android:paddingLeft="10dp"
+                    android:gravity="center"
                     android:paddingRight="10dp"
-                    android:background="@drawable/gradient_backgrounds"
-                    android:textColor="@color/white"
+                    android:textColor="#f74b69"
                     android:layout_alignParentRight="true"
                     android:layout_height="40dp"
                     />
