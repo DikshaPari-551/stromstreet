@@ -79,29 +79,32 @@
                     android:orientation="horizontal"
                     android:layout_height="80dp">
                     <ImageView
-                        android:id="@+id/image1"
+                        android:id="@+id/image_1"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
                         android:scaleType="fitXY"
+                        android:visibility="gone"
                         />
 
                     <ImageView
-                        android:id="@+id/image2"
+                        android:id="@+id/image_2"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
                         android:layout_marginLeft="10dp"
                         android:scaleType="fitXY"
+                        android:visibility="gone"
                         />
 
                     <ImageView
-                        android:id="@+id/image3"
+                        android:id="@+id/image_3"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
                         android:layout_marginLeft="10dp"
                         android:scaleType="fitXY"
+                        android:visibility="gone"
                         />
 
                 </LinearLayout>

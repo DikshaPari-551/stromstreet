@@ -117,7 +117,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
 
         cameraProfileimg.setOnClickListener {
             var bottomsheet =
-                bottomSheetDialog("profilechange",this)
+                bottomSheetDialog("profilechange", this)
             fragmentManager?.let { it1 -> bottomsheet.show(it1, "bottomsheet") }
         }
 
@@ -126,9 +126,6 @@ class ProfileChangeFragment : Fragment(), ClickListner {
         }
 
         //api
-//        if(USER_IMAGE_UPLOADED == "ture"){
-//
-//        }
         getProfile()
 
         return v
@@ -351,8 +348,6 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                         val path = getPathFromURI(image)
                         if (path != null) {
                             imageFile = File(path)
-//                            image = Uri.fromFile(imageFile)
-
                         }
                         USER_IMAGE_UPLOADED = "ture"
                         uploadUserImageApi()
@@ -361,43 +356,18 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 }
             } else if (requestCode == CAMERA) {
                 if (resultCode == Activity.RESULT_OK) {
-                    if (data != null) {
-                        val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
-                        userProfile.setImageBitmap(thumbnail)
-                        bottomSheetDialog.dismiss()
-
-                        // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-                        val tempUri: Uri =
-                            getImageUri(activity!!.applicationContext, thumbnail)!!
-                        val path = getPathFromURI(tempUri)
-                        if (path != null) {
-                            imageFile = File(path)
-//                            image = Uri.fromFile(imageFile)
-
-                        }
-                        USER_IMAGE_UPLOADED = "ture"
-                        uploadUserImageApi()
-                    }
+                    imageFile = File(imagePath)
+                    userProfile.setImageURI(Uri.fromFile(imageFile))
+                    bottomSheetDialog.dismiss()
+                    USER_IMAGE_UPLOADED = "ture"
+                    uploadUserImageApi()
                 }
             }
-//            try {
-//
-//                userProfile.setImageURI(image)
-//
-//                uploadUserImageApi()
-////                fragmentManager?.beginTransaction()
-////                    ?.replace(R.id.linear_layout,ProfileChangeFragment())
-////                    ?.commit()
-//                bottomSheetDialog.dismiss()
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//                Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
-//            }
-
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
     }
+
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
@@ -408,7 +378,8 @@ class ProfileChangeFragment : Fragment(), ClickListner {
     fun getPathFromURI(contentUri: Uri?): String? {
         var res: String? = null
         val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor: Cursor? = activity!!.getContentResolver().query(contentUri!!, proj, null, null, null)
+        val cursor: Cursor? =
+            activity!!.getContentResolver().query(contentUri!!, proj, null, null, null)
         if (cursor!!.moveToFirst()) {
             val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             res = cursor.getString(column_index)

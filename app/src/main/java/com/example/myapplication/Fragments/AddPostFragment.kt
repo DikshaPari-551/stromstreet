@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.bottomSheetDialog
 import com.example.myapplication.entity.ApiCallBack
@@ -26,10 +27,10 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.ImageCount
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import java.io.ByteArrayInputStream
@@ -42,21 +43,22 @@ class AddPostFragment(
     var requestCode: Int,
     var resultCode: Int,
     var data: Intent?,
-    var bottomSheetDialog: bottomSheetDialog
-) : Fragment(){
-    private lateinit var spin : Spinner
-    private lateinit var galleryData1 : ImageView
-    private lateinit var galleryData2 : ImageView
-    private lateinit var galleryData3 : ImageView
-    private lateinit var description : EditText
-    private lateinit var postBackButton : ImageView
-    private lateinit var spinDropDown : ImageView
-    private lateinit var post : LinearLayout
+    var bottomSheetDialog: bottomSheetDialog,
+    var imagePath: String
+) : Fragment() {
+    private lateinit var spin: Spinner
+    private lateinit var galleryData1: ImageView
+    private lateinit var galleryData2: ImageView
+    private lateinit var galleryData3: ImageView
+    private lateinit var description: EditText
+    private lateinit var postBackButton: ImageView
+    private lateinit var spinDropDown: ImageView
+    private lateinit var post: LinearLayout
     var HorizontalLayout: LinearLayoutManager? = null
-    lateinit var mContext : Context
+    lateinit var mContext: Context
     private var postDescriptionText = ""
     var categoryItem: ArrayList<String?> = ArrayList()
-    lateinit var serviceManager : ServiceManager
+    lateinit var serviceManager: ServiceManager
     lateinit var callBack: ApiCallBack<Responce>
     lateinit var imageData: MultipartBody.Part
     private val GALLERY = 1
@@ -66,68 +68,73 @@ class AddPostFragment(
     var imageList: ArrayList<Bitmap?> = ArrayList()
     var responseImageList: ArrayList<String> = ArrayList()
     var fileImageList: ArrayList<File> = ArrayList()
+    var uriImageList: ArrayList<Uri> = ArrayList()
     var imageparts: ArrayList<MultipartBody.Part> = ArrayList()
     val MAX_IMAGE = 3
     var fileFlag = ""
-
+    var uploaded_file: MultipartBody.Part? = null
     private var imageType = ""
+    var againCondition: Boolean = true
 
+    companion object {
+        var count = 0
+    }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view : View = inflater.inflate(R.layout.fragment_add_post, container, false)
+        var view: View = inflater.inflate(R.layout.fragment_add_post, container, false)
         serviceManager = ServiceManager(activity)
         mContext = activity!!.applicationContext
-        post=view.findViewById(R.id.post)
-        galleryData1 = view.findViewById(R.id.image1)
-        galleryData2 = view.findViewById(R.id.image2)
-        galleryData3 = view.findViewById(R.id.image3)
+        post = view.findViewById(R.id.post)
+        galleryData1 = view.findViewById(R.id.image_1)
+        galleryData2 = view.findViewById(R.id.image_2)
+        galleryData3 = view.findViewById(R.id.image_3)
         description = view.findViewById(R.id.post_description)
         postBackButton = view.findViewById(R.id.post_back_button)
         spinDropDown = view.findViewById(R.id.spinDropDown)
         spin = view.findViewById(R.id.spinner2)
-        postDescriptionText = description.text.toString()
-        addPostData(requestCode,resultCode,data,bottomSheetDialog)
-
-        //api
+//api
         categoryListApi()
+        addPostData(requestCode, resultCode, data, bottomSheetDialog, imagePath)
 
-        postBackButton.setOnClickListener{
+        postBackButton.setOnClickListener {
             SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "false")
+            ImageCount.setImageCount(com.example.myapplication.bottomSheetDialog.count++)
             fragmentManager?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 HomeFragment()
             )?.commit()
         }
 
-        post.setOnClickListener{
+        post.setOnClickListener {
             SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "false")
+            ImageCount.setImageCount(0)
             addPost()
-//            uploadMediaApi()
+
         }
-//        spinDropDown.setOnClickListener{
-//            categoryListApi()
-//        }
 
 
         return view
     }
 
 
-
     private fun categoryListApi() {
-        androidextention.showProgressDialog(mContext)
+//        androidextention.showProgressDialog(mContext)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
                     if (response.responseCode == "200") {
-                        for(i in 0 until response.result.categoryResult.size) {
+                        for (i in 0 until response.result.categoryResult.size) {
                             categoryItem.add(response.result.categoryResult.get(i).categoryName)
-                            SavedPrefManager.saveStringPreferences(activity,AppConst.POST_CATEGORY_ID,response.result.categoryResult.get(i)._id)
+                            SavedPrefManager.saveStringPreferences(
+                                activity,
+                                AppConst.POST_CATEGORY_ID,
+                                response.result.categoryResult.get(i)._id
+                            )
                         }
                         setSpinnerAdapter(categoryItem)
                     } else {
@@ -140,7 +147,7 @@ class AddPostFragment(
                 }
 
                 override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         activity,
                         "error response" + response.toString(),
@@ -149,7 +156,7 @@ class AddPostFragment(
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         activity,
                         "failure response:" + failureMessage,
@@ -157,7 +164,7 @@ class AddPostFragment(
                     ).show()
                 }
 
-            }, "CategoryList",mContext)
+            }, "CategoryList", mContext)
 
         try {
             serviceManager.getCategoryList(callBack)
@@ -167,7 +174,7 @@ class AddPostFragment(
     }
 
     private fun addPost() {
-        androidextention.showProgressDialog(mContext)
+        androidextention.showProgressDialog(activity)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
@@ -193,7 +200,7 @@ class AddPostFragment(
                 }
 
                 override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+                    androidextention.showProgressDialog(activity)
                     Toast.makeText(
                         activity,
                         "error response" + response.toString(),
@@ -202,7 +209,7 @@ class AddPostFragment(
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+                    androidextention.showProgressDialog(activity)
                     Toast.makeText(
                         activity,
                         "failure response:" + failureMessage,
@@ -210,27 +217,28 @@ class AddPostFragment(
                     ).show()
                 }
 
-            }, "AddPost",mContext)
+            }, "AddPost", mContext)
 
         val apiRequest = Api_Request()
-        val location = Location("Point", arrayListOf(0.0,0.0))
-        apiRequest.mediaType = "PHOTO"
-        apiRequest.description = postDescriptionText
-        apiRequest.categoryId = SavedPrefManager.getStringPreferences(activity,AppConst.POST_CATEGORY_ID)
+        val location = Location("Point", arrayListOf(0.0, 0.0))
+        apiRequest.mediaType = imageType.toUpperCase()
+        apiRequest.description = description.text.toString()
+        apiRequest.categoryId =
+            SavedPrefManager.getStringPreferences(activity, AppConst.POST_CATEGORY_ID)
         apiRequest.videoLink = "video_link"
-        val imageList :ArrayList<String> = arrayListOf("https://res.cloudinary.com/mobiloitte-testing/image/upload/v1634815551/vtvhmo2gx9qhcn125and.jpg","https://res.cloudinary.com/mobiloitte-testing/image/upload/v1634815551/vtvhmo2gx9qhcn125and.jpg")
         apiRequest.imageLinks = responseImageList
+        apiRequest.type = "point"
         apiRequest.location = location
 
         try {
-            serviceManager.userAddPost(callBack,apiRequest)
+            serviceManager.userAddPost(callBack, apiRequest)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
 
-    private fun setSpinnerAdapter(spinnerData : ArrayList<String?>){
+    private fun setSpinnerAdapter(spinnerData: ArrayList<String?>) {
         val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
             activity!!,
             android.R.layout.simple_list_item_1,
@@ -253,72 +261,19 @@ class AddPostFragment(
     }
 
 
-    private fun uploadUserImageApi() {
-        androidextention.showProgressDialog(mContext)
-        callBack =
-            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
-                override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    if (response.responseCode == "200") {
-                        responseImageList.add(response.result.mediaUrl)
-                        imageType = response.result.mediaType
-
-                    } else {
-                        Toast.makeText(
-                            mContext,
-                            response.responseMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(
-                        mContext,
-                        "error response" + response.toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-
-                override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(
-                        mContext,
-                        "failure response:" + failureMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-
-            }, "UploadFile", mContext)
-
-//        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-//        var uploaded_file: MultipartBody.Part =
-//            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
-
-
-        try {
-            if(fileFlag == "gallery_with_mutiple") {
-
-                serviceManager.addUpost(callBack, imageparts)
-            } else {
-//                serviceManager.userUploadFile(callBack, uploaded_file)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-
     private fun addPostData(
         requestCode: Int,
         resultCode: Int,
         data: Intent?,
-        bottomSheetDialog: bottomSheetDialog
+        bottomSheetDialog: bottomSheetDialog,
+        imagePath: String
     ) {
         try {
             if (resultCode == Activity.RESULT_CANCELED) {
 //                return
+                Toast.makeText(activity,
+                    "User cancelled image capture", Toast.LENGTH_SHORT)
+                    .show();
                 bottomSheetDialog.dismiss()
             }
             try {
@@ -345,22 +300,21 @@ class AddPostFragment(
 
 
                                 var tempUri: Uri =
-                                    getImageUri(activity!!.applicationContext, imageList[i]!!)!!
+                                    getImageUri(activity!!.applicationContext, bitmap)!!
 
                                 val path = getPathFromURI(tempUri)
                                 if (path != null) {
                                     imageFile = File(path)
-                                    var requestGallaryImageFile: RequestBody =
-                                        RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-                                     imageparts.add(
-                                         MultipartBody.Part.createFormData(
-                                            "image",
-                                            imageFile.getName(),
-                                            requestGallaryImageFile
-                                        )
-                                    )
                                 }
-
+                                var requestGallaryImageFile: RequestBody =
+                                    RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+                                imageparts.add(
+                                    MultipartBody.Part.createFormData(
+                                        "image",
+                                        imageFile.getName(),
+                                        requestGallaryImageFile
+                                    )
+                                )
                             }
                             galleryData1.setImageBitmap(imageList[0])
                             galleryData2.setImageBitmap(imageList[1])
@@ -371,55 +325,95 @@ class AddPostFragment(
 
                         }
                     } else if (data != null && data!!.clipData == null) {
-                        var imageUri: Uri = data?.data!!
-                        var bitmap =
-                            MediaStore.Images.Media.getBitmap(
-                                activity?.contentResolver,
-                                imageUri
-                            )
-                        imageList.add(bitmap)
-                        galleryData1.setImageBitmap(imageList[0])
+                        fileFlag = "single_image"
+                        image = data.data!!
+                        galleryData1.setImageURI(image)
                         bottomSheetDialog.dismiss()
-
-                        var path = getPathFromURI(imageUri)
+                        val path = getPathFromURI(image)
                         if (path != null) {
                             imageFile = File(path)
-//                            image = Uri.fromFile(imageFile)
                         }
-
+                        var surveyBody =
+                            RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+                        uploaded_file =
+                            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
                         uploadUserImageApi()
                     }
 
                 } else if (requestCode == CAMERA) {
-                    fileFlag = "camera_image"
-                    var count = 0
-                    if (data?.extras != null) {
-                        if(count > MAX_IMAGE){
-                            Toast.makeText(
-                                activity,
-                                "Not select more than 3 photos",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
-                            var imageList: ArrayList<Bitmap?> = ArrayList()
-                            imageList.add(thumbnail)
-                            galleryData1.setImageBitmap(imageList[0])
-                            bottomSheetDialog.dismiss()
+                    fileFlag = "single_image"
+                    if (ImageCount.getImageCount()!! > MAX_IMAGE) {
+                        Toast.makeText(
+                            activity,
+                            "Not select more than 3 photos",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        imageFile = File(imagePath)
+                        uriImageList.add(Uri.fromFile(imageFile))
+//                        if (ImageCount.getImageCount()!! == 1) {
+//                            galleryData1.visibility = View.VISIBLE
+//                            galleryData1.setImageURI(Uri.fromFile(imageFile))
+//
+//                        } else if (ImageCount.getImageCount()!! == 2) {
+//                            galleryData2.visibility = View.VISIBLE
+//                            galleryData2.setImageURI(Uri.fromFile(imageFile))
+//
+//                        } else if (ImageCount.getImageCount()!! == 3) {
+//                            galleryData3.visibility = View.VISIBLE
+//                            galleryData3.setImageURI(Uri.fromFile(imageFile))
+//
+//                        }
 
-                            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-                            val tempUri: Uri =
-                                getImageUri(activity!!.applicationContext, thumbnail)!!
-                            val path = getPathFromURI(tempUri)
-                            if (path != null) {
-                                imageFile = File(path)
-//                            image = Uri.fromFile(imageFile)
+                        if(galleryData1.visibility == View.VISIBLE || count >= 1) {
+                            if(galleryData2.visibility == View.VISIBLE || count >= 2) {
+                                if(galleryData3.visibility == View.VISIBLE || count>=3) {
+                                    Toast.makeText(
+                                        activity,
+                                        "Not select more than 3 photos",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    count = 0
+                                    galleryData3.visibility = View.VISIBLE
+                                    galleryData3.setImageURI(Uri.fromFile(imageFile))
+                                }
+                            } else {
+                                count++
+                                galleryData2.visibility = View.VISIBLE
+                                galleryData2.setImageURI(Uri.fromFile(imageFile))
                             }
-                        }
-                        bottomSheetDialog.dismiss()
+                        } else {
+                            count++
+                            galleryData1.visibility = View.VISIBLE
+                            galleryData1.setImageURI(Uri.fromFile(imageFile))
 
+                        }
+//                        if(galleryData1.visibility == View.GONE) {
+//                            galleryData1.visibility = View.VISIBLE
+//                            galleryData1.setImageURI(Uri.fromFile(imageFile))
+//                        }
+//                        else if(galleryData1.visibility == View.VISIBLE && galleryData2.visibility == View.GONE) {
+//                            galleryData2.visibility = View.VISIBLE
+//                            galleryData2.setImageURI(Uri.fromFile(imageFile))
+//                        }
+//                        else if(galleryData2.visibility == View.VISIBLE && galleryData3.visibility == View.GONE) {
+//                            galleryData3.visibility = View.VISIBLE
+//                            galleryData3.setImageURI(Uri.fromFile(imageFile))
+//                        }
+
+
+                        bottomSheetDialog.dismiss()
+                        var surveyBody =
+                            RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+                        uploaded_file =
+                            MultipartBody.Part.createFormData(
+                                "image",
+                                imageFile.name,
+                                surveyBody
+                            )
                         uploadUserImageApi()
-                        Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
+
                     }
                 }
             } catch (e: Exception) {
@@ -430,17 +424,77 @@ class AddPostFragment(
         }
     }
 
+    private fun uploadUserImageApi() {
+        androidextention.showProgressDialog(activity)
+        callBack =
+            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+                override fun onApiSuccess(response: Responce, apiName: String?) {
+                    androidextention.disMissProgressDialog(mContext)
+                    if (response.responseCode == "200") {
+                        responseImageList.add(response.result.mediaUrl)
+                        imageType = response.result.mediaType
+
+                    } else {
+                        Toast.makeText(
+                            mContext,
+                            response.responseMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    androidextention.disMissProgressDialog(activity)
+                    Toast.makeText(
+                        mContext,
+                        "error response" + response.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                    androidextention.disMissProgressDialog(activity)
+                    Toast.makeText(
+                        mContext,
+                        "fa" +
+                                "ilure response:" + failureMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            }, "UploadFile", mContext)
+
+//        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+//        var uploaded_file: MultipartBody.Part =
+//            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
+
+
+        try {
+            if (fileFlag == "gallery_with_mutiple") {
+                serviceManager.addUpost(callBack, imageparts)
+            } else if (fileFlag == "single_image") {
+                serviceManager.userUploadFile(callBack, uploaded_file)
+
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        val path =
+            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
     }
 
     fun getPathFromURI(contentUri: Uri?): String? {
         var res: String? = null
         val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor: Cursor? = activity!!.getContentResolver().query(contentUri!!, proj, null, null, null)
+        val cursor: Cursor? =
+            activity!!.getContentResolver().query(contentUri!!, proj, null, null, null)
         if (cursor!!.moveToFirst()) {
             val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             res = cursor.getString(column_index)

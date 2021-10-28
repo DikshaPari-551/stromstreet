@@ -176,7 +176,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
             apiRequest.search = searchText.text.toString()
             try {
                 if(catId != null && !catId.equals("")) {
-                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
+//                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
+                serviceManager.getLocalActivity(callBack,28.525377,77.280106,apiRequest)
                 }
                 else if(getSearchText != null) {
                     serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)

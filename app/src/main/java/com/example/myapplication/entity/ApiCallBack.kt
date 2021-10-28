@@ -19,7 +19,8 @@ class ApiCallBack<T>(var apiListener:ApiResponseListener<T>?,var apiName: String
 
         androidextention.disMissProgressDialog(mContext)
         if (response.isSuccessful()) {
-            response.body()?.let { apiListener!!.onApiSuccess(it, apiName) }
+
+             response.body()?.let { apiListener!!.onApiSuccess(it, apiName) }
         } else {
             apiListener!!.onApiErrorBody(response.errorBody(), apiName)
         }

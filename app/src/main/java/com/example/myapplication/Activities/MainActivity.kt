@@ -13,6 +13,7 @@ import com.example.myapplication.customclickListner.AddPostClickListner
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.ImageCount
 import com.example.myapplication.util.SavedPrefManager
 import java.io.*
 
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() , ClickListner{
         loginFlag = LoginFlag.getLoginFlag()
 
         menu.setOnClickListener{
+            ImageCount.setImageCount(bottomSheetDialog.count++)
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment()).commit()
             profile.setColorFilter(resources.getColor(R.color.grey))
             menu.setColorFilter(resources.getColor(R.color.white))
@@ -68,6 +70,7 @@ class MainActivity : AppCompatActivity() , ClickListner{
         chat.setColorFilter(resources.getColor(R.color.grey))
 
         chat.setOnClickListener{
+            ImageCount.setImageCount(bottomSheetDialog.count++)
             supportFragmentManager.beginTransaction().replace(
                 R.id.linear_layout,
                 TrendingFragment()
@@ -98,6 +101,7 @@ class MainActivity : AppCompatActivity() , ClickListner{
         bubble.setColorFilter(resources.getColor(R.color.grey))
 
         bubble.setOnClickListener{
+            ImageCount.setImageCount(bottomSheetDialog.count++)
             if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
@@ -115,6 +119,7 @@ class MainActivity : AppCompatActivity() , ClickListner{
 
         profile.setOnClickListener{
             if(  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
+                ImageCount.setImageCount(bottomSheetDialog.count++)
                 profile.setColorFilter(resources.getColor(R.color.white))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.grey))
@@ -147,7 +152,7 @@ class MainActivity : AppCompatActivity() , ClickListner{
         bottomSheetDialog: bottomSheetDialog,
         imagePath: String
     ) {
-        supportFragmentManager.beginTransaction().replace(R.id.linear_layout,AddPostFragment(requestCode,resultCode,data,bottomSheetDialog)).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.linear_layout,AddPostFragment(requestCode,resultCode,data,bottomSheetDialog,imagePath)).commit()
     }
 
 

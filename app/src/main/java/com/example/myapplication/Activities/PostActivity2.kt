@@ -144,7 +144,7 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
                     click=true
                 }
                 else if(click==true){
-                    video_post_like.setColorFilter(resources.getColor(R.color.colorGray))
+//                    video_post_like.setColorFilter(resources.getColor(R.color.colorGray))
                     click=false
                 }
             } else {

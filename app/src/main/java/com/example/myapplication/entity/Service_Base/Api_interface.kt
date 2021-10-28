@@ -99,13 +99,9 @@ interface Api_interface
     @POST("admin/uploadFile")
     fun uploadFile(@Part file : MultipartBody.Part?): Call<Responce>?
 
-
     @Multipart
     @POST("admin/uploadFile")
     fun addUPost(file: ArrayList<MultipartBody.Part>?): Call<Responce>?
-
-
-//
 
     @POST("user/localActivities")
     fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?

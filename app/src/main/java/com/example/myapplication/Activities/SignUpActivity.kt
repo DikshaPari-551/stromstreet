@@ -1,9 +1,9 @@
 package com.example.myapplication.Activities
 
-import android.R.attr
-import android.app.Activity
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
@@ -13,6 +13,8 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.ValidationExt.Validations
@@ -83,6 +85,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     var imageType = ""
     private val GALLERY = 1
     private var CAMERA: Int = 2
+    val CAMERA_PERM_CODE = 101
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,8 +124,8 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         bio_text = findViewById(R.id.bio_text)
 
         camera.setOnClickListener {
-            var bottomsheet = bottomSheetDialog("signup", this)
-            bottomsheet.show(supportFragmentManager, "bottomsheet")
+            askCameraPermissions()
+
         }
         login.setOnClickListener {
             var intent = Intent(this, LoginActivity::class.java)
@@ -308,8 +311,6 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
                         val path = getPathFromURI(image)
                         if (path != null) {
                             imageFile = File(path)
-//                            image = Uri.fromFile(imageFile)
-
                         }
                         USER_IMAGE_UPLOADED = "ture"
                         uploadUserImageApi()
@@ -318,31 +319,11 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
                 }
             } else if (requestCode == CAMERA) {
                 if (resultCode == RESULT_OK) {
-                    if (data != null) {
-                        val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
-                        circleProfile.setImageBitmap(thumbnail)
+                        imageFile = File(imagePath)
+                        circleProfile.setImageURI(Uri.fromFile(imageFile))
                         bottomSheetDialog.dismiss()
-                        var createFolder = File(this.getExternalFilesDir("temp"), imagePath)
-                        if(!createFolder.exists())
-                            createFolder.mkdir();
-
-                        val saveImage = File(createFolder, ""+System.currentTimeMillis()+".jpg")
-
-                        var image = saveImage.getAbsolutePath()
-                        imageFile = File(image)
-
-                        // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-//                        val tempUri: Uri =
-//                            getImageUri(this, thumbnail)!!
-//                        val path = getPathFromURI(tempUri)
-//                        if (path != null) {
-//                            imageFile = File(path)
-////                            image = Uri.fromFile(imageFile)
-//
-//                        }
                         USER_IMAGE_UPLOADED = "ture"
                         uploadUserImageApi()
-                    }
                 }
             }
 
@@ -420,6 +401,39 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             e.printStackTrace()
         }
     }
-
-
+    private fun askCameraPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERM_CODE
+            )
+        } else {
+            var bottomsheet = bottomSheetDialog("signup", this)
+            bottomsheet.show(supportFragmentManager, "bottomsheet")
+        }
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERM_CODE) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                var bottomsheet = bottomSheetDialog("signup", this)
+                bottomsheet.show(supportFragmentManager, "bottomsheet")
+            } else {
+                Toast.makeText(
+                    this,
+                    "Camera Permission is Required to Use camera.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 }

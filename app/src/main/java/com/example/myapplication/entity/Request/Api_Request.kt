@@ -46,6 +46,9 @@ class Api_Request {
     @SerializedName("deviceType")
     var deviceType: String? = null
 
+    @SerializedName("type")
+    var type: String? = null
+
     @SerializedName("deviceToken")
     var deviceToken: String? = null
 
