@@ -1,15 +1,24 @@
 package com.example.myapplication.util
 
-import android.R
 import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-
+import com.example.myapplication.R
 
 class AppConst {
     companion object {
-        const val OLD_PASSWORD : String = "old_password"
+        var OLD_PASSWORD : String = "old_password"
+        var IMAGEDATA : String = "false"
+        var ONEPHOTO : String = ""
+        var POST_CATEGORY_ID : String = "_id"
+        var USER_SIGNUP_IMAGE : String = "user_image"
+        var USER_IMAGE_UPLOADED : String = "false"
+        var USER_IMAGE_LINK : String = "user_image_link"
+        var MEDIA_TYPE : String = "media_type"
+        var LATITUDE : Double = 0.0
+        var LONGITUDE : Double = 0.0
+
 
         fun hideKeyboard(activity: Activity) {
             try {
@@ -25,6 +34,4 @@ class AppConst {
             }
         }
     }
-
-
 }

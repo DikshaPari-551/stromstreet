@@ -16,6 +16,8 @@ class Responce {
 }
 
 data class Result(
+    @SerializedName("mediaUrl") val mediaUrl: String,
+    @SerializedName("mediaType") val mediaType: String,
     @SerializedName("emailType") val emailType: String,
     @SerializedName("phoneNumberType") val phoneNumberType: String,
     @SerializedName("userType") val userType: String,
@@ -64,11 +66,7 @@ data class Result(
     @SerializedName("likeCount") val likeCount : Int,
     @SerializedName("commentCount") val commentCount : Int,
     @SerializedName("isLike") val isLike : Boolean,
-    @SerializedName("isFollow") val isFollow : Boolean,
-    @SerializedName("likeType") val likeType : String,
-    @SerializedName("profileResult") val profileResult : ProfileResult,
-    @SerializedName("isRequested") val isRequested : Boolean
-
+    @SerializedName("isFollow") val isFollow : Boolean
 )
 
 data class ProfileResult (

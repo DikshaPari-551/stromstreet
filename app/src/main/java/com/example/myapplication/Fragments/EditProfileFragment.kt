@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.bumptech.glide.Glide
 import com.example.myapplication.*
 import com.example.myapplication.Activities.ChangePassword
 import com.example.myapplication.BottomSheets.BottomSheetLogout
@@ -16,6 +17,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 import java.lang.Exception
@@ -26,6 +28,7 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var changePassword: LinearLayout
     lateinit var logout: RelativeLayout
     lateinit var backButton: ImageView
+    lateinit var userProfile: ImageView
     lateinit var mContext: Context
     lateinit var username: TextView
     lateinit var name: TextView
@@ -48,6 +51,7 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         username = v.findViewById(R.id.username)
         name = v.findViewById(R.id.name)
         phone_no = v.findViewById(R.id.phone_no)
+        userProfile = v.findViewById(R.id.userProfile)
         email_id = v.findViewById(R.id.email_id)
         bio = v.findViewById(R.id.bio)
 
@@ -113,6 +117,9 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         phone_no.setText(response.result.userResult.phoneNumber)
         email_id.setText(response.result.userResult.email)
         bio.setText(response.result.userResult.bio)
+
+        Glide.with(mContext).load(response.result.userResult.profilePic)
+            .placeholder(R.drawable.circleprofile).into(userProfile)
 
         Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
 

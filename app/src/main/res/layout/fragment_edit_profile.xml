@@ -74,10 +74,12 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <ImageView
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/userProfile"
                                 android:layout_width="135dp"
                                 android:layout_height="135dp"
-                                android:src="@drawable/female_img" />
+                                android:src="@drawable/circleprofile"
+                                />
 
 
                         </LinearLayout>

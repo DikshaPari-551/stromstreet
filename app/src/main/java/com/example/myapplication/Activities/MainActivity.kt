@@ -1,7 +1,9 @@
 package com.example.myapplication
 
+import android.Manifest
 import  com.example.myapplication.R
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -9,26 +11,29 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.myapplication.Fragments.ChatFragment
-import com.example.myapplication.Fragments.HomeFragment
-import com.example.myapplication.Fragments.ProfileFragment
-import com.example.myapplication.Fragments.TrendingFragment
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.myapplication.Fragments.*
+import com.example.myapplication.customclickListner.ClickListner
+import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.util.SavedPrefManager
 import java.io.*
 
 
-class MainActivity : AppCompatActivity() {
-   lateinit var menu:ImageView
+class MainActivity : AppCompatActivity(), ClickListner {
+    lateinit var menu:ImageView
     lateinit var bubble:ImageView
     lateinit var profile:ImageView
     lateinit var add:ImageView
     private var loginFlag : Boolean = false
-   lateinit var user_home:ImageView
+    lateinit var user_home:ImageView
     lateinit var filter:ImageView
     lateinit var  topText:TextView
     var file : File? = null
     private var GALLERY = 1
     private  var CAMERA:Int = 2
+    val CAMERA_PERM_CODE = 101
+
 
 
     lateinit var chat:ImageView
@@ -36,11 +41,23 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        RequestPermission.requestMultiplePermissions(this)
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERM_CODE
+            )
         }
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            val window: Window = window
@@ -85,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         }
         add.setOnClickListener{
             if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
-                var bottomsheet = bottomSheetDialog("addpost")
+                var bottomsheet = bottomSheetDialog("addpost",this)
                 bottomsheet.show(supportFragmentManager, "bottomsheet")
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
@@ -136,6 +153,19 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    override fun clickListner(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        bottomSheetDialog: bottomSheetDialog,
+        imagePath: String
+    ) {
+        supportFragmentManager.beginTransaction().replace(
+            R.id.linear_layout,
+            AddPostFragment(requestCode, resultCode, data, bottomSheetDialog, imagePath)
+        ).commit()
     }
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, d: Intent?) {

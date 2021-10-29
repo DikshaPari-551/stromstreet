@@ -5,6 +5,7 @@ import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
+import okhttp3.MultipartBody
 
 
 class ServiceManager(var mContext: Context?) {
@@ -103,7 +104,6 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
     }
 
-
     fun getFollower(callBack: ApiCallBack<LocalActivityResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.followerUser() }!!.enqueue(callBack)
     }
@@ -118,8 +118,8 @@ class ServiceManager(var mContext: Context?) {
 
 
 
-    fun getLikeunlike(callBack: ApiCallBack<Responce>,postId : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.likeUnlike(postId) }!!.enqueue(callBack)
+    fun getLikeunlike(callBack: ApiCallBack<Responce>,_id : String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.likeUnlike(_id) }!!.enqueue(callBack)
     }
   fun getSavepost(callBack: ApiCallBack<Responce>,postId : String) {
         mContext?.let { Remotedatasource.current(it, true)!!.saveUnsave(postId) }!!.enqueue(callBack)
@@ -145,12 +145,35 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!.enqueue(callBack)
     }
 
-    fun getLocalActivity(callBack: ApiCallBack<LocalActivityResponse>, lat: Double, lng: Double) {
-        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng) }!!.enqueue(callBack)
+    fun getLocalActivity(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        lat: Double,
+        lng: Double,
+        apiRequest: Api_Request?
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest) }!!.enqueue(callBack)
     }
     fun getTrendingPost(callBack: ApiCallBack<LocalActivityResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost() }!!.enqueue(callBack)
     }
+
+    fun userUploadMedia(callBack: ApiCallBack<Responce>, image: MultipartBody.Part) {
+        mContext?.let { Remotedatasource.current(it, true)!!.uploadMedia(image) }!!
+            .enqueue(callBack)
+    }
+
+    fun userUploadFile(callBack: ApiCallBack<Responce>, file : MultipartBody.Part?) {
+        mContext?.let { Remotedatasource.current(it, false)!!.uploadFile(file!!) }!!
+            .enqueue(callBack)
+    }
+    fun addUpost(callBack: ApiCallBack<Responce>, file: ArrayList<MultipartBody.Part>?) {
+        mContext?.let { Remotedatasource.current(it, false)!!.addUPost(file!!) }!!
+            .enqueue(callBack)
+    }
+
+
+
+
     fun getOtherProfile(callBack: ApiCallBack<Responce>,_id: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.getOtherProfile(_id) }!!.enqueue(callBack)
     }

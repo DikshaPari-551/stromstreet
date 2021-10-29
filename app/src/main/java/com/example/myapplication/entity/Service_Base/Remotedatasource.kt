@@ -1,10 +1,11 @@
 package com.example.myapplication.entity.Service_Base
 
 import android.content.Context
-import com.example.myapplication.entity.Service_Base.ServiceConstant
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+
 
 class Remotedatasource
 {
@@ -48,6 +49,10 @@ class Remotedatasource
             if(condition){
                 val client: OkHttpClient =  OkHttpClient.Builder()
                     .addInterceptor(interceptor)
+                    .callTimeout(2, TimeUnit.MINUTES)
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
                     .build()
                 retrofit = Retrofit.Builder()
                     .baseUrl(ServiceConstant.BASE_URL)
@@ -59,6 +64,10 @@ class Remotedatasource
 
           else{
                 val client: OkHttpClient =  OkHttpClient.Builder()
+                    .callTimeout(2, TimeUnit.MINUTES)
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
                     .build()
                 retrofit = Retrofit.Builder()
                     .baseUrl(ServiceConstant.BASE_URL)

@@ -5,6 +5,7 @@ package com.example.myapplication.entity.Service_Base
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
+import okhttp3.MultipartBody
 
 import retrofit2.Call
 import retrofit2.http.*
@@ -64,6 +65,9 @@ interface Api_interface
     @POST("user/savePost")
     fun saveUnsave(@Query("postId") postId : String): Call<Responce>?
 
+//    @POST("user/forgotPassword")
+//    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
+
     @POST("user/editProfile")
     fun userDetails(@Body apiRequest: Api_Request?): Call<Responce>?
 
@@ -91,8 +95,19 @@ interface Api_interface
     @GET("user/getPost")
     fun postDetails(@Query("postId") postId : String): Call<Responce>?
 
+    @POST("user/uploadMedia")
+    fun uploadMedia(@Part image: MultipartBody.Part): Call<Responce>?
+
+    @Multipart
+    @POST("admin/uploadFile")
+    fun uploadFile(@Part file : MultipartBody.Part?): Call<Responce>?
+
+    @Multipart
+    @POST("admin/uploadFile")
+    fun addUPost(file: ArrayList<MultipartBody.Part>?): Call<Responce>?
+
     @POST("user/localActivities")
-    fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double): Call<LocalActivityResponse>?
+    fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
 
     @POST("user/trendingPostList")
     fun trendingPost(): Call<LocalActivityResponse>?

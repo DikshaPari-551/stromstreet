@@ -72,7 +72,8 @@
 
             android:layout_marginTop="30dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleProfile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="10dp"
@@ -317,7 +318,7 @@
             android:background="@drawable/background_edit_text">
 
             <EditText
-                android:id="@+id/email_text"
+                android:id="@+id/bio_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -369,6 +370,7 @@
 
 
                 <EditText
+                    android:id="@+id/su_twitter_link"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -414,6 +416,8 @@
 
 
                 <EditText
+                    android:id="@+id/su_facebook_link"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -459,6 +463,8 @@
 
 
                 <EditText
+                    android:id="@+id/su_instagram_link"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -504,6 +510,7 @@
 
 
                 <EditText
+                    android:id="@+id/su_youtube_link"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

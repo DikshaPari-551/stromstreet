@@ -79,12 +79,35 @@
                     android:orientation="horizontal"
                     android:layout_height="80dp">
                     <ImageView
-                        android:id="@+id/image1"
+                        android:id="@+id/image_1"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
+                        android:scaleType="fitXY"
+                        android:visibility="gone"
+                        />
 
-                        /></LinearLayout>
+                    <ImageView
+                        android:id="@+id/image_2"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:padding="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:scaleType="fitXY"
+                        android:visibility="gone"
+                        />
+
+                    <ImageView
+                        android:id="@+id/image_3"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:padding="3dp"
+                        android:layout_marginLeft="10dp"
+                        android:scaleType="fitXY"
+                        android:visibility="gone"
+                        />
+
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -160,6 +183,7 @@
                                 android:fontFamily="@font/opensans_regular"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="5dp"
+                                android:autofillHints="@string/app_name"
                                 android:background="@android:color/transparent"
                                 android:gravity="center"
                                 android:spinnerMode="dropdown" />
@@ -167,6 +191,7 @@
 
 
                             <ImageView
+                                android:id="@+id/spinDropDown"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"

@@ -12,7 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.Debug.getLocation
+//import androidx.constraintlayout.motion.widget.Debug.getLocation
 import com.example.myapplication.Activities.EmailVerificationActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
@@ -23,6 +23,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
@@ -125,16 +126,6 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 ) == true
             ) {
                 LogIn()
-//                var intent = Intent(applicationContext, MainActivity::class.java)
-//
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-//                this.finish()
-//
-//                startActivity(intent)
-//
-//                LoginFlag.setLoginFlag( true)
 
 
             }
@@ -283,16 +274,6 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 startActivity(intent)
                 finish()
             }
-//            var intent = Intent(applicationContext, MainActivity::class.java)
-//
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-//            this.finish()
-//
-//            startActivity(intent)
-//
-//            LoginFlag.setLoginFlag(true)
         }
     }
 
