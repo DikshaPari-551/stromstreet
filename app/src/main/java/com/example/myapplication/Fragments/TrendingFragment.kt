@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +32,6 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var mContext: Context
     lateinit var adaptor: TrendingListAdaptor
     lateinit var USERID: String
-    lateinit var Go : LinearLayout
     lateinit var textLocalPostTrending:TextView
     lateinit var textFollowingPostTrending:TextView
     lateinit var recycler_view2: RecyclerView
@@ -43,6 +39,10 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var trandingBackButton: ImageView
     lateinit var filter: ImageView
     lateinit var userTrendingImg:ImageView
+    lateinit var searchText: EditText
+    lateinit var goButton: LinearLayout
+    var catId: String =""
+    var maxDis: Int = 0
     //    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
 //    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1")
 //    var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event")
@@ -58,13 +58,15 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         var v= inflater.inflate(R.layout.fragment_trending, container, false)
         getTrendingPostApi()
 
-        Go = v.findViewById(R.id.go)
-
-
-
+        searchText = v.findViewById(R.id.search_text)
+        goButton = v.findViewById(R.id.go)
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
+
+        goButton.setOnClickListener{
+//            getLocalActivityApi()
+        }
 
         trandingBackButton.setOnClickListener{
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, TrendingFragment())?.commit()

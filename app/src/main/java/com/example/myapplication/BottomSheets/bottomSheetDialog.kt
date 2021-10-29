@@ -24,6 +24,7 @@ import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.ImageCount
 import com.example.myapplication.util.SavedPrefManager
+import com.github.chiragji.gallerykit.callbacks.GalleryKitListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.File
@@ -37,7 +38,7 @@ class bottomSheetDialog(
     var flag: String,
     var myClickListner: ClickListner
 ) :
-    BottomSheetDialogFragment() {
+    BottomSheetDialogFragment(), GalleryKitListener {
     var pic_id = 123
     private val pickImage = 100
     lateinit var cancel: TextView
@@ -196,6 +197,14 @@ class bottomSheetDialog(
             myClickListner.clickListner(requestCode, resultCode, data, this, imagePath)
 
         }
+    }
+
+    override fun onGalleryKitBackAction() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onGalleryKitSelectionConfirmed(selectedDataUris: MutableList<String>) {
+        TODO("Not yet implemented")
     }
 
 //    override fun onRequestPermissionsResult(

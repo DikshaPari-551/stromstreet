@@ -60,7 +60,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
     var getSearchText = ""
- var catId: String =""
+    var catId: String =""
     var maxDis: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
