@@ -18,11 +18,9 @@ import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
-import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
-import com.example.myapplication.entity.Response.Docs
 
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.entity.Response.LocalActivityResponse
@@ -84,7 +82,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         man = v.findViewById(R.id.user_home)
         searchText = v.findViewById(R.id.search_text)
         goButton = v.findViewById(R.id.go)
-        getSearchText = searchText.text.toString()
+//        getSearchText = searchText.text.toString()
         try {
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
@@ -93,6 +91,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         }
         locationpermission()
         getLocalActivityApi()
+
+        goButton.setOnClickListener{
+            getLocalActivityApi()
+        }
         man.setOnClickListener {
             if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true"))
@@ -175,8 +177,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
             apiRequest.search = searchText.text.toString()
             try {
                 if(catId != null && !catId.equals("")) {
-//                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
-                serviceManager.getLocalActivity(callBack,28.525377,77.280106,apiRequest)
+                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
+
                 }
                 else if(getSearchText != null) {
                     serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
@@ -238,6 +240,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
                 try {
                     latitude = location.latitude
                     longitude = location.longitude
+                    SavedPrefManager.setLatitudeLocation(latitude)
+                    SavedPrefManager.setLongitudeLocation(longitude)
                 } catch(e : Exception) {
                     e.printStackTrace()
                 }

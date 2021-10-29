@@ -80,23 +80,23 @@ class bottomSheetDialog(
 
         gallery.setOnClickListener { view: View? ->
             if (flag == "addpost") {
-                if (SavedPrefManager.getStringPreferences(activity, AppConst.IMAGEDATA) == "true") {
-                    Toast.makeText(
-                        activity,
-                        "Not add more than 3 photos",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    imageList.clear()
-                } else {
-                    choosePhotoFromGallary()
-//                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-//                    intent.addCategory(Intent.CATEGORY_OPENABLE)
-//                    intent.type = "image/*"
-//                    startActivityForResult(
-//                        Intent.createChooser(intent, "Select Picture"),
-//                        GALLERY
-//                    )
-                }
+//                if (SavedPrefManager.getStringPreferences(activity, AppConst.IMAGEDATA) == "true") {
+//                    Toast.makeText(
+//                        activity,
+//                        "Not add more than 3 photos",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    imageList.clear()
+//                } else {
+//                    choosePhotoFromGallary()
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    intent.type = "image/*"
+                    startActivityForResult(
+                        Intent.createChooser(intent, "Select Picture"),
+                        GALLERY
+                    )
+//                }
             } else {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -110,15 +110,15 @@ class bottomSheetDialog(
 
         camera.setOnClickListener {
             if (flag == "addpost") {
-                if (SavedPrefManager.getStringPreferences(activity, AppConst.IMAGEDATA) == "true") {
-                    Toast.makeText(
-                        activity,
-                        "Not add more than 3 photos",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
+//                if (SavedPrefManager.getStringPreferences(activity, AppConst.IMAGEDATA) == "true") {
+//                    Toast.makeText(
+//                        activity,
+//                        "Not add more than 3 photos",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                } else {
                     dispatchTakePictureIntent()
-                }
+//                }
             } else {
                 dispatchTakePictureIntent()
             }

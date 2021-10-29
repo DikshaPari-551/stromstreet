@@ -16,6 +16,8 @@ class AppConst {
         var USER_IMAGE_UPLOADED : String = "false"
         var USER_IMAGE_LINK : String = "user_image_link"
         var MEDIA_TYPE : String = "media_type"
+        var LATITUDE : Double = 0.0
+        var LONGITUDE : Double = 0.0
 
 
         fun hideKeyboard(activity: Activity) {

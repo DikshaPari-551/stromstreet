@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.orhanobut.hawk.Hawk
+import java.util.function.DoubleUnaryOperator
 
 class SavedPrefManager(var context: Context) {
     private val preferences: SharedPreferences
@@ -184,6 +185,7 @@ class SavedPrefManager(var context: Context) {
         private const val QB_USER_FULL_NAME = "qb_user_full_name"
         private const val KEY_END_POINT_ARN = "end_point_arn"
         private var instance: SavedPrefManager? = null
+        private var value : Double? = null
         private const val PREF_HIGH_QUALITY = "pref_high_quality"
         fun getInstance(context: Context): SavedPrefManager? {
             if (instance == null) {
@@ -290,7 +292,24 @@ class SavedPrefManager(var context: Context) {
             editor.putString(key, value)
             editor.commit()
         }
+
+        fun setLatitudeLocation(value : Double) {
+            this.value = value
+        }
+
+        fun getLatitudeLocation() : Double {
+            return value!!
+        }
+
+        fun setLongitudeLocation(value : Double) {
+            this.value = value
+        }
+
+        fun getLongitudeLocation() : Double {
+            return value!!
+        }
     }
+
 
     //    /*save Login Model*/
     //    public static void saveLogin(String key, SignInResponse request) {

@@ -77,6 +77,9 @@ class Api_Request {
     @SerializedName("profilePic")
     var profilePic: String? = null
 
+    @SerializedName("address")
+    var address: String? = null
+
     @SerializedName("imageLinks")
     var imageLinks: List<String>? = null
 

@@ -12,7 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.Debug.getLocation
+//import androidx.constraintlayout.motion.widget.Debug.getLocation
 import com.example.myapplication.Activities.EmailVerificationActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity

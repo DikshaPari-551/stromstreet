@@ -20,5 +20,7 @@
     <string name="forgotpassword"><u>Forgot Password?</u></string>
     <string name="signup"><u>  Sign Up</u></string>
     <string name="server_not_responding">server not responding</string>
+    <string name="api_key">AIzaSyCnH9USkTG6L2hFhDtxqc8lsff52lOo0lY</string>
+
 
 </resources>
