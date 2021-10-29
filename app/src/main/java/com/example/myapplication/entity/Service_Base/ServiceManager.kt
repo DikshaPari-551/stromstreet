@@ -177,6 +177,10 @@ class ServiceManager(var mContext: Context?) {
     fun getOtherProfile(callBack: ApiCallBack<Responce>,_id: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.getOtherProfile(_id) }!!.enqueue(callBack)
     }
+
+    fun getOtherUserProfile(callBack: ApiCallBack<Responce>,_id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.otherUserProfile(_id) }!!.enqueue(callBack)
+    }
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
 //    }

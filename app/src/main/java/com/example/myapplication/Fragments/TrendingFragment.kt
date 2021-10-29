@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
-import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.Adaptor.TrendingListAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
@@ -75,6 +74,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
         textLocalPostTrending.setOnClickListener{
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
+                ?.commit()
             textLocalPostTrending.setTextColor(resources.getColor(R.color.orange))
             trending_post_text.setText("Local Activity")
             textFollowingPostTrending.setTextColor(resources.getColor(R.color.white))
@@ -166,19 +167,20 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         val layoutManager = GridLayoutManager(activity,2)
         recycler_view2?.layoutManager = layoutManager
         recycler_view2?.adapter = adaptor
+        adaptor.notifyDataSetChanged()
     }
 
     override fun customClick(value: Docss, type: String)   {
-//        USERID =   "61711c7ec473b124b7369219"
         USERID =   value._id
 
         if (type.equals("profile")){
 
             var intent = Intent(mContext, PostActivity::class.java)
-            intent.putExtra("userId", USERID)
+//            intent.putExtra("userId", USERID)
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+
             startActivity(intent)
         }
-
     }
 }
 

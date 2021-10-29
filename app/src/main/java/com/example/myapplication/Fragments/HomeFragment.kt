@@ -60,7 +60,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
     var getSearchText = ""
-    var catId: String =""
+ var catId: String =""
     var maxDis: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -111,15 +111,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         }
 
 
-        followingPost.setOnClickListener {
-            followingPost.setTextColor(resources.getColor(R.color.orange))
-            home_text.setText("Following Activity")
-            localpost.setTextColor(resources.getColor(R.color.white))
-            filter.visibility = View.GONE
-            userHome.visibility = View.GONE
-            backArrowHome.visibility = View.VISIBLE
-
-        }
         localpost.setOnClickListener {
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Activity")
@@ -130,6 +121,16 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 
 
         }
+        followingPost.setOnClickListener {
+            followingPost.setTextColor(resources.getColor(R.color.orange))
+            home_text.setText("Following Activity")
+            localpost.setTextColor(resources.getColor(R.color.white))
+            filter.visibility = View.GONE
+            userHome.visibility = View.GONE
+            backArrowHome.visibility = View.VISIBLE
+
+        }
+
 
         backArrowHome.setOnClickListener {
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
@@ -216,6 +217,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         val layoutManager = GridLayoutManager(activity,2)
         recycler_view1?.layoutManager = layoutManager
         recycler_view1?.adapter = adaptor
+        adaptor.notifyDataSetChanged()
+
     }
 
 

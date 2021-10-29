@@ -2,6 +2,7 @@ package com.example.myapplication.Activities
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,7 @@ import okhttp3.ResponseBody
 class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse> {
     lateinit var adaptor: Follower_Adaptor
     lateinit var recycler_view3: RecyclerView
+    lateinit var back_arrow_chat: ImageView
 
     //    var list: ArrayList<Docs> = arrayListOf()
     var mContext: Context = this
@@ -29,9 +31,12 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_followers)
         followerApi()
-
         recycler_view3 = findViewById(R.id.recycler_view3)
+        back_arrow_chat = findViewById(R.id.back_arrow_chat)
 
+        back_arrow_chat.setOnClickListener {
+            finish()
+        }
 
     }
 

@@ -40,6 +40,7 @@ data class Result(
     @SerializedName("deviceType") val deviceType: String,
     @SerializedName("deviceToken") val deviceToken: String,
     @SerializedName("socialLinks") var socialLinks: SocialLinks,
+    @SerializedName("profileResult") var profileResult: ProfileResult,
     @SerializedName("otp") val otp: Int,
     @SerializedName("otpTime") val otpTime: Long,
     @SerializedName("createdAt") val createdAt: String,
@@ -124,7 +125,8 @@ data class UserId(
     @SerializedName("_id") val _id: String,
     @SerializedName("fullName") val fullName: String,
     @SerializedName("email") val email: String,
-    @SerializedName("userName") val userName: String
+    @SerializedName("userName") val userName: String,
+    @SerializedName("profilePic") val profilePic: String
 )
 
 data class CategoryId(
@@ -168,7 +170,8 @@ data class FollowerId(
     @SerializedName("_id") val _id: String,
     @SerializedName("fullName") val fullName: String,
     @SerializedName("email") val email: String,
-    @SerializedName("userName") val userName: String
+    @SerializedName("userName") val userName: String,
+    @SerializedName("profilePic") val profilePic: String
 )
 
 data class UserResult(

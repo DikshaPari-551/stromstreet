@@ -75,7 +75,8 @@
                             android:layout_marginTop="25dp"
                             android:layout_marginLeft="25dp">
 
-                            <ImageView
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/profileImage"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:src="@drawable/female_img" />
@@ -178,7 +179,7 @@
                             android:letterSpacing=".001"
                             android:lineSpacingExtra="1dp"
                             android:maxLines="4"
-                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.......  "
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="12dp"></TextView>
                     </LinearLayout>
@@ -212,7 +213,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="64.9k"
+                                android:text=""
                                 android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
@@ -238,7 +239,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="64k"
+                                android:text=""
                                 android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
@@ -262,7 +263,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="6k"
+                                android:text=""
                                 android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
