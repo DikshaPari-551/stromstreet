@@ -96,6 +96,9 @@ interface Api_interface
 
     @POST("user/trendingPostList")
     fun trendingPost(): Call<LocalActivityResponse>?
+
+    @GET("user/seeOtherProfile")
+    fun otherUserProfile(@Query("_id") _id : String): Call<Responce>?
 //    @POST("profile")
 //    fun update(@Body apiRequest: Api_Request?): Call<Responce>?
 //

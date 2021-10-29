@@ -35,14 +35,15 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import okhttp3.ResponseBody
 
-class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , CustomClickListner2 {
+class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, CustomClickListner2 {
     lateinit var mContext: Context
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     lateinit var man: ImageView
-//    var weather: List<String> = listOf("Weather", "Crime", "Weater", "Crime", "Weather")
+
+    //    var weather: List<String> = listOf("Weather", "Crime", "Weater", "Crime", "Weather")
 //    var okhla: List<String> =
 //        listOf("Okhla phase1", "Okhla phase2", "Okhla phase1", "Okhla phase2", "Okhla phase1")
 //    var event: List<String> = listOf("Event", "Traffic", "Event", "Traffic", "Event")
@@ -95,17 +96,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
             }
         }
 
-
-        followingPost.setOnClickListener {
-            followingPost.setTextColor(resources.getColor(R.color.orange))
-            home_text.setText("Following Activity")
-            localpost.setTextColor(resources.getColor(R.color.white))
-            filter.visibility = View.GONE
-            userHome.visibility = View.GONE
-            backArrowHome.visibility = View.VISIBLE
-
-        }
         localpost.setOnClickListener {
+
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Activity")
             localpost.setTextColor(resources.getColor(R.color.orange))
@@ -115,6 +107,16 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 
 
         }
+        followingPost.setOnClickListener {
+            followingPost.setTextColor(resources.getColor(R.color.orange))
+            home_text.setText("Following Activity")
+            localpost.setTextColor(resources.getColor(R.color.white))
+            filter.visibility = View.GONE
+            userHome.visibility = View.GONE
+            backArrowHome.visibility = View.VISIBLE
+
+        }
+
 
         backArrowHome.setOnClickListener {
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
@@ -141,7 +143,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 //        }
 
 
-
 //        val layoutManager = GridLayoutManager(activity, 2)
 //
 //        recycler_view1.layoutManager = layoutManager
@@ -159,7 +160,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 
 
             try {
-                serviceManager.getLocalActivity(callBack,latitude,longitude)
+                serviceManager.getLocalActivity(callBack, latitude, longitude)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -172,7 +173,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         var list = ArrayList<Docss>()
         list.addAll(response.result.docs)
         setAdapter(list)
-
 
 
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
@@ -188,10 +188,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 
     fun setAdapter(list: ArrayList<Docss>) {
 
-        adaptor = this?.let { HomeAdaptor(it, list,this) }!!
-        val layoutManager = GridLayoutManager(activity,2)
+        adaptor = this?.let { HomeAdaptor(it, list, this) }!!
+        val layoutManager = GridLayoutManager(activity, 2)
         recycler_view1?.layoutManager = layoutManager
         recycler_view1?.adapter = adaptor
+        adaptor.notifyDataSetChanged()
+
     }
 
 
@@ -216,31 +218,33 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
                 try {
                     latitude = location.latitude
                     longitude = location.longitude
-                }catch (e: java.lang.Exception){
+                } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                 }
 
-                           }
+            }
             .addOnFailureListener {
-                Toast.makeText(mContext, "Failed on getting current location",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    mContext, "Failed on getting current location",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
-    override fun customClick(value: Docss, type: String)
-    {
+    override fun customClick(value: Docss, type: String) {
 //        USERID =   "61711c7ec473b124b7369219"
-        USERID =   value._id
+        USERID = value._id
 
-        if (type.equals("profile")){
+        if (type.equals("profile")) {
             var intent = Intent(mContext, PostActivity::class.java)
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id,USERID)
+            intent.putExtra("userId", USERID)
 
-                startActivity(intent)
+//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id,USERID)
+
+            startActivity(intent)
         }
 
     }
-
 
 
 }

@@ -126,7 +126,8 @@ data class UserId(
     @SerializedName("_id") val _id: String,
     @SerializedName("fullName") val fullName: String,
     @SerializedName("email") val email: String,
-    @SerializedName("userName") val userName: String
+    @SerializedName("userName") val userName: String,
+    @SerializedName("profilePic") val profilePic: String
 )
 
 data class CategoryId(
@@ -170,7 +171,8 @@ data class FollowerId(
     @SerializedName("_id") val _id: String,
     @SerializedName("fullName") val fullName: String,
     @SerializedName("email") val email: String,
-    @SerializedName("userName") val userName: String
+    @SerializedName("userName") val userName: String,
+    @SerializedName("profilePic") val profilePic: String
 )
 
 data class UserResult(

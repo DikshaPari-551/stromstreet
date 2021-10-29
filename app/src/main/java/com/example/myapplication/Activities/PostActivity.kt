@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.myapplication.LoginActivity
@@ -21,6 +22,7 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
+import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.ResponseBody
 import java.lang.Exception
 
@@ -41,6 +43,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var eventType: TextView
     lateinit var totalLike: TextView
     lateinit var commentcount: TextView
+    lateinit var profileimg: CircleImageView
     var USERID: String = ""
     var postid: String = ""
     var LikeUnlike: Boolean = false
@@ -62,6 +65,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         getINent()
         postdetails()
         backPostButton = findViewById(R.id.back_arrow_post)
+        profileimg = findViewById(R.id.profileimg)
         sharePost = findViewById(R.id.share_post)
         savePost = findViewById(R.id.saved_post)
         video_post_like = findViewById(R.id.video_post_like)
@@ -79,9 +83,10 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
 
         backPostButton.setOnClickListener {
-            val i = Intent(this, MainActivity::class.java)
-            startActivity(i)
-//            finish()
+//            val i = Intent(this, MainActivity::class.java)
+//            startActivity(i)
+            finish()
+
         }
 
 
@@ -166,7 +171,9 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
     private fun getINent() {
         try {
-            USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager._id).toString()
+//            USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager._id).toString()
+            USERID  = intent.getStringExtra("userId").toString()
+
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -248,6 +255,13 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             totalLike.setText(response.result.likeCount.toString())
             commentcount.setText(response.result.commentCount.toString())
             postid =  response.result.postResult.userId._id.toString()
+            try {
+              var  profile = response.result.postResult.userId.profilePic.toString()
+                Glide.with(this).load(profile).into(profileimg);
+            }catch (e: IndexOutOfBoundsException){
+                e.printStackTrace()
+            }
+
             SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
 
             if (LikeUnlike == true) {
@@ -266,11 +280,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
 
         else if (apiName.equals("LikeUnlike")) {
-            if (LikeUnlike == true) {
-                video_post_like.setColorFilter(resources.getColor(R.color.white))
-            } else if (LikeUnlike == false) {
-                video_post_like.setColorFilter(resources.getColor(R.color.red))
-            }
+            postdetails()
         }
 
         else if (apiName.equals("FollowUnfollow"))
