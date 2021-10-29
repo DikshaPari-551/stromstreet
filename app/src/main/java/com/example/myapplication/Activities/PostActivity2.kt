@@ -216,7 +216,8 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
     }
 
     private fun followunfollow() {
-        val Userid = SavedPrefManager.getStringPreferences(this, SavedPrefManager.otherUserId).toString()
+//        val Userid = SavedPrefManager.getStringPreferences(this, SavedPrefManager.otherUserId).toString()
+        val Userid = SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =

@@ -40,6 +40,7 @@ data class Result(
     @SerializedName("deviceType") val deviceType: String,
     @SerializedName("deviceToken") val deviceToken: String,
     @SerializedName("socialLinks") var socialLinks: SocialLinks,
+    @SerializedName("profileResult") var profileResult: ProfileResult,
     @SerializedName("otp") val otp: Int,
     @SerializedName("otpTime") val otpTime: Long,
     @SerializedName("createdAt") val createdAt: String,

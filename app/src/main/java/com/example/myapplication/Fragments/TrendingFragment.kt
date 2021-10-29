@@ -174,11 +174,11 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         if (type.equals("profile")){
 
             var intent = Intent(mContext, PostActivity::class.java)
-            intent.putExtra("userId", USERID)
+//            intent.putExtra("userId", USERID)
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
 
             startActivity(intent)
         }
-
     }
 }
 

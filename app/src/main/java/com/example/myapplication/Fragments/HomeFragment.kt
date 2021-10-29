@@ -258,6 +258,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         if (type.equals("profile")) {
             var intent = Intent(mContext, PostActivity::class.java)
             SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//            intent.putExtra("userId", USERID)
 
             startActivity(intent)
         }

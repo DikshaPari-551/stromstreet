@@ -171,8 +171,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
     private fun getINent() {
         try {
-//            USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager._id).toString()
-            USERID  = intent.getStringExtra("userId").toString()
+            USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager._id).toString()
+//            USERID  = intent.getStringExtra("userId").toString()
 
 
         } catch (e: Exception) {
@@ -262,7 +262,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 e.printStackTrace()
             }
 
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
+//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
 
             if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))
