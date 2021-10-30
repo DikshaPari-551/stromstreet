@@ -43,7 +43,7 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
     }
     private fun getInent() {
         try {
-            _id = SavedPrefManager.getStringPreferences(this,SavedPrefManager.postid).toString()
+            _id = SavedPrefManager.getStringPreferences(this,SavedPrefManager._id).toString()
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -103,6 +103,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         }
 
         localpost.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
+                ?.commit()
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Activity")
             localpost.setTextColor(resources.getColor(R.color.orange))
@@ -111,6 +113,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             backArrowHome.visibility = View.VISIBLE
         }
         followingPost.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, FollowingActivityFragment())
+                ?.commit()
             followingPost.setTextColor(resources.getColor(R.color.orange))
             home_text.setText("Following Activity")
             localpost.setTextColor(resources.getColor(R.color.white))

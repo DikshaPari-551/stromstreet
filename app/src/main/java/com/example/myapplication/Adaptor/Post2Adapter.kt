@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.entity.Response.CommentList
@@ -21,6 +22,7 @@ class Post2Adapter(
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemUsername = view.findViewById<TextView>(R.id.itemUsername)
         var commentText = view.findViewById<TextView>(R.id.commentText)
+        var profileImage = view.findViewById<CircleImageView>(R.id.profileImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Post2Adapter.MyViewHolder {
@@ -37,6 +39,12 @@ class Post2Adapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.itemUsername.setText(list[position].userId.userName.toString())
         holder.commentText.setText(list[position].comment.toString())
+        try {
+            var filedata = list[position].userId.profilePic.toString()
 
+            Glide.with(mcontext).load(filedata).into(holder.profileImage);
+        }catch (e: IndexOutOfBoundsException){
+            e.printStackTrace()
+        }
     }
 }
