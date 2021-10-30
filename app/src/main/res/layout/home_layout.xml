@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cabinet approves idia-fiji Mou ford....."
+                android:text=""
                 android:fontFamily="@font/opensans_light"
                 android:textStyle="bold"
                 android:textSize="7.5sp"

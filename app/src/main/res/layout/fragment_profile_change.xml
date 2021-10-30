@@ -63,11 +63,11 @@
                     android:layout_marginTop="30dp"
                     android:gravity="center">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/cuserProfile"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-
-                        android:src="@drawable/female_img" />
+                        android:src="@drawable/circleprofile"/>
 
                     <ImageView
                         android:id="@+id/img_camera_profile"

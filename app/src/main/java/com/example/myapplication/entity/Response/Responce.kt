@@ -16,22 +16,31 @@ class Responce {
 }
 
 data class Result(
+    @SerializedName("mediaUrl") val mediaUrl: String,
+    @SerializedName("mediaType") val mediaType: String,
     @SerializedName("emailType") val emailType: String,
     @SerializedName("phoneNumberType") val phoneNumberType: String,
     @SerializedName("userType") val userType: String,
     @SerializedName("otpVerification") val otpVerification: Boolean,
     @SerializedName("status") val status: String,
+    @SerializedName("request") val request: String,
+    @SerializedName("responseStatus") val responseStatus: String,
     @SerializedName("profileType") val profileType: String,
     @SerializedName("_id") val _id: String,
     @SerializedName("fullName") val fullName: String,
     @SerializedName("countryCode") val countryCode: String,
     @SerializedName("phoneNumber") val phoneNumber: String,
     @SerializedName("email") val email: String,
+    @SerializedName("fromEmail") val fromEmail: String,
+    @SerializedName("toEmail") val toEmail: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("reportType") val reportType: String,
     @SerializedName("password") val password: String,
     @SerializedName("userName") val userName: String,
     @SerializedName("deviceType") val deviceType: String,
     @SerializedName("deviceToken") val deviceToken: String,
     @SerializedName("socialLinks") var socialLinks: SocialLinks,
+    @SerializedName("profileResult") var profileResult: ProfileResult,
     @SerializedName("otp") val otp: Int,
     @SerializedName("otpTime") val otpTime: Long,
     @SerializedName("createdAt") val createdAt: String,
@@ -57,9 +66,36 @@ data class Result(
     @SerializedName("postResult") val postResult : PostResult,
     @SerializedName("likeCount") val likeCount : Int,
     @SerializedName("commentCount") val commentCount : Int,
-    @SerializedName("isLike") val isLike : Boolean
+    @SerializedName("isLike") val isLike : Boolean,
+    @SerializedName("isFollow") val isFollow : Boolean
 )
 
+data class ProfileResult (
+
+    @SerializedName("socialLinks") val socialLinks : SocialLinks,
+    @SerializedName("emailType") val emailType : String,
+    @SerializedName("phoneNumberType") val phoneNumberType : String,
+    @SerializedName("userType") val userType : String,
+    @SerializedName("otpVerification") val otpVerification : Boolean,
+    @SerializedName("status") val status : String,
+    @SerializedName("profileType") val profileType : String,
+    @SerializedName("notification") val notification : Boolean,
+    @SerializedName("inActive") val inActive : Boolean,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("bio") val bio : String,
+    @SerializedName("deviceType") val deviceType : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("fullName") val fullName : String,
+    @SerializedName("password") val password : String,
+    @SerializedName("profilePic") val profilePic : String,
+    @SerializedName("userName") val userName : String,
+    @SerializedName("otp") val otp : Int,
+    @SerializedName("otpTime") val otpTime : Long,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int,
+    @SerializedName("deviceToken") val deviceToken : String
+)
 
 data class PostResult (
 
@@ -89,7 +125,8 @@ data class UserId(
     @SerializedName("_id") val _id: String,
     @SerializedName("fullName") val fullName: String,
     @SerializedName("email") val email: String,
-    @SerializedName("userName") val userName: String
+    @SerializedName("userName") val userName: String,
+    @SerializedName("profilePic") val profilePic: String
 )
 
 data class CategoryId(
@@ -133,7 +170,8 @@ data class FollowerId(
     @SerializedName("_id") val _id: String,
     @SerializedName("fullName") val fullName: String,
     @SerializedName("email") val email: String,
-    @SerializedName("userName") val userName: String
+    @SerializedName("userName") val userName: String,
+    @SerializedName("profilePic") val profilePic: String
 )
 
 data class UserResult(

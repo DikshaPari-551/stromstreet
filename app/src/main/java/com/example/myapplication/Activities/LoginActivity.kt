@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+//import androidx.constraintlayout.motion.widget.Debug.getLocation
 import com.example.myapplication.Activities.EmailVerificationActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
 import com.example.myapplication.Activities.SignUpActivity
@@ -21,11 +23,12 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
-import java.lang.Exception
 import java.util.regex.Pattern
+
 
 class
 LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
@@ -33,6 +36,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var check_login: CheckBox
     lateinit var check_text_login: TextView
     var mContext: Context = this
+    private val LOCATION_PERMISSION_REQ_CODE = 1000;
     var savedPrefManager = SavedPrefManager
     lateinit var mPassword: EditText
     lateinit var mLayout_Login: LinearLayout
@@ -122,16 +126,6 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 ) == true
             ) {
                 LogIn()
-//                var intent = Intent(applicationContext, MainActivity::class.java)
-//
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-//                this.finish()
-//
-//                startActivity(intent)
-//
-//                LoginFlag.setLoginFlag( true)
 
 
             }
@@ -228,15 +222,12 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         deviceToken =
             Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-//        if (SavedPrefManager.getStringPreferences(
-//                this,
-//                savedPrefManager.KEY_IS_LOGIN
-//            )!! == "false"
-//        ) {
-//            email.setText(SavedPrefManager.getStringPreferences(this, savedPrefManager.EMAIL))
-//            password.setText(SavedPrefManager.getStringPreferences(this, savedPrefManager.PASSWORD))
-//        }
+//        locationpermission()
     }
+
+//    private fun locationpermission() {
+
+//    }
 
     private fun LogIn() {
         if (androidextention.isOnline(this)) {
@@ -277,21 +268,12 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             else if (response.result.otpVerification == true)
             {
                 SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.TOKEN,response.result.token)
+                SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.userName,response.result.userName)
                 SavedPrefManager.saveStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN,"true")
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-//            var intent = Intent(applicationContext, MainActivity::class.java)
-//
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
-//            this.finish()
-//
-//            startActivity(intent)
-//
-//            LoginFlag.setLoginFlag(true)
         }
     }
 

@@ -179,6 +179,7 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
                 if(activityFlag == "forgotactivity") {
                     if (response.responseCode == "200") {
                         androidextention.disMissProgressDialog(this)
+                        SavedPrefManager.saveStringPreferences(this, SavedPrefManager.TOKEN, response.result.token)
                         Toast.makeText(this, response.responseMessage, Toast.LENGTH_LONG).show()
                         var intent = Intent(this, ResetPasswordActivity::class.java)
                         startActivity(intent)

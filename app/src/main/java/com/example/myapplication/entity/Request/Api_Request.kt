@@ -2,14 +2,13 @@ package com.example.myapplication.entity.Request
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import okhttp3.MultipartBody
+import java.io.File
 
 class Api_Request {
 
     @SerializedName("fullName")
     var fullName: String? = null
-
-    @SerializedName("userId")
-    var userId: String? = null
 
     @SerializedName("countryCode")
     var countryCode: String? = null
@@ -47,11 +46,17 @@ class Api_Request {
     @SerializedName("deviceType")
     var deviceType: String? = null
 
+    @SerializedName("type")
+    var type: String? = null
+
     @SerializedName("deviceToken")
     var deviceToken: String? = null
 
     @SerializedName("lastName")
     var lastName: String? = null
+
+    @SerializedName("search")
+    var search: String? = null
 
 
     @SerializedName("socialLinks")
@@ -69,6 +74,12 @@ class Api_Request {
     @SerializedName("videoLink")
     var videoLink: String? = null
 
+    @SerializedName("profilePic")
+    var profilePic: String? = null
+
+    @SerializedName("address")
+    var address: String? = null
+
     @SerializedName("imageLinks")
     var imageLinks: List<String>? = null
 
@@ -78,6 +89,14 @@ class Api_Request {
     @SerializedName("otp")
     @Expose
     var otp: Int? = null
+
+    @SerializedName("uploaded_file")
+    @Expose
+    var uploaded_file: MultipartBody.Part? = null
+
+    @SerializedName("reportType")
+    var reportType: String? = null
+
 
 
 }
