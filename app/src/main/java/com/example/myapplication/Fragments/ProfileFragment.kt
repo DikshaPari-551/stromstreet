@@ -124,14 +124,7 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
             var intent = Intent(activity, Following::class.java)
             startActivity(intent)
         }
-//        tab_layout=v.findViewById(R.id.tab_layout)
-//        viewPager=v.findViewById(R.id.viewPager)
 
-//        var mFragAdaptor= fragmentManager?.let { FragAdaptor(it) }
-//        viewPager.adapter=mFragAdaptor
-//        tab_layout.setupWithViewPager(viewPager)
-//        mFragAdaptor?.add(FirstFragment(),"one")
-//        mFragAdaptor?.add(SeconddFragment(),"two")
 
         return v
     }
