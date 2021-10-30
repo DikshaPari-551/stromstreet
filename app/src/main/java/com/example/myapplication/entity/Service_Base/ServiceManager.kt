@@ -162,6 +162,8 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
     }
 
+
+
     fun userUploadMedia(callBack: ApiCallBack<Responce>, image: MultipartBody.Part) {
         mContext?.let { Remotedatasource.current(it, true)!!.uploadMedia(image) }!!
             .enqueue(callBack)
@@ -185,6 +187,20 @@ class ServiceManager(var mContext: Context?) {
 
     fun getOtherUserProfile(callBack: ApiCallBack<Responce>,_id: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.otherUserProfile(_id) }!!.enqueue(callBack)
+    }
+    fun getOtherUserPost(callBack: ApiCallBack<Responce>,userId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.otherUserPost(userId) }!!.enqueue(callBack)
+    }
+
+    fun getPostlist(callBack: ApiCallBack<LocalActivityResponse>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getPostList() }!!.enqueue(callBack)
+    }
+    fun getOtherPostlist(callBack: ApiCallBack<Responce>,userId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getOtherPostList(userId) }!!.enqueue(callBack)
+    }
+
+    fun getCommentlist(callBack: ApiCallBack<Responce>,postId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getCommentList(postId) }!!.enqueue(callBack)
     }
 //    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
 //        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)

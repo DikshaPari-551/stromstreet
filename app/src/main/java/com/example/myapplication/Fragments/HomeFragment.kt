@@ -39,19 +39,16 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     lateinit var man: LinearLayout
-
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
-    lateinit var userHome: LinearLayout
+    lateinit var userHome: ImageView
     lateinit var backArrowHome: ImageView
     lateinit var adaptor: HomeAdaptor
     lateinit var USERID: String
-
-
     lateinit var home_text: TextView
     lateinit var recycler_view1: RecyclerView
-    lateinit var filter: LinearLayout
+    lateinit var filter: ImageView
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
     var getSearchText = ""
@@ -77,10 +74,11 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         man = v.findViewById(R.id.user_home)
         searchText = v.findViewById(R.id.search_text)
         goButton = v.findViewById(R.id.go)
+//        getSearchText = searchText.text.toString()
         try {
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
-        } catch (e: java.lang.Exception) {
+        } catch(e : java.lang.Exception) {
             e.printStackTrace()
         }
         locationpermission()
@@ -141,6 +139,22 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 ?.commit()
 
         }
+//        var adaptor = activity?.let {
+//            HomeAdaptor(
+//                weather,
+//                okhla,
+//                event,
+//                lajpat,
+//                it
+//            )
+//        }
+
+
+//        val layoutManager = GridLayoutManager(activity, 2)
+//
+//        recycler_view1.layoutManager = layoutManager
+//        recycler_view1.adapter = adaptor
+
         return v
     }
 

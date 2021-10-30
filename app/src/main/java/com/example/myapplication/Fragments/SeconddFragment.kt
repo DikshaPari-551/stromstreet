@@ -1,6 +1,7 @@
 package com.example.myapplication.Fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.SaveListAdaptor
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Response.Docs
 import com.example.myapplication.entity.Response.Responce
@@ -20,10 +23,11 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
-class SeconddFragment : Fragment(), ApiResponseListener<Responce> {
+class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickListner {
     lateinit var recyclerview:RecyclerView
     lateinit var mContext : Context
     lateinit var adaptor: SaveListAdaptor
+    lateinit var USERID: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +40,6 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> {
         savedpostlist()
 
         recyclerview=v.findViewById(R.id.recyclervieww)
-//        val adaptor = ProfileAdaptor()
-//        val layoutManager = GridLayoutManager(activity,3)
-//        recyclerview.layoutManager = layoutManager
-//        recyclerview.adapter = adaptor
 
         return  v
     }
@@ -76,7 +76,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "No Post Saved", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -84,10 +84,22 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> {
     }
 
     fun setAdapter(list: ArrayList<Docs>) {
-        adaptor = this?.let { SaveListAdaptor(it, list) }!!
+        adaptor = this?.let { SaveListAdaptor(it, list,this) }!!
         val layoutManager = GridLayoutManager(activity,3)
         recyclerview?.layoutManager = layoutManager
         recyclerview?.adapter = adaptor
     }
 
+    override fun customClick(value: Docs, type: String) {
+        USERID = value.postId._id
+
+        if (type.equals("profile")) {
+            var intent = Intent(mContext, PostActivity::class.java)
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//            intent.putExtra("userId", USERID)
+
+            startActivity(intent)
+        }
+    }
 }
+
