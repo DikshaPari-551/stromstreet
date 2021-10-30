@@ -247,7 +247,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike
         isFollow = response.result.isFollow
-//        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
         if (apiName.equals("PostDetails")) {
             username.setText(response.result.postResult.userId.userName.toString())
             layoutMore.setText(response.result.postResult.description)
@@ -256,7 +256,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             commentcount.setText(response.result.commentCount.toString())
             postid =  response.result.postResult.userId._id.toString()
             try {
-              var  profile = response.result.postResult.userId.profilePic.toString()
+                var  profile = response.result.postResult.userId.profilePic.toString()
                 Glide.with(this).load(profile).into(profileimg);
             }catch (e: IndexOutOfBoundsException){
                 e.printStackTrace()
