@@ -7,7 +7,6 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="match_parent"
-        android:src="@drawable/taj_mahal"
         android:padding="3dp"
 
         />
@@ -16,12 +15,10 @@
         android:layout_height="match_parent"
         android:padding="3dp"
 
-        android:src="@drawable/people_imag"
         />
     <ImageView
         android:layout_width="70dp"
         android:layout_height="match_parent"
         android:padding="3dp"
-        android:src="@drawable/dj_night_pic"
 
         /></LinearLayout>

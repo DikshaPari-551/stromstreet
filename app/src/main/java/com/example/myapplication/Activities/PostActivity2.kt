@@ -223,10 +223,8 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
         }
     }
     private fun postcomment() {
-
-
         if (androidextention.isOnline(this)) {
-//            androidextention.showProgressDialog(this)
+            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "Comment", mContext)
@@ -246,7 +244,7 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
 
     private fun Commentlist() {
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "Commentlist", mContext)
