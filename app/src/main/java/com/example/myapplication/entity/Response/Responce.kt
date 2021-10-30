@@ -75,6 +75,7 @@ data class Result(
 data class CommentList (
 
     @SerializedName("commentType") val commentType : String,
+    @SerializedName("profilePic") val profilePic : String,
     @SerializedName("status") val status : String,
     @SerializedName("_id") val _id : String,
     @SerializedName("postId") val postId : String,

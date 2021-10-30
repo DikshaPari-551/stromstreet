@@ -162,7 +162,9 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
     }
 
-
+    fun getFollowingActivity(callBack: ApiCallBack<LocalActivityResponse>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingActivity() }!!.enqueue(callBack)
+    }
 
     fun userUploadMedia(callBack: ApiCallBack<Responce>, image: MultipartBody.Part) {
         mContext?.let { Remotedatasource.current(it, true)!!.uploadMedia(image) }!!

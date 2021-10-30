@@ -75,16 +75,13 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         man = v.findViewById(R.id.user_home)
         searchText = v.findViewById(R.id.search_text)
         goButton = v.findViewById(R.id.go)
-//        getSearchText = searchText.text.toString()
         try {
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
-        } catch (e: java.lang.Exception) {
+        } catch(e : java.lang.Exception) {
             e.printStackTrace()
         }
-
-        goButton.setOnClickListener {
-            getSearchText = searchText.text.toString()
+        goButton.setOnClickListener{
             getLocalActivityApi()
         }
 
@@ -107,7 +104,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         }
 
         localpost.setOnClickListener {
-
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
+                ?.commit()
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Activity")
             localpost.setTextColor(resources.getColor(R.color.orange))
@@ -118,6 +116,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
         }
         followingPost.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, FollowingActivityFragment())
+                ?.commit()
             followingPost.setTextColor(resources.getColor(R.color.orange))
             home_text.setText("Following Activity")
             localpost.setTextColor(resources.getColor(R.color.white))

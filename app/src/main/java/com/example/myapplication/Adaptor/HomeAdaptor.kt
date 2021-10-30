@@ -31,6 +31,7 @@ class HomeAdaptor(
         var postView=view.findViewById<ImageView>(R.id.postView)
         var name = view.findViewById<TextView>(R.id.name)
         var bio = view.findViewById<TextView>(R.id.bio)
+        var text_weather = view.findViewById<TextView>(R.id.text_weather)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
 
     }
@@ -48,8 +49,7 @@ class HomeAdaptor(
 
     override fun onBindViewHolder(holder: HomeAdaptor.MyViewHolder, position: Int) {
         holder.name.setText(list[position].userDetails.userName.toString())
-        holder.name.setText(list[position].userDetails.bio.toString())
-        holder.name.setText(list[position].userDetails.userName.toString())
+        holder.bio.setText(list[position].userDetails.bio.toString())
         try {
             var filedata = list[position].imageLinks[0]
             Glide.with(context).load(filedata).into(holder.postView);

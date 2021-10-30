@@ -112,6 +112,9 @@ interface Api_interface
     @POST("user/trendingPostList")
     fun trendingPost(@Query("lat") latitude: Double?,@Query("lng") longitude: Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
 
+    @POST("user/trendingPostList")
+    fun followingActivity(): Call<LocalActivityResponse>?
+
     @GET("user/seeOtherProfile")
     fun otherUserProfile(@Query("_id") _id : String): Call<Responce>?
 

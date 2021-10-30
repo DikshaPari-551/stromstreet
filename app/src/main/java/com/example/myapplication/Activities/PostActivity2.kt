@@ -48,6 +48,7 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
     lateinit var comment: ImageView
     lateinit var share: ImageView
     lateinit var backButton: ImageView
+    lateinit var profileImage: ImageView
     lateinit var loadcomment: TextView
     lateinit var commenttext: EditText
     lateinit var commentvalue: String
@@ -90,6 +91,7 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
         eventType = findViewById(R.id.eventType)
         commentcount = findViewById(R.id.commentcount)
         commentLayout = findViewById(R.id.commentLayout)
+        profileImage = findViewById(R.id.profileImage)
 
         getINent()
         postdetails()
@@ -224,7 +226,7 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
 
 
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "Comment", mContext)
@@ -265,12 +267,12 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
             commentcount.setText(response.result.commentCount.toString())
             postid =  response.result.postResult.userId._id.toString()
             LikeUnlike = response.result.isLike
-//            try {
-//                profileimg = response.result
-//                Glide.with(this).load(filedata).into(vedio);
-//            }catch (e: IndexOutOfBoundsException){
-//                e.printStackTrace()
-//            }
+            try {
+               var filedata = response.result.postResult.userId.profilePic
+                Glide.with(this).load(filedata).into(profileImage);
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
 //        totalshare.setText(response.result.commentCount)
             if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))
