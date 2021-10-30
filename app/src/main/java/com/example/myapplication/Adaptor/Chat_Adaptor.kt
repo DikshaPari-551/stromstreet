@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.ChatActivity
+import com.example.myapplication.Activities.Check
+import com.example.myapplication.Activities.Checksocket
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 
@@ -20,7 +22,8 @@ class Chat_Adaptor(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Chat_Adaptor.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Chat_Adaptor.MyViewHolder
+    {
         var item = LayoutInflater.from(parent.context).inflate(R.layout.layout_message, null)
         return MyViewHolder(item)
     }
@@ -32,7 +35,7 @@ class Chat_Adaptor(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.chat.setOnClickListener {
 
-            (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java))
+            (mcontext as MainActivity).startActivity(Intent(mcontext, Checksocket::class.java))
         }
     }
 }
