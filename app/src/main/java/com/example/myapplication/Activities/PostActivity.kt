@@ -262,8 +262,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 e.printStackTrace()
             }
 
-//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
-
             if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))
 

@@ -301,16 +301,16 @@ class SavedPrefManager(var context: Context) {
             this.value = value
         }
 
-        fun getLatitudeLocation() : Double {
-            return value!!
+        fun getLatitudeLocation() : Double? {
+            return value
         }
 
         fun setLongitudeLocation(value : Double) {
             this.value = value
         }
 
-        fun getLongitudeLocation() : Double {
-            return value!!
+        fun getLongitudeLocation() : Double? {
+            return value
         }
     }
 

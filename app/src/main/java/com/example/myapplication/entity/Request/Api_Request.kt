@@ -3,7 +3,6 @@ package com.example.myapplication.entity.Request
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
-import java.io.File
 
 class Api_Request {
 
@@ -121,7 +120,7 @@ data class SocialLinks(
 
 data class Location(
     @SerializedName("type") val type: String,
-    @SerializedName("coordinates") val coordinates: List<Double>
+    @SerializedName("coordinates") val coordinates: ArrayList<Double?>
 )
 
 //    @SerializedName("fname")

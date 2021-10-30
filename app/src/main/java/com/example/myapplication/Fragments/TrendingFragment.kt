@@ -60,22 +60,21 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         // Inflate the layout for this fragment
         var v= inflater.inflate(R.layout.fragment_trending, container, false)
-        getTrendingPostApi()
+
         searchText = v.findViewById(R.id.trending_search_text)
         goButton = v.findViewById(R.id.go)
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
-        latitude = SavedPrefManager.getLatitudeLocation()
-        longitude = SavedPrefManager.getLongitudeLocation()
-
+        latitude = SavedPrefManager.getLatitudeLocation()!!
+        longitude = SavedPrefManager.getLongitudeLocation()!!
         try {
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
-        } catch (e: java.lang.Exception) {
+        } catch(e : java.lang.Exception) {
             e.printStackTrace()
         }
-
+        getTrendingPostApi()
         trandingBackButton.setOnClickListener{
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, TrendingFragment())?.commit()
 
@@ -154,7 +153,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                 } else if (searchValue != null && !searchValue.equals("")) {
                     serviceManager.getTrendingPost(callBack, null, null, apiRequest)
                 } else {
-                    serviceManager.getTrendingPost(callBack, null, null, null)
+                    serviceManager.getTrendingPost(callBack, null, null, apiRequest)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
