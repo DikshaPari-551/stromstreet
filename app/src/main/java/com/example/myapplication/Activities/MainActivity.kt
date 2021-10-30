@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.Manifest
-import  com.example.myapplication.R
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -15,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.myapplication.Fragments.*
 import com.example.myapplication.customclickListner.ClickListner
+import com.example.myapplication.entity.permission.MarshMallowPermission
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.util.SavedPrefManager
 import java.io.*
@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity(), ClickListner {
     private var GALLERY = 1
     private  var CAMERA:Int = 2
     val CAMERA_PERM_CODE = 101
+    var marshMallowPermission: MarshMallowPermission? = null
+
 
 
 
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         RequestPermission.requestMultiplePermissions(this)
+//        marshMallowPermission =MarshMallowPermission(this)
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -95,9 +98,6 @@ class MainActivity : AppCompatActivity(), ClickListner {
             menu.setColorFilter(resources.getColor(R.color.grey))
             bubble.setColorFilter(resources.getColor(R.color.grey))
             chat.setColorFilter(resources.getColor(R.color.white))
-
-
-
 
         }
         add.setOnClickListener{

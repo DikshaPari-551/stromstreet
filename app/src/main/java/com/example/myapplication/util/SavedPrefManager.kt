@@ -186,9 +186,10 @@ class SavedPrefManager(var context: Context) {
         private const val KEY_END_POINT_ARN = "end_point_arn"
         private var instance: SavedPrefManager? = null
         private var value : Double? = null
-        val IMAGE_ONE : String = ""
-        val IMAGE_TWO : String = ""
-        val IMAGE_THREE : String = ""
+        const val IMAGE_ONE : String = ""
+        const val IMAGE_TWO : String = ""
+        const val IMAGE_THREE : String = ""
+
         private const val PREF_HIGH_QUALITY = "pref_high_quality"
         fun getInstance(context: Context): SavedPrefManager? {
             if (instance == null) {

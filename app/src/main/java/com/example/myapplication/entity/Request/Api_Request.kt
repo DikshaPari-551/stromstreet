@@ -19,6 +19,9 @@ class Api_Request {
     @SerializedName("email")
     var email: String? = null
 
+    @SerializedName("maxDistance")
+    var maxDistance: String? = null
+
     @SerializedName("emailUserName")
     var emailUserName: String? = null
 

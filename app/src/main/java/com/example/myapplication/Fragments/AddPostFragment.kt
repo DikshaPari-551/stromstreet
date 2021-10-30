@@ -129,11 +129,9 @@ class AddPostFragment(
 
 
     private fun categoryListApi() {
-//        androidextention.showProgressDialog(mContext)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
                     if (response.responseCode == "200") {
                         for (i in 0 until response.result.categoryResult.size) {
                             categoryItem.add(response.result.categoryResult.get(i).categoryName)
@@ -154,7 +152,6 @@ class AddPostFragment(
                 }
 
                 override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         activity,
                         "error response" + response.toString(),
@@ -163,7 +160,6 @@ class AddPostFragment(
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         activity,
                         "failure response:" + failureMessage,
@@ -441,8 +437,8 @@ class AddPostFragment(
                                         ).show()
                                     } else {
                                         count = 0
-
-//                                        galleryData3.setImageURI(Uri.fromFile(imageFile))
+                                        galleryData3.visibility = View.VISIBLE
+                                        galleryData3.setImageURI(Uri.fromFile(imageFile))
                                         SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_THREE,imageFile.toString())
 
 //                                        get
@@ -459,13 +455,11 @@ class AddPostFragment(
                                         galleryData2.visibility = View.VISIBLE
                                         galleryData2.setImageURI(Uri.fromFile(imageFTwo))
 
-
                                     }
                                 } else {
                                     count++
-
                                     galleryData2.visibility = View.VISIBLE
-//                                    galleryData2.setImageURI(Uri.fromFile(imageFile))
+                                    galleryData2.setImageURI(Uri.fromFile(imageFile))
                                     SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_TWO,imageFile.toString())
 
 //                                    get
@@ -482,7 +476,7 @@ class AddPostFragment(
                             } else {
                                 count++
                                 galleryData1.visibility = View.VISIBLE
-//                                galleryData1.setImageURI(Uri.fromFile(imageFile))
+                                galleryData1.setImageURI(Uri.fromFile(imageFile))
                                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_ONE,imageFile.toString())
 
 //                                get
@@ -493,6 +487,7 @@ class AddPostFragment(
 
 
                             }
+
                             bottomSheetDialog.dismiss()
                             var surveyBody =
                                 RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)

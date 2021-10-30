@@ -17,6 +17,7 @@ import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
@@ -31,16 +32,20 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var mContext: Context
     lateinit var adaptor: TrendingListAdaptor
     lateinit var USERID: String
+    lateinit var Go : LinearLayout
     lateinit var textLocalPostTrending:TextView
     lateinit var textFollowingPostTrending:TextView
     lateinit var recycler_view2: RecyclerView
     lateinit var trending_post_text:TextView
     lateinit var trandingBackButton: ImageView
-    lateinit var filter: ImageView
+    lateinit var filter: LinearLayout
     lateinit var userTrendingImg:ImageView
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
-    var catId: String =""
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
+    var searchValue = ""
+    var catId: String = ""
     var maxDis: Int = 0
     //    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
 //    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1")
@@ -56,20 +61,28 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         // Inflate the layout for this fragment
         var v= inflater.inflate(R.layout.fragment_trending, container, false)
         getTrendingPostApi()
-
-        searchText = v.findViewById(R.id.search_text)
+        searchText = v.findViewById(R.id.trending_search_text)
         goButton = v.findViewById(R.id.go)
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
+        latitude = SavedPrefManager.getLatitudeLocation()
+        longitude = SavedPrefManager.getLongitudeLocation()
 
-        goButton.setOnClickListener{
-//            getLocalActivityApi()
+        try {
+            catId = arguments?.getString("CAT_ID")!!
+            maxDis = arguments?.getInt("MAX_DIS")!!
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
         }
 
         trandingBackButton.setOnClickListener{
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, TrendingFragment())?.commit()
 
+        }
+        goButton.setOnClickListener{
+            searchValue = searchText.text.toString()
+            getTrendingPostApi()
         }
 
         textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
@@ -98,12 +111,12 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         userTrendingImg=v.findViewById(R.id.user_treanding_img)
         userTrendingImg.setOnClickListener{
             if(  SavedPrefManager.getStringPreferences(activity,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
-            getFragmentManager()?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                ProfileFragment()
-            )
-                ?.commit()
-        }else{
+                getFragmentManager()?.beginTransaction()?.replace(
+                    R.id.linear_layout,
+                    ProfileFragment()
+                )
+                    ?.commit()
+            }else{
                 val i = Intent(activity, LoginActivity::class.java)
                 startActivity(i)
             }
@@ -112,17 +125,11 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         filter.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                secondFragment()
+                secondFragment("trending")
             )
                 ?.commit()
 
         }
-//        var adaptor = activity?.let {
-//
-//        }
-//        val layoutManager = LinearLayoutManager(activity)
-//        recycler_view2.layoutManager = layoutManager
-//        recycler_view2.adapter = adaptor
         return v
 
 
@@ -135,9 +142,20 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "LocalActivity", mContext)
 
+            val apiRequest = Api_Request()
+            apiRequest.categoryId = catId
+            apiRequest.maxDistance = maxDis.toString()
+            apiRequest.search = searchValue
 
             try {
-                serviceManager.getTrendingPost(callBack)
+                if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
+                    serviceManager.getTrendingPost(callBack, latitude, longitude, apiRequest)
+
+                } else if (searchValue != null && !searchValue.equals("")) {
+                    serviceManager.getTrendingPost(callBack, null, null, apiRequest)
+                } else {
+                    serviceManager.getTrendingPost(callBack, null, null, null)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -151,15 +169,17 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         setAdapter(list)
 
 
-            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+        androidextention.disMissProgressDialog(activity)
+        Toast.makeText(activity, "Data not found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+        androidextention.disMissProgressDialog(activity)
+        Toast.makeText(activity, "Something want wrong", Toast.LENGTH_LONG).show()
     }
 
     fun setAdapter(list: ArrayList<Docss>) {

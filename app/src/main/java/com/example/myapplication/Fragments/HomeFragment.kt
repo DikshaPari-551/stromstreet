@@ -32,23 +32,18 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import okhttp3.ResponseBody
 
-class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , CustomClickListner2 {
+class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, CustomClickListner2 {
     lateinit var mContext: Context
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
-    lateinit var man: ImageView
-//    var weather: List<String> = listOf("Weather", "Crime", "Weater", "Crime", "Weather")
-//    var okhla: List<String> =
-//        listOf("Okhla phase1", "Okhla phase2", "Okhla phase1", "Okhla phase2", "Okhla phase1")
-//    var event: List<String> = listOf("Event", "Traffic", "Event", "Traffic", "Event")
-//    var lajpat: List<String> =
-//        listOf("Lajpat Nagar", "Okhla Saket", "Lajpat Nagar", "Saket", "Lajpat Nagar")
+    lateinit var man: LinearLayout
+
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
-    lateinit var userHome: ImageView
+    lateinit var userHome: LinearLayout
     lateinit var backArrowHome: ImageView
     lateinit var adaptor: HomeAdaptor
     lateinit var USERID: String
@@ -56,11 +51,11 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 
     lateinit var home_text: TextView
     lateinit var recycler_view1: RecyclerView
-    lateinit var filter: ImageView
+    lateinit var filter: LinearLayout
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
     var getSearchText = ""
- var catId: String =""
+    var catId: String = ""
     var maxDis: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,17 +77,17 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         man = v.findViewById(R.id.user_home)
         searchText = v.findViewById(R.id.search_text)
         goButton = v.findViewById(R.id.go)
-//        getSearchText = searchText.text.toString()
         try {
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
-        } catch(e : java.lang.Exception) {
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
         locationpermission()
         getLocalActivityApi()
 
-        goButton.setOnClickListener{
+        goButton.setOnClickListener {
+            getSearchText = searchText.text.toString()
             getLocalActivityApi()
         }
         man.setOnClickListener {
@@ -110,8 +105,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
             }
         }
 
-
         localpost.setOnClickListener {
+
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Activity")
             localpost.setTextColor(resources.getColor(R.color.orange))
@@ -141,28 +136,11 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
         filter.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                secondFragment()
+                secondFragment("home")
             )
                 ?.commit()
 
         }
-//        var adaptor = activity?.let {
-//            HomeAdaptor(
-//                weather,
-//                okhla,
-//                event,
-//                lajpat,
-//                it
-//            )
-//        }
-
-
-
-//        val layoutManager = GridLayoutManager(activity, 2)
-//
-//        recycler_view1.layoutManager = layoutManager
-//        recycler_view1.adapter = adaptor
-
         return v
     }
 
@@ -175,17 +153,15 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
 
             val apiRequest = Api_Request()
             apiRequest.categoryId = catId
-            apiRequest.search = searchText.text.toString()
+            apiRequest.search = getSearchText
             try {
-                if(catId != null && !catId.equals("")) {
-                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
+                if (catId != null && !catId.equals("")) {
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
 
-                }
-                else if(getSearchText != null) {
-                    serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
-                }
-                else {
-                    serviceManager.getLocalActivity(callBack,latitude,longitude,null)
+                } else if (getSearchText != null && !getSearchText.equals("")) {
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                } else {
+                    serviceManager.getLocalActivity(callBack, latitude, longitude,Api_Request())
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -204,17 +180,19 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        androidextention.disMissProgressDialog(activity)
         Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+        androidextention.disMissProgressDialog(activity)
+        Toast.makeText(activity, "Something want wrong", Toast.LENGTH_LONG).show()
     }
 
     fun setAdapter(list: ArrayList<Docss>) {
 
-        adaptor = this?.let { HomeAdaptor(it, list,this) }!!
-        val layoutManager = GridLayoutManager(activity,2)
+        adaptor = this?.let { HomeAdaptor(it, list, this) }!!
+        val layoutManager = GridLayoutManager(activity, 2)
         recycler_view1?.layoutManager = layoutManager
         recycler_view1?.adapter = adaptor
         adaptor.notifyDataSetChanged()
@@ -245,30 +223,31 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , Cu
                     longitude = location.longitude
                     SavedPrefManager.setLatitudeLocation(latitude)
                     SavedPrefManager.setLongitudeLocation(longitude)
-                } catch(e : Exception) {
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                           }
+            }
             .addOnFailureListener {
-                Toast.makeText(mContext, "Failed on getting current location",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    mContext, "Failed on getting current location",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
-    override fun customClick(value: Docss, type: String)
-    {
+    override fun customClick(value: Docss, type: String) {
 //        USERID =   "61711c7ec473b124b7369219"
-        USERID =   value._id
+        USERID = value._id
 
-        if (type.equals("profile")){
+        if (type.equals("profile")) {
             var intent = Intent(mContext, PostActivity::class.java)
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id,USERID)
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//            intent.putExtra("userId", USERID)
 
-                startActivity(intent)
+            startActivity(intent)
         }
 
     }
-
 
 
 }

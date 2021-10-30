@@ -147,14 +147,19 @@ class ServiceManager(var mContext: Context?) {
 
     fun getLocalActivity(
         callBack: ApiCallBack<LocalActivityResponse>,
-        lat: Double,
-        lng: Double,
+        lat: Double?,
+        lng: Double?,
         apiRequest: Api_Request?
     ) {
         mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest) }!!.enqueue(callBack)
     }
-    fun getTrendingPost(callBack: ApiCallBack<LocalActivityResponse>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.trendingPost() }!!.enqueue(callBack)
+    fun getTrendingPost(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        latitude: Double?,
+        longitude: Double?,
+        apiRequest: Api_Request?
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
     }
 
     fun userUploadMedia(callBack: ApiCallBack<Responce>, image: MultipartBody.Part) {
