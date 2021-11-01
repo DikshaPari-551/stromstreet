@@ -191,6 +191,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
             );
             return
         }
+        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 // getting the last known or current location

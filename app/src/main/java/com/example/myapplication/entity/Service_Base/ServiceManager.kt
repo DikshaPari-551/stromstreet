@@ -162,7 +162,12 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
     }
 
-    fun getFollowingActivity(callBack: ApiCallBack<LocalActivityResponse>) {
+    fun getFollowingActivity(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        latitude: Double?,
+        longitude: Double?,
+        apiRequest: Api_Request
+    ) {
         mContext?.let { Remotedatasource.current(it, true)!!.followingActivity() }!!.enqueue(callBack)
     }
 
