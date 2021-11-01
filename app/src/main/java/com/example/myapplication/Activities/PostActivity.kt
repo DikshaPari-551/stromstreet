@@ -2,19 +2,24 @@ package com.example.myapplication.Activities
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.ImageSliderAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
@@ -253,7 +258,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike
         isFollow = response.result.isFollow
-        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
         if (apiName.equals("PostDetails")) {
             username.setText(response.result.postResult.userId.userName.toString())
             layoutMore.setText(response.result.postResult.description)
@@ -262,11 +267,13 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             commentcount.setText(response.result.commentCount.toString())
             postid =  response.result.postResult.userId._id.toString()
             try {
-                var  profile = response.result.postResult.userId.profilePic
+              var  profile = response.result.postResult.userId.profilePic.toString()
                 Glide.with(this).load(profile).into(profileimg);
             }catch (e: IndexOutOfBoundsException){
                 e.printStackTrace()
             }
+
+//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
 
             if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))

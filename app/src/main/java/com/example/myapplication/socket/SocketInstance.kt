@@ -5,10 +5,10 @@ import io.socket.client.IO
 import io.socket.client.Socket
 import java.net.URISyntaxException
 
-private const val URL = "https://975b-182-71-75-106.ngrok.io"
+private const val URL = "http://node-stromestreet.mobiloitte.com"
 class SocketInstance : Application() {
     //socket.io connection url
-    private var mSocket: Socket? = null
+      private lateinit var mSocket: Socket
 
     override fun onCreate() {
         super.onCreate()
@@ -21,7 +21,7 @@ class SocketInstance : Application() {
     }
 
     //return socket instance
-    fun getMSocket(): Socket? {
+    fun getMSocket(): Socket {
         return mSocket
     }
 }

@@ -20,6 +20,10 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import org.json.JSONObject
 import java.net.URISyntaxException
+import org.json.JSONException
+
+
+
 
 
 class ChatActivity : AppCompatActivity() {
@@ -31,9 +35,9 @@ class ChatActivity : AppCompatActivity() {
     lateinit var chat_layout: LinearLayout
     lateinit var list_view: ListView
     var arr: ArrayList<HashMap<String, String>> = arrayListOf()
-     var  socket: Socket?=null
+    lateinit var  socket: Socket
     lateinit var adapter: Adapter
-
+    private var hasConnection = false
 
 
 
@@ -92,15 +96,49 @@ class ChatActivity : AppCompatActivity() {
             finish();
             startActivity(intent);
         }
-        ONLINE()
-    }
 
+        if(savedInstanceState != null){
+            hasConnection = savedInstanceState.getBoolean("hasConnection");
+        }
+
+        if(hasConnection){
+
+        }else {
+
+//            socket!!.connect()
+//            socket!!.on("oneToOneChat", onNewMessage)
+//
+
+            socket= rmApplication.getMSocket()
+            socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
+            socket.on(Socket.EVENT_CONNECT, onConnect);
+            socket.connect();
+            ONLINE()
+        }
+        try {
+            val jsonObject = JSONObject("{\"userId\":\"616e08960a9d5515902f7ae2\"}")
+            System.out.println("")
+        } catch (err: JSONException) {
+            Log.d("Error", err.toString())
+        }
+
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("hasConnection", hasConnection)
+    }
     private fun ONLINE() {
-      val jsonObject: JSONObject = JSONObject()
-          .put("userId", "616dccdab83a9818f8080f3c")
-        socket?.connect()
-        socket?.on("onlineUser", `onNewMessage`);
-        socket?.emit("onlineUser",jsonObject.toString());
+
+      val jsonObject = JSONObject()
+          .put("userId", "6177b1bc38ccc313ed3ff099")
+        //socket?.on("new message", onNewMessage);
+          socket!!.emit("onlineUser",jsonObject.toString());
+      if(socket!!.connected()==true)
+      {
+         System.out.println("check"+toString())
+      }
+       // socket?.on("onlineUser", `onNewMessage`);
+
     }
 
     private fun Update(text: String) {
@@ -108,13 +146,40 @@ class ChatActivity : AppCompatActivity() {
         data.put("senderId", "616dccdab83a9818f8080f3c");
         data.put("receiverId", "616e08960a9d5515902f7ae2");
         data.put("message", text);
-        socket?.emit("oneToOneChat", data);
+        socket!!.emit("oneToOneChat", data);
+       // socket?.emit("new message", "message");
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        socket!!.disconnect()
+        socket!!.off("oneToOneChat", onNewMessage);
+    }
+    object onNewMessage : Emitter.Listener {
+        override fun call(vararg args: Any?)
+        {
+
+            Log.d("check",args.toString())
+        }
+
+
+    }
+
+    object onConnectError : Emitter.Listener
+    {
+        override fun call(vararg args: Any?)
+        {
+            Log.d("checks",args.toString())
+        }
+
+    }
+    object onConnect : Emitter.Listener {
+        override fun call(vararg args: Any?) {
+            Log.d("chseck",args.toString())
+        }
+
     }
 }
 
-object onNewMessage : Emitter.Listener {
-    override fun call(vararg args: Any?) {
-Log.d("check",args.toString())
-    }
 
-}
+
