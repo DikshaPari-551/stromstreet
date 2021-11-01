@@ -5,6 +5,8 @@ import android.os.Looper
 import android.util.Log
 import io.socket.client.IO
 import io.socket.client.Socket
+import org.json.JSONObject
+
 class SocketManager private constructor(context: Context) {
 
     val isConnected: Boolean get() = socket.connected()
@@ -25,7 +27,14 @@ class SocketManager private constructor(context: Context) {
 
         }
     }
-
+     fun ONLINE_USER(jsonObject: JSONObject)
+     {
+         socket!!.emit("onlineUser",jsonObject.toString());
+         if(socket!!.connected()==true)
+         {
+             System.out.println("check"+toString())
+         }
+     }
 
     fun removeListener(key: String) {
         socket.off(key)
@@ -104,6 +113,7 @@ class SocketManager private constructor(context: Context) {
                 Handler(Looper.getMainLooper()).post {
                     if (socket.connected()) {
                         socketId = socket.id()
+                        System.out.println("Socketid="+socketId.toString())
                         Log.d(TAG, "Socket Connected :- " + socketId)
                         Log.e("browse_page_err", "" +  "Socket Connect"+socketId)
                         socketListener.onConnected()
