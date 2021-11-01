@@ -40,7 +40,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     lateinit var man: ImageView
-
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
@@ -48,8 +47,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var backArrowHome: ImageView
     lateinit var adaptor: HomeAdaptor
     lateinit var USERID: String
-
-
     lateinit var home_text: TextView
     lateinit var recycler_view1: RecyclerView
     lateinit var filter: ImageView
@@ -58,6 +55,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     var getSearchText = ""
     var catId: String = ""
     var maxDis: Int = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -78,7 +76,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         man = v.findViewById(R.id.user_home)
         searchText = v.findViewById(R.id.search_text)
         goButton = v.findViewById(R.id.go)
-//        getSearchText = searchText.text.toString()
         try {
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
@@ -107,24 +104,24 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         }
 
         localpost.setOnClickListener {
-
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
+                ?.commit()
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Activity")
             localpost.setTextColor(resources.getColor(R.color.orange))
             filter.visibility = View.GONE
             userHome.visibility = View.GONE
             backArrowHome.visibility = View.VISIBLE
-
-
         }
         followingPost.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, FollowingActivityFragment())
+                ?.commit()
             followingPost.setTextColor(resources.getColor(R.color.orange))
             home_text.setText("Following Activity")
             localpost.setTextColor(resources.getColor(R.color.white))
             filter.visibility = View.GONE
             userHome.visibility = View.GONE
             backArrowHome.visibility = View.VISIBLE
-
         }
 
 
@@ -142,22 +139,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 ?.commit()
 
         }
-//        var adaptor = activity?.let {
-//            HomeAdaptor(
-//                weather,
-//                okhla,
-//                event,
-//                lajpat,
-//                it
-//            )
-//        }
-
-
-//        val layoutManager = GridLayoutManager(activity, 2)
-//
-//        recycler_view1.layoutManager = layoutManager
-//        recycler_view1.adapter = adaptor
-
         return v
     }
 

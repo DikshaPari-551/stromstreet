@@ -43,8 +43,9 @@ data class Docss(
     @SerializedName("followerId") val followerId: FollowerId,
     @SerializedName("likeCount") val likeCount: Int,
     @SerializedName("categoryDetails") val categoryDetails: List<CategoryDetails>,
-
     @SerializedName("description") val description : String
+
+
 
 
 

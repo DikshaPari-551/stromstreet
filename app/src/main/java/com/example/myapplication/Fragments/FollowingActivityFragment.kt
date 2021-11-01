@@ -12,10 +12,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
-import com.example.myapplication.Adaptor.TrendingListAdaptor
+import com.example.myapplication.Adaptor.FollowingListAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
@@ -28,20 +27,20 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
+class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivityResponse>,
+    CustomClickListner2 {
 
-class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,    CustomClickListner2 {
     lateinit var mContext: Context
-    lateinit var adaptor: TrendingListAdaptor
+    lateinit var adaptor: FollowingListAdaptor
     lateinit var USERID: String
-    lateinit var Go : LinearLayout
-    lateinit var textLocalPostTrending:TextView
-    lateinit var textFollowingPostTrending:TextView
+    lateinit var Go: LinearLayout
+    lateinit var textLocalPostTrending: TextView
+    lateinit var textFollowingPostTrending: TextView
     lateinit var recycler_view2: RecyclerView
-    lateinit var trending_post_text:TextView
+    lateinit var trending_post_text: TextView
     lateinit var trandingBackButton: ImageView
     lateinit var filter: ImageView
-    lateinit var userTrendingImg:ImageView
-
+    lateinit var userTrendingImg: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +49,9 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         mContext = activity!!
 
         // Inflate the layout for this fragment
-        var v= inflater.inflate(R.layout.fragment_trending, container, false)
-        getTrendingPostApi()
+        var v = inflater.inflate(R.layout.fragment_following_activity, container, false)
+
+        getFollowingApi()
 
         Go = v.findViewById(R.id.go)
         recycler_view2 = v.findViewById(R.id.recycler_view2)
@@ -91,12 +91,12 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         userTrendingImg=v.findViewById(R.id.user_treanding_img)
         userTrendingImg.setOnClickListener{
             if(  SavedPrefManager.getStringPreferences(activity,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
-            getFragmentManager()?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                ProfileFragment()
-            )
-                ?.commit()
-        }else{
+                getFragmentManager()?.beginTransaction()?.replace(
+                    R.id.linear_layout,
+                    ProfileFragment()
+                )
+                    ?.commit()
+            }else{
                 val i = Intent(activity, LoginActivity::class.java)
                 startActivity(i)
             }
@@ -121,16 +121,16 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     }
 
-    private fun getTrendingPostApi() {
+    private fun getFollowingApi() {
         if (androidextention.isOnline(mContext)) {
             androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
-                ApiCallBack<LocalActivityResponse>(this, "LocalActivity", mContext)
+                ApiCallBack<LocalActivityResponse>(this, "FollowingActivity", mContext)
 
 
             try {
-                serviceManager.getTrendingPost(callBack)
+                serviceManager.getFollowingActivity(callBack)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -144,7 +144,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         setAdapter(list)
 
 
-            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
@@ -156,7 +156,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     }
 
     fun setAdapter(list: ArrayList<Docss>) {
-        adaptor = this?.let { TrendingListAdaptor(it, list,this) }!!
+        adaptor = this?.let { FollowingListAdaptor(it, list,this) }!!
         val layoutManager = GridLayoutManager(activity,2)
         recycler_view2?.layoutManager = layoutManager
         recycler_view2?.adapter = adaptor

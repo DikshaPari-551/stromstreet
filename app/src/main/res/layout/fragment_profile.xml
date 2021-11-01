@@ -188,10 +188,12 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/tab_profle_layout"
-                    android:layout_marginTop="20dp"
+                <include
+                    layout="@layout/tab_profle_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"/>
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginTop="20dp" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

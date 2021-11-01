@@ -67,9 +67,24 @@ data class Result(
     @SerializedName("likeCount") val likeCount : Int,
     @SerializedName("commentCount") val commentCount : Int,
     @SerializedName("isLike") val isLike : Boolean,
-    @SerializedName("isFollow") val isFollow : Boolean
+    @SerializedName("isFollow") val isFollow : Boolean,
+    @SerializedName("commentList") val commentList : List<CommentList>
 )
 
+
+data class CommentList (
+
+    @SerializedName("commentType") val commentType : String,
+    @SerializedName("profilePic") val profilePic : String,
+    @SerializedName("status") val status : String,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("postId") val postId : String,
+    @SerializedName("userId") val userId : UserId,
+    @SerializedName("comment") val comment : String,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int
+)
 data class ProfileResult (
 
     @SerializedName("socialLinks") val socialLinks : SocialLinks,
@@ -115,7 +130,6 @@ data class PostResult (
 )
 
 data class Location(
-
     @SerializedName("type") val type: String,
     @SerializedName("coordinates") val coordinates: List<Double>
 )
@@ -145,7 +159,16 @@ data class Docs(
     @SerializedName("postId") val postId: PostId,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String,
-    @SerializedName("__v") val __v: Int
+    @SerializedName("__v") val __v: Int,
+
+    @SerializedName("location") val location : Location,
+    @SerializedName("mediaType") val mediaType : String,
+    @SerializedName("description") val description : String,
+    @SerializedName("imageLinks") val imageLinks : List<String>,
+    @SerializedName("thumbNail") val thumbNail : String,
+    @SerializedName("videoLink") val videoLink : String,
+    @SerializedName("categoryId") val categoryId : String
+
 )
 
 

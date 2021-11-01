@@ -3,14 +3,27 @@ package com.example.myapplication.Adaptor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.myapplication.Fragments.FirstFragment
 import com.example.myapplication.Fragments.SeconddFragment
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.CustomClickListner
+import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.Response.Docs
+import com.example.myapplication.entity.Response.Docss
 
-class ProfileAdaptor() :  RecyclerView.Adapter<ProfileAdaptor.MyViewHolder>() {
+class ProfileAdaptor(
+    var context: FirstFragment,
+    var list: ArrayList<Docss>,
+    var listener: CustomClickListner2
+
+) :  RecyclerView.Adapter<ProfileAdaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-}
+        var item = view.findViewById<ImageView>(R.id.item)
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -19,10 +32,21 @@ class ProfileAdaptor() :  RecyclerView.Adapter<ProfileAdaptor.MyViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return list.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-//        Glide.with(context).load(file).into(binding.ivcirclecamera);
+        try {
+            var filedata = list[position].imageLinks[0]
+
+            Glide.with(context).load(filedata).into(holder.item);
+        }catch (e: IndexOutOfBoundsException){
+            e.printStackTrace()
+        }
+
+        holder.item.setOnClickListener {
+
+            listener.customClick(list.get(position),"profile")
+        }
     }
 }
