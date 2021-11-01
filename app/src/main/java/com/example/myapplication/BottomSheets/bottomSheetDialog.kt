@@ -24,6 +24,7 @@ import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.ImageCount
 import com.example.myapplication.util.SavedPrefManager
+//import com.github.chiragji.gallerykit.callbacks.GalleryKitListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.File
@@ -72,7 +73,6 @@ class bottomSheetDialog(
         gallery = v.findViewById(R.id.gallery_open)
         camera = v.findViewById(R.id.camera_open)
         cancel = v.findViewById(R.id.cancel)
-//        var bottomsheet=bottomSheetDialog()
         cancel.setOnClickListener {
             dismiss()
         }
@@ -80,15 +80,6 @@ class bottomSheetDialog(
 
         gallery.setOnClickListener { view: View? ->
             if (flag == "addpost") {
-//                if (SavedPrefManager.getStringPreferences(activity, AppConst.IMAGEDATA) == "true") {
-//                    Toast.makeText(
-//                        activity,
-//                        "Not add more than 3 photos",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    imageList.clear()
-//                } else {
-//                    choosePhotoFromGallary()
                     val intent = Intent(Intent.ACTION_GET_CONTENT)
                     intent.addCategory(Intent.CATEGORY_OPENABLE)
                     intent.type = "image/*"
@@ -96,7 +87,7 @@ class bottomSheetDialog(
                         Intent.createChooser(intent, "Select Picture"),
                         GALLERY
                     )
-//                }
+
             } else {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -110,15 +101,7 @@ class bottomSheetDialog(
 
         camera.setOnClickListener {
             if (flag == "addpost") {
-//                if (SavedPrefManager.getStringPreferences(activity, AppConst.IMAGEDATA) == "true") {
-//                    Toast.makeText(
-//                        activity,
-//                        "Not add more than 3 photos",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                } else {
                     dispatchTakePictureIntent()
-//                }
             } else {
                 dispatchTakePictureIntent()
             }
@@ -197,295 +180,6 @@ class bottomSheetDialog(
 
         }
     }
-
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<String?>,
-//        grantResults: IntArray
-//    ) {
-//        if (requestCode == CAMERA_PERM_CODE) {
-//            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                dispatchTakePictureIntent()
-//            } else {
-//                Toast.makeText(
-//                    mContext,
-//                    "Camera Permission is Required to Use camera.",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
-//    }
-
-//    private fun changeProfile(requestCode: Int, resultCode: Int, data: Intent?) {
-//        if (resultCode == Activity.RESULT_CANCELED) {
-//            return
-//        }
-//        if (resultCode == Activity.RESULT_CANCELED) {
-//            return
-//        }
-//        try {
-//            if (requestCode == GALLERY) {
-//                if (resultCode == Activity.RESULT_OK) {
-//                    if (data != null) {
-//                        image = data.data!!
-//                        val path = getPathFromURI(image)
-//                        if (path != null) {
-//                            imageFile = File(path)
-//                            image = Uri.fromFile(imageFile)
-//
-//                        }
-//                    }
-//                }
-//            } else if (requestCode == CAMERA) {
-//                if (resultCode == Activity.RESULT_OK) {
-//                    if (data != null) {
-//                        image = data?.extras?.get("data")!! as Uri
-//                        val path = getPathFromURI(image)
-//                        if (path != null) {
-//                            imageFile = File(path)
-//                            image = Uri.fromFile(imageFile)
-//
-//                        }
-//                    }
-//                }
-//            }
-//            try {
-//                moveDataAnotherScreen(image, imageList)
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//                Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        } catch (e: java.lang.Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-//
-//    private fun signUpProfileUpload(requestCode: Int, resultCode: Int, data: Intent?) {
-//        if (resultCode == Activity.RESULT_CANCELED) {
-//            return
-//        }
-//        try {
-//            if (requestCode == GALLERY) {
-//                if (resultCode == Activity.RESULT_OK) {
-//                    if (data != null) {
-//                        image = data.data!!
-//                        val path = getPathFromURI(image)
-//                        if (path != null) {
-//                            imageFile = File(path)
-////                            FileUpload.setImageFile(f)
-//                            image = Uri.fromFile(imageFile)
-//
-//                        }
-//                    }
-//                }
-//            } else if (requestCode == CAMERA) {
-//                if (resultCode == Activity.RESULT_OK) {
-//                    if (data != null) {
-//                        image = data.data!!
-//                        val path = getPathFromURI(image)
-//                        if (path != null) {
-//                            imageFile = File(path)
-////                            FileUpload.setImageFile(f)
-//                            image = Uri.fromFile(imageFile)
-//
-//                        }
-//                    }
-//                }
-//            }
-//            try {
-//                moveDataAnotherScreen(image, imageList)
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//                Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        } catch (e: java.lang.Exception) {
-//            e.printStackTrace()
-//        }
-//
-//    }
-//
-//    private fun addPostMediaUpload(requestCode: Int, resultCode: Int, data: Intent?) {
-//        try {
-//            if (resultCode == Activity.RESULT_CANCELED) {
-//                return
-//            }
-//            try {
-//                if (requestCode == GALLERY) {
-//                    if (data!!.clipData != null) {
-//                        if (data!!.clipData!!.itemCount > 3) {
-//                            Toast.makeText(
-//                                activity,
-//                                "Not select more than 3 photos",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                        } else {
-//                            var clipDataCount: Int = data.clipData!!.itemCount
-//                            for (i in 0 until clipDataCount) {
-//                                var imageUri: Uri = data.getClipData()!!.getItemAt(i).getUri()
-//                                bitmap =
-//                                    MediaStore.Images.Media.getBitmap(
-//                                        activity?.contentResolver,
-//                                        imageUri
-//                                    )
-//                                imageList.add(bitmap)
-//                            }
-//                        }
-//                    } else if (data != null && data.clipData == null) {
-//                        var imageUri: Uri = data.data!!
-//                        bitmap =
-//                            MediaStore.Images.Media.getBitmap(
-//                                activity?.contentResolver,
-//                                imageUri
-//                            )
-//                        imageList.add(bitmap)
-//                    }
-//                    try {
-//                        moveDataAnotherScreen(image, imageList)
-//                    } catch (e: IOException) {
-//                        e.printStackTrace()
-//                        Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
-//                    }
-//
-//                } else if (requestCode == CAMERA) {
-//                    if (data?.extras != null) {
-//                        val thumbnail: Bitmap = data?.extras?.get("data") as Bitmap
-//                        val bundle = Bundle()
-//                        bundle.putParcelable("BitmapImage", thumbnail)
-//                        val fragobj = AddPostFragment()
-//                        fragobj.setArguments(bundle)
-//                        fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, fragobj)
-//                            ?.commit()
-//                        dismiss()
-//                        Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        } catch (e: KotlinNullPointerException) {
-//            e.printStackTrace()
-//        }
-//    }
-//
-//    private fun moveDataAnotherScreen(image: Uri, imageList: ArrayList<Bitmap?>) {
-//        if (flag.equals("addpost")) {
-//            if (imageList.size > 0) {
-//                val fragobj = AddPostFragment()
-////                fragobj.setArguments(bundle)
-//                fragmentManager?.beginTransaction()
-//                    ?.replace(R.id.linear_layout, fragobj)
-//                    ?.commit()
-//                dismiss()
-//            }
-//        } else if (flag == "signup") {
-//            SavedPrefManager.saveStringPreferences(
-//                activity,
-//                AppConst.USER_IMAGE_UPLOADED,
-//                "true"
-//            )
-//            circleProfile?.setImageURI(image)
-//            uploadUserImageApi()
-//            dismiss()
-//        } else if (flag == "profilechange") {
-//            SavedPrefManager.saveStringPreferences(
-//                activity,
-//                AppConst.USER_IMAGE_UPLOADED,
-//                "true"
-//            )
-//            circleProfile?.setImageURI(image)
-//            FileUpload.setImageFile(image)
-//            dismiss()
-//            uploadUserImageApi()
-//            fragmentManager?.beginTransaction()
-//                ?.replace(R.id.linear_layout,ProfileChangeFragment())
-//                ?.commit()
-//            dismiss()
-//        }
-//    }
-//
-//
-//    fun saveImage(myBitmap: Bitmap): String? {
-//        val bytes = ByteArrayOutputStream()
-//        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
-//        val wallpaperDirectory = File(
-//            Environment.getExternalStorageState() + IMAGE_DIRECTORY
-//        )
-//
-//        if (!wallpaperDirectory.exists()) {
-//            wallpaperDirectory.mkdirs()
-//        }
-//        try {
-//            val f = File(
-//                wallpaperDirectory, Calendar.getInstance()
-//                    .getTimeInMillis().toString() + ".jpg"
-//            )
-//            f.createNewFile()
-//            val fo = FileOutputStream(f)
-//            fo.write(bytes.toByteArray())
-//            MediaScannerConnection.scanFile(
-//                activity,
-//                arrayOf(f.getPath()),
-//                arrayOf("image/jpeg"),
-//                null
-//            )
-//            fo.close()
-//            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath())
-//            return f.getAbsolutePath()
-//        } catch (e1: IOException) {
-//            e1.printStackTrace()
-//        }
-//        return ""
-//
-//    }
-//
-//    private fun requestMultiplePermissions() {
-//        Dexter.withActivity(activity)
-//            .withPermissions(
-//                android.Manifest.permission.CAMERA,
-//                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                android.Manifest.permission.READ_EXTERNAL_STORAGE
-//            )
-//            .withListener(object : MultiplePermissionsListener {
-//                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-//                    // check if all permissions are granted
-//                    if (report.areAllPermissionsGranted()) {
-//                        Toast.makeText(
-//                            activity,
-//                            "All permissions are granted by user!",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//
-//                    // check for permanent denial of any permission
-//                    if (report.isAnyPermissionPermanentlyDenied) {
-//                        // show alert dialog navigating to Settings
-//                        //openSettingsDialog();
-//                    }
-//                }
-//
-//                override fun onPermissionRationaleShouldBeShown(
-//                    permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
-//                    token: PermissionToken?
-//                ) {
-//                    token?.continuePermissionRequest()
-//                }
-//
-//            }).withErrorListener {
-//                Toast.makeText(
-//                    activity,
-//                    "Some Error! ",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//            .onSameThread()
-//            .check()
-//    }
-//
-//
-//
-
 
 }
 

@@ -39,17 +39,15 @@ class ServiceManager(var mContext: Context?) {
 //    }
 
     fun otp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.getotp(jsonObject) }!!
-            .enqueue(callBack)
+        mContext?.let { Remotedatasource.current(it, false)!!.getotp(jsonObject) }!!.enqueue(callBack)
     }
 
     fun vOtp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.verifyOtp(jsonObject) }!!
-            .enqueue(callBack)
+        mContext?.let { Remotedatasource.current(it, false)!!.verifyOtp(jsonObject) }!!.enqueue(callBack)
     }
 
-    fun userRestPassword(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, token: String) {
-        mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(token, jsonObject) }!!
+    fun userRestPassword(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, token : String) {
+        mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(token,jsonObject) }!!
             .enqueue(callBack)
 
     }
@@ -93,6 +91,7 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
 
     }
+
 
 
 //
@@ -154,21 +153,28 @@ class ServiceManager(var mContext: Context?) {
 
     fun getLocalActivity(
         callBack: ApiCallBack<LocalActivityResponse>,
-        lat: Double,
-        lng: Double,
+        lat: Double?,
+        lng: Double?,
         apiRequest: Api_Request?
     ) {
-        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat, lng, apiRequest) }!!
-            .enqueue(callBack)
+        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest) }!!.enqueue(callBack)
+    }
+    fun getTrendingPost(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        latitude: Double?,
+        longitude: Double?,
+        apiRequest: Api_Request?
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
     }
 
-    fun getTrendingPost(callBack: ApiCallBack<LocalActivityResponse>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.trendingPost() }!!.enqueue(callBack)
-    }
-
-    fun getFollowingActivity(callBack: ApiCallBack<LocalActivityResponse>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followingActivity() }!!
-            .enqueue(callBack)
+    fun getFollowingActivity(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        latitude: Double?,
+        longitude: Double?,
+        apiRequest: Api_Request
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingActivity() }!!.enqueue(callBack)
     }
 
     fun userUploadMedia(callBack: ApiCallBack<Responce>, image: MultipartBody.Part) {
@@ -176,11 +182,10 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-    fun userUploadFile(callBack: ApiCallBack<Responce>, file: MultipartBody.Part?) {
+    fun userUploadFile(callBack: ApiCallBack<Responce>, file : MultipartBody.Part?) {
         mContext?.let { Remotedatasource.current(it, false)!!.uploadFile(file!!) }!!
             .enqueue(callBack)
     }
-
     fun addUpost(callBack: ApiCallBack<Responce>, file: ArrayList<MultipartBody.Part>?) {
         mContext?.let { Remotedatasource.current(it, false)!!.addUPost(file!!) }!!
             .enqueue(callBack)

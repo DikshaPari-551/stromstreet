@@ -1,10 +1,8 @@
 package com.example.myapplication.Fragments
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -16,11 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.bottomSheetDialog
 import com.example.myapplication.entity.ApiCallBack
@@ -129,11 +124,9 @@ class AddPostFragment(
 
 
     private fun categoryListApi() {
-//        androidextention.showProgressDialog(mContext)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
                     if (response.responseCode == "200") {
                         for (i in 0 until response.result.categoryResult.size) {
                             categoryItem.add(response.result.categoryResult.get(i).categoryName)
@@ -154,7 +147,6 @@ class AddPostFragment(
                 }
 
                 override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         activity,
                         "error response" + response.toString(),
@@ -163,7 +155,6 @@ class AddPostFragment(
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-//                    androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         activity,
                         "failure response:" + failureMessage,
@@ -343,13 +334,6 @@ class AddPostFragment(
                 try {
                     if (requestCode == GALLERY) {
                         if (data!!.clipData != null) {
-                            if (data!!.clipData!!.itemCount > MAX_IMAGE) {
-                                Toast.makeText(
-                                    activity,
-                                    "Not select more than 3 photos",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
                                 fileFlag = "gallery_with_mutiple"
 
                                 var clipDataCount: Int = data!!.clipData!!.itemCount
@@ -386,12 +370,9 @@ class AddPostFragment(
                                 bottomSheetDialog.dismiss()
 
                                 uploadUserImageApi()
-
-                            }
                         } else if (data != null && data!!.clipData == null) {
                             fileFlag = "single_image"
                             image = data.data!!
-
 
                             if (galleryData1.visibility == View.VISIBLE || count >= 1) {
                                 if (galleryData2.visibility == View.VISIBLE || count >= 2) {
@@ -436,32 +417,14 @@ class AddPostFragment(
 
                     } else if (requestCode == CAMERA) {
                         fileFlag = "single_image"
-                        if (maxCont == MAX_IMAGE) {
-                            Toast.makeText(
-                                activity,
-                                "Not select more than 3 photos",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
                             imageFile = File(imagePath)
                             uriImageList.add(Uri.fromFile(imageFile))
-//                        if (ImageCount.getImageCount()!! == 1) {
-//                            galleryData1.visibility = View.VISIBLE
-//                            galleryData1.setImageURI(Uri.fromFile(imageFile))
-//
-//                        } else if (ImageCount.getImageCount()!! == 2) {
-//                            galleryData2.visibility = View.VISIBLE
-//                            galleryData2.setImageURI(Uri.fromFile(imageFile))
-//
-//                        } else if (ImageCount.getImageCount()!! == 3) {
-//                            galleryData3.visibility = View.VISIBLE
-//                            galleryData3.setImageURI(Uri.fromFile(imageFile))
-//
-//                        }
 
-                            if (galleryData1.visibility == View.VISIBLE || count >= 1) {
-                                if (galleryData2.visibility == View.VISIBLE || count >= 2) {
-                                    if (galleryData3.visibility == View.VISIBLE || count >= 3) {
+
+                            if (galleryData1.visibility == View.GONE || count >= 1) {
+
+                                if (galleryData2.visibility == View.GONE || count >= 2) {
+                                    if (galleryData3.visibility == View.GONE || count >= 3) {
                                         Toast.makeText(
                                             activity,
                                             "Not select more than 3 photos",
@@ -471,31 +434,54 @@ class AddPostFragment(
                                         count = 0
                                         galleryData3.visibility = View.VISIBLE
                                         galleryData3.setImageURI(Uri.fromFile(imageFile))
+                                        SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_THREE,imageFile.toString())
+
+//                                        get
+                                        var imageThree = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_THREE)
+                                        var imageFThree = File(imageThree)
+                                        galleryData3.visibility = View.VISIBLE
+                                        galleryData3.setImageURI(Uri.fromFile(imageFThree))
+                                        var imagef = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_ONE)
+                                        var imageFOne = File(imagef)
+                                        galleryData1.visibility = View.VISIBLE
+                                        galleryData1.setImageURI(Uri.fromFile(imageFOne))
+                                        var imageTwo = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_TWO)
+                                        var imageFTwo = File(imageTwo)
+                                        galleryData2.visibility = View.VISIBLE
+                                        galleryData2.setImageURI(Uri.fromFile(imageFTwo))
+
                                     }
                                 } else {
                                     count++
                                     galleryData2.visibility = View.VISIBLE
                                     galleryData2.setImageURI(Uri.fromFile(imageFile))
+                                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_TWO,imageFile.toString())
+
+//                                    get
+                                    var imageTwo = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_TWO)
+                                    var imageFTwo = File(imageTwo)
+                                    galleryData2.visibility = View.VISIBLE
+                                    galleryData2.setImageURI(Uri.fromFile(imageFTwo))
+                                    var imageOne = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_ONE)
+                                    var image = File(imageOne)
+                                    galleryData1.visibility = View.VISIBLE
+                                    galleryData1.setImageURI(Uri.fromFile(image))
+
                                 }
                             } else {
                                 count++
                                 galleryData1.visibility = View.VISIBLE
                                 galleryData1.setImageURI(Uri.fromFile(imageFile))
+                                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_ONE,imageFile.toString())
+
+//                                get
+                                var imageOne = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_ONE)
+                                var image = File(imageOne)
+                                galleryData1.visibility = View.VISIBLE
+                                galleryData1.setImageURI(Uri.fromFile(image))
+
 
                             }
-//                        if(galleryData1.visibility == View.GONE) {
-//                            galleryData1.visibility = View.VISIBLE
-//                            galleryData1.setImageURI(Uri.fromFile(imageFile))
-//                        }
-//                        else if(galleryData1.visibility == View.VISIBLE && galleryData2.visibility == View.GONE) {
-//                            galleryData2.visibility = View.VISIBLE
-//                            galleryData2.setImageURI(Uri.fromFile(imageFile))
-//                        }
-//                        else if(galleryData2.visibility == View.VISIBLE && galleryData3.visibility == View.GONE) {
-//                            galleryData3.visibility = View.VISIBLE
-//                            galleryData3.setImageURI(Uri.fromFile(imageFile))
-//                        }
-
 
                             bottomSheetDialog.dismiss()
                             var surveyBody =
@@ -509,7 +495,6 @@ class AddPostFragment(
                             uploadUserImageApi()
 
                         }
-                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

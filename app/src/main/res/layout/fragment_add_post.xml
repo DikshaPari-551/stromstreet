@@ -83,8 +83,9 @@
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
+                        android:background="@drawable/ic_launcher_background"
                         android:scaleType="fitXY"
-                        android:visibility="gone"
+
                         />
 
                     <ImageView
@@ -92,9 +93,10 @@
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
+                        android:background="@drawable/ic_launcher_background"
                         android:layout_marginLeft="10dp"
                         android:scaleType="fitXY"
-                        android:visibility="gone"
+
                         />
 
                     <ImageView
@@ -102,9 +104,10 @@
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
+                        android:background="@drawable/ic_launcher_background"
                         android:layout_marginLeft="10dp"
                         android:scaleType="fitXY"
-                        android:visibility="gone"
+
                         />
 
                 </LinearLayout>

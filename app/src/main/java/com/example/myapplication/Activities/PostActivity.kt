@@ -2,27 +2,26 @@ package com.example.myapplication.Activities
 
 import android.content.Context
 import android.content.Intent
-import android.media.Image
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.myapplication.Adaptor.ImageSliderAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
-import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.entity.ApiCallBack
-import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import de.hdodenhof.circleimageview.CircleImageView
+import me.relex.circleindicator.CircleIndicator3
 import okhttp3.ResponseBody
 import java.lang.Exception
 
@@ -44,10 +43,15 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var totalLike: TextView
     lateinit var commentcount: TextView
     lateinit var profileimg: CircleImageView
+    lateinit var viewPager2: ViewPager2
+    lateinit var indicator3 : CircleIndicator3
+    private lateinit var adapter: ImageSliderAdaptor
+
     var USERID: String = ""
     var postid: String = ""
     var LikeUnlike: Boolean = false
     var isFollow: Boolean = false
+
 //    lateinit var totalshare: TextView
 
     private var loginFlag: Boolean = false
@@ -79,6 +83,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         eventType = findViewById(R.id.eventType)
         totalLike = findViewById(R.id.totalLike)
         commentcount = findViewById(R.id.commentcount)
+        viewPager2 = findViewById(R.id.multi_image)
+        indicator3 = findViewById(R.id.indicator)
 //        totalshare = findViewById(R.id.totalshare)
 
 
@@ -98,6 +104,13 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
         video_post_like.setOnClickListener {
             likeunlike()
+//            if(click == false){
+//            video_post_like.setColorFilter(resources.getColor(R.color.red))
+//                click = true
+//            }else if(click == true){
+//                video_post_like.setColorFilter(resources.getColor(R.color.white))
+//                click=false
+//            }
         }
 
 
@@ -249,13 +262,11 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             commentcount.setText(response.result.commentCount.toString())
             postid =  response.result.postResult.userId._id.toString()
             try {
-                var  profile = response.result.postResult.userId.profilePic.toString()
+                var  profile = response.result.postResult.userId.profilePic
                 Glide.with(this).load(profile).into(profileimg);
             }catch (e: IndexOutOfBoundsException){
                 e.printStackTrace()
             }
-
-//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
 
             if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))
@@ -264,8 +275,18 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
             try {
-                var filedata = response.result.postResult.imageLinks[0]
-                Glide.with(this).load(filedata).into(vedio);
+                if(response.result.postResult.imageLinks.size > 1) {
+                    vedio.visibility = View.GONE
+                    viewPager2.visibility = View.VISIBLE
+                    indicator3.visibility = View.VISIBLE
+                    val imageList : List<String> = response.result.postResult.imageLinks
+                    setImageAdaptor(imageList)
+                } else {
+                    var filedata = response.result.postResult.imageLinks[0]
+                    Glide.with(this).load(filedata).into(vedio);
+
+                }
+
             }catch (e: IndexOutOfBoundsException){
                 e.printStackTrace()
             }
@@ -287,10 +308,22 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        androidextention.disMissProgressDialog(this)
+
         Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        androidextention.disMissProgressDialog(this)
+
         Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+    }
+
+    fun setImageAdaptor(imageList: List<String>) {
+        adapter = ImageSliderAdaptor(imageList,this)
+        viewPager2.adapter = adapter
+        indicator3.setViewPager(viewPager2)
+
+
     }
 }

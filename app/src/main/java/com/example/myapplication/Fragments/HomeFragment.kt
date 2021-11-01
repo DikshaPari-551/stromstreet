@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.Exoplayer
@@ -35,32 +36,32 @@ import okhttp3.ResponseBody
 
 class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, CustomClickListner2 {
     lateinit var mContext: Context
-    private val LOCATION_PERMISSION_REQ_CODE = 1000;
+//    private val LOCATION_PERMISSION_REQ_CODE = 1000;
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
-    lateinit var man: ImageView
+    lateinit var man: LinearLayout
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
     lateinit var followingPost: TextView
-    lateinit var userHome: ImageView
+    lateinit var userHome: LinearLayout
     lateinit var backArrowHome: ImageView
     lateinit var adaptor: HomeAdaptor
     lateinit var USERID: String
     lateinit var home_text: TextView
     lateinit var recycler_view1: RecyclerView
-    lateinit var filter: ImageView
+    lateinit var filter: LinearLayout
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
     var getSearchText = ""
     var catId: String = ""
     var maxDis: Int = 0
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+//        locationpermission()
         mContext = activity!!
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
@@ -82,12 +83,13 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         } catch(e : java.lang.Exception) {
             e.printStackTrace()
         }
-        locationpermission()
-        getLocalActivityApi()
-
         goButton.setOnClickListener{
             getLocalActivityApi()
         }
+
+        getLocalActivityApi()
+
+
         man.setOnClickListener {
             if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true"))
@@ -112,6 +114,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             filter.visibility = View.GONE
             userHome.visibility = View.GONE
             backArrowHome.visibility = View.VISIBLE
+
+
         }
         followingPost.setOnClickListener {
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, FollowingActivityFragment())
@@ -122,6 +126,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             filter.visibility = View.GONE
             userHome.visibility = View.GONE
             backArrowHome.visibility = View.VISIBLE
+
         }
 
 
@@ -134,7 +139,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         filter.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                secondFragment()
+                secondFragment("home")
             )
                 ?.commit()
 
@@ -151,17 +156,16 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
             val apiRequest = Api_Request()
             apiRequest.categoryId = catId
-            apiRequest.search = searchText.text.toString()
+            apiRequest.search = getSearchText
             try {
-                if(catId != null && !catId.equals("")) {
-                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
+                if (catId != null && !catId.equals("")) {
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                    println("Filter Response : -" + apiRequest.toString())
 
-                }
-                else if(getSearchText != null) {
-                    serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest)
-                }
-                else {
-                    serviceManager.getLocalActivity(callBack,latitude,longitude,null)
+                } else if (getSearchText != null && !getSearchText.equals("")) {
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                } else {
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -180,11 +184,13 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        androidextention.disMissProgressDialog(activity)
         Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+        androidextention.disMissProgressDialog(activity)
+        Toast.makeText(activity, "Something want wrong", Toast.LENGTH_LONG).show()
     }
 
     fun setAdapter(list: ArrayList<Docss>) {
@@ -198,40 +204,40 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
 
-    private fun locationpermission() {
-        // checking location permission
-        if (ActivityCompat.checkSelfPermission(
-                mContext,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // request permission
-            ActivityCompat.requestPermissions(
-                mContext as Activity,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQ_CODE
-            );
-            return
-        }
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                // getting the last known or current location
-                try {
-                    latitude = location.latitude
-                    longitude = location.longitude
-                    SavedPrefManager.setLatitudeLocation(latitude)
-                    SavedPrefManager.setLongitudeLocation(longitude)
-                } catch(e : Exception) {
-                    e.printStackTrace()
-                }
-                           }
-            .addOnFailureListener {
-                Toast.makeText(
-                    mContext, "Failed on getting current location",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-    }
+//    private fun locationpermission() {
+//        // checking location permission
+//        if (ActivityCompat.checkSelfPermission(
+//                mContext,
+//                android.Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            // request permission
+//            ActivityCompat.requestPermissions(
+//                mContext as Activity,
+//                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+//                LOCATION_PERMISSION_REQ_CODE
+//            );
+//            return
+//        }
+//        fusedLocationClient.lastLocation
+//            .addOnSuccessListener { location ->
+//                // getting the last known or current location
+//                try {
+//                    latitude = location.latitude
+//                    longitude = location.longitude
+//                    SavedPrefManager.setLatitudeLocation(latitude)
+//                    SavedPrefManager.setLongitudeLocation(longitude)
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
+//            .addOnFailureListener {
+//                Toast.makeText(
+//                    mContext, "Failed on getting current location",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//    }
 
     override fun customClick(value: Docss, type: String) {
 //        USERID =   "61711c7ec473b124b7369219"
