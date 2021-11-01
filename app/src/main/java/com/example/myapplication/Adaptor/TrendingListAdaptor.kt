@@ -46,8 +46,14 @@ class TrendingListAdaptor(
         holder.name.setText(list[position].userDetails.userName.toString())
         holder.bio.setText(list[position].userDetails.bio.toString())
         try {
-            var filedata = list[position].imageLinks[0]
-            Glide.with(context).load(filedata).into(holder.postView);
+            if (list[position].mediaType.toLowerCase().equals("video")){
+                var filedata = list[position].thumbNail
+                Glide.with(context).load(filedata).into(holder.postView);
+            }else{
+                var filedata = list[position].imageLinks[0]
+                Glide.with(context).load(filedata).into(holder.postView);
+            }
+
         }catch (e: IndexOutOfBoundsException){
             e.printStackTrace()
         }

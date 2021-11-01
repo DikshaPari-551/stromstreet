@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.TrendingListAdaptor
+import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
@@ -165,14 +166,22 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     override fun customClick(value: Docss, type: String)   {
         USERID =   value._id
+        if (type.equals("profile")) {
+            if(value.mediaType.toLowerCase().equals("video"))
+            {
+                var intent = Intent(mContext, Exoplayer::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
 
-        if (type.equals("profile")){
+            }
+            else
 
-            var intent = Intent(mContext, PostActivity::class.java)
-//            intent.putExtra("userId", USERID)
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+            {
+                var intent = Intent(mContext, PostActivity::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+            }
 
-            startActivity(intent)
         }
     }
 }

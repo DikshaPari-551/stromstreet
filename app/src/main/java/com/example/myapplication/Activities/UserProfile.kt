@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.ProfileAdaptor
 import com.example.myapplication.Adaptor.UserProfilePostAdaptor
+import com.example.myapplication.Exoplayer
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.entity.ApiCallBack
@@ -184,12 +185,30 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     override fun customClick(value: Docs, type: String) {
         USERID = value._id
 
-        if (type.equals("profile")) {
-            var intent = Intent(mContext, PostActivity::class.java)
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-//            intent.putExtra("userId", USERID)
+//        if (type.equals("profile")) {
+//            var intent = Intent(mContext, PostActivity::class.java)
+//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+////            intent.putExtra("userId", USERID)
+//
+//            startActivity(intent)
+//        }
 
-            startActivity(intent)
+        if (type.equals("profile")) {
+            if(value.mediaType.toLowerCase().equals("video"))
+            {
+                var intent = Intent(mContext, Exoplayer::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+
+            }
+            else
+
+            {
+                var intent = Intent(mContext, PostActivity::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+            }
+
         }
     }
 

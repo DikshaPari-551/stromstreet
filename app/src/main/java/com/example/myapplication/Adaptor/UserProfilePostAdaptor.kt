@@ -35,9 +35,14 @@ class UserProfilePostAdaptor(
 
     override fun onBindViewHolder(holder: UserProfilePostAdaptor.MyViewHolder, position: Int) {
         try {
-            var filedata = list[position].imageLinks[0]
+            if (list[position].mediaType.toLowerCase().equals("video")){
+                var filedata = list[position].thumbNail
+                Glide.with(context).load(filedata).into(holder.item);
+            }else{
+                var filedata = list[position].imageLinks[0]
+                Glide.with(context).load(filedata).into(holder.item);
+            }
 
-            Glide.with(context).load(filedata).into(holder.item);
         }catch (e: IndexOutOfBoundsException){
             e.printStackTrace()
         }
