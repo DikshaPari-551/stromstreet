@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.HomeAdaptor
+import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
@@ -237,14 +238,26 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         USERID = value._id
 
         if (type.equals("profile")) {
-            var intent = Intent(mContext, PostActivity::class.java)
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-//            intent.putExtra("userId", USERID)
+            if(value.mediaType.toLowerCase().equals("video"))
+            {
+                var intent = Intent(mContext, Exoplayer::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
 
-            startActivity(intent)
+            }
+            else
+
+                {
+                    var intent = Intent(mContext, PostActivity::class.java)
+                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                    startActivity(intent)
+                }
+
         }
 
     }
+
+
 
 
 }

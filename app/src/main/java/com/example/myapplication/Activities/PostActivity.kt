@@ -249,7 +249,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             commentcount.setText(response.result.commentCount.toString())
             postid =  response.result.postResult.userId._id.toString()
             try {
-              var  profile = response.result.postResult.userId.profilePic.toString()
+                var  profile = response.result.postResult.userId.profilePic.toString()
                 Glide.with(this).load(profile).into(profileimg);
             }catch (e: IndexOutOfBoundsException){
                 e.printStackTrace()
