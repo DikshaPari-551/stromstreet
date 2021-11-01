@@ -79,7 +79,7 @@
                                 android:id="@+id/profileImage"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/female_img" />
+                                android:src="@drawable/circleprofile" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
