@@ -1,7 +1,4 @@
 package com.example.myapplication.entity.Service_Base
-
-
-
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
@@ -10,7 +7,6 @@ import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 import retrofit2.http.GET
-
 
 interface Api_interface {
 

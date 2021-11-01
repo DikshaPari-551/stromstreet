@@ -6,6 +6,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -75,7 +76,8 @@ class AddPostFragment(
     private var imageType = ""
     var againCondition: Boolean = true
     val CAMERA_PERM_CODE = 101
-
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
 
     companion object {
         var count = 0
@@ -87,6 +89,8 @@ class AddPostFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        latitude = SavedPrefManager.getLatitudeLocation()!!
+        longitude = SavedPrefManager.getLongitudeLocation()!!
         var view: View = inflater.inflate(R.layout.fragment_add_post, container, false)
         serviceManager = ServiceManager(activity)
         mContext = activity!!.applicationContext
@@ -98,6 +102,9 @@ class AddPostFragment(
         postBackButton = view.findViewById(R.id.post_back_button)
         spinDropDown = view.findViewById(R.id.spinDropDown)
         spin = view.findViewById(R.id.spinner2)
+
+        val geocoder = Geocoder(mContext)
+        val address = geocoder.getFromLocation(latitude, longitude, 1)
 //api
         categoryListApi()
         addPostData(requestCode, resultCode, data, bottomSheetDialog, imagePath)

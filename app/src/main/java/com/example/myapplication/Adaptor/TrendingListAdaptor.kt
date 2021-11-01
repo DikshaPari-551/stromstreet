@@ -28,6 +28,7 @@ class TrendingListAdaptor(
         var postView=view.findViewById<ImageView>(R.id.postView)
         var name = view.findViewById<TextView>(R.id.name)
         var bio = view.findViewById<TextView>(R.id.bio)
+        var text_okhla = view.findViewById<TextView>(R.id.text_okhla)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
 
     }
@@ -45,6 +46,8 @@ class TrendingListAdaptor(
     override fun onBindViewHolder(holder: TrendingListAdaptor.MyViewHolder, position: Int) {
         holder.name.setText(list[position].userDetails.userName.toString())
         holder.bio.setText(list[position].userDetails.bio.toString())
+        holder.text_okhla.setText(list[position].address)
+
         try {
             if (list[position].mediaType.toLowerCase().equals("video")){
                 var filedata = list[position].thumbNail

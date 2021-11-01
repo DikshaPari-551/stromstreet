@@ -1,20 +1,19 @@
 package com.example.myapplication.Fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.icu.text.Transliterator
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.Exoplayer
@@ -23,7 +22,6 @@ import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
-
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
@@ -33,10 +31,13 @@ import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import okhttp3.ResponseBody
+import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, CustomClickListner2 {
     lateinit var mContext: Context
-//    private val LOCATION_PERMISSION_REQ_CODE = 1000;
+    private val LOCATION_PERMISSION_REQ_CODE = 1000;
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
@@ -55,14 +56,15 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var goButton: LinearLayout
     var getSearchText = ""
     var catId: String = ""
+    var locality: String = ""
     var maxDis: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        locationpermission()
         mContext = activity!!
+//        locationpermission()
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
 
@@ -82,13 +84,14 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             longitude = SavedPrefManager.getLongitudeLocation()!!
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
-        } catch(e : java.lang.Exception) {
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
-        goButton.setOnClickListener{
+        goButton.setOnClickListener {
             getLocalActivityApi()
         }
 
+        address()
         getLocalActivityApi()
 
 
@@ -120,7 +123,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
         }
         followingPost.setOnClickListener {
-            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, FollowingActivityFragment())
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.linear_layout, FollowingActivityFragment())
                 ?.commit()
             followingPost.setTextColor(resources.getColor(R.color.orange))
             home_text.setText("Following Activity")
@@ -148,6 +152,24 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         }
         return v
     }
+
+    private fun address() {
+        val gcd = Geocoder(mContext, Locale.getDefault())
+        var addresses: List<Address>? = null
+        try {
+            addresses = gcd.getFromLocation(latitude, longitude, 1)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        if (addresses != null && addresses.size > 0) {
+            try {
+                locality = addresses[0].getLocality()
+//
+            } catch (e: NullPointerException) {
+                e.printStackTrace()
+            }
+            println("locationlist"+locality)
+        }    }
 
     private fun getLocalActivityApi() {
         if (androidextention.isOnline(mContext)) {
@@ -177,7 +199,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
-
         var list = ArrayList<Docss>()
         list.addAll(response.result.docs)
         setAdapter(list)
@@ -206,66 +227,24 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
 
-//    private fun locationpermission() {
-//        // checking location permission
-//        if (ActivityCompat.checkSelfPermission(
-//                mContext,
-//                android.Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            // request permission
-//            ActivityCompat.requestPermissions(
-//                mContext as Activity,
-//                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-//                LOCATION_PERMISSION_REQ_CODE
-//            );
-//            return
-//        }
-//        fusedLocationClient.lastLocation
-//            .addOnSuccessListener { location ->
-//                // getting the last known or current location
-//                try {
-//                    latitude = location.latitude
-//                    longitude = location.longitude
-//                    SavedPrefManager.setLatitudeLocation(latitude)
-//                    SavedPrefManager.setLongitudeLocation(longitude)
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//            }
-//            .addOnFailureListener {
-//                Toast.makeText(
-//                    mContext, "Failed on getting current location",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//    }
 
     override fun customClick(value: Docss, type: String) {
 //        USERID =   "61711c7ec473b124b7369219"
         USERID = value._id
-
+        var lat = value.location.coordinates
         if (type.equals("profile")) {
-            if(value.mediaType.toLowerCase().equals("video"))
-            {
+            if (value.mediaType.toLowerCase().equals("video")) {
                 var intent = Intent(mContext, Exoplayer::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 startActivity(intent)
-
             }
-            else
-
-                {
-                    var intent = Intent(mContext, PostActivity::class.java)
-                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                    startActivity(intent)
-                }
-
+            else {
+                var intent = Intent(mContext, PostActivity::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+            }
         }
-
     }
-
-
 
 
 }

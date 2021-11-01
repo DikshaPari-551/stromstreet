@@ -185,7 +185,8 @@ class SavedPrefManager(var context: Context) {
         private const val QB_USER_FULL_NAME = "qb_user_full_name"
         private const val KEY_END_POINT_ARN = "end_point_arn"
         private var instance: SavedPrefManager? = null
-        private var value : Double? = null
+        private var lat : Double? = null
+        private var long : Double? = null
         const val IMAGE_ONE : String = ""
         const val IMAGE_TWO : String = ""
         const val IMAGE_THREE : String = ""
@@ -298,19 +299,19 @@ class SavedPrefManager(var context: Context) {
         }
 
         fun setLatitudeLocation(value : Double) {
-            this.value = value
+            this.lat = value
         }
 
         fun getLatitudeLocation() : Double? {
-            return value
+            return lat
         }
 
         fun setLongitudeLocation(value : Double) {
-            this.value = value
+            this.long = value
         }
 
         fun getLongitudeLocation() : Double? {
-            return value
+            return long
         }
     }
 
