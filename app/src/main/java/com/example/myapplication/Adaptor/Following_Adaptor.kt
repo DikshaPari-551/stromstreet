@@ -31,7 +31,10 @@ class Following_Adaptor(
         var image = view.findViewById<CircleImageView>(R.id.image)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Following_Adaptor.MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): Following_Adaptor.MyViewHolder {
         var item = LayoutInflater.from(parent.context).inflate(R.layout.lauout_follow, null)
         return MyViewHolder(item)
     }
@@ -46,16 +49,16 @@ class Following_Adaptor(
         try {
             var filedata = list[position].userId.profilePic
             Glide.with(mcontext).load(filedata).into(holder.image)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
         holder.otheruserProfile.setOnClickListener {
-            listener.customClick(list.get(position),"profile")
+            listener.customClick(list.get(position), "profile")
         }
 
         holder.layout_logout_button.setOnClickListener {
-            listener.customClick(list.get(position),"Follow")
+            listener.customClick(list.get(position), "Follow")
         }
     }
 }

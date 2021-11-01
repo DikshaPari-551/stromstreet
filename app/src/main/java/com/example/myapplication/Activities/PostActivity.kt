@@ -98,13 +98,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
         video_post_like.setOnClickListener {
             likeunlike()
-//            if(click == false){
-//            video_post_like.setColorFilter(resources.getColor(R.color.red))
-//                click = true
-//            }else if(click == true){
-//                video_post_like.setColorFilter(resources.getColor(R.color.white))
-//                click=false
-//            }
         }
 
 

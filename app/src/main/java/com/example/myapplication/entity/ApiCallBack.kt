@@ -13,14 +13,18 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class ApiCallBack<T>(var apiListener:ApiResponseListener<T>?,var apiName: String,var mContext: Context) : Callback<T> {
+class ApiCallBack<T>(
+    var apiListener: ApiResponseListener<T>?,
+    var apiName: String,
+    var mContext: Context
+) : Callback<T> {
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
 
         androidextention.disMissProgressDialog(mContext)
         if (response.isSuccessful()) {
 
-             response.body()?.let { apiListener!!.onApiSuccess(it, apiName) }
+            response.body()?.let { apiListener!!.onApiSuccess(it, apiName) }
         } else {
             apiListener!!.onApiErrorBody(response.errorBody(), apiName)
         }

@@ -1,7 +1,6 @@
 package com.example.myapplication.entity.Service_Base
 
 
-
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
@@ -12,10 +11,7 @@ import retrofit2.http.*
 import retrofit2.http.GET
 
 
-
-
-interface Api_interface
-{
+interface Api_interface {
 
     @POST("user/signUp")
     fun getRegisterApi(@Body apiRequest: Api_Request?): Call<Responce>?
@@ -45,10 +41,10 @@ interface Api_interface
     fun forgetPassword(@Body apiRequest: Api_Request?): Call<Responce>?
 
     @GET("user/getProfile")
-    fun getUserProfile(@Header("token")value: String): Call<Responce>?
+    fun getUserProfile(@Header("token") value: String): Call<Responce>?
 
     @GET("user/seeOtherProfile")
-    fun getOtherProfile(@Query("_id") _id : String): Call<Responce>?
+    fun getOtherProfile(@Query("_id") _id: String): Call<Responce>?
 
     @GET("user/followerList")
     fun followerUser(): Call<LocalActivityResponse>?
@@ -63,7 +59,7 @@ interface Api_interface
     fun likeUnlike(@Query("postId") postId: String): Call<Responce>?
 
     @POST("user/savePost")
-    fun saveUnsave(@Query("postId") postId : String): Call<Responce>?
+    fun saveUnsave(@Query("postId") postId: String): Call<Responce>?
 
 //    @POST("user/forgotPassword")
 //    fun forgetPassword(@Header("Content-Type","accept") accept:String  , @Body apiRequest: Api_Request?): Call<Responce>?
@@ -93,21 +89,25 @@ interface Api_interface
     fun reportPost(@Query("_id") _id: String, @Body apiRequest: Api_Request?): Call<Responce>?
 
     @GET("user/getPost")
-    fun postDetails(@Query("postId") postId : String): Call<Responce>?
+    fun postDetails(@Query("postId") postId: String): Call<Responce>?
 
     @POST("user/uploadMedia")
     fun uploadMedia(@Part image: MultipartBody.Part): Call<Responce>?
 
     @Multipart
     @POST("admin/uploadFile")
-    fun uploadFile(@Part file : MultipartBody.Part?): Call<Responce>?
+    fun uploadFile(@Part file: MultipartBody.Part?): Call<Responce>?
 
     @Multipart
     @POST("admin/uploadFile")
     fun addUPost(file: ArrayList<MultipartBody.Part>?): Call<Responce>?
 
     @POST("user/localActivities")
-    fun localActivity(@Query("lat") lat : Double,@Query("lng") lng : Double, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
+    fun localActivity(
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double,
+        @Body apiRequest: Api_Request?
+    ): Call<LocalActivityResponse>?
 
     @POST("user/trendingPostList")
     fun trendingPost(): Call<LocalActivityResponse>?
@@ -116,18 +116,18 @@ interface Api_interface
     fun followingActivity(): Call<LocalActivityResponse>?
 
     @GET("user/seeOtherProfile")
-    fun otherUserProfile(@Query("_id") _id : String): Call<Responce>?
+    fun otherUserProfile(@Query("_id") _id: String): Call<Responce>?
 
     @GET("user/othersPostList")
-    fun otherUserPost(@Query("userId") userId : String): Call<Responce>?
+    fun otherUserPost(@Query("userId") userId: String): Call<Responce>?
 
     @POST("user/userPostList")
     fun getPostList(): Call<LocalActivityResponse>?
 
     @GET("user/othersPostList")
-    fun getOtherPostList(@Query("userId") userId : String): Call<Responce>?
+    fun getOtherPostList(@Query("userId") userId: String): Call<Responce>?
 
     @GET("user/commentList")
-    fun getCommentList(@Query("postId") postId : String): Call<Responce>?
+    fun getCommentList(@Query("postId") postId: String): Call<Responce>?
 
 }
