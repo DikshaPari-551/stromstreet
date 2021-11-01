@@ -33,6 +33,7 @@ class HomeAdaptor(
         var bio = view.findViewById<TextView>(R.id.bio)
         var text_weather = view.findViewById<TextView>(R.id.text_weather)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
+        var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
 
     }
 
@@ -53,13 +54,15 @@ class HomeAdaptor(
         try {
             var filedata = list[position].imageLinks[0]
             Glide.with(context).load(filedata).into(holder.postView);
+            if(list.get(position).mediaType == "VIDEO") {
+                holder.videoIcon.visibility = View.VISIBLE
+            }
         }catch (e: Exception){
             e.printStackTrace()
         }
 
 
         holder.mainlayout.setOnClickListener {
-
             listener.customClick(list.get(position),"profile")
         }
     }
