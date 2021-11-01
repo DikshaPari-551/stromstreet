@@ -66,9 +66,9 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
-        latitude = SavedPrefManager.getLatitudeLocation()!!
-        longitude = SavedPrefManager.getLongitudeLocation()!!
         try {
+            latitude = SavedPrefManager.getLatitudeLocation()!!
+            longitude = SavedPrefManager.getLongitudeLocation()!!
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
         } catch(e : java.lang.Exception) {

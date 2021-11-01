@@ -123,7 +123,7 @@ data class SocialLinks(
 
 data class Location(
     @SerializedName("type") val type: String,
-    @SerializedName("coordinates") val coordinates: List<Double>
+    @SerializedName("coordinates") val coordinates: ArrayList<Double?>
 )
 
 //    @SerializedName("fname")

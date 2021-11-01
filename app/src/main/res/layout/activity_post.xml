@@ -8,6 +8,13 @@
     android:background="@color/black"
     tools:context=".Activities.PostActivity">
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/multi_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+    </androidx.viewpager2.widget.ViewPager2>
+
     <ImageView
         android:id="@+id/vedio"
         android:layout_width="match_parent"
@@ -15,7 +22,8 @@
         android:layout_marginTop="55dp"
         android:layout_marginBottom="55dp"
         android:background="@color/black"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:visibility="visible"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -176,6 +184,17 @@
 
 
         </LinearLayout>
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            app:ci_drawable_unselected="@drawable/unselected"
+            android:layout_gravity="center_horizontal"
+            app:ci_drawable="@drawable/selected"
+            android:layout_marginTop="12dp"
+            tools:ignore="MissingClass"
+            android:visibility="visible"/>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -292,7 +311,6 @@
                         android:orientation="vertical">
 
                         <TextView
-
                             android:id="@+id/text_more"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -312,6 +330,7 @@
                             android:visibility="gone" />
                     </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
