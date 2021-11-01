@@ -461,7 +461,7 @@ class AddPostFragment(
 
                             if (galleryData1.visibility == View.VISIBLE || count >= 1) {
                                 if (galleryData2.visibility == View.VISIBLE || count >= 2) {
-                                    if (galleryData3.visibility == View.VISIBLE || count >= 3) {
+                                    if (galleryData3.visibility == View.VISIBLE || count == 3) {
                                         Toast.makeText(
                                             activity,
                                             "Not select more than 3 photos",

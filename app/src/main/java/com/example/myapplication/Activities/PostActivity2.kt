@@ -269,7 +269,6 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
     }
     private fun postcomment() {
 
-
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
@@ -291,7 +290,8 @@ class PostActivity2 : AppCompatActivity() , ApiResponseListener<Responce> {
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-        if (apiName.equals("PostDetails")) {
+        if (apiName.equals("PostDetails"))
+        {
             username.setText(response.result.postResult.userId.userName.toString())
             post_description.setText(response.result.postResult.description)
             eventType.setText(response.result.postResult.categoryId.categoryName.toString())

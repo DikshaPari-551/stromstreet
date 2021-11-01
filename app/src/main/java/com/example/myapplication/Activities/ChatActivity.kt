@@ -22,10 +22,6 @@ import org.json.JSONObject
 import java.net.URISyntaxException
 import org.json.JSONException
 
-
-
-
-
 class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
     lateinit var right_arrow_Chat:ImageView
