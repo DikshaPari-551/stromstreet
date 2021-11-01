@@ -78,6 +78,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         searchText = v.findViewById(R.id.search_text)
         goButton = v.findViewById(R.id.go)
         try {
+            latitude = SavedPrefManager.getLatitudeLocation()!!
+            longitude = SavedPrefManager.getLongitudeLocation()!!
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
         } catch(e : java.lang.Exception) {

@@ -104,12 +104,7 @@ interface Api_interface {
     fun addUPost(file: ArrayList<MultipartBody.Part>?): Call<Responce>?
 
     @POST("user/localActivities")
-    fun localActivity(
-        @Query("lat") lat: Double,
-        @Query("lng") lng: Double,
-        @Body apiRequest: Api_Request?
-    ): Call<LocalActivityResponse>?
-        fun localActivity(@Query("lat") lat : Double?,@Query("lng") lng : Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
+    fun localActivity(@Query("lat") lat : Double?,@Query("lng") lng : Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
 
     @POST("user/trendingPostList")
     fun trendingPost(@Query("lat") latitude: Double?,@Query("lng") longitude: Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
