@@ -9,6 +9,9 @@ class Api_Request {
     @SerializedName("fullName")
     var fullName: String? = null
 
+    @SerializedName("userId")
+    var userId: String? = null
+
     @SerializedName("countryCode")
     var countryCode: String? = null
 
@@ -120,7 +123,7 @@ data class SocialLinks(
 
 data class Location(
     @SerializedName("type") val type: String,
-    @SerializedName("coordinates") val coordinates: ArrayList<Double?>
+    @SerializedName("coordinates") val coordinates: List<Double>
 )
 
 //    @SerializedName("fname")
