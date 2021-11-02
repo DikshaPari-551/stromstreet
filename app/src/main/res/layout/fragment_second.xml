@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/opensans_regular"
                         android:padding="10dp"
-                        android:text="Less then 15 miles"
+                        android:text="Less then 05 miles"
                         android:textColor="@color/black"
                         android:textSize="10sp"
                         android:textStyle="bold" />
@@ -101,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/opensans_regular"
                             android:padding="10dp"
-                            android:text="Less then 15 miles"
+                            android:text="Less then 10 miles"
                             android:textColor="@color/black"
                             android:textSize="10sp"
                             android:textStyle="bold" />
@@ -149,7 +149,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/opensans_regular"
                         android:padding="10dp"
-                        android:text="Less then 15 miles"
+                        android:text="Less then 20 miles"
                         android:textColor="@color/black"
                         android:textSize="10sp"
                         android:textStyle="bold" />
@@ -169,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/opensans_regular"
                         android:padding="10dp"
-                        android:text="Less then 15 miles"
+                        android:text="Less then 30 miles"
                         android:textColor="@color/black"
                         android:textSize="10sp"
                         android:textStyle="bold" />
@@ -191,7 +191,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/opensans_regular"
                         android:padding="10dp"
-                        android:text="Less then 15 miles"
+                        android:text="Less then 50 miles"
                         android:textColor="@color/black"
                         android:textSize="10sp"
                         android:textStyle="bold" />

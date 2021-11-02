@@ -1,11 +1,15 @@
 package com.example.myapplication.Fragments
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Address
+import android.location.Geocoder
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -32,10 +36,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.InputStream
+import java.io.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddPostFragment(
@@ -66,11 +69,6 @@ class AddPostFragment(
     private var CAMERA: Int = 2
     lateinit var image: Uri
     lateinit var imageFile: File
-    var imageList: ArrayList<Bitmap?> = ArrayList()
-    var responseImageList: ArrayList<String> = ArrayList()
-    var fileImageList: ArrayList<File> = ArrayList()
-    var uriImageList: ArrayList<Uri> = ArrayList()
-    var imageparts: ArrayList<MultipartBody.Part> = ArrayList()
     val MAX_IMAGE = 3
     var fileFlag = ""
     var uploaded_file: MultipartBody.Part? = null
@@ -84,6 +82,8 @@ class AddPostFragment(
     private var longitude: Double = 0.0
     var locality: String = ""
     var bitmap: Bitmap? = null
+    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
+
 
 
     companion object {
