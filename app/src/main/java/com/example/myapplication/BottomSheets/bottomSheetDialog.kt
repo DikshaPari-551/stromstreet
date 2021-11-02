@@ -1,13 +1,11 @@
 package com.example.myapplication
 
+//import com.github.chiragji.gallerykit.callbacks.GalleryKitListener
 import android.app.Dialog
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -15,16 +13,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ServiceManager
-import com.example.myapplication.util.AppConst
-import com.example.myapplication.util.ImageCount
-import com.example.myapplication.util.SavedPrefManager
-//import com.github.chiragji.gallerykit.callbacks.GalleryKitListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.File
@@ -44,8 +37,11 @@ class bottomSheetDialog(
     lateinit var cancel: TextView
     lateinit var gallery: TextView
     lateinit var camera: TextView
+    lateinit var captureVideo: TextView
     private val GALLERY = 1
-    private var CAMERA: Int = 2
+    private val CAMERA: Int = 2
+    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
+
     private var openFlag = ""
     var imageList: ArrayList<Bitmap?> = ArrayList()
     lateinit var bitmap: Bitmap
@@ -72,7 +68,11 @@ class bottomSheetDialog(
         serviceManager = ServiceManager(mContext)
         gallery = v.findViewById(R.id.gallery_open)
         camera = v.findViewById(R.id.camera_open)
+        captureVideo = v.findViewById(R.id.capture_video)
         cancel = v.findViewById(R.id.cancel)
+        if(flag == "addpost") {
+            captureVideo.visibility = View.VISIBLE
+        }
         cancel.setOnClickListener {
             dismiss()
         }
@@ -106,8 +106,19 @@ class bottomSheetDialog(
                 dispatchTakePictureIntent()
             }
         }
+
+        captureVideo.setOnClickListener{
+            val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+            if (takeVideoIntent.resolveActivity(mContext.getPackageManager()) != null) {
+                startActivityForResult(
+                    takeVideoIntent,
+                    CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE
+                )
+            }
+        }
         return v
     }
+
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
@@ -119,6 +130,8 @@ class bottomSheetDialog(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         )
         intent.type = "image/* video/*"
+        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 30)
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, intent.type), GALLERY)
