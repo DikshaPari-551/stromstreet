@@ -212,12 +212,12 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
         androidextention.disMissProgressDialog(this)
-        Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
         androidextention.disMissProgressDialog(this)
-        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
 

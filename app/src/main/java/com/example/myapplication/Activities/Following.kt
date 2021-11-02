@@ -93,11 +93,11 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
 
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
 

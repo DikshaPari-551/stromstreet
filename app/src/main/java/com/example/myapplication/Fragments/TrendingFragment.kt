@@ -169,7 +169,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         setAdapter(list)
 
 
-        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+//        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
@@ -198,7 +198,6 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                 var intent = Intent(mContext, Exoplayer::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 startActivity(intent)
-
             }
             else
 

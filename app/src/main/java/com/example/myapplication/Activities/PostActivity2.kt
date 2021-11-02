@@ -44,6 +44,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var eventType: TextView
     lateinit var commentcount: TextView
     lateinit var post_description: TextView
+    lateinit var address: TextView
     lateinit var video_post_like: ImageView
     lateinit var comment: ImageView
     lateinit var share: ImageView
@@ -61,7 +62,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
     var postid: String = ""
     var isFollow: Boolean = false
     var click: Boolean = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +92,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
         commentcount = findViewById(R.id.commentcount)
         commentLayout = findViewById(R.id.commentLayout)
         profileImage = findViewById(R.id.profileImage)
+        address = findViewById(R.id.address)
 
         getINent()
         postdetails()
@@ -248,12 +249,19 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
         if (apiName.equals("PostDetails")) {
-            username.setText(response.result.postResult.userId.userName.toString())
-            post_description.setText(response.result.postResult.description)
-            eventType.setText(response.result.postResult.categoryId.categoryName.toString())
-            totalLike.setText(response.result.likeCount.toString())
-            commentcount.setText(response.result.commentCount.toString())
-            postid = response.result.postResult.userId._id.toString()
+            try {
+                username.setText(response.result.postResult.userId.userName.toString())
+                post_description.setText(response.result.postResult.description)
+                eventType.setText(response.result.postResult.categoryId.categoryName.toString())
+                totalLike.setText(response.result.likeCount.toString())
+                commentcount.setText(response.result.commentCount.toString())
+                postid = response.result.postResult.userId._id.toString()
+                address.setText(response.result.postResult.address.toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+
             LikeUnlike = response.result.isLike
             try {
                 var filedata = response.result.postResult.userId.profilePic
@@ -309,10 +317,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
 
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 }
