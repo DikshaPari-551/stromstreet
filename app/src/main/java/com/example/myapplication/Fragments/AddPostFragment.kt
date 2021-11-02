@@ -1,12 +1,15 @@
 package com.example.myapplication.Fragments
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Address
 import android.location.Geocoder
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -27,16 +30,14 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
-import com.example.myapplication.util.ImageCount
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.InputStream
+import java.io.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddPostFragment(
@@ -62,26 +63,35 @@ class AddPostFragment(
     lateinit var callBack: ApiCallBack<Responce>
     lateinit var imageData: MultipartBody.Part
     private val GALLERY = 1
-    private var CAMERA: Int = 2
+    private val CAMERA: Int = 2
+    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
+
     lateinit var image: Uri
     lateinit var imageFile: File
-    var imageList: ArrayList<Bitmap?> = ArrayList()
-    var responseImageList: ArrayList<String> = ArrayList()
-    var fileImageList: ArrayList<File> = ArrayList()
-    var uriImageList: ArrayList<Uri> = ArrayList()
-    var imageparts: ArrayList<MultipartBody.Part> = ArrayList()
     val MAX_IMAGE = 3
     var fileFlag = ""
     var uploaded_file: MultipartBody.Part? = null
     private var imageType = ""
+    private var videoLink = ""
     var againCondition: Boolean = true
     val CAMERA_PERM_CODE = 101
+    var imageCount = 0
+    var mime = ""
+    lateinit var imageUri: Uri
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
+    var locality: String = ""
+    var bitmap: Bitmap? = null
+
 
     companion object {
         var count = 0
         var maxCont = 0
+        var imageList: ArrayList<Uri?> = ArrayList()
+        var responseImageList: ArrayList<String> = ArrayList()
+        var fileImageList: ArrayList<File> = ArrayList()
+        var uriImageList: ArrayList<Uri> = ArrayList()
+        var imageparts: ArrayList<MultipartBody.Part> = ArrayList()
     }
 
 
@@ -89,8 +99,6 @@ class AddPostFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        latitude = SavedPrefManager.getLatitudeLocation()!!
-        longitude = SavedPrefManager.getLongitudeLocation()!!
         var view: View = inflater.inflate(R.layout.fragment_add_post, container, false)
         serviceManager = ServiceManager(activity)
         mContext = activity!!.applicationContext
@@ -102,16 +110,17 @@ class AddPostFragment(
         postBackButton = view.findViewById(R.id.post_back_button)
         spinDropDown = view.findViewById(R.id.spinDropDown)
         spin = view.findViewById(R.id.spinner2)
-
-        val geocoder = Geocoder(mContext)
-        val address = geocoder.getFromLocation(latitude, longitude, 1)
+        try {
+            latitude = SavedPrefManager.getLatitudeLocation()!!
+            longitude = SavedPrefManager.getLongitudeLocation()!!
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
 //api
         categoryListApi()
         addPostData(requestCode, resultCode, data, bottomSheetDialog, imagePath)
 
         postBackButton.setOnClickListener {
-            SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "false")
-            ImageCount.setImageCount(com.example.myapplication.bottomSheetDialog.count++)
             fragmentManager?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 HomeFragment()
@@ -119,10 +128,15 @@ class AddPostFragment(
         }
 
         post.setOnClickListener {
-            SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "false")
-            ImageCount.setImageCount(0)
-            addPost()
-
+            androidextention.showProgressDialog(activity)
+            if (imageparts.size > 0) {
+                for (i in imageCount until imageparts.size) {
+                    uploadUserImageApi(imageparts[i])
+                    imageCount++
+                }
+            } else {
+                addPost()
+            }
         }
 
 
@@ -178,15 +192,24 @@ class AddPostFragment(
         }
     }
 
-    private fun uploadUserImageApi() {
-        androidextention.showProgressDialog(mContext)
+    private fun uploadUserImageApi(part: MultipartBody.Part) {
+        androidextention.showProgressDialog(activity)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+                    androidextention.disMissProgressDialog(activity)
                     if (response.responseCode == "200") {
-                        responseImageList.add(response.result.mediaUrl)
                         imageType = response.result.mediaType
+                        if (imageType == "image") {
+                            responseImageList.add(response.result.mediaUrl)
+                        } else {
+                            videoLink = response.result.mediaUrl
+                        }
+                        if (responseImageList.size == imageparts.size) {
+                            addPost()
+                        } else {
+                            addPost()
+                        }
 
                     } else {
                         Toast.makeText(
@@ -198,7 +221,7 @@ class AddPostFragment(
                 }
 
                 override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+                    androidextention.disMissProgressDialog(activity)
                     Toast.makeText(
                         mContext,
                         "error response" + response.toString(),
@@ -207,29 +230,18 @@ class AddPostFragment(
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+                    androidextention.disMissProgressDialog(activity)
                     Toast.makeText(
                         mContext,
-                        "fa" +
-                                "ilure response:" + failureMessage,
+                        "failure response:" + failureMessage,
                         Toast.LENGTH_LONG
                     ).show()
                 }
 
             }, "UploadFile", mContext)
 
-//        var surveyBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-//        var uploaded_file: MultipartBody.Part =
-//            MultipartBody.Part.createFormData("image", imageFile.name, surveyBody)
-
-
         try {
-            if (fileFlag == "gallery_with_mutiple") {
-                serviceManager.addUpost(callBack, imageparts)
-            } else if (fileFlag == "single_image") {
-                serviceManager.userUploadFile(callBack, uploaded_file)
-
-            }
+            serviceManager.userUploadFile(callBack, part)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -252,7 +264,6 @@ class AddPostFragment(
                             R.id.linear_layout,
                             HomeFragment()
                         )?.commit()
-
                     } else {
                         Toast.makeText(
                             activity,
@@ -283,13 +294,19 @@ class AddPostFragment(
             }, "AddPost", mContext)
 
         val apiRequest = Api_Request()
-        val location = Location("Point", arrayListOf(SavedPrefManager.getLatitudeLocation(), SavedPrefManager.getLongitudeLocation()))
+        val location = Location(
+            "Point",
+            arrayListOf(
+                SavedPrefManager.getLatitudeLocation(),
+                SavedPrefManager.getLongitudeLocation()
+            )
+        )
         apiRequest.mediaType = imageType.toUpperCase()
         apiRequest.description = description.text.toString()
         apiRequest.categoryId =
             SavedPrefManager.getStringPreferences(activity, AppConst.POST_CATEGORY_ID)
-        apiRequest.videoLink = "video_link"
-        apiRequest.address="xyz"
+        apiRequest.videoLink = videoLink
+        apiRequest.address = locality
         apiRequest.imageLinks = responseImageList
         apiRequest.location = location
         try {
@@ -333,175 +350,139 @@ class AddPostFragment(
         try {
             if (resultCode == Activity.RESULT_CANCELED) {
 //                return
-                Toast.makeText(activity,
-                    "User cancelled image capture", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    activity,
+                    "User cancelled image capture", Toast.LENGTH_SHORT
+                )
                     .show();
                 bottomSheetDialog.dismiss()
             } else {
                 try {
                     if (requestCode == GALLERY) {
+
                         if (data!!.clipData != null) {
-                                fileFlag = "gallery_with_mutiple"
-
-                                var clipDataCount: Int = data!!.clipData!!.itemCount
+                            var clipDataCount: Int = data!!.clipData!!.itemCount
+                            if (clipDataCount > 3) {
+                                Toast.makeText(
+                                    mContext,
+                                    "You not select more than 3 images!!",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
                                 for (i in 0 until clipDataCount) {
-                                    var imageUri: Uri = data.getClipData()!!.getItemAt(i).getUri()
-                                    var bitmap =
-                                        MediaStore.Images.Media.getBitmap(
-                                            activity?.contentResolver,
-                                            imageUri
-                                        )
-                                    imageList.add(bitmap)
-
-
-                                    var tempUri: Uri =
-                                        getImageUri(activity!!.applicationContext, bitmap)!!
-
-                                    val path = getPathFromURI(tempUri)
+                                    imageUri = data.getClipData()!!.getItemAt(i).getUri()
+                                    imageList.add(imageUri)
+                                    val cr: ContentResolver = mContext.getContentResolver()
+                                    mime = cr.getType(imageUri).toString()
+                                    val path = getPathFromURI(imageUri)
                                     if (path != null) {
                                         imageFile = File(path)
                                     }
-                                    var requestGallaryImageFile: RequestBody =
-                                        RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-                                    imageparts.add(
-                                        MultipartBody.Part.createFormData(
-                                            "image",
-                                            imageFile.getName(),
-                                            requestGallaryImageFile
+                                    if (mime == "video/mp4") {
+                                        if (mime == "video/mp4" && clipDataCount > 1) {
+                                            Toast.makeText(
+                                                mContext,
+                                                "You not select more than 1 video!!",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        } else {
+                                            bitmap = ThumbnailUtils.createVideoThumbnail(
+                                                imageFile.absolutePath,
+                                                MediaStore.Video.Thumbnails.MINI_KIND
+                                            )
+                                            var requestGalleryImageFile: RequestBody =
+                                                RequestBody.create(
+                                                    "video/*".toMediaTypeOrNull(),
+                                                    imageFile
+                                                )
+                                            imageparts.add(
+                                                MultipartBody.Part.createFormData(
+                                                    "video",
+                                                    imageFile.getName(),
+                                                    requestGalleryImageFile
+                                                )
+                                            )
+                                        }
+                                    } else {
+                                        var requestGalleryImageFile: RequestBody =
+                                            RequestBody.create(
+                                                "image/*".toMediaTypeOrNull(),
+                                                imageFile
+                                            )
+                                        imageparts.add(
+                                            MultipartBody.Part.createFormData(
+                                                "image",
+                                                imageFile.getName(),
+                                                requestGalleryImageFile
+                                            )
                                         )
-                                    )
+                                    }
                                 }
-                                galleryData1.setImageBitmap(imageList[0])
-                                galleryData2.setImageBitmap(imageList[1])
-                                galleryData3.setImageBitmap(imageList[2])
+                            }
+
+//                            set images
+                            if (mime == "video/mp4") {
+                                galleryData1.setImageBitmap(bitmap)
                                 bottomSheetDialog.dismiss()
 
-                                uploadUserImageApi()
-                        } else if (data != null && data!!.clipData == null) {
-                            fileFlag = "single_image"
-                            image = data.data!!
 
-                            if (galleryData1.visibility == View.VISIBLE || count >= 1) {
-                                if (galleryData2.visibility == View.VISIBLE || count >= 2) {
-                                    if (galleryData3.visibility == View.VISIBLE || count >= 3) {
-                                        Toast.makeText(
-                                            activity,
-                                            "Not select more than 3 photos",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    } else {
-                                        count = 0
-                                        SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "true")
-                                        galleryData3.visibility = View.VISIBLE
-                                        galleryData3.setImageURI(image)
-                                    }
-                                } else {
-                                    count++
-                                    galleryData2.visibility = View.VISIBLE
-                                    galleryData2.setImageURI(image)
-                                }
                             } else {
-                                count++
-                                galleryData1.visibility = View.VISIBLE
-                                galleryData1.setImageURI(image)
-
+                                galleryData1.setImageURI(imageList[0])
+                                galleryData2.setImageURI(imageList[1])
+                                galleryData3.setImageURI(imageList[2])
+                                bottomSheetDialog.dismiss()
                             }
+
+                        } else if (data != null && data!!.clipData == null) {
+                            image = data.data!!
+                            val cr: ContentResolver = mContext.getContentResolver()
+                            val mime = cr.getType(image)
+
+                            multiPartImageSet()
+
                             bottomSheetDialog.dismiss()
                             val path = getPathFromURI(image)
                             if (path != null) {
                                 imageFile = File(path)
                             }
-                            var surveyBody =
+                            var requestGalleryImageFile: RequestBody =
                                 RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-                            uploaded_file =
+                            imageparts.add(
                                 MultipartBody.Part.createFormData(
                                     "image",
-                                    imageFile.name,
-                                    surveyBody
+                                    imageFile.getName(),
+                                    requestGalleryImageFile
                                 )
-                            uploadUserImageApi()
+                            )
+//                            uploadUserImageApi()
                         }
 
                     } else if (requestCode == CAMERA) {
                         fileFlag = "single_image"
-                            imageFile = File(imagePath)
-                            uriImageList.add(Uri.fromFile(imageFile))
+                        imageFile = File(imagePath)
+                        uriImageList.add(Uri.fromFile(imageFile))
 
+                        multiPartImageSet()
 
-                            if (galleryData1.visibility == View.GONE || count >= 1) {
+                        bottomSheetDialog.dismiss()
+                        var requestGalleryImageFile: RequestBody =
+                            RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+                        imageparts.add(
+                            MultipartBody.Part.createFormData(
+                                "image",
+                                imageFile.getName(),
+                                requestGalleryImageFile
+                            )
+                        )
+//                        uploadUserImageApi()
+                    } else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+                        Toast.makeText(
+                            mContext,
+                            "Capture video!!",
+                            Toast.LENGTH_LONG
+                        ).show()
 
-                                if (galleryData2.visibility == View.GONE || count >= 2) {
-                                    if (galleryData3.visibility == View.GONE || count >= 3) {
-                                        Toast.makeText(
-                                            activity,
-                                            "Not select more than 3 photos",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    } else {
-                                        count = 0
-                                        galleryData3.visibility = View.VISIBLE
-                                        galleryData3.setImageURI(Uri.fromFile(imageFile))
-                                        SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_THREE,imageFile.toString())
-
-//                                        get
-                                        var imageThree = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_THREE)
-                                        var imageFThree = File(imageThree)
-                                        galleryData3.visibility = View.VISIBLE
-                                        galleryData3.setImageURI(Uri.fromFile(imageFThree))
-                                        var imagef = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_ONE)
-                                        var imageFOne = File(imagef)
-                                        galleryData1.visibility = View.VISIBLE
-                                        galleryData1.setImageURI(Uri.fromFile(imageFOne))
-                                        var imageTwo = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_TWO)
-                                        var imageFTwo = File(imageTwo)
-                                        galleryData2.visibility = View.VISIBLE
-                                        galleryData2.setImageURI(Uri.fromFile(imageFTwo))
-
-                                    }
-                                } else {
-                                    count++
-                                    galleryData2.visibility = View.VISIBLE
-                                    galleryData2.setImageURI(Uri.fromFile(imageFile))
-                                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_TWO,imageFile.toString())
-
-//                                    get
-                                    var imageTwo = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_TWO)
-                                    var imageFTwo = File(imageTwo)
-                                    galleryData2.visibility = View.VISIBLE
-                                    galleryData2.setImageURI(Uri.fromFile(imageFTwo))
-                                    var imageOne = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_ONE)
-                                    var image = File(imageOne)
-                                    galleryData1.visibility = View.VISIBLE
-                                    galleryData1.setImageURI(Uri.fromFile(image))
-
-                                }
-                            } else {
-                                count++
-                                galleryData1.visibility = View.VISIBLE
-                                galleryData1.setImageURI(Uri.fromFile(imageFile))
-                                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.IMAGE_ONE,imageFile.toString())
-
-//                                get
-                                var imageOne = SavedPrefManager.getStringPreferences(mContext,SavedPrefManager.IMAGE_ONE)
-                                var image = File(imageOne)
-                                galleryData1.visibility = View.VISIBLE
-                                galleryData1.setImageURI(Uri.fromFile(image))
-
-
-                            }
-
-                            bottomSheetDialog.dismiss()
-                            var surveyBody =
-                                RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-                            uploaded_file =
-                                MultipartBody.Part.createFormData(
-                                    "image",
-                                    imageFile.name,
-                                    surveyBody
-                                )
-                            uploadUserImageApi()
-
-                        }
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -511,6 +492,88 @@ class AddPostFragment(
         }
     }
 
+    private fun multiPartImageSet() {
+        if (count >= 1) {
+            if (count >= 2) {
+                if (count >= 3) {
+                    Toast.makeText(
+                        activity,
+                        "Not select more than 3 photos",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    count = 0
+                    galleryData3.visibility = View.VISIBLE
+                    galleryData3.setImageURI(Uri.fromFile(imageFile))
+                    SavedPrefManager.saveStringPreferences(
+                        mContext,
+                        SavedPrefManager.IMAGE_THREE,
+                        imageFile.toString()
+                    )
+
+//                                        get
+                    var imageThree = SavedPrefManager.getStringPreferences(
+                        mContext,
+                        SavedPrefManager.IMAGE_THREE
+                    )
+                    var imageFThree = File(imageThree)
+                    galleryData3.visibility = View.VISIBLE
+                    galleryData3.setImageURI(Uri.fromFile(imageFThree))
+                    var imagef =
+                        SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_ONE)
+                    var imageFOne = File(imagef)
+                    galleryData1.visibility = View.VISIBLE
+                    galleryData1.setImageURI(Uri.fromFile(imageFOne))
+                    var imageTwo =
+                        SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_TWO)
+                    var imageFTwo = File(imageTwo)
+                    galleryData2.visibility = View.VISIBLE
+                    galleryData2.setImageURI(Uri.fromFile(imageFTwo))
+
+                }
+            } else {
+                count++
+                galleryData2.visibility = View.VISIBLE
+                galleryData2.setImageURI(Uri.fromFile(imageFile))
+                SavedPrefManager.saveStringPreferences(
+                    mContext,
+                    SavedPrefManager.IMAGE_TWO,
+                    imageFile.toString()
+                )
+
+//                                    get
+                var imageTwo =
+                    SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_TWO)
+                var imageFTwo = File(imageTwo)
+                galleryData2.visibility = View.VISIBLE
+                galleryData2.setImageURI(Uri.fromFile(imageFTwo))
+                var imageOne =
+                    SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_ONE)
+                var image = File(imageOne)
+                galleryData1.visibility = View.VISIBLE
+                galleryData1.setImageURI(Uri.fromFile(image))
+
+            }
+        } else {
+            count++
+            galleryData1.visibility = View.VISIBLE
+            galleryData1.setImageURI(Uri.fromFile(imageFile))
+            SavedPrefManager.saveStringPreferences(
+                mContext,
+                SavedPrefManager.IMAGE_ONE,
+                imageFile.toString()
+            )
+
+//                                get
+            var imageOne =
+                SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_ONE)
+            var image = File(imageOne)
+            galleryData1.visibility = View.VISIBLE
+            galleryData1.setImageURI(Uri.fromFile(image))
+
+
+        }
+    }
 
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
@@ -533,5 +596,23 @@ class AddPostFragment(
         return res
     }
 
+    private fun address() {
+        val gcd = Geocoder(mContext, Locale.getDefault())
+        var addresses: List<Address>? = null
+        try {
+            addresses = gcd.getFromLocation(latitude, longitude, 1)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        if (addresses != null && addresses.size > 0) {
+            try {
+                locality = addresses[0].getLocality()
+//
+            } catch (e: NullPointerException) {
+                e.printStackTrace()
+            }
+            println("locationlist" + locality)
+        }
+    }
 }
 

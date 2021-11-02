@@ -33,6 +33,17 @@
                     android:layout_height="150dp"
                     android:scaleType="fitXY"
                     />
+                <ImageView
+                    android:id="@+id/video_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_video_solid"
+                    />
 
             </RelativeLayout>
             <TextView

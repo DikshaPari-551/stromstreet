@@ -193,7 +193,7 @@
             app:ci_drawable="@drawable/selected"
             android:layout_marginTop="12dp"
             tools:ignore="MissingClass"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
 
         <LinearLayout

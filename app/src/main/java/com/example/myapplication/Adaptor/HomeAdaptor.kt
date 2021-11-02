@@ -34,6 +34,7 @@ class HomeAdaptor(
         var text_weather = view.findViewById<TextView>(R.id.text_weather)
         var text_okhla = view.findViewById<TextView>(R.id.text_okhla)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
+        var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
 
     }
 
@@ -73,6 +74,7 @@ class HomeAdaptor(
 
 
         holder.mainlayout.setOnClickListener {
+
             listener.customClick(list.get(position),"profile")
         }
     }
