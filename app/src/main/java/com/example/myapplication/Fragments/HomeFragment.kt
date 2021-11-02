@@ -91,7 +91,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             getLocalActivityApi()
         }
 
-        address()
+//        address()
         getLocalActivityApi()
 
 
@@ -168,8 +168,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             } catch (e: NullPointerException) {
                 e.printStackTrace()
             }
-            println("locationlist"+locality)
-        }    }
+            println("locationlist" + locality)
+        }
+    }
 
     private fun getLocalActivityApi() {
         if (androidextention.isOnline(mContext)) {
@@ -203,7 +204,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         list.addAll(response.result.docs)
         setAdapter(list)
 
-        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+//        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
@@ -227,7 +228,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
 
-
     override fun customClick(value: Docss, type: String) {
 //        USERID =   "61711c7ec473b124b7369219"
         USERID = value._id
@@ -237,8 +237,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 var intent = Intent(mContext, Exoplayer::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 startActivity(intent)
-            }
-            else {
+            } else {
                 var intent = Intent(mContext, PostActivity::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 startActivity(intent)

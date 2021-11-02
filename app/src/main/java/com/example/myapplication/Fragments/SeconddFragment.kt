@@ -67,7 +67,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickL
         androidextention.disMissProgressDialog(activity)
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(mContext)
-            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+//            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
             var list = ArrayList<Docs>()
             list.addAll(response.result.docs)
             setAdapter(list)
@@ -81,7 +81,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickL
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
     fun setAdapter(list: ArrayList<Docs>) {

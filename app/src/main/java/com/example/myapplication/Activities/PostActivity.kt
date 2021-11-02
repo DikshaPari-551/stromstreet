@@ -43,6 +43,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var eventType: TextView
     lateinit var totalLike: TextView
     lateinit var commentcount: TextView
+    lateinit var address: TextView
     lateinit var profileimg: CircleImageView
     var USERID: String = ""
     var postid: String = ""
@@ -79,7 +80,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         eventType = findViewById(R.id.eventType)
         totalLike = findViewById(R.id.totalLike)
         commentcount = findViewById(R.id.commentcount)
-//        totalshare = findViewById(R.id.totalshare)
+        address = findViewById(R.id.address)
 
 
         backPostButton.setOnClickListener {
@@ -212,9 +213,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     private fun likeunlike() {
-//        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-//            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "LikeUnlike", mContext)
@@ -225,7 +224,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             }
         }
     }
-
 
     private fun followunfollow() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
@@ -246,21 +244,26 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike
         isFollow = response.result.isFollow
-        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
         if (apiName.equals("PostDetails")) {
-            username.setText(response.result.postResult.userId.userName.toString())
-            layoutMore.setText(response.result.postResult.description)
-            eventType.setText(response.result.postResult.categoryId.categoryName.toString())
-            totalLike.setText(response.result.likeCount.toString())
-            commentcount.setText(response.result.commentCount.toString())
-            postid =  response.result.postResult.userId._id.toString()
+            try {
+                username.setText(response.result.postResult.userId.userName.toString())
+                layoutMore.setText(response.result.postResult.description)
+                eventType.setText(response.result.postResult.categoryId.categoryName.toString())
+                totalLike.setText(response.result.likeCount.toString())
+                commentcount.setText(response.result.commentCount.toString())
+                postid =  response.result.postResult.userId._id.toString()
+                address.setText(response.result.postResult.address.toString())
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+
             try {
               var  profile = response.result.postResult.userId.profilePic.toString()
                 Glide.with(this).load(profile).into(profileimg);
             }catch (e: IndexOutOfBoundsException){
                 e.printStackTrace()
             }
-
 //            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
 
             if (LikeUnlike == true) {
@@ -293,10 +296,10 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 }
