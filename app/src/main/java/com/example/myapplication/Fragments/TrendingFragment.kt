@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.TrendingListAdaptor
+import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
@@ -168,7 +169,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         setAdapter(list)
 
 
-        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+//        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
@@ -191,14 +192,21 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     override fun customClick(value: Docss, type: String)   {
         USERID =   value._id
+        if (type.equals("profile")) {
+            if(value.mediaType.toLowerCase().equals("video"))
+            {
+                var intent = Intent(mContext, Exoplayer::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+            }
+            else
 
-        if (type.equals("profile")){
+            {
+                var intent = Intent(mContext, PostActivity::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+            }
 
-            var intent = Intent(mContext, PostActivity::class.java)
-//            intent.putExtra("userId", USERID)
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-
-            startActivity(intent)
         }
     }
 }

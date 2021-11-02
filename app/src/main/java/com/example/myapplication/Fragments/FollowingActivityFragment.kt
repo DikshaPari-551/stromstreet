@@ -161,15 +161,15 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         setAdapter(list)
 
 
-        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+//        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
     fun setAdapter(list: ArrayList<Docss>) {

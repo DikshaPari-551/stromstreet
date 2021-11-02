@@ -92,7 +92,7 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
             if (response.responseCode == "200") {
                 Toast.makeText(
                     this,
-                    response.responseMessage + " and otp is " + response.result.otp,
+                    response.responseMessage ,
                     Toast.LENGTH_LONG
                 ).show()
                 var intent = Intent(this, EmailVerificationActivity::class.java)
@@ -106,10 +106,10 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "error" + response.toString(), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong" + response.toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "fail" + failureMessage, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Server not responding" + failureMessage, Toast.LENGTH_LONG).show()
     }
 }

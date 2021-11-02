@@ -37,9 +37,15 @@ class ProfileAdaptor(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         try {
-            var filedata = list[position].imageLinks[0]
+            if (list[position].mediaType.toLowerCase().equals("video")){
+                var thumbnail = list[position].thumbNail
+                Glide.with(context).load(thumbnail).into(holder.item);
+            }
+            else{
+                var filedata = list[position].imageLinks[0]
+                Glide.with(context).load(filedata).into(holder.item);
+            }
 
-            Glide.with(context).load(filedata).into(holder.item);
         }catch (e: IndexOutOfBoundsException){
             e.printStackTrace()
         }

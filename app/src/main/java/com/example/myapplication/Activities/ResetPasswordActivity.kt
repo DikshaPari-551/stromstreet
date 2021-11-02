@@ -144,12 +144,12 @@ class ResetPasswordActivity : AppCompatActivity() {
 
                 override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
                     androidextention.disMissProgressDialog(this@ResetPasswordActivity)
-                    Toast.makeText(this@ResetPasswordActivity, "error " + response.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ResetPasswordActivity, "Something Went Wrong " + response.toString(), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(this@ResetPasswordActivity)
-                    Toast.makeText(this@ResetPasswordActivity, "fail " + failureMessage, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ResetPasswordActivity, "Server not responding " + failureMessage, Toast.LENGTH_SHORT).show()
                 }
 
             }, "RestPassword", this)

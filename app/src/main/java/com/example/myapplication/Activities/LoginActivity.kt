@@ -259,7 +259,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
         if (response.responseCode == "200") {
-            Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
             if (response.result.otpVerification == false)
             {
                 var intent = Intent(applicationContext, EmailVerificationActivity::class.java)
@@ -278,11 +278,11 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "failure", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
 
     }
 

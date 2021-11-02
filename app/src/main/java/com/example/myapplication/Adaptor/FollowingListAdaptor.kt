@@ -15,24 +15,25 @@ import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.Response.Docss
 
-class FollowingListAdaptor (
+class FollowingListAdaptor(
 
     var context: FollowingActivityFragment,
     var list: ArrayList<Docss>,
     var listener: CustomClickListner2
 
-) : RecyclerView.Adapter<FollowingListAdaptor.MyViewHolder>()
-{
+) : RecyclerView.Adapter<FollowingListAdaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var layout_vedio=view.findViewById<RelativeLayout>(R.id.layout_vedio)
-        var postView=view.findViewById<ImageView>(R.id.postView)
+        var layout_vedio = view.findViewById<RelativeLayout>(R.id.layout_vedio)
+        var postView = view.findViewById<ImageView>(R.id.postView)
         var name = view.findViewById<TextView>(R.id.name)
         var bio = view.findViewById<TextView>(R.id.bio)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
-
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowingListAdaptor.MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): FollowingListAdaptor.MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.home_layout, parent, false)
         return MyViewHolder(itemView)
@@ -48,16 +49,12 @@ class FollowingListAdaptor (
         try {
             var filedata = list[position].imageLinks[0]
             Glide.with(context).load(filedata).into(holder.postView);
-        }catch (e: IndexOutOfBoundsException){
+        } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
 
-
         holder.mainlayout.setOnClickListener {
-
-            listener.customClick(list.get(position),"profile")
+            listener.customClick(list.get(position), "profile")
         }
     }
-
-
 }

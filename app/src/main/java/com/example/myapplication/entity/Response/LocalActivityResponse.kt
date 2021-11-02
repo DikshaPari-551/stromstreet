@@ -31,6 +31,7 @@ data class Docss(
     @SerializedName("imageLinks") val imageLinks: List<String>,
     @SerializedName("status") val status: String,
     @SerializedName("thumbNail") val thumbNail: String,
+    @SerializedName("address") val address: String,
     @SerializedName("videoLink") val videoLink: String,
     @SerializedName("userId") val userId: String,
     @SerializedName("categoryId") val categoryId: String,

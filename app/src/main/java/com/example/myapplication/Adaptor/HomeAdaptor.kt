@@ -32,6 +32,7 @@ class HomeAdaptor(
         var name = view.findViewById<TextView>(R.id.name)
         var bio = view.findViewById<TextView>(R.id.bio)
         var text_weather = view.findViewById<TextView>(R.id.text_weather)
+        var text_okhla = view.findViewById<TextView>(R.id.text_okhla)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
         var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
 
@@ -49,20 +50,36 @@ class HomeAdaptor(
     }
 
     override fun onBindViewHolder(holder: HomeAdaptor.MyViewHolder, position: Int) {
-        holder.name.setText(list[position].userDetails.userName.toString())
-        holder.bio.setText(list[position].userDetails.bio.toString())
+        try {
+            holder.name.setText(list[position].userDetails.userName.toString())
+            holder.bio.setText(list[position].userDetails.bio.toString())
+            holder.text_okhla.setText(list[position].address)
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
         try {
             var filedata = list[position].imageLinks[0]
             Glide.with(context).load(filedata).into(holder.postView);
             if(list.get(position).mediaType == "VIDEO") {
                 holder.videoIcon.visibility = View.VISIBLE
             }
+            if (list[position].mediaType.toLowerCase().equals("video")){
+                var filedata = list[position].thumbNail
+                Glide.with(context).load(filedata).into(holder.postView);
+            }
+            else{
+                var filedata = list[position].imageLinks[0]
+                Glide.with(context).load(filedata).into(holder.postView);
+            }
+
         }catch (e: Exception){
             e.printStackTrace()
         }
 
 
         holder.mainlayout.setOnClickListener {
+
             listener.customClick(list.get(position),"profile")
         }
     }

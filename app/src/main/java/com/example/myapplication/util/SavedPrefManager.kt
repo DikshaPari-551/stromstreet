@@ -189,6 +189,9 @@ class SavedPrefManager(var context: Context) {
         const val IMAGE_ONE : String = "IMAGE_ONE"
         const val IMAGE_TWO : String = "IMAGE_TWO"
         const val IMAGE_THREE : String = "IMAGE_THREE"
+        private var lat : Double? = null
+        private var long : Double? = null
+
 
         private const val PREF_HIGH_QUALITY = "pref_high_quality"
         fun getInstance(context: Context): SavedPrefManager? {
@@ -298,19 +301,19 @@ class SavedPrefManager(var context: Context) {
         }
 
         fun setLatitudeLocation(value : Double) {
-            this.value = value
+            this.lat = value
         }
 
         fun getLatitudeLocation() : Double? {
-            return value
+            return lat
         }
 
         fun setLongitudeLocation(value : Double) {
-            this.value = value
+            this.long = value
         }
 
         fun getLongitudeLocation() : Double? {
-            return value
+            return long
         }
     }
 

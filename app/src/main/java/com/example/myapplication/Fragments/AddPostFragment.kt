@@ -1,15 +1,11 @@
 package com.example.myapplication.Fragments
 
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.location.Address
-import android.location.Geocoder
-import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
@@ -31,14 +26,16 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.ImageCount
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import java.io.*
-import java.util.*
-import kotlin.collections.ArrayList
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.InputStream
 
 
 class AddPostFragment(
@@ -66,11 +63,14 @@ class AddPostFragment(
     lateinit var callBack: ApiCallBack<Responce>
     lateinit var imageData: MultipartBody.Part
     private val GALLERY = 1
-    private val CAMERA: Int = 2
-    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
-
+    private var CAMERA: Int = 2
     lateinit var image: Uri
     lateinit var imageFile: File
+    var imageList: ArrayList<Bitmap?> = ArrayList()
+    var responseImageList: ArrayList<String> = ArrayList()
+    var fileImageList: ArrayList<File> = ArrayList()
+    var uriImageList: ArrayList<Uri> = ArrayList()
+    var imageparts: ArrayList<MultipartBody.Part> = ArrayList()
     val MAX_IMAGE = 3
     var fileFlag = ""
     var uploaded_file: MultipartBody.Part? = null
@@ -127,6 +127,8 @@ class AddPostFragment(
         addPostData(requestCode, resultCode, data, bottomSheetDialog, imagePath)
 
         postBackButton.setOnClickListener {
+            SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "false")
+            ImageCount.setImageCount(com.example.myapplication.bottomSheetDialog.count++)
             fragmentManager?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 HomeFragment()
@@ -142,7 +144,7 @@ class AddPostFragment(
             }
         }
 
-        spin.onItemSelectedListener = object : OnItemSelectedListener {
+        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View, pos: Int, id: Long

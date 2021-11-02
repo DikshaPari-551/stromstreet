@@ -35,9 +35,14 @@ class SaveListAdaptor(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         try {
-            var filedata = list[position].postId.imageLinks[0]
+            if (list[position].postId.mediaType.toLowerCase().equals("video")){
+                var filedata = list[position].postId.thumbNail
+                Glide.with(context).load(filedata).into(holder.item);
+            }else{
+                var filedata = list[position].postId.imageLinks[0]
+                Glide.with(context).load(filedata).into(holder.item);
+            }
 
-            Glide.with(context).load(filedata).into(holder.item);
         }catch (e: IndexOutOfBoundsException){
             e.printStackTrace()
         }

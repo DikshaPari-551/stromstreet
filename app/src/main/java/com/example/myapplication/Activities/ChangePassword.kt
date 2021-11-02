@@ -146,14 +146,14 @@ class ChangePassword : AppCompatActivity() {
                     androidextention.disMissProgressDialog(this@ChangePassword)
                     Toast.makeText(
                         this@ChangePassword,
-                        "Error" + response.toString(),
+                        "Something Went Wrong" + response.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(this@ChangePassword)
-                    Toast.makeText(this@ChangePassword, "Fail" + failureMessage, Toast.LENGTH_SHORT)
+                    Toast.makeText(this@ChangePassword, "Server not responding" + failureMessage, Toast.LENGTH_SHORT)
                         .show()
                 }
 

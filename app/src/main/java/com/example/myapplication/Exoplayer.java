@@ -145,7 +145,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         private File myFile;
         private boolean playWhenReady = true,isLiked,LikeUnlike=false,isFollow=false;
         private boolean startAutoPlay;
-        private String viedeourl="https://res.cloudinary.com/mobiloitte-testing/video/upload/v1634802739/j7iau2ry8rlfiixkz16r.mp4";
+        private String viedeourl="";
 
         private  LinearLayout llComment,llShare,llDownload,bottomlayout;
         private  TextView tvPostLike,tvPostComment,tvPostShare,tvPostViews,tvPostUserName,tvUserImageNull,tvDPostTime,txtDiscription;
@@ -334,7 +334,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 totalLike.setText(String.valueOf(response.result.getLikeCount()));
                 commentcount.setText(String.valueOf(response.result.getCommentCount()));
                 postid =  response.result.getPostResult().getUserId().get_id();
-
+                viedeourl =  response.result.getPostResult().getVideoLink();
 
 //            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
 
