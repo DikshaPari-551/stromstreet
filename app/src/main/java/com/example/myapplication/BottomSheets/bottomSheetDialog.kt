@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
@@ -56,6 +57,8 @@ class bottomSheetDialog(
     var photoURI: Uri? = null
     companion object {
         var count = 0
+        var captureVideoCount = 0
+
     }
 
     override fun onCreateView(
@@ -108,12 +111,21 @@ class bottomSheetDialog(
         }
 
         captureVideo.setOnClickListener{
-            val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            if (takeVideoIntent.resolveActivity(mContext.getPackageManager()) != null) {
-                startActivityForResult(
-                    takeVideoIntent,
-                    CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE
-                )
+            if(captureVideoCount > 0) {
+                Toast.makeText(
+                    mContext,
+                    "You not captured more than 1 video!!",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+                if (takeVideoIntent.resolveActivity(activity!!.packageManager) != null) {
+                    startActivityForResult(
+                        takeVideoIntent,
+                        CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE
+                    )
+                    captureVideoCount++
+                }
             }
         }
         return v
