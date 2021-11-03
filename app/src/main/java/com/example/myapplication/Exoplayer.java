@@ -28,7 +28,7 @@ import com.example.myapplication.entity.ApiCallBack;
 import com.example.myapplication.entity.Response.Responce;
 import com.example.myapplication.entity.Service_Base.ApiResponseListener;
 import com.example.myapplication.entity.Service_Base.ServiceManager;
-import com.example.myapplication.util.AppConstTwo;
+import com.example.myapplication.extension.androidextention;
 import com.example.myapplication.util.LoginFlagTwo;
 import com.example.myapplication.util.SavedPrefManager;
 import com.google.android.exoplayer2.C;
@@ -186,6 +186,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         video_post_like = findViewById(R.id.video_post_like);
         notifyPost = findViewById(R.id.notify_post);
         follow = findViewById(R.id.follow);
+
         more = findViewById(R.id.more);
         simpleExoPlayerView = findViewById(R.id.player_view);
 
@@ -214,7 +215,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
 
         comment = findViewById(R.id.comment);
-        comment.setOnClickListener(v -> {
+        comment.setOnClickListener(v->{
             if (LoginFlagTwo.getFLAG().equals("true")) {
                 Intent i = new Intent(this, PostActivity2.class);
                 startActivity(i);
@@ -224,9 +225,10 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             }
         });
 
-        video_post_like.setOnClickListener(v -> {
+        video_post_like.setOnClickListener(v->{
+
             if (LoginFlagTwo.getFLAG().equals("true")) {
-                likeunlike();
+            likeunlike();
             } else {
                 Intent i = new Intent(this, LoginActivity.class);
                 startActivity(i);
@@ -234,55 +236,54 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         });
 
 
-        savePost.setOnClickListener(v -> {
+        savePost.setOnClickListener(v->{
             if (LoginFlagTwo.getFLAG().equals("true")) {
-                saveunsave();
-                if (click == false) {
-                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show();
-                    click = true;
-                } else if (click == true) {
-                    Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
-                    click = false;
-                }
-            } else {
-                Intent i = new Intent(this, LoginActivity.class);
-                startActivity(i);
+            saveunsave();
+            if (click == false) {
+                Toast.makeText(this,"Post Saved", Toast.LENGTH_SHORT).show();
+                click = true;
+            } else if (click == true) {
+                Toast.makeText(this,"Post Unsaved", Toast.LENGTH_SHORT).show();
+                click = false;
             }
+        } else {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        }
         });
 
-        sharePost.setOnClickListener(v -> {
+        sharePost.setOnClickListener (v->{
             if (LoginFlagTwo.getFLAG().equals("true")) {
-                Intent i = new Intent(Intent.ACTION_SEND);
+                Intent i =new  Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
-                String shareBody = "Share Body";
-                String shareSubject = "Share Subject";
+                  String shareBody= "Share Body";
+                  String shareSubject = "Share Subject";
                 i.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
                 i.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(i, "Sharing using"));
-            } else if (click == true) {
-                Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
-                click = false;
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
             }
         });
 
-        notifyPost.setOnClickListener(v -> {
+        notifyPost.setOnClickListener (v->{
             if (LoginFlagTwo.getFLAG().equals("true")) {
+            Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        }
 
-                Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
-            } else if (click == true) {
-                Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
-                click = false;
-            }
         });
 
-        follow.setOnClickListener(v -> {
+        follow.setOnClickListener (v->{
             if (LoginFlagTwo.getFLAG().equals("true")) {
-                followunfollow();
-            } else if (click == true) {
-                Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
-                click = false;
+            followunfollow();
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
             }
-
         });
 
 
@@ -303,54 +304,62 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
     }
 
-    private void saveunsave() {
-        ServiceManager serviceManager = new ServiceManager(mContext);
-        ApiCallBack<Responce> callBack = new ApiCallBack<Responce>(this, "SaveUnsave", mContext);
+        private void saveunsave()
+        {
+            ServiceManager serviceManager =new  ServiceManager(mContext);
+           ApiCallBack<Responce> callBack =new  ApiCallBack<Responce>(this, "SaveUnsave", mContext);
 //            val apiRequest = Api_Request()
 //            apiRequest.email = emailSignUp_et.getText().toString().trim()
-        try {
-            serviceManager.getSavepost(callBack, USERID);
-        } catch (Exception e) {
+            try {
+                serviceManager.getSavepost(callBack, USERID);
+            } catch ( Exception e)
+            {
             e.printStackTrace();
         }
-    }
-
-    private void likeunlike() {
-        ServiceManager serviceManager = new ServiceManager(mContext);
-        ApiCallBack<Responce> callBack =
-                new ApiCallBack<Responce>(this, "LikeUnlike", mContext);
-        try {
-            serviceManager.getLikeunlike(callBack, USERID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void followunfollow() {
-        // String Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString();
-
-        ServiceManager serviceManager = new ServiceManager(mContext);
-        ApiCallBack<Responce> callBack = new ApiCallBack<Responce>(this, "FollowUnfollow", mContext);
-        try {
-            serviceManager.getFollowunfollow(callBack, postid);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-    }
-
-    private void postdetails() {
-        ServiceManager serviceManager = new ServiceManager(mContext);
-        ApiCallBack<Responce> callBack = new ApiCallBack<Responce>(this, "PostDetails", mContext);
-        try {
-            serviceManager.getPostDetails(callBack, USERID);
-        } catch (Exception e) {
+        private void likeunlike()
+        {
+            ServiceManager serviceManager =new ServiceManager(mContext);
+            ApiCallBack<Responce> callBack=
+           new  ApiCallBack<Responce>(this, "LikeUnlike", mContext);
+            try {
+                serviceManager.getLikeunlike(callBack, USERID);
+            } catch (Exception e) {
             e.printStackTrace();
         }
+        }
+
+        private void followunfollow()
+        {
+             // String Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString();
+
+                ServiceManager serviceManager =new ServiceManager(mContext);
+                  ApiCallBack<Responce> callBack = new ApiCallBack<Responce>(this, "FollowUnfollow", mContext);
+                try {
+                    serviceManager.getFollowunfollow(callBack, postid);
+                } catch (Exception e ) {
+                    e.printStackTrace();
+                }
+
     }
+        private void postdetails()
+        {
+            ServiceManager serviceManager =new  ServiceManager(mContext);
+            ApiCallBack<Responce> callBack=new  ApiCallBack<Responce>(this, "PostDetails", mContext);
+            try {
+                serviceManager.getPostDetails(callBack, USERID);
+            } catch ( Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
 
         @Override
         public void onApiSuccess(Responce response, @Nullable String apiName) {
+            commentcount.setText(String.valueOf(response.result.getCommentCount()));
+            LikeUnlike = response.result.isLike();
+            isFollow = response.result.isFollow();
             if (apiName.equals("PostDetails"))
             {
                 username.setText(response.result.getPostResult().getUserId().getUserName());
@@ -362,12 +371,17 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 viedeourl =  response.result.getPostResult().getVideoLink();
 
 //            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
-
+                try {
+                  String profile = response.result.getPostResult().getUserId().getProfilePic().toString();
+                    Glide.with(this).load(profile).into(profileimg);
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
                 if (LikeUnlike == true)
                 {
-                    video_post_like.setColorFilter((R.color.red));
+                    video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartred));
                 } else if (LikeUnlike == false) {
-                    video_post_like.setColorFilter((R.color.white));
+                    video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartwhite));
                 }
                 initPre23(response.result.getPostResult().getVideoLink());
             }

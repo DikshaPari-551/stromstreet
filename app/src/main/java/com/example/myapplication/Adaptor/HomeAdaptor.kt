@@ -35,7 +35,6 @@ class HomeAdaptor(
         var text_okhla = view.findViewById<TextView>(R.id.text_okhla)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
         var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdaptor.MyViewHolder {

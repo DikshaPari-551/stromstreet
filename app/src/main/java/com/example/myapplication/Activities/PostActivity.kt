@@ -103,12 +103,23 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
         comment = findViewById(R.id.comment)
         comment.setOnClickListener {
-            var i = Intent(this, PostActivity2()::class.java)
-            startActivity(i)
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                var i = Intent(this, PostActivity2()::class.java)
+                startActivity(i)
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
         }
 
         video_post_like.setOnClickListener {
-            likeunlike()
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                likeunlike()
 //            if(click == false){
 //            video_post_like.setColorFilter(resources.getColor(R.color.red))
 //                click = true
@@ -116,17 +127,30 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 //                video_post_like.setColorFilter(resources.getColor(R.color.white))
 //                click=false
 //            }
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
         }
 
 
         savePost.setOnClickListener {
-            saveunsave()
-            if (click == false) {
-                Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show()
-                click = true
-            } else if (click == true) {
-                Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show()
-                click = false
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                saveunsave()
+                if (click == false) {
+                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show()
+                    click = true
+                } else if (click == true) {
+                    Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show()
+                    click = false
+                }
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
             }
         }
 
@@ -150,12 +174,27 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
 
         notifyPost.setOnClickListener {
-            Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
-
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
         }
 
         follow.setOnClickListener {
-            followunfollow()
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                followunfollow()
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
 
         }
 
@@ -264,7 +303,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             }
 
             try {
-              var  profile = response.result.postResult.userId.profilePic.toString()
+                var profile = response.result.postResult.userId.profilePic.toString()
                 Glide.with(this).load(profile).into(profileimg);
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -297,9 +336,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
         } else if (apiName.equals("LikeUnlike")) {
             postdetails()
-        }
-
-        else if (apiName.equals("FollowUnfollow")) {
+        } else if (apiName.equals("FollowUnfollow")) {
             if (isFollow == true) {
                 follow.setText("Unfollow")
             } else if (isFollow == false) {
