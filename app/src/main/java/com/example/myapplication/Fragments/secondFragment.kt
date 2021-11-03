@@ -137,10 +137,21 @@ lateinit var man:ImageView
                 )
                     ?.commit()
             } else if(s.equals("trending")) {
+                    val bundle = Bundle()
+                    bundle.putString("CAT_ID", catId)
+                    bundle.putInt("MAX_DIS", maxDis)
+                    val fragObj = TrendingFragment()
+                fragObj.arguments = bundle
+                getFragmentManager()?.beginTransaction()?.replace(
+                    R.id.linear_layout,
+                    fragObj
+                )
+                    ?.commit()
+            } else if(s.equals("following")) {
                 val bundle = Bundle()
                 bundle.putString("CAT_ID", catId)
                 bundle.putInt("MAX_DIS", maxDis)
-                val fragObj = TrendingFragment()
+                val fragObj = FollowingActivityFragment()
                 fragObj.arguments = bundle
                 getFragmentManager()?.beginTransaction()?.replace(
                     R.id.linear_layout,

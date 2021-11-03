@@ -25,7 +25,7 @@ class CategoryListAdaptor(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.categoryName.setText(list.get(position).categoryName)
+        holder.radioButton.setText(list.get(position).categoryName)
         holder.radioButton.setOnClickListener{
             secondFragment.filterCustomListener(list.get(position)._id)
         }
@@ -37,8 +37,7 @@ class CategoryListAdaptor(
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        var categoryName = view.findViewById<TextView>(R.id.list1)
-        var radioButton = view.findViewById<RadioButton>(R.id.radio)
+        var radioButton = view.findViewById<RadioButton>(R.id.radio1)
         var radioGroup = view.findViewById<RadioGroup>(R.id.group)
 
     }

@@ -59,6 +59,14 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
+        try {
+            latitude = SavedPrefManager.getLatitudeLocation()!!
+            longitude = SavedPrefManager.getLongitudeLocation()!!
+            catId = arguments?.getString("CAT_ID")!!
+            maxDis = arguments?.getInt("MAX_DIS")!!
+        } catch(e : java.lang.Exception) {
+            e.printStackTrace()
+        }
 
         Go.setOnClickListener{
             searchValue = searchText.text.toString()
@@ -143,10 +151,18 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
             apiRequest.search = searchValue
 
             try {
-                if (searchValue != null && !searchValue.equals("")) {
-                    serviceManager.getFollowingActivity(callBack,null,null,apiRequest)
+                if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
+
+                    serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
+
+                } else if (searchValue != null && !searchValue.equals("")) {
+
+                    serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
+
                 } else {
-                    serviceManager.getFollowingActivity(callBack, null, null, apiRequest)
+
+                    serviceManager.getFollowingActivity(callBack,null, null, apiRequest)
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -160,8 +176,6 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         list.addAll(response.result.docs)
         setAdapter(list)
 
-
-//        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {

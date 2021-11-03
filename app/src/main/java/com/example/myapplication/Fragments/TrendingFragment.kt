@@ -149,12 +149,17 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
             try {
                 if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
+
                     serviceManager.getTrendingPost(callBack, latitude, longitude, apiRequest)
 
                 } else if (searchValue != null && !searchValue.equals("")) {
+
                     serviceManager.getTrendingPost(callBack, null, null, apiRequest)
+
                 } else {
+
                     serviceManager.getTrendingPost(callBack, null, null, apiRequest)
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -33,6 +33,10 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getloginApi(jsonObject) }!!
             .enqueue(callBack)
     }
+//    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, s: String) {
+//        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(s,jsonObject) }!!.enqueue(callBack)
+//
+//    }
 
     fun otp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
         mContext?.let { Remotedatasource.current(it, false)!!.getotp(jsonObject) }!!.enqueue(callBack)
@@ -45,6 +49,7 @@ class ServiceManager(var mContext: Context?) {
     fun userRestPassword(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, token : String) {
         mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(token,jsonObject) }!!
             .enqueue(callBack)
+
     }
 
     fun userChangePassword(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
@@ -56,21 +61,29 @@ class ServiceManager(var mContext: Context?) {
     fun forget(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
         mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(jsonObject) }!!
             .enqueue(callBack)
+
+//        fun forget(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?,Header : String) {
+//            mContext?.let { Remotedatasource.current(it, false)!!.forgetPassword(Header,jsonObject) }!!
+//                .enqueue(callBack)
+
     }
 
     fun getUserDetails(callBack: ApiCallBack<Responce>) {
         mContext?.let { Remotedatasource.current(it, true)!!.getProfile() }!!
             .enqueue(callBack)
+
     }
 
     fun updateUserDetails(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
         mContext?.let { Remotedatasource.current(it, true)!!.userDetails(jsonObject) }!!
             .enqueue(callBack)
+
     }
 
     fun getCategoryList(callBack: ApiCallBack<Responce>) {
         mContext?.let { Remotedatasource.current(it, true)!!.categoryList() }!!
             .enqueue(callBack)
+
     }
 
     fun userAddPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {

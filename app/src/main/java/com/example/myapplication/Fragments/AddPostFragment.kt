@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.ImageCount
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -55,17 +57,17 @@ class AddPostFragment(
     private lateinit var postBackButton: ImageView
     private lateinit var spinDropDown: ImageView
     private lateinit var post: LinearLayout
+    private lateinit var location: TextView
     var HorizontalLayout: LinearLayoutManager? = null
     lateinit var mContext: Context
     private var postDescriptionText = ""
     var categoryItem: ArrayList<String?> = ArrayList()
+    var categoryId: ArrayList<String?> = ArrayList()
     lateinit var serviceManager: ServiceManager
     lateinit var callBack: ApiCallBack<Responce>
     lateinit var imageData: MultipartBody.Part
     private val GALLERY = 1
-    private val CAMERA: Int = 2
-    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
-
+    private var CAMERA: Int = 2
     lateinit var image: Uri
     lateinit var imageFile: File
     val MAX_IMAGE = 3
@@ -75,13 +77,14 @@ class AddPostFragment(
     private var videoLink = ""
     var againCondition: Boolean = true
     val CAMERA_PERM_CODE = 101
-    var imageCount = 0
     var mime = ""
     lateinit var imageUri: Uri
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     var locality: String = ""
     var bitmap: Bitmap? = null
+//    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
+
 
 
     companion object {
@@ -110,17 +113,22 @@ class AddPostFragment(
         postBackButton = view.findViewById(R.id.post_back_button)
         spinDropDown = view.findViewById(R.id.spinDropDown)
         spin = view.findViewById(R.id.spinner2)
+        location = view.findViewById(R.id.location)
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
+        address()
+        location.setText(locality)
 //api
         categoryListApi()
         addPostData(requestCode, resultCode, data, bottomSheetDialog, imagePath)
 
         postBackButton.setOnClickListener {
+            SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "false")
+            ImageCount.setImageCount(com.example.myapplication.bottomSheetDialog.count++)
             fragmentManager?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 HomeFragment()
@@ -130,15 +138,28 @@ class AddPostFragment(
         post.setOnClickListener {
             androidextention.showProgressDialog(activity)
             if (imageparts.size > 0) {
-                for (i in imageCount until imageparts.size) {
+                for (i in 0 until imageparts.size) {
                     uploadUserImageApi(imageparts[i])
-                    imageCount++
                 }
-            } else {
-                addPost()
             }
         }
 
+        spin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, pos: Int, id: Long
+            ) {
+                SavedPrefManager.saveStringPreferences(
+                    activity,
+                    AppConst.POST_CATEGORY_ID,
+                    categoryId.get(pos)
+                )
+            }
+
+            override fun onNothingSelected(arg0: AdapterView<*>?) {
+                // TODO Auto-generated method stub
+            }
+        }
 
         return view
     }
@@ -151,11 +172,12 @@ class AddPostFragment(
                     if (response.responseCode == "200") {
                         for (i in 0 until response.result.categoryResult.size) {
                             categoryItem.add(response.result.categoryResult.get(i).categoryName)
-                            SavedPrefManager.saveStringPreferences(
-                                activity,
-                                AppConst.POST_CATEGORY_ID,
-                                response.result.categoryResult.get(i)._id
-                            )
+                            categoryId.add(response.result.categoryResult.get(i)._id)
+//                            SavedPrefManager.saveStringPreferences(
+//                                activity,
+//                                AppConst.POST_CATEGORY_ID,
+//                                response.result.categoryResult.get(i)._id
+//                            )
                         }
                         setSpinnerAdapter(categoryItem)
                     } else {
@@ -205,9 +227,7 @@ class AddPostFragment(
                         } else {
                             videoLink = response.result.mediaUrl
                         }
-                        if (responseImageList.size == imageparts.size) {
-                            addPost()
-                        } else {
+                        if (responseImageList.size == imageparts.size || !videoLink.equals("")) {
                             addPost()
                         }
 
@@ -249,7 +269,7 @@ class AddPostFragment(
 
 
     private fun addPost() {
-        androidextention.showProgressDialog(activity)
+        androidextention.showProgressDialog(mContext)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
@@ -361,71 +381,73 @@ class AddPostFragment(
                     if (requestCode == GALLERY) {
 
                         if (data!!.clipData != null) {
-                            var clipDataCount: Int = data!!.clipData!!.itemCount
-                            if (clipDataCount > 3) {
-                                Toast.makeText(
-                                    mContext,
-                                    "You not select more than 3 images!!",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            } else {
-                                for (i in 0 until clipDataCount) {
-                                    imageUri = data.getClipData()!!.getItemAt(i).getUri()
-                                    imageList.add(imageUri)
-                                    val cr: ContentResolver = mContext.getContentResolver()
-                                    mime = cr.getType(imageUri).toString()
-                                    val path = getPathFromURI(imageUri)
-                                    if (path != null) {
-                                        imageFile = File(path)
-                                    }
-                                    if (mime == "video/mp4") {
-                                        if (mime == "video/mp4" && clipDataCount > 1) {
-                                            Toast.makeText(
-                                                mContext,
-                                                "You not select more than 1 video!!",
-                                                Toast.LENGTH_LONG
-                                            ).show()
+                            try {
+                                var clipDataCount: Int = data!!.clipData!!.itemCount
+                                if (clipDataCount > 3) {
+                                    Toast.makeText(
+                                        mContext,
+                                        "You not select more than 3 images!!",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
+                                    for (i in 0 until clipDataCount) {
+                                        imageUri = data.getClipData()!!.getItemAt(i).getUri()
+                                        imageList.add(imageUri)
+                                        val cr: ContentResolver = mContext.getContentResolver()
+                                        mime = cr.getType(imageUri).toString()
+                                        val path = getPathFromURI(imageUri)
+                                        if (path != null) {
+                                            imageFile = File(path)
+                                        }
+                                        if (mime == "video/mp4") {
+                                            if (mime == "video/mp4" && clipDataCount > 1) {
+                                                Toast.makeText(
+                                                    mContext,
+                                                    "You not select more than 1 video!!",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            } else {
+                                                bitmap = ThumbnailUtils.createVideoThumbnail(
+                                                    imageFile.absolutePath,
+                                                    MediaStore.Video.Thumbnails.MINI_KIND
+                                                )
+                                                var requestGalleryImageFile: RequestBody =
+                                                    RequestBody.create(
+                                                        "video/*".toMediaTypeOrNull(),
+                                                        imageFile
+                                                    )
+                                                imageparts.add(
+                                                    MultipartBody.Part.createFormData(
+                                                        "video",
+                                                        imageFile.getName(),
+                                                        requestGalleryImageFile
+                                                    )
+                                                )
+                                            }
                                         } else {
-                                            bitmap = ThumbnailUtils.createVideoThumbnail(
-                                                imageFile.absolutePath,
-                                                MediaStore.Video.Thumbnails.MINI_KIND
-                                            )
                                             var requestGalleryImageFile: RequestBody =
                                                 RequestBody.create(
-                                                    "video/*".toMediaTypeOrNull(),
+                                                    "image/*".toMediaTypeOrNull(),
                                                     imageFile
                                                 )
                                             imageparts.add(
                                                 MultipartBody.Part.createFormData(
-                                                    "video",
+                                                    "image",
                                                     imageFile.getName(),
                                                     requestGalleryImageFile
                                                 )
                                             )
                                         }
-                                    } else {
-                                        var requestGalleryImageFile: RequestBody =
-                                            RequestBody.create(
-                                                "image/*".toMediaTypeOrNull(),
-                                                imageFile
-                                            )
-                                        imageparts.add(
-                                            MultipartBody.Part.createFormData(
-                                                "image",
-                                                imageFile.getName(),
-                                                requestGalleryImageFile
-                                            )
-                                        )
                                     }
                                 }
+                            } catch (e : java.lang.Exception) {
+                                e.printStackTrace()
                             }
 
 //                            set images
                             if (mime == "video/mp4") {
                                 galleryData1.setImageBitmap(bitmap)
                                 bottomSheetDialog.dismiss()
-
-
                             } else {
                                 galleryData1.setImageURI(imageList[0])
                                 galleryData2.setImageURI(imageList[1])
@@ -434,17 +456,41 @@ class AddPostFragment(
                             }
 
                         } else if (data != null && data!!.clipData == null) {
-                            image = data.data!!
-                            val cr: ContentResolver = mContext.getContentResolver()
-                            val mime = cr.getType(image)
+                            try {
+                                image = data.data!!
+                                val cr: ContentResolver = mContext.getContentResolver()
+                                val mime = cr.getType(image)
+
+                                multiPartImageSet()
+
+                                bottomSheetDialog.dismiss()
+                                val path = getPathFromURI(image)
+                                if (path != null) {
+                                    imageFile = File(path)
+                                }
+                                var requestGalleryImageFile: RequestBody =
+                                    RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+                                imageparts.add(
+                                    MultipartBody.Part.createFormData(
+                                        "image",
+                                        imageFile.getName(),
+                                        requestGalleryImageFile
+                                    )
+                                )
+                            } catch (e: java.lang.Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+
+                    } else if (requestCode == CAMERA) {
+                        try {
+                            fileFlag = "single_image"
+                            imageFile = File(imagePath)
+                            uriImageList.add(Uri.fromFile(imageFile))
 
                             multiPartImageSet()
 
                             bottomSheetDialog.dismiss()
-                            val path = getPathFromURI(image)
-                            if (path != null) {
-                                imageFile = File(path)
-                            }
                             var requestGalleryImageFile: RequestBody =
                                 RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
                             imageparts.add(
@@ -454,35 +500,42 @@ class AddPostFragment(
                                     requestGalleryImageFile
                                 )
                             )
-//                            uploadUserImageApi()
+                        } catch(e : Exception) {
+                            e.printStackTrace()
                         }
-
-                    } else if (requestCode == CAMERA) {
-                        fileFlag = "single_image"
-                        imageFile = File(imagePath)
-                        uriImageList.add(Uri.fromFile(imageFile))
-
-                        multiPartImageSet()
-
-                        bottomSheetDialog.dismiss()
-                        var requestGalleryImageFile: RequestBody =
-                            RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-                        imageparts.add(
-                            MultipartBody.Part.createFormData(
-                                "image",
-                                imageFile.getName(),
-                                requestGalleryImageFile
-                            )
-                        )
-//                        uploadUserImageApi()
-                    } else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
-                        Toast.makeText(
-                            mContext,
-                            "Capture video!!",
-                            Toast.LENGTH_LONG
-                        ).show()
-
                     }
+//                    else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+//                        try {
+//                            imageUri = data?.data!!
+//                            val path = getPathFromURI(imageUri)
+//                            if (path != null) {
+//                                imageFile = File(path)
+//                            }
+//                            bitmap = ThumbnailUtils.createVideoThumbnail(
+//                                imageFile.absolutePath,
+//                                MediaStore.Video.Thumbnails.MINI_KIND
+//                            )
+//                            galleryData1.setImageBitmap(bitmap)
+//                            bottomSheetDialog.dismiss()
+//
+//
+//                            var requestGalleryImageFile: RequestBody =
+//                                RequestBody.create(
+//                                    "video/*".toMediaTypeOrNull(),
+//                                    imageFile
+//                                )
+//                            imageparts.add(
+//                                MultipartBody.Part.createFormData(
+//                                    "video",
+//                                    imageFile.getName(),
+//                                    requestGalleryImageFile
+//                                )
+//                            )
+//                        }catch (e : Exception) {
+//                            e.printStackTrace()
+//                        }
+//
+//                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -570,6 +623,8 @@ class AddPostFragment(
             var image = File(imageOne)
             galleryData1.visibility = View.VISIBLE
             galleryData1.setImageURI(Uri.fromFile(image))
+
+
         }
     }
 
@@ -599,12 +654,14 @@ class AddPostFragment(
         var addresses: List<Address>? = null
         try {
             addresses = gcd.getFromLocation(latitude, longitude, 1)
+            Log.d("FULL_LOCATION", addresses.toString())
         } catch (e: IOException) {
             e.printStackTrace()
         }
         if (addresses != null && addresses.size > 0) {
             try {
-                locality = addresses[0].getLocality()
+                locality = addresses[0].locality
+
 //
             } catch (e: NullPointerException) {
                 e.printStackTrace()
