@@ -126,7 +126,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:gravity="center"
-                        android:text="Okhla Phase 1"
+                        android:text=""
                         android:textStyle="bold"
                         android:fontFamily="@font/opensans_light"
                         android:textColor="@color/black"

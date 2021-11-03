@@ -82,7 +82,7 @@ class AddPostFragment(
     private var longitude: Double = 0.0
     var locality: String = ""
     var bitmap: Bitmap? = null
-    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
+//    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
 
 
 
@@ -104,7 +104,6 @@ class AddPostFragment(
         var view: View = inflater.inflate(R.layout.fragment_add_post, container, false)
         serviceManager = ServiceManager(activity)
         mContext = activity!!.applicationContext
-        address()
         post = view.findViewById(R.id.post)
         galleryData1 = view.findViewById(R.id.image_1)
         galleryData2 = view.findViewById(R.id.image_2)
@@ -120,8 +119,8 @@ class AddPostFragment(
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
+        address()
         location.setText(locality)
-
 //api
         categoryListApi()
         addPostData(requestCode, resultCode, data, bottomSheetDialog, imagePath)
@@ -482,11 +481,10 @@ class AddPostFragment(
                             } catch (e: java.lang.Exception) {
                                 e.printStackTrace()
                             }
-//                            uploadUserImageApi()
                         }
 
                     } else if (requestCode == CAMERA) {
-//                        try {
+                        try {
                             fileFlag = "single_image"
                             imageFile = File(imagePath)
                             uriImageList.add(Uri.fromFile(imageFile))
@@ -503,41 +501,42 @@ class AddPostFragment(
                                     requestGalleryImageFile
                                 )
                             )
-//                        } catch(e : Exception) {
-//                            e.printStackTrace()
-//                        }
-                    } else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
-                        try {
-                            imageUri = data?.data!!
-                            val path = getPathFromURI(imageUri)
-                            if (path != null) {
-                                imageFile = File(path)
-                            }
-                            bitmap = ThumbnailUtils.createVideoThumbnail(
-                                imageFile.absolutePath,
-                                MediaStore.Video.Thumbnails.MINI_KIND
-                            )
-                            galleryData1.setImageBitmap(bitmap)
-                            bottomSheetDialog.dismiss()
-
-
-                            var requestGalleryImageFile: RequestBody =
-                                RequestBody.create(
-                                    "video/*".toMediaTypeOrNull(),
-                                    imageFile
-                                )
-                            imageparts.add(
-                                MultipartBody.Part.createFormData(
-                                    "video",
-                                    imageFile.getName(),
-                                    requestGalleryImageFile
-                                )
-                            )
-                        }catch (e : Exception) {
+                        } catch(e : Exception) {
                             e.printStackTrace()
                         }
-
                     }
+//                    else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+//                        try {
+//                            imageUri = data?.data!!
+//                            val path = getPathFromURI(imageUri)
+//                            if (path != null) {
+//                                imageFile = File(path)
+//                            }
+//                            bitmap = ThumbnailUtils.createVideoThumbnail(
+//                                imageFile.absolutePath,
+//                                MediaStore.Video.Thumbnails.MINI_KIND
+//                            )
+//                            galleryData1.setImageBitmap(bitmap)
+//                            bottomSheetDialog.dismiss()
+//
+//
+//                            var requestGalleryImageFile: RequestBody =
+//                                RequestBody.create(
+//                                    "video/*".toMediaTypeOrNull(),
+//                                    imageFile
+//                                )
+//                            imageparts.add(
+//                                MultipartBody.Part.createFormData(
+//                                    "video",
+//                                    imageFile.getName(),
+//                                    requestGalleryImageFile
+//                                )
+//                            )
+//                        }catch (e : Exception) {
+//                            e.printStackTrace()
+//                        }
+//
+//                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
