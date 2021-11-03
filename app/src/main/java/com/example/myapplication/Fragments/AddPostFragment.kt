@@ -160,7 +160,6 @@ class AddPostFragment(
                 // TODO Auto-generated method stub
             }
         }
-
         return view
     }
 
@@ -483,7 +482,6 @@ class AddPostFragment(
                         }
 
                     } else if (requestCode == CAMERA) {
-                        try {
                             fileFlag = "single_image"
                             imageFile = File(imagePath)
                             uriImageList.add(Uri.fromFile(imageFile))
@@ -500,9 +498,6 @@ class AddPostFragment(
                                     requestGalleryImageFile
                                 )
                             )
-                        } catch(e : Exception) {
-                            e.printStackTrace()
-                        }
                     }
 //                    else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
 //                        try {
