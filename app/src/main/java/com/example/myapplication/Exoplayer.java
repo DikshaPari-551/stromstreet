@@ -145,7 +145,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         private File myFile;
         private boolean playWhenReady = true,isLiked,LikeUnlike=false,isFollow=false;
         private boolean startAutoPlay;
-        private String viedeourl="https://res.cloudinary.com/mobiloitte-testing/video/upload/v1634802739/j7iau2ry8rlfiixkz16r.mp4";
+        private String viedeourl="";
 
         private  LinearLayout llComment,llShare,llDownload,bottomlayout;
         private  TextView tvPostLike,tvPostComment,tvPostShare,tvPostViews,tvPostUserName,tvUserImageNull,tvDPostTime,txtDiscription;
@@ -344,7 +344,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 } else if (LikeUnlike == false) {
                     video_post_like.setColorFilter((R.color.white));
                 }
-                initPre23(response.result.getPostResult().getVideoLink());
+
             }
             else
             if (apiName.equals("FollowUnfollow"))
@@ -359,12 +359,15 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                   if (apiName.equals("LikeUnlike")) {
                 postdetails();
             }
+            viedeourl="https://res.cloudinary.com/mobiloitte-testing/video/upload/v1634802739/j7iau2ry8rlfiixkz16r.mp4";
+            initPre23("");
         }
 
 
         @Override
         public void onApiErrorBody(@Nullable ResponseBody response, @Nullable String apiName) {
-
+            viedeourl="https://res.cloudinary.com/mobiloitte-testing/video/upload/v1634802739/j7iau2ry8rlfiixkz16r.mp4";
+            initPre23("");
         }
 
         @Override
@@ -523,7 +526,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                                int[] grantResults) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initPlayer(video);
+               // initPlayer(video);
             } else {
                // showToast(R.string.storage_permission_denied);
                 finish();

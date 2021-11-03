@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.TrendingListAdaptor
+import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
@@ -168,7 +169,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         if (type.equals("profile")){
 
-            var intent = Intent(mContext, PostActivity::class.java)
+            var intent = Intent(mContext, Exoplayer::class.java)
 //            intent.putExtra("userId", USERID)
             SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
 

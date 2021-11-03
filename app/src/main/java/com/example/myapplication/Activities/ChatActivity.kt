@@ -96,7 +96,12 @@ class ChatActivity : AppCompatActivity() {
         // SocketManager.getInstance(this).initialize(socketList)
         initializeSocket()
         ONLINE_USER()
+        ONLINE_LISTENER()
+       // socketInstance.
+    }
 
+    private fun ONLINE_LISTENER() {
+        socketInstance.addListener("onlineUser")
     }
 
     private fun ONLINE_USER() {
@@ -150,8 +155,8 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        socket!!.disconnect()
-        socket!!.off("oneToOneChat", onNewMessage);
+        //socket!!.disconnect()
+       // socket!!.off("oneToOneChat", onNewMessage);
     }
     object onNewMessage : Emitter.Listener {
         override fun call(vararg args: Any?)
