@@ -22,6 +22,7 @@ class ProfileAdaptor(
 ) :  RecyclerView.Adapter<ProfileAdaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var item = view.findViewById<ImageView>(R.id.item)
+        var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
 
     }
 
@@ -38,6 +39,7 @@ class ProfileAdaptor(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         try {
             if (list[position].mediaType.toLowerCase().equals("video")){
+                holder.videoIcon.visibility = View.VISIBLE
                 var thumbnail = list[position].thumbNail
                 Glide.with(context).load(thumbnail).into(holder.item);
             }

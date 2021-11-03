@@ -184,7 +184,6 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         video_post_like = findViewById(R.id.video_post_like);
         notifyPost = findViewById(R.id.notify_post);
         follow = findViewById(R.id.follow);
-
         more = findViewById(R.id.more);
         simpleExoPlayerView = findViewById(R.id.player_view);
 

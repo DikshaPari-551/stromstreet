@@ -59,12 +59,10 @@ class HomeAdaptor(
         }
 
         try {
-            var filedata = list[position].imageLinks[0]
-            Glide.with(context).load(filedata).into(holder.postView);
-            if(list.get(position).mediaType == "VIDEO") {
-                holder.videoIcon.visibility = View.VISIBLE
-            }
+//            var filedata = list[position].imageLinks[0]
+//            Glide.with(context).load(filedata).into(holder.postView);
             if (list[position].mediaType.toLowerCase().equals("video")){
+                holder.videoIcon.visibility = View.VISIBLE
                 var filedata = list[position].thumbNail
                 Glide.with(context).load(filedata).into(holder.postView);
             }

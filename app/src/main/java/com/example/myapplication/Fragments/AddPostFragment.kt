@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -447,8 +448,6 @@ class AddPostFragment(
                             if (mime == "video/mp4") {
                                 galleryData1.setImageBitmap(bitmap)
                                 bottomSheetDialog.dismiss()
-
-
                             } else {
                                 galleryData1.setImageURI(imageList[0])
                                 galleryData2.setImageURI(imageList[1])
@@ -655,12 +654,14 @@ class AddPostFragment(
         var addresses: List<Address>? = null
         try {
             addresses = gcd.getFromLocation(latitude, longitude, 1)
+            Log.d("FULL_LOCATION", addresses.toString())
         } catch (e: IOException) {
             e.printStackTrace()
         }
         if (addresses != null && addresses.size > 0) {
             try {
-                locality = addresses[0].getLocality()
+                locality = addresses[0].locality
+
 //
             } catch (e: NullPointerException) {
                 e.printStackTrace()

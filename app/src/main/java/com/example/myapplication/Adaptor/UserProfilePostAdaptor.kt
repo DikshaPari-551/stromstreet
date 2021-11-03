@@ -21,6 +21,7 @@ class UserProfilePostAdaptor(
 ):  RecyclerView.Adapter<UserProfilePostAdaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var item = view.findViewById<ImageView>(R.id.item)
+        var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserProfilePostAdaptor.MyViewHolder {
@@ -36,6 +37,7 @@ class UserProfilePostAdaptor(
     override fun onBindViewHolder(holder: UserProfilePostAdaptor.MyViewHolder, position: Int) {
         try {
             if (list[position].mediaType.toLowerCase().equals("video")){
+                holder.videoIcon.visibility = View.VISIBLE
                 var filedata = list[position].thumbNail
                 Glide.with(context).load(filedata).into(holder.item);
             }else{

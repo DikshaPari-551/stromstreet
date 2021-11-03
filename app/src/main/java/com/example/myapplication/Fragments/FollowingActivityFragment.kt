@@ -176,8 +176,6 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         list.addAll(response.result.docs)
         setAdapter(list)
 
-
-//        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
