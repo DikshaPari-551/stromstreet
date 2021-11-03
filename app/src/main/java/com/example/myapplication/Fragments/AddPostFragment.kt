@@ -127,8 +127,27 @@ class AddPostFragment(
         addPostData(requestCode, resultCode, data, bottomSheetDialog, imagePath)
 
         postBackButton.setOnClickListener {
-            SavedPrefManager.saveStringPreferences(activity, AppConst.IMAGEDATA, "false")
-            ImageCount.setImageCount(com.example.myapplication.bottomSheetDialog.count++)
+            count = 0
+
+            SavedPrefManager.saveStringPreferences(
+                mContext,
+                SavedPrefManager.IMAGE_ONE,
+                "image_one"
+            )
+            SavedPrefManager.saveStringPreferences(
+                mContext,
+                SavedPrefManager.IMAGE_TWO,
+                "image_two"
+            )
+            SavedPrefManager.saveStringPreferences(
+                mContext,
+                SavedPrefManager.IMAGE_THREE,
+                "image_three"
+            )
+            fragmentManager?.beginTransaction()?.replace(
+                R.id.linear_layout,
+                HomeFragment()
+            )?.commit()
             fragmentManager?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 HomeFragment()
@@ -279,6 +298,23 @@ class AddPostFragment(
                             response.responseMessage,
                             Toast.LENGTH_LONG
                         ).show()
+                        count = 0
+
+                        SavedPrefManager.saveStringPreferences(
+                            mContext,
+                            SavedPrefManager.IMAGE_ONE,
+                            "image_one"
+                        )
+                        SavedPrefManager.saveStringPreferences(
+                            mContext,
+                            SavedPrefManager.IMAGE_TWO,
+                            "image_two"
+                        )
+                        SavedPrefManager.saveStringPreferences(
+                            mContext,
+                            SavedPrefManager.IMAGE_THREE,
+                            "image_three"
+                        )
                         fragmentManager?.beginTransaction()?.replace(
                             R.id.linear_layout,
                             HomeFragment()

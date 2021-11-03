@@ -223,9 +223,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 i.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
                 i.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(i, "Sharing using"));
-            } else if (click == true) {
-                Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
-                click = false;
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
             }
         });
 
@@ -233,18 +233,18 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             if (LoginFlagTwo.getFLAG().equals("true")) {
 
                 Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
-            } else if (click == true) {
-                Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
-                click = false;
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
             }
         });
 
         follow.setOnClickListener(v -> {
             if (LoginFlagTwo.getFLAG().equals("true")) {
                 followunfollow();
-            } else if (click == true) {
-                Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
-                click = false;
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
             }
 
         });
