@@ -24,6 +24,8 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
+import com.example.myapplication.util.AppConstTwo
+import com.example.myapplication.util.LoginFlagTwo
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
@@ -270,6 +272,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.TOKEN,response.result.token)
                 SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.userName,response.result.userName)
                 SavedPrefManager.saveStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN,"true")
+                LoginFlagTwo.setFLAG("true")
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
                 finish()
