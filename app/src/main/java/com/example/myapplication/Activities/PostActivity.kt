@@ -90,7 +90,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         totalLike = findViewById(R.id.totalLike)
         commentcount = findViewById(R.id.commentcount)
         address = findViewById(R.id.address)
-
+        viewPager2 = findViewById(R.id.multi_image)
+        indicator3 = findViewById(R.id.indicator)
 
         backPostButton.setOnClickListener {
 //            val i = Intent(this, MainActivity::class.java)
@@ -265,7 +266,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             try {
               var  profile = response.result.postResult.userId.profilePic.toString()
                 Glide.with(this).load(profile).into(profileimg);
-            } catch (e: IndexOutOfBoundsException) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
 
@@ -275,6 +276,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             } else if (LikeUnlike == false) {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
+
+
             try {
                 if (response.result.postResult.imageLinks.size > 1) {
                     vedio.visibility = View.GONE
@@ -294,13 +297,22 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
         } else if (apiName.equals("LikeUnlike")) {
             postdetails()
-        } else if (apiName.equals("FollowUnfollow")) {
+        }
+
+        else if (apiName.equals("FollowUnfollow")) {
             if (isFollow == true) {
                 follow.setText("Unfollow")
             } else if (isFollow == false) {
                 follow.setText("Follow")
             }
         }
+//        else if (apiName.equals("SaveUnsave")) {
+//            if (isFollow == true) {
+//                follow.setText("Unfollow")
+//            } else if (isFollow == false) {
+//                follow.setText("Follow")
+//            }
+//        }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
@@ -309,7 +321,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
         androidextention.disMissProgressDialog(this)
-
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
@@ -317,7 +328,5 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         adapter = ImageSliderAdaptor(imageList, this)
         viewPager2.adapter = adapter
         indicator3.setViewPager(viewPager2)
-
-
     }
 }

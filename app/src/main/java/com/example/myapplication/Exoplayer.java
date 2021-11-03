@@ -19,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Activities.PostActivity2;
 import com.example.myapplication.customclickListner.IPlayer;
 import com.example.myapplication.customclickListner.IPlayerUI;
@@ -326,6 +327,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
         @Override
         public void onApiSuccess(Responce response, @Nullable String apiName) {
+            commentcount.setText(String.valueOf(response.result.getCommentCount()));
+            LikeUnlike = response.result.isLike();
+            isFollow = response.result.isFollow();
             if (apiName.equals("PostDetails"))
             {
                 username.setText(response.result.getPostResult().getUserId().getUserName());
@@ -337,12 +341,17 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 viedeourl =  response.result.getPostResult().getVideoLink();
 
 //            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
-
+                try {
+                  String profile = response.result.getPostResult().getUserId().getProfilePic().toString();
+                    Glide.with(this).load(profile).into(profileimg);
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
                 if (LikeUnlike == true)
                 {
-                    video_post_like.setColorFilter((R.color.red));
+                    video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartred));
                 } else if (LikeUnlike == false) {
-                    video_post_like.setColorFilter((R.color.white));
+                    video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartwhite));
                 }
                 initPre23(response.result.getPostResult().getVideoLink());
             }

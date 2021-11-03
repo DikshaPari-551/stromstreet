@@ -570,8 +570,6 @@ class AddPostFragment(
             var image = File(imageOne)
             galleryData1.visibility = View.VISIBLE
             galleryData1.setImageURI(Uri.fromFile(image))
-
-
         }
     }
 
