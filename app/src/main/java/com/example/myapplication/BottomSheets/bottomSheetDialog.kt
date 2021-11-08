@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-//import com.github.chiragji.gallerykit.callbacks.GalleryKitListener
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -37,7 +36,7 @@ class bottomSheetDialog(
     lateinit var cancel: TextView
     lateinit var gallery: TextView
     lateinit var camera: TextView
-//    lateinit var captureVideo: TextView
+    //    lateinit var captureVideo: TextView
     private val GALLERY = 1
     private val CAMERA: Int = 2
 //    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
@@ -54,6 +53,7 @@ class bottomSheetDialog(
     lateinit var callBack: ApiCallBack<Responce>
     val CAMERA_PERM_CODE = 101
     var photoURI: Uri? = null
+
     companion object {
         var count = 0
         var captureVideoCount = 0
@@ -82,35 +82,26 @@ class bottomSheetDialog(
 
         gallery.setOnClickListener { view: View? ->
             if (flag == "addpost") {
-//                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-//                    intent.addCategory(Intent.CATEGORY_OPENABLE)
-//                    intent.type = "image/*"
-//                    startActivityForResult(
-//                        Intent.createChooser(intent, "Select Picture"),
-//                        GALLERY
-//                    )
-//                choosePhotoFromGallery()
+
+                choosePhotoFromGallery()
+
+            } else {
                 val intent =
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                intent.type = "image/* video/*"
-//                PICK_IMAGE_REQUEST_PROFILE = PICK_IMAGE_REQUEST
-                startActivityForResult(intent, GALLERY)
-            } else {
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
                 intent.type = "image/*"
-                startActivityForResult(
-                    Intent.createChooser(intent, "Select Picture"),
-                    GALLERY
-                )
+                startActivityForResult(intent, GALLERY)
             }
         }
 
         camera.setOnClickListener {
             if (flag == "addpost") {
-                    dispatchTakePictureIntent()
-            } else {
+
                 dispatchTakePictureIntent()
+
+            } else {
+
+                dispatchTakePictureIntent()
+
             }
         }
 
@@ -141,16 +132,10 @@ class bottomSheetDialog(
         BottomSheetDialog(requireContext(), theme)
 
     fun choosePhotoFromGallery() {
-        val intent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
+        val intent =
+            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/* video/*"
-        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 30)
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30)
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, intent.type), GALLERY)
+        startActivityForResult(intent, GALLERY)
 
     }
 
@@ -176,19 +161,16 @@ class bottomSheetDialog(
 
     @Throws(IOException::class)
     private fun createImageFile(): File? {
-        // Create an image file name
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
-        //        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         val storageDir =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         val image = File.createTempFile(
-            imageFileName,  /* prefix */
-            ".jpg",  /* suffix */
-            storageDir /* directory */
+            imageFileName,
+            ".jpg",
+            storageDir
         )
 
-        // Save a file: path for use with ACTION_VIEW intents
         imagePath = image.absolutePath
         return image
     }

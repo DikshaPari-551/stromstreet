@@ -68,7 +68,8 @@ data class Result(
     @SerializedName("commentCount") val commentCount : Int,
     @SerializedName("isLike") val isLike : Boolean,
     @SerializedName("isFollow") val isFollow : Boolean,
-    @SerializedName("commentList") val commentList : List<CommentList>
+    @SerializedName("commentList") val commentList : List<CommentList>,
+    @SerializedName("mediaResult") val mediaResult : List<MediaResult>
 )
 
 
@@ -257,3 +258,7 @@ data class CategoryResult(
     @SerializedName("__v") val __v: Int
 )
 
+data class MediaResult (
+    @SerializedName("mediaUrl") val mediaUrl : String,
+    @SerializedName("mediaType") val mediaType : String
+)
