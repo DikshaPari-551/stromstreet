@@ -60,6 +60,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
     var USERID: String = ""
     var LikeUnlike: Boolean = false
     var postid: String = ""
+    var mediatype: String = ""
     var isFollow: Boolean = false
     var click: Boolean = false
 
@@ -257,6 +258,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
                 commentcount.setText(response.result.commentCount.toString())
                 postid = response.result.postResult.userId._id.toString()
                 address.setText(response.result.postResult.address.toString())
+                mediatype = response.result.postResult.mediaType
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -276,12 +278,22 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
             } else if (LikeUnlike == false) {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
-            try {
-                var filedata = response.result.postResult.imageLinks[0]
-                Glide.with(this).load(filedata).into(vedio);
-            } catch (e: IndexOutOfBoundsException) {
-                e.printStackTrace()
+            if (mediatype.toLowerCase().equals("image")){
+                try {
+                    var filedata = response.result.postResult.imageLinks[0]
+                    Glide.with(this).load(filedata).into(vedio);
+                } catch (e: IndexOutOfBoundsException) {
+                    e.printStackTrace()
+                }
+            }else if (mediatype.toLowerCase().equals("video")){
+                try {
+                    var filedata = response.result.postResult.thumbNail
+                    Glide.with(this).load(filedata).into(vedio);
+                } catch (e: IndexOutOfBoundsException) {
+                    e.printStackTrace()
+                }
             }
+
         } else if (apiName.equals("LikeUnlike")) {
             postdetails()
         }
@@ -317,7 +329,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
 
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
