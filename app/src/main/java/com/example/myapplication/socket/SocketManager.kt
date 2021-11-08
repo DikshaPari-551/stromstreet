@@ -3,8 +3,11 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.example.myapplication.Activities.ChatActivity
 import io.socket.client.IO
 import io.socket.client.Socket
+import org.json.JSONObject
+
 class SocketManager private constructor(context: Context) {
 
     val isConnected: Boolean get() = socket.connected()
@@ -18,28 +21,39 @@ class SocketManager private constructor(context: Context) {
     }
 
 
-    fun sendMsg(key: String, vararg args: Any) {
+    fun sendMsg(key: String, vararg args: Any)
+    {
         if (socket.connected()) {
             socket.emit(key, *args)
             Log.e("browse_page_err", "ooo" +  "Socket Connect--"+key+" "+args.toString())
 
         }
     }
-
-
+     fun ONLINE_USER(jsonObject: JSONObject)
+     {
+         socket!!.emit("onlineUser",jsonObject.toString());
+         if(socket!!.connected()==true)
+         {
+             System.out.println("check"+toString())
+         }
+     }
+    fun ONLINE_USER_LISTENER()
+    {
+        socket!!.on("onlineUser", ChatActivity.onNewMessage);
+    }
     fun removeListener(key: String) {
         socket.off(key)
     }
 
     /* Add Listener to Socket*/
-    fun addListener(key: String, socketMessageListener: SocketMessageListener) {
+    fun addListener(key: String) {
         Log.e("browse_page_err", "getcheck" +  "Socket Connect--"+key)
 
         socket.on(key) { args ->
             Log.e("browse_page_err", "wow" +  "Socket Connect--"+key+" "+args.toString())
             Handler(Looper.getMainLooper()).post {
                 if (args != null && args.isNotEmpty()) {
-                    socketMessageListener.onMessage(*args)
+                    //socketMessageListener.onMessage(*args)
                 }
             }
         }
@@ -104,6 +118,7 @@ class SocketManager private constructor(context: Context) {
                 Handler(Looper.getMainLooper()).post {
                     if (socket.connected()) {
                         socketId = socket.id()
+                        System.out.println("Socketid="+socketId.toString())
                         Log.d(TAG, "Socket Connected :- " + socketId)
                         Log.e("browse_page_err", "" +  "Socket Connect"+socketId)
                         socketListener.onConnected()
@@ -111,7 +126,8 @@ class SocketManager private constructor(context: Context) {
                 }
             }.on(Socket.EVENT_DISCONNECT) { args ->
                 Handler(Looper.getMainLooper()).post {
-                    if (args != null && args.isNotEmpty()) {
+                    if (args != null && args.isNotEmpty())
+                    {
                         Log.d(TAG, "Socket NotConnect :- ")
                         Log.e("browse_page_err", "" +  "Socket NotConnect")
                     }

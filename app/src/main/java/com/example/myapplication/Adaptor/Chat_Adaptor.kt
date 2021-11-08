@@ -34,8 +34,7 @@ class Chat_Adaptor(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.chat.setOnClickListener {
-
-            (mcontext as MainActivity).startActivity(Intent(mcontext, Checksocket::class.java))
+            (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java))
         }
     }
 }

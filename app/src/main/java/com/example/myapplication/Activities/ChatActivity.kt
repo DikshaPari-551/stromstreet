@@ -14,6 +14,7 @@ import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.socket.SocketInstance
+import com.example.myapplication.socket.SocketManager
 import com.google.gson.JsonObject
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -21,10 +22,6 @@ import io.socket.emitter.Emitter
 import org.json.JSONObject
 import java.net.URISyntaxException
 import org.json.JSONException
-
-
-
-
 
 class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
@@ -38,18 +35,13 @@ class ChatActivity : AppCompatActivity() {
     lateinit var  socket: Socket
     lateinit var adapter: Adapter
     private var hasConnection = false
-
+    lateinit var socketInstance: SocketManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        val rmApplication: SocketInstance = applicationContext as SocketInstance
-        socket= rmApplication.getMSocket()
 
-        val options = IO.Options()
-        options.reconnection = true //reconnection
-        options.forceNew = true
 
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
@@ -100,46 +92,57 @@ class ChatActivity : AppCompatActivity() {
         if(savedInstanceState != null){
             hasConnection = savedInstanceState.getBoolean("hasConnection");
         }
-
-        if(hasConnection){
-
-        }else {
-
-//            socket!!.connect()
-//            socket!!.on("oneToOneChat", onNewMessage)
-//
-
-            socket= rmApplication.getMSocket()
-            socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
-            socket.on(Socket.EVENT_CONNECT, onConnect);
-            socket.connect();
-            ONLINE()
-        }
-        try {
-            val jsonObject = JSONObject("{\"userId\":\"616e08960a9d5515902f7ae2\"}")
-            System.out.println("")
-        } catch (err: JSONException) {
-            Log.d("Error", err.toString())
-        }
-
+        socketInstance = SocketManager.getInstance(this)
+        // SocketManager.getInstance(this).initialize(socketList)
+        initializeSocket()
+        ONLINE_USER()
+        ONLINE_LISTENER()
+       // socketInstance.
     }
+
+    private fun ONLINE_LISTENER() {
+        socketInstance.addListener("onlineUser")
+    }
+
+    private fun ONLINE_USER() {
+        val jsonObject = JSONObject()
+            .put("userId", "616dccdab83a9818f8080f3c")
+        socketInstance.ONLINE_USER(jsonObject)
+    }
+
+    private fun initializeSocket() {
+        // if (ConnectionDetector.getInstance(this).isNetworkAvailable) {
+        onAddListeners()
+        if (!socketInstance.isConnected) {
+            socketInstance.connect()
+        } else {
+            //   onlineStatus()
+
+        }
+
+//        } else {
+//            // showData()
+//        }
+    }
+    private fun onAddListeners() {
+
+        socketInstance.initialize(object : SocketManager.SocketListener {
+            override fun onConnected() {
+                Log.e("browse_page_err", "omd " + "onConnected")
+
+                // onlineStatus()
+            }
+
+            override fun onDisConnected() {
+                socketInstance.connect()
+            }
+        })}
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean("hasConnection", hasConnection)
     }
-    private fun ONLINE() {
 
-      val jsonObject = JSONObject()
-          .put("userId", "6177b1bc38ccc313ed3ff099")
-        //socket?.on("new message", onNewMessage);
-          socket!!.emit("onlineUser",jsonObject.toString());
-      if(socket!!.connected()==true)
-      {
-         System.out.println("check"+toString())
-      }
-       // socket?.on("onlineUser", `onNewMessage`);
-
-    }
 
     private fun Update(text: String) {
         val data = JSONObject()
@@ -152,8 +155,8 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        socket!!.disconnect()
-        socket!!.off("oneToOneChat", onNewMessage);
+        //socket!!.disconnect()
+       // socket!!.off("oneToOneChat", onNewMessage);
     }
     object onNewMessage : Emitter.Listener {
         override fun call(vararg args: Any?)

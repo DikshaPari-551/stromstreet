@@ -10,6 +10,7 @@ import com.example.myapplication.socket.SocketManager
 
 import io.socket.client.IO
 import io.socket.client.Socket
+import org.json.JSONObject
 
 class Checksocket : AppCompatActivity() {
     lateinit var socketInstance: SocketManager
@@ -17,10 +18,11 @@ class Checksocket : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checksocket)
-        SocketManager.getInstance(this).initialize(socketList)
 
         socketInstance = SocketManager.getInstance(this)
-        SocketManager.getInstance(this).connect()
+       // SocketManager.getInstance(this).initialize(socketList)
+        initializeSocket()
+        ONLINE_USER()
 //        try {
 //            Log.e("browse_page_err", "" +  "Socket Connect--")
 //
@@ -58,4 +60,39 @@ class Checksocket : AppCompatActivity() {
 //
 //        }
     }
+
+    private fun ONLINE_USER() {
+        val jsonObject = JSONObject()
+            .put("userId", "6177b1bc38ccc313ed3ff099")
+        //socket?.on("new message", onNewMessage);
+        socketInstance.ONLINE_USER(jsonObject)
+    }
+
+    private fun initializeSocket() {
+       // if (ConnectionDetector.getInstance(this).isNetworkAvailable) {
+            onAddListeners()
+            if (!socketInstance.isConnected) {
+                socketInstance.connect()
+            } else {
+                //   onlineStatus()
+
+            }
+
+//        } else {
+//            // showData()
+//        }
+    }
+    private fun onAddListeners() {
+
+        socketInstance.initialize(object : SocketManager.SocketListener {
+            override fun onConnected() {
+                Log.e("browse_page_err", "omd " + "onConnected")
+
+               // onlineStatus()
+            }
+
+            override fun onDisConnected() {
+                socketInstance.connect()
+            }
+        })}
 }

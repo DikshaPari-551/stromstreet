@@ -9,19 +9,19 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.myapplication.Fragments.FollowingActivityFragment
 import com.example.myapplication.Fragments.TrendingFragment
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.Response.Docss
 
+class FollowingListAdaptor (
 
-class TrendingListAdaptor(
-
-    var context: TrendingFragment,
+    var context: FollowingActivityFragment,
     var list: ArrayList<Docss>,
     var listener: CustomClickListner2
 
-) : RecyclerView.Adapter<TrendingListAdaptor.MyViewHolder>()
+) : RecyclerView.Adapter<FollowingListAdaptor.MyViewHolder>()
 {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var layout_vedio=view.findViewById<RelativeLayout>(R.id.layout_vedio)
@@ -32,7 +32,7 @@ class TrendingListAdaptor(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingListAdaptor.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowingListAdaptor.MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.home_layout, parent, false)
         return MyViewHolder(itemView)
@@ -42,7 +42,7 @@ class TrendingListAdaptor(
         return list.size
     }
 
-    override fun onBindViewHolder(holder: TrendingListAdaptor.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FollowingListAdaptor.MyViewHolder, position: Int) {
         holder.name.setText(list[position].userDetails.userName.toString())
         holder.bio.setText(list[position].userDetails.bio.toString())
         try {
