@@ -13,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
@@ -90,7 +89,12 @@ class bottomSheetDialog(
 //                        Intent.createChooser(intent, "Select Picture"),
 //                        GALLERY
 //                    )
-                choosePhotoFromGallery()
+//                choosePhotoFromGallery()
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                intent.type = "image/* video/*"
+//                PICK_IMAGE_REQUEST_PROFILE = PICK_IMAGE_REQUEST
+                startActivityForResult(intent, GALLERY)
             } else {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.addCategory(Intent.CATEGORY_OPENABLE)
