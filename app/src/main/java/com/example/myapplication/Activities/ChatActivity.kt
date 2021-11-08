@@ -13,15 +13,10 @@ import com.example.myapplication.Adaptor.MessageAdaptor
 import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
-import com.example.myapplication.socket.SocketInstance
 import com.example.myapplication.socket.SocketManager
-import com.google.gson.JsonObject
-import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import org.json.JSONObject
-import java.net.URISyntaxException
-import org.json.JSONException
 
 class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
@@ -69,7 +64,8 @@ class ChatActivity : AppCompatActivity() {
             arr.add(hash)
             adaptor.notifyDataSetChanged()
             add.setText("")
-            Update(text)
+            socketInstance.Update(text)
+          //  Update(text)
 
 //            list_view.setBackgroundResource(R.drawable.drawable_chat)
         }
@@ -95,19 +91,27 @@ class ChatActivity : AppCompatActivity() {
         socketInstance = SocketManager.getInstance(this)
         // SocketManager.getInstance(this).initialize(socketList)
         initializeSocket()
-        ONLINE_USER()
-        ONLINE_LISTENER()
+        socketInstance.ONLINE_USER("616dccdab83a9818f8080f3c")
+       // socketInstance.addListener("onlineUser")
+      //  ONLINE_LISTENER()
        // socketInstance.
+      // ONLINE_USER()
+
+        //socketInstance.socket!!.on("onlineUser",OnlineUser);
+
     }
+
+
 
     private fun ONLINE_LISTENER() {
-        socketInstance.addListener("onlineUser")
-    }
+        val jsonObject = JSONObject()
+                    .put("userId", "616dccdab83a9818f8080f3c")
+            socket!!.emit("onlineUser", jsonObject);
+          }
 
     private fun ONLINE_USER() {
-        val jsonObject = JSONObject()
-            .put("userId", "616dccdab83a9818f8080f3c")
-        socketInstance.ONLINE_USER(jsonObject)
+
+        //socketInstance.socket!!.on("onlineUser",OnlineUser);
     }
 
     private fun initializeSocket() {
@@ -144,35 +148,32 @@ class ChatActivity : AppCompatActivity() {
     }
 
 
-    private fun Update(text: String) {
-        val data = JSONObject()
-        data.put("senderId", "616dccdab83a9818f8080f3c");
-        data.put("receiverId", "616e08960a9d5515902f7ae2");
-        data.put("message", text);
-        socket!!.emit("oneToOneChat", data);
-       // socket?.emit("new message", "message");
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()
         //socket!!.disconnect()
-       // socket!!.off("oneToOneChat", onNewMessage);
+       //socket!!.off("oneToOneChat", onNewMessage);
     }
-    object onNewMessage : Emitter.Listener {
-        override fun call(vararg args: Any?)
-        {
+//    object onNewMessage : Emitter.Listener {
+//        override fun call(vararg args: Any?)
+//        {
+//
+//            val jsonObject = JSONObject()
+//                    .put("userId", "616dccdab83a9818f8080f3c")
+//            socket!!.emit("oneToOneChat", jsonObject);
+//        }
+//
+//
+//    }
 
-            Log.d("check",args.toString())
-        }
-
-
-    }
 
     object onConnectError : Emitter.Listener
     {
         override fun call(vararg args: Any?)
         {
             Log.d("checks",args.toString())
+
         }
 
     }
@@ -183,6 +184,8 @@ class ChatActivity : AppCompatActivity() {
 
     }
 }
+
+
 
 
 

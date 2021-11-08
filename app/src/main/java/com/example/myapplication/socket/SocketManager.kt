@@ -3,7 +3,9 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.example.myapplication.Activities.ChatActivity
+import com.example.myapplication.Singleton.ArraySingleton
+import com.example.myapplication.entity.Response.Chatlist
+import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONObject
@@ -29,17 +31,30 @@ class SocketManager private constructor(context: Context) {
 
         }
     }
-     fun ONLINE_USER(jsonObject: JSONObject)
+     fun ONLINE_USER(s: String)
      {
-         socket!!.emit("onlineUser",jsonObject.toString());
-         if(socket!!.connected()==true)
-         {
-             System.out.println("check"+toString())
-         }
+
+
+         val jsonObject = JSONObject()
+                     .put("userId", "616dccdab83a9818f8080f3c")
+             socket!!.emit("onlineUser", jsonObject);
+
+
      }
-    fun ONLINE_USER_LISTENER()
+     fun Update(text: String) {
+        val data = JSONObject()
+        data.put("senderId", "616dccdab83a9818f8080f3c");
+        data.put("receiverId", "616e08960a9d5515902f7ae2");
+        data.put("message", text);
+        socket!!.emit("oneToOneChat", data);
+        // socket?.emit("new message", "message");
+    }
+    fun CHAT_LIST(USERID: String)
     {
-        socket!!.on("onlineUser", ChatActivity.onNewMessage);
+        val data = JSONObject()
+        data.put("senderId", USERID);
+
+        socket!!.emit("chatHistory", data);
     }
     fun removeListener(key: String) {
         socket.off(key)
@@ -133,6 +148,40 @@ class SocketManager private constructor(context: Context) {
                     }
                 }
             }
+                    .on("onlineUser") { args ->
+                Handler(Looper.getMainLooper()).post {
+                    if (args != null && args.isNotEmpty())
+                    {
+                        System.out.println("onlineUser="+socketId.toString())
+                    }
+                }
+
+            }
+                    .on("oneToOneChat") { args ->
+                        Handler(Looper.getMainLooper()).post {
+                            if (args != null && args.isNotEmpty())
+                            {
+                                System.out.println("oneToOneChat="+args[0])
+                            }
+                        }
+
+                    }
+                    .on("chatHistory") { args ->
+                        Handler(Looper.getMainLooper()).post {
+                            if (args != null && args.isNotEmpty())
+                            {
+                                try {
+                                    val gson = Gson()
+                                   val fcmResponse: Chatlist = gson.fromJson(args[0].toString(), Chatlist::class.java)
+                                    System.out.println("chatHistory="+fcmResponse.toString())
+                                    ArraySingleton.getInstance().addToArray(fcmResponse.categoryResult)
+                                } catch (e: java.lang.Exception) {
+                                }
+                                System.out.println("chatHistory="+args[0])
+                            }
+                        }
+
+                    }
         } catch (ex: Exception) {
             ex.printStackTrace()
             Log.e("browse_page_err---", "" +  ex.message)
@@ -145,3 +194,7 @@ class SocketManager private constructor(context: Context) {
     }
 
 }
+
+
+
+

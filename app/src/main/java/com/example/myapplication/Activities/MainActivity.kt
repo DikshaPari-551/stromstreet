@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat
 import com.example.myapplication.Fragments.*
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.permission.RequestPermission
+import com.example.myapplication.socket.SocketManager
 import com.example.myapplication.util.SavedPrefManager
 import java.io.*
 
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
     private var GALLERY = 1
     private  var CAMERA:Int = 2
     val CAMERA_PERM_CODE = 101
+    lateinit var socketInstance: SocketManager
 
 
 
@@ -150,10 +153,37 @@ class MainActivity : AppCompatActivity(), ClickListner {
         add.setBackgroundColor(resources.getColor(R.color.orange))
         supportFragmentManager.beginTransaction().add(R.id.linear_layout, HomeFragment()).commit()
 
+        socketInstance = SocketManager.getInstance(this)
 
+        initializeSocket()
 
 
     }
+
+    private fun initializeSocket() {
+        onAddListeners()
+        if (!socketInstance.isConnected) {
+            socketInstance.connect()
+        } else {
+            //   onlineStatus()
+
+        }
+
+    }
+
+    private fun onAddListeners() {
+
+        socketInstance.initialize(object : SocketManager.SocketListener {
+            override fun onConnected() {
+                Log.e("browse_page_err", "omd " + "onConnected")
+
+                // onlineStatus()
+            }
+
+            override fun onDisConnected() {
+                socketInstance.connect()
+            }
+        })}
 
     override fun clickListner(
         requestCode: Int,

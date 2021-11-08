@@ -80,7 +80,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         try {
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
-        } catch(e : java.lang.Exception) {
+        } catch(e : java.lang.Exception)
+        {
             e.printStackTrace()
         }
         locationpermission()
@@ -139,7 +140,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
             )
                 ?.commit()
-            Log.d("")
+
 
         }
         return v

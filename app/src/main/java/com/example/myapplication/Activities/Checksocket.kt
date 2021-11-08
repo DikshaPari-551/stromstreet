@@ -2,14 +2,10 @@ package com.example.myapplication.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import com.example.myapplication.R
 import com.example.myapplication.socket.SocketManager
 
-import io.socket.client.IO
-import io.socket.client.Socket
 import org.json.JSONObject
 
 class Checksocket : AppCompatActivity() {
@@ -22,7 +18,7 @@ class Checksocket : AppCompatActivity() {
         socketInstance = SocketManager.getInstance(this)
        // SocketManager.getInstance(this).initialize(socketList)
         initializeSocket()
-        ONLINE_USER()
+       // ONLINE_USER()
 //        try {
 //            Log.e("browse_page_err", "" +  "Socket Connect--")
 //
@@ -61,12 +57,12 @@ class Checksocket : AppCompatActivity() {
 //        }
     }
 
-    private fun ONLINE_USER() {
-        val jsonObject = JSONObject()
-            .put("userId", "6177b1bc38ccc313ed3ff099")
-        //socket?.on("new message", onNewMessage);
-        socketInstance.ONLINE_USER(jsonObject)
-    }
+//    private fun ONLINE_USER() {
+//        val jsonObject = JSONObject()
+//            .put("userId", "6177b1bc38ccc313ed3ff099")
+//        //socket?.on("new message", onNewMessage);
+//        socketInstance.ONLINE_USER(jsonObject)
+//    }
 
     private fun initializeSocket() {
        // if (ConnectionDetector.getInstance(this).isNetworkAvailable) {
