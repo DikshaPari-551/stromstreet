@@ -172,8 +172,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     private fun getINent() {
         try {
             USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager._id).toString()
-//            USERID  = intent.getStringExtra("userId").toString()
-
 
         } catch (e: Exception) {
             e.printStackTrace()

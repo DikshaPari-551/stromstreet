@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -328,6 +329,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         public void onApiSuccess(Responce response, @Nullable String apiName) {
             if (apiName.equals("PostDetails"))
             {
+                commentcount.setText(String.valueOf(response.result.getCommentCount()));
+                LikeUnlike = response.result.isLike();
+                isFollow = response.result.isFollow();
                 username.setText(response.result.getPostResult().getUserId().getUserName());
                 layoutMore.setText(response.result.getPostResult().getDescription());
                 eventType.setText(response.result.getPostResult().getCategoryId().getCategoryName().toString());
@@ -340,7 +344,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
                 if (LikeUnlike == true)
                 {
-                    video_post_like.setColorFilter((R.color.red));
+                    video_post_like.setBackgroundColor(Color.RED);
                 } else if (LikeUnlike == false) {
                     video_post_like.setColorFilter((R.color.white));
                 }
@@ -491,7 +495,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         {
             if ((Util.SDK_INT <= 23 || !player.hasPlayer()))
             {
-                initPlayer(videoLink);
+                initPlayer(video);
             }
         }
 

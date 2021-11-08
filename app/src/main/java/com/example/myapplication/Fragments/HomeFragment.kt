@@ -163,6 +163,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
     private fun getLocalActivityApi() {
         if (androidextention.isOnline(mContext)) {
+
             androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
@@ -257,20 +258,23 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         USERID = value._id
 
         if (type.equals("profile")) {
-            if(value.mediaType.toLowerCase().equals("video"))
-            {
-                var intent = Intent(mContext, Exoplayer::class.java)
-                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
-
-            }
-            else
-
-                {
-                    var intent = Intent(mContext, PostActivity::class.java)
-                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                    startActivity(intent)
-                }
+            var intent = Intent(mContext, Exoplayer::class.java)
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+            startActivity(intent)
+//            if(value.mediaType.toLowerCase().equals("video"))
+//            {
+//                var intent = Intent(mContext, Exoplayer::class.java)
+//                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//                startActivity(intent)
+//
+//            }
+//            else
+//
+//                {
+//                    var intent = Intent(mContext, PostActivity::class.java)
+//                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//                    startActivity(intent)
+//                }
 
         }
 
