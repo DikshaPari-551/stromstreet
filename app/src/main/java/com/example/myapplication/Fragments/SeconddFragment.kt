@@ -77,10 +77,14 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickL
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        androidextention.disMissProgressDialog(mContext)
+
         Toast.makeText(activity, "No Post Saved", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        androidextention.disMissProgressDialog(mContext)
+
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 

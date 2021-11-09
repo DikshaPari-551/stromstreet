@@ -432,14 +432,15 @@ class AddPostFragment(
                                 image = data.data!!
                                 val cr: ContentResolver = mContext.getContentResolver()
                                 val mime = cr.getType(image)
+                                var videoType = mime!!.substring(0,5)
 
                                 val path = getPathFromURI(image)
                                 if (path != null) {
                                     imageFile = File(path)
                                 }
-                                if (mime == "video/mp4") {
+                                if (videoType == "video") {
                                     videoCount++
-                                    if (mime == "video/mp4" && videoCount > 1) {
+                                    if (videoType == "video" && videoCount > 1) {
                                         setImageAndVideos()
                                         Toast.makeText(
                                             mContext,
@@ -448,11 +449,7 @@ class AddPostFragment(
                                         ).show()
 
                                     } else {
-//                                        bitmap = ThumbnailUtils.createVideoThumbnail(
-//                                            imageFile.absolutePath,
-//                                            MediaStore.Video.Thumbnails.MINI_KIND
-//                                        )
-                                        if (galleryData1.visibility == View.GONE) {
+                                        if (galleryData1.visibility == View.GONE && count == 0) {
                                             galleryData1.visibility = View.VISIBLE
                                             Glide.with(mContext).load(imageFile).into(galleryData1)
                                             bottomSheetDialog.dismiss()
@@ -463,9 +460,9 @@ class AddPostFragment(
                                                 imageFile.toString()
                                             )
                                             count++
-                                        } else if (galleryData2.visibility == View.GONE) {
+                                        } else if (galleryData2.visibility == View.GONE && count == 1) {
                                             galleryData2.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFile).into(galleryData1)
+                                            Glide.with(mContext).load(imageFile).into(galleryData2)
                                             bottomSheetDialog.dismiss()
 
                                             SavedPrefManager.saveStringPreferences(
@@ -473,10 +470,17 @@ class AddPostFragment(
                                                 SavedPrefManager.IMAGE_TWO,
                                                 imageFile.toString()
                                             )
+
+                                            var imageOne =
+                                                SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_ONE)
+                                            var image = File(imageOne)
+                                            galleryData1.visibility = View.VISIBLE
+                                            Glide.with(mContext).load(image).into(galleryData1)
                                             count++
-                                        } else if (galleryData3.visibility == View.GONE) {
+
+                                        } else if (galleryData3.visibility == View.GONE && count == 2) {
                                             galleryData3.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFile).into(galleryData1)
+                                            Glide.with(mContext).load(imageFile).into(galleryData3)
                                             bottomSheetDialog.dismiss()
 
                                             SavedPrefManager.saveStringPreferences(
@@ -484,6 +488,18 @@ class AddPostFragment(
                                                 SavedPrefManager.IMAGE_THREE,
                                                 imageFile.toString()
                                             )
+
+                                            var imageTwo =
+                                                SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_TWO)
+                                            var imageFTwo = File(imageTwo)
+                                            galleryData2.visibility = View.VISIBLE
+                                            Glide.with(mContext).load(imageFTwo).into(galleryData2)
+
+                                            var imageOne =
+                                                SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_ONE)
+                                            var image = File(imageOne)
+                                            galleryData1.visibility = View.VISIBLE
+                                            Glide.with(mContext).load(image).into(galleryData1)
                                             count++
 
                                         }
@@ -620,8 +636,7 @@ class AddPostFragment(
                         "Not select more than 3 photos",
                         Toast.LENGTH_SHORT
                     ).show()
-
-                    //                                        get
+                    //get
                     var imagef =
                         SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_ONE)
                     var imageFOne = File(imagef)

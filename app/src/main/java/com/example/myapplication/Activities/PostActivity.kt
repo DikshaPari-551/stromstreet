@@ -51,7 +51,10 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var profileimg: CircleImageView
     lateinit var viewPager2: ViewPager2
     lateinit var indicator3: CircleIndicator3
+    lateinit var internetConnection: LinearLayout
+
     private lateinit var adapter: ImageSliderAdaptor
+
 
     var USERID: String = ""
     var postid: String = ""
@@ -72,8 +75,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-        getINent()
-        postdetails()
         backPostButton = findViewById(R.id.back_arrow_post)
         profileimg = findViewById(R.id.profileimg)
         sharePost = findViewById(R.id.share_post)
@@ -92,6 +93,11 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         address = findViewById(R.id.address)
         viewPager2 = findViewById(R.id.multi_image)
         indicator3 = findViewById(R.id.indicator)
+        internetConnection = findViewById(R.id.no_wifi)
+        comment = findViewById(R.id.comment)
+
+        getINent()
+        postdetails()
 
         backPostButton.setOnClickListener {
 //            val i = Intent(this, MainActivity::class.java)
@@ -101,7 +107,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
 
 
-        comment = findViewById(R.id.comment)
         comment.setOnClickListener {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
@@ -236,6 +241,14 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }  else {
+            internetConnection.visibility = View.VISIBLE
+            comment.isEnabled = false
+            video_post_like.isEnabled = false
+            savePost.isEnabled = false
+            sharePost.isEnabled = false
+            notifyPost.isEnabled = false
+            follow.isEnabled = false
         }
     }
 
@@ -365,5 +378,10 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         adapter = ImageSliderAdaptor(imageList, this)
         viewPager2.adapter = adapter
         indicator3.setViewPager(viewPager2)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        postdetails()
     }
 }

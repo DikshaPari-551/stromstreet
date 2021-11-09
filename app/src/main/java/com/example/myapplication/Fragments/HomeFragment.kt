@@ -54,6 +54,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var filter: LinearLayout
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
+    lateinit var internetConnection: LinearLayout
     var getSearchText = ""
     var catId: String = ""
     var locality: String = ""
@@ -78,6 +79,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         backArrowHome = v.findViewById(R.id.back_arrow_home)
         man = v.findViewById(R.id.user_home)
         searchText = v.findViewById(R.id.search_text)
+        internetConnection = v.findViewById(R.id.no_wifi)
         goButton = v.findViewById(R.id.go)
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -195,6 +197,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        } else {
+            internetConnection.visibility = View.VISIBLE
         }
     }
 

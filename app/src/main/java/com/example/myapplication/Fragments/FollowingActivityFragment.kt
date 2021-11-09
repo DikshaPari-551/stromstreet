@@ -40,6 +40,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     lateinit var trandingBackButton: ImageView
     lateinit var filter: ImageView
     lateinit var userTrendingImg: ImageView
+    lateinit var internetConnection: LinearLayout
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     var searchValue = ""
@@ -59,6 +60,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
+        internetConnection = v.findViewById(R.id.no_wifi)
+
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -167,6 +170,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        } else {
+            internetConnection.visibility = View.VISIBLE
         }
     }
 

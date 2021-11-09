@@ -27,27 +27,29 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Exoplayer"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ExoPlayer"
-            android:exported="true" />
-        <activity android:name=".Activities.ReportPost" />
-        <activity android:name=".Activities.UserProfile" />
-        <activity android:name=".Activities.ChangePassword" />
-        <activity android:name=".Activities.Following" />
-        <activity android:name=".Activities.Followers" />
-        <activity android:name=".Activities.PostActivity3" />
-        <activity android:name=".Activities.PostActivity2" />
-        <activity android:name=".Activities.PostActivity" />
-        <activity android:name=".Activities.ChatActivity" />
-        <activity android:name=".Activities.ResetPasswordActivity" />
-        <activity android:name=".Activities.ForgotPasswordActivity" />
-        <activity android:name=".Activities.EmailVerificationActivity" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ReportPost" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.UserProfile" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ChangePassword" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.Following" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.Followers" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.PostActivity3" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.PostActivity2" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.PostActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ChatActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ResetPasswordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ForgotPasswordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.EmailVerificationActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".LoginActivity" />
+            android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.SignUpActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.SplashActivity"
             android:screenOrientation="portrait">
