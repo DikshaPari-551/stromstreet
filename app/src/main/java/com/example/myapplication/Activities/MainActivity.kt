@@ -16,6 +16,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.myapplication.Fragments.*
 import com.example.myapplication.customclickListner.ClickListner
+import com.example.myapplication.entity.Response.Chalist
+import com.example.myapplication.entity.Response.Messages
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.socket.SocketManager
 import com.example.myapplication.util.SavedPrefManager
@@ -161,7 +163,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
     }
 
     private fun initializeSocket() {
-        onAddListeners()
+          onAddListeners()
         if (!socketInstance.isConnected) {
             socketInstance.connect()
         } else {
@@ -182,6 +184,18 @@ class MainActivity : AppCompatActivity(), ClickListner {
 
             override fun onDisConnected() {
                 socketInstance.connect()
+            }
+
+            override fun chatlist(listdat: ArrayList<Chalist>) {
+
+            }
+
+            override fun viewchat(listdat: ArrayList<Messages>) {
+
+            }
+
+            override fun oneToOneChat(listdat: Messages) {
+
             }
         })}
 

@@ -41,9 +41,14 @@ class Chat_Adaptor(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         try {
-            var filedata = list!!.get(position).receiverId.profilePic
             holder.followername.setText(list!!.get(position).receiverId.fullName)
-            Glide.with(mcontext).load(filedata).into(holder.image);
+            var filedata = list!!.get(position).receiverId.profilePic.replace("\"".toRegex(), "")
+            if(!filedata.equals("")||filedata!=null)
+            {
+                Glide.with(mcontext).load(filedata).into(holder.image);
+            }
+
+
         }catch (e: IndexOutOfBoundsException){
             e.printStackTrace()
         }
@@ -51,7 +56,16 @@ class Chat_Adaptor(
             e.printStackTrace()
         }
         holder.chat.setOnClickListener {
-            (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java))
-        }
+            try {
+                (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java).putExtra("reciver_id",list!!.get(position).receiverId._id).putExtra("username",list!!.get(position).receiverId.fullName))
+
+
+            }catch (e: IndexOutOfBoundsException){
+                e.printStackTrace()
+            }
+            catch (e: NullPointerException){
+                e.printStackTrace()
+            }
+                 }
     }
 }

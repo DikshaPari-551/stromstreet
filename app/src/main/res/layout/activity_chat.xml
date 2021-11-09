@@ -36,6 +36,7 @@
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/opensans_regular"
             android:text="Peter"
+            android:id="@+id/username"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -57,12 +58,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:background="@drawable/background_chat_screen">
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:id="@+id/relative"
-
+            android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -98,19 +100,19 @@
 
 
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/relative"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="80dp"
             android:layout_marginRight="22dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcycler_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </RelativeLayout>
 
         <RelativeLayout

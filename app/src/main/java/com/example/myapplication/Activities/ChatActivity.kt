@@ -10,24 +10,33 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.MessageAdaptor
-import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.entity.Response.Chalist
+import com.example.myapplication.entity.Response.Messages
 import com.example.myapplication.socket.SocketManager
+import com.example.myapplication.util.SavedPrefManager
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import org.json.JSONObject
 
 class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
+      lateinit var adaptor:MessageAdaptor
     lateinit var right_arrow_Chat:ImageView
     lateinit var sendImgIcon: ImageView
     lateinit var backButtton: ImageView
+    lateinit var user_name: TextView
+
     lateinit var recyclerList: RecyclerView
     lateinit var chat_layout: LinearLayout
     lateinit var list_view: ListView
     var arr: ArrayList<HashMap<String, String>> = arrayListOf()
     lateinit var  socket: Socket
+    var USERID:String=""
+    lateinit var listdatlist: ArrayList<Messages>
+    var reciver_id:String=""
+    var username:String=""
     lateinit var adapter: Adapter
     private var hasConnection = false
     lateinit var socketInstance: SocketManager
@@ -47,36 +56,31 @@ class ChatActivity : AppCompatActivity() {
         chat_layout = findViewById(R.id.chat_Activity)
         backButtton = findViewById(R.id.right_arrow)
         recyclerList = findViewById(R.id.rcycler_list)
-//
+        user_name= findViewById(R.id.username)
         sendImgIcon = findViewById(R.id.send_img_icon)
         add = findViewById(R.id.text_add)
 
-        val layoutManager = LinearLayoutManager(this)
-        var adaptor = MessageAdaptor(arr)
-        recyclerList.layoutManager = layoutManager
-        recyclerList.adapter = adaptor
 
+        socketInstance = SocketManager.getInstance(this)
+        GETINTENT()
         sendImgIcon.setOnClickListener {
 
             var text = add.text.toString()
-            var hash: HashMap<String, String> = HashMap()
-            hash.put("Data", text)
-            arr.add(hash)
-            adaptor.notifyDataSetChanged()
+//
+            socketInstance.Update(text,USERID,reciver_id)
             add.setText("")
-            socketInstance.Update(text)
           //  Update(text)
 
 //            list_view.setBackgroundResource(R.drawable.drawable_chat)
         }
 
         backButtton.setOnClickListener {
-            var fragment : ChatFragment = ChatFragment()
-//            supportFragmentManager.beginTransaction().replace(R.id.chat_Activity,HomeFragment()).commit()
-//            val i = Intent(this, ChatFragment::class.java)
-//            startActivity(i)
-
-//        }
+//            var fragment : ChatFragment = ChatFragment()
+////            supportFragmentManager.beginTransaction().replace(R.id.chat_Activity,HomeFragment()).commit()
+////            val i = Intent(this, ChatFragment::class.java)
+////            startActivity(i)
+//
+////        }
             var intent =  Intent(this,MainActivity::class.java)
             intent .putExtra("openF2",true)
             overridePendingTransition(0, 0);
@@ -88,19 +92,30 @@ class ChatActivity : AppCompatActivity() {
         if(savedInstanceState != null){
             hasConnection = savedInstanceState.getBoolean("hasConnection");
         }
-        socketInstance = SocketManager.getInstance(this)
         // SocketManager.getInstance(this).initialize(socketList)
         initializeSocket()
-        socketInstance.ONLINE_USER("616dccdab83a9818f8080f3c")
-       // socketInstance.addListener("onlineUser")
-      //  ONLINE_LISTENER()
-       // socketInstance.
-      // ONLINE_USER()
+        socketInstance.ONLINE_USER(USERID)
 
-        //socketInstance.socket!!.on("onlineUser",OnlineUser);
 
     }
 
+    private fun GETINTENT()
+    {
+        if (getIntent() != null)
+        {
+            if (intent.getStringExtra("reciver_id") != null) {
+                reciver_id = intent.getStringExtra("reciver_id")!!
+            }
+            if (intent.getStringExtra("username") != null) {
+                username = intent.getStringExtra("username")!!
+                user_name.setText(username)
+            }
+
+        }
+        USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager.USERID).toString()
+        socketInstance.VIEWcHAT(
+            USERID,reciver_id)
+    }
 
 
     private fun ONLINE_LISTENER() {
@@ -128,7 +143,8 @@ class ChatActivity : AppCompatActivity() {
 //            // showData()
 //        }
     }
-    private fun onAddListeners() {
+    private fun onAddListeners()
+    {
 
         socketInstance.initialize(object : SocketManager.SocketListener {
             override fun onConnected() {
@@ -139,6 +155,28 @@ class ChatActivity : AppCompatActivity() {
 
             override fun onDisConnected() {
                 socketInstance.connect()
+            }
+
+            override fun chatlist(listdat: ArrayList<Chalist>) {
+
+            }
+
+            override fun viewchat(listdat: ArrayList<Messages>) {
+                if(listdat!=null)
+                {
+                    listdatlist=listdat
+                    val layoutManager = LinearLayoutManager(baseContext)
+                    var adaptor = MessageAdaptor(listdatlist,USERID)
+                    recyclerList.layoutManager = layoutManager
+                    recyclerList.adapter = adaptor
+                    recyclerList.smoothScrollToPosition(listdatlist.count());
+                }
+                }
+
+            override fun oneToOneChat(listdatset: Messages) {
+                listdatlist.add(listdatset)
+                recyclerList.adapter!!.notifyDataSetChanged()
+                recyclerList.smoothScrollToPosition(listdatlist.count());
             }
         })}
 

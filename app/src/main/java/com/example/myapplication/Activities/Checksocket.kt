@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.myapplication.R
+import com.example.myapplication.entity.Response.Chalist
+import com.example.myapplication.entity.Response.Messages
 import com.example.myapplication.socket.SocketManager
 
 import org.json.JSONObject
@@ -89,6 +91,18 @@ class Checksocket : AppCompatActivity() {
 
             override fun onDisConnected() {
                 socketInstance.connect()
+            }
+
+            override fun chatlist(listdat: ArrayList<Chalist>) {
+
+            }
+
+            override fun viewchat(listdat: ArrayList<Messages>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun oneToOneChat(listdat: Messages) {
+                TODO("Not yet implemented")
             }
         })}
 }
