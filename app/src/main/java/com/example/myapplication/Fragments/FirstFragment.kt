@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.ProfileAdaptor
 import com.example.myapplication.Adaptor.SaveListAdaptor
+import com.example.myapplication.Exoplayer
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.customclickListner.CustomClickListner2
@@ -69,7 +70,7 @@ class FirstFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , C
         androidextention.disMissProgressDialog(activity)
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(mContext)
-            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+//            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
             var list = ArrayList<Docss>()
             list.addAll(response.result.docs)
             setAdapter(list)
@@ -78,11 +79,11 @@ class FirstFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , C
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
     fun setAdapter(list: ArrayList<Docss>) {
@@ -95,13 +96,31 @@ class FirstFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , C
 
     override fun customClick(value: Docss, type: String) {
         USERID = value._id
+//
+//        if (type.equals("profile")) {
+//            var intent = Intent(mContext, PostActivity::class.java)
+//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+////            intent.putExtra("userId", USERID)
+//
+//            startActivity(intent)
+//        }
 
         if (type.equals("profile")) {
-            var intent = Intent(mContext, PostActivity::class.java)
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-//            intent.putExtra("userId", USERID)
+            if(value.mediaType.toLowerCase().equals("video"))
+            {
+                var intent = Intent(mContext, Exoplayer::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
 
-            startActivity(intent)
+            }
+            else
+
+            {
+                var intent = Intent(mContext, PostActivity::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+            }
+
         }
     }
 

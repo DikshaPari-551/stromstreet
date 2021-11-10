@@ -187,7 +187,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             intent.putExtra("EMAIL", response.result.email)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Toast.makeText(this, "Success" + response.result.otp, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_LONG).show()
             startActivity(intent)
             this.finish()
 
@@ -196,16 +196,14 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
 //            Toast.makeText(this,"",Toast.LENGTH_LONG).show()
 
         }
-
-
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "Failure", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
     fun CheckValidations() {

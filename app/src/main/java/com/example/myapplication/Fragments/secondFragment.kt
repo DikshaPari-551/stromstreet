@@ -23,7 +23,7 @@ import com.example.myapplication.extension.androidextention
 import okhttp3.ResponseBody
 
 
-class secondFragment : Fragment(), FilterCustomListener {
+class secondFragment(var s: String) : Fragment(), FilterCustomListener {
 lateinit var man:ImageView
     lateinit var textSearch1: LinearLayout
     lateinit var textSearch2: LinearLayout
@@ -39,7 +39,7 @@ lateinit var man:ImageView
     lateinit var callBack: ApiCallBack<Responce>
     lateinit var mContext : Context
     lateinit var adaptor: CategoryListAdaptor
-    lateinit var catId: String
+    var catId: String = ""
      var maxDis: Int = 0
 
 
@@ -124,17 +124,41 @@ lateinit var man:ImageView
 
         }
 
-        man.setOnClickListener{
-            val bundle = Bundle()
-            bundle.putString("CAT_ID", catId)
-            bundle.putInt("MAX_DIS", maxDis)
-            val fragObj = HomeFragment()
-            fragObj.arguments = bundle
-            getFragmentManager()?.beginTransaction()?.replace(
-                R.id.linear_layout,
-                fragObj
-            )
-                ?.commit()
+        man.setOnClickListener {
+            if (s.equals("home")) {
+                val bundle = Bundle()
+                bundle.putString("CAT_ID", catId)
+                bundle.putInt("MAX_DIS", maxDis)
+                val fragObj = HomeFragment()
+                fragObj.arguments = bundle
+                getFragmentManager()?.beginTransaction()?.replace(
+                    R.id.linear_layout,
+                    fragObj
+                )
+                    ?.commit()
+            } else if(s.equals("trending")) {
+                    val bundle = Bundle()
+                    bundle.putString("CAT_ID", catId)
+                    bundle.putInt("MAX_DIS", maxDis)
+                    val fragObj = TrendingFragment()
+                fragObj.arguments = bundle
+                getFragmentManager()?.beginTransaction()?.replace(
+                    R.id.linear_layout,
+                    fragObj
+                )
+                    ?.commit()
+            } else if(s.equals("following")) {
+                val bundle = Bundle()
+                bundle.putString("CAT_ID", catId)
+                bundle.putInt("MAX_DIS", maxDis)
+                val fragObj = FollowingActivityFragment()
+                fragObj.arguments = bundle
+                getFragmentManager()?.beginTransaction()?.replace(
+                    R.id.linear_layout,
+                    fragObj
+                )
+                    ?.commit()
+            }
         }
         return v
     }

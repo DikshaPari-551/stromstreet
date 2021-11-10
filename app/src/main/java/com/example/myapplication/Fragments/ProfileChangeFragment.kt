@@ -190,14 +190,14 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                     androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         mContext,
-                        "error response:" + response.toString(),
+                        "Something Went Wrong" + response.toString(),
                         Toast.LENGTH_LONG
                     ).show()
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(mContext, "failure respone:" + failureMessage, Toast.LENGTH_LONG)
+                    Toast.makeText(mContext, "Server not responding" + failureMessage, Toast.LENGTH_LONG)
                         .show()
                 }
 

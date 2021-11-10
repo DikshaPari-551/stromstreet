@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
@@ -19,6 +16,7 @@ import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
@@ -36,11 +34,17 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     lateinit var Go: LinearLayout
     lateinit var textLocalPostTrending: TextView
     lateinit var textFollowingPostTrending: TextView
+    lateinit var searchText: EditText
     lateinit var recycler_view2: RecyclerView
     lateinit var trending_post_text: TextView
     lateinit var trandingBackButton: ImageView
     lateinit var filter: ImageView
     lateinit var userTrendingImg: ImageView
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
+    var searchValue = ""
+    var catId: String = ""
+    var maxDis: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,13 +54,26 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_following_activity, container, false)
-
-        getFollowingApi()
-
         Go = v.findViewById(R.id.go)
+        searchText = v.findViewById(R.id.search_text)
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
+        try {
+            latitude = SavedPrefManager.getLatitudeLocation()!!
+            longitude = SavedPrefManager.getLongitudeLocation()!!
+            catId = arguments?.getString("CAT_ID")!!
+            maxDis = arguments?.getInt("MAX_DIS")!!
+        } catch(e : java.lang.Exception) {
+            e.printStackTrace()
+        }
+
+        Go.setOnClickListener{
+            searchValue = searchText.text.toString()
+            getFollowingApi()
+
+        }
+        getFollowingApi()
 
         trandingBackButton.setOnClickListener{
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, TrendingFragment())?.commit()
@@ -105,7 +122,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         filter.setOnClickListener{
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                secondFragment()
+                secondFragment("following")
             )
                 ?.commit()
 
@@ -128,9 +145,25 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "FollowingActivity", mContext)
 
+            val apiRequest = Api_Request()
+            apiRequest.categoryId = catId
+            apiRequest.maxDistance = maxDis.toString()
+            apiRequest.search = searchValue
 
             try {
-                serviceManager.getFollowingActivity(callBack)
+                if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
+
+                    serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
+
+                } else if (searchValue != null && !searchValue.equals("")) {
+
+                    serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
+
+                } else {
+
+                    serviceManager.getFollowingActivity(callBack,null, null, apiRequest)
+
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -143,16 +176,14 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         list.addAll(response.result.docs)
         setAdapter(list)
 
-
-        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(activity, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
     fun setAdapter(list: ArrayList<Docss>) {

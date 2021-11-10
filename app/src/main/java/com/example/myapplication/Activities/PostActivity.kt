@@ -6,11 +6,14 @@ import android.media.Image
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.myapplication.Adaptor.ImageSliderAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.MainActivity
@@ -23,6 +26,7 @@ import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import de.hdodenhof.circleimageview.CircleImageView
+import me.relex.circleindicator.CircleIndicator3
 import okhttp3.ResponseBody
 import java.lang.Exception
 
@@ -43,11 +47,17 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var eventType: TextView
     lateinit var totalLike: TextView
     lateinit var commentcount: TextView
+    lateinit var address: TextView
     lateinit var profileimg: CircleImageView
+    lateinit var viewPager2: ViewPager2
+    lateinit var indicator3: CircleIndicator3
+    private lateinit var adapter: ImageSliderAdaptor
+
     var USERID: String = ""
     var postid: String = ""
     var LikeUnlike: Boolean = false
     var isFollow: Boolean = false
+
 //    lateinit var totalshare: TextView
 
     private var loginFlag: Boolean = false
@@ -79,8 +89,9 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         eventType = findViewById(R.id.eventType)
         totalLike = findViewById(R.id.totalLike)
         commentcount = findViewById(R.id.commentcount)
-//        totalshare = findViewById(R.id.totalshare)
-
+        address = findViewById(R.id.address)
+        viewPager2 = findViewById(R.id.multi_image)
+        indicator3 = findViewById(R.id.indicator)
 
         backPostButton.setOnClickListener {
 //            val i = Intent(this, MainActivity::class.java)
@@ -92,12 +103,23 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
         comment = findViewById(R.id.comment)
         comment.setOnClickListener {
-            var i = Intent(this, PostActivity2()::class.java)
-            startActivity(i)
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                var i = Intent(this, PostActivity2()::class.java)
+                startActivity(i)
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
         }
 
         video_post_like.setOnClickListener {
-            likeunlike()
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                likeunlike()
 //            if(click == false){
 //            video_post_like.setColorFilter(resources.getColor(R.color.red))
 //                click = true
@@ -105,17 +127,30 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 //                video_post_like.setColorFilter(resources.getColor(R.color.white))
 //                click=false
 //            }
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
         }
 
 
         savePost.setOnClickListener {
-            saveunsave()
-            if (click == false) {
-                Toast.makeText(this,"Post Saved", Toast.LENGTH_SHORT).show()
-                click = true
-            } else if (click == true) {
-                Toast.makeText(this,"Post Unsaved", Toast.LENGTH_SHORT).show()
-                click = false
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                saveunsave()
+                if (click == false) {
+                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show()
+                    click = true
+                } else if (click == true) {
+                    Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show()
+                    click = false
+                }
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
             }
         }
 
@@ -139,19 +174,28 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
 
         notifyPost.setOnClickListener {
-            Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
-
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
         }
 
         follow.setOnClickListener {
-            followunfollow()
-//            if(click == false){
-//                follow.setText("Following")
-//                 click = true
-//            }else if(click == true){
-//                follow.setText("+ Follow")
-//                click=false
-//            }
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                followunfollow()
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
+
         }
 
 
@@ -171,7 +215,9 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
     private fun getINent() {
         try {
-            USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager._id).toString()
+            USERID = SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
+//            USERID  = intent.getStringExtra("userId").toString()
+
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -211,9 +257,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     private fun likeunlike() {
-//        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-//            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "LikeUnlike", mContext)
@@ -224,7 +268,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             }
         }
     }
-
 
     private fun followunfollow() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
@@ -245,22 +288,26 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike
         isFollow = response.result.isFollow
-        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
         if (apiName.equals("PostDetails")) {
-            username.setText(response.result.postResult.userId.userName.toString())
-            layoutMore.setText(response.result.postResult.description)
-            eventType.setText(response.result.postResult.categoryId.categoryName.toString())
-            totalLike.setText(response.result.likeCount.toString())
-            commentcount.setText(response.result.commentCount.toString())
-            postid =  response.result.postResult.userId._id.toString()
             try {
-                var  profile = response.result.postResult.userId.profilePic.toString()
-                Glide.with(this).load(profile).into(profileimg);
-            }catch (e: IndexOutOfBoundsException){
+                username.setText(response.result.postResult.userId.userName.toString())
+                layoutMore.setText(response.result.postResult.description)
+                eventType.setText(response.result.postResult.categoryId.categoryName.toString())
+                totalLike.setText(response.result.likeCount.toString())
+                commentcount.setText(response.result.commentCount.toString())
+                postid = response.result.postResult.userId._id.toString()
+                address.setText(response.result.postResult.address.toString())
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
 
-//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
+            try {
+                var profile = response.result.postResult.userId.profilePic.toString()
+                Glide.with(this).load(profile).into(profileimg);
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
             if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))
@@ -268,34 +315,55 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             } else if (LikeUnlike == false) {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
+
+
             try {
-                var filedata = response.result.postResult.imageLinks[0]
-                Glide.with(this).load(filedata).into(vedio);
-            }catch (e: IndexOutOfBoundsException){
+                if (response.result.postResult.imageLinks.size > 1) {
+                    vedio.visibility = View.GONE
+                    viewPager2.visibility = View.VISIBLE
+                    indicator3.visibility = View.VISIBLE
+                    val imageList: List<String> = response.result.postResult.imageLinks
+                    setImageAdaptor(imageList)
+                } else {
+                    var filedata = response.result.postResult.imageLinks[0]
+                    Glide.with(this).load(filedata).into(vedio);
+
+                }
+
+            } catch (e: IndexOutOfBoundsException) {
                 e.printStackTrace()
             }
 
-        }
-
-        else if (apiName.equals("LikeUnlike")) {
+        } else if (apiName.equals("LikeUnlike")) {
             postdetails()
-        }
-
-        else if (apiName.equals("FollowUnfollow"))
-        {
+        } else if (apiName.equals("FollowUnfollow")) {
             if (isFollow == true) {
                 follow.setText("Unfollow")
             } else if (isFollow == false) {
                 follow.setText("Follow")
             }
         }
+//        else if (apiName.equals("SaveUnsave")) {
+//            if (isFollow == true) {
+//                follow.setText("Unfollow")
+//            } else if (isFollow == false) {
+//                follow.setText("Follow")
+//            }
+//        }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+        androidextention.disMissProgressDialog(this)
+        Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
+    }
+
+    fun setImageAdaptor(imageList: List<String>) {
+        adapter = ImageSliderAdaptor(imageList, this)
+        viewPager2.adapter = adapter
+        indicator3.setViewPager(viewPager2)
     }
 }

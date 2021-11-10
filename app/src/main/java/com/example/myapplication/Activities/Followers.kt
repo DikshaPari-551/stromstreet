@@ -37,23 +37,17 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
         back_arrow_chat.setOnClickListener {
             finish()
         }
-
     }
 
     private fun followerApi() {
-        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
-//        val Token =
-//            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmZiMTBjZTYzMjY0MjA4ZDA4MWExNSIsImVtYWlsIjoiYWpheUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ3MzQzMzMsImV4cCI6MTYzNDgyMDczM30.wjAzfZhDXGY6JfbNWG6bnSPZoXefj4jSrR6Kllf6z-U"
+        val Token = SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "Follower", mContext)
 //            val apiRequest = Api_Request()
-
 //            apiRequest.email = emailSignUp_et.getText().toString().trim()
-
-
             try {
                 serviceManager.getFollower(callBack)
             } catch (e: Exception) {
@@ -65,7 +59,7 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(this)
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
             var list = ArrayList<Docss>()
             list.addAll(response.result.docs)
 //            list.addAll(response.result.docss)
@@ -77,11 +71,11 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
 
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
 

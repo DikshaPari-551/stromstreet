@@ -10,17 +10,19 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.myapplication.Fragments.*
 import com.example.myapplication.customclickListner.ClickListner
-import com.example.myapplication.entity.Response.Chalist
-import com.example.myapplication.entity.Response.Messages
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.socket.SocketManager
 import com.example.myapplication.util.SavedPrefManager
+import com.google.android.gms.location.LocationServices
+
+import com.google.android.gms.location.FusedLocationProviderClient
 import java.io.*
 
 
@@ -37,6 +39,10 @@ class MainActivity : AppCompatActivity(), ClickListner {
     private var GALLERY = 1
     private  var CAMERA:Int = 2
     val CAMERA_PERM_CODE = 101
+    private val LOCATION_PERMISSION_REQ_CODE = 1000;
+
+    var marshMallowPermission: MarshMallowPermission? = null
+
     lateinit var socketInstance: SocketManager
 
 
@@ -47,6 +53,8 @@ class MainActivity : AppCompatActivity(), ClickListner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         RequestPermission.requestMultiplePermissions(this)
+        locationpermission()
+//        marshMallowPermission =MarshMallowPermission(this)
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -212,74 +220,40 @@ class MainActivity : AppCompatActivity(), ClickListner {
         ).commit()
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, d: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, d)
-//        if(resultCode == AppCompatActivity.RESULT_OK){
-//            if(requestCode == 1) {
-//                file = File(Environment.getExternalStorageDirectory().toString())
-//                for (temp in file!!.listFiles()) {
-//                    if (temp.name == "temp.jpg") {
-//                        file = temp
-//                        break
-//                    }
-//                }
-//            }
-//        }
-//        val bitmap: Bitmap
-//        if (requestCode == GALLERY) {
-//            try {
-//                val selectedImage: Uri? = d?.data
-//
-//                val filePath = arrayOf(MediaStore.Images.Media.DATA)
-//                val c: Cursor? =
-//                    contentResolver.query(selectedImage!!, filePath, null, null, null)
-//                c?.moveToFirst()
-//                val columnIndex: Int = c!!.getColumnIndex(filePath[0])
-//                val picturePath: String = c.getString(columnIndex)
-//                c?.close()
-//                val thumbnail = BitmapFactory.decodeFile(picturePath)
-////                    Log.w(
-////                        "path of image from gallery",
-////                        picturePath + ""
-////                    )
-//                supportFragmentManager?.beginTransaction()?.replace(R.id.layout,AddPostFragment())?.commit()
-//                finish()
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        } else if (requestCode == CAMERA) {
-//            try {
-//                val bitmapOptions = BitmapFactory.Options()
-//                bitmap = BitmapFactory.decodeFile(
-//                    file?.absolutePath,
-//                    bitmapOptions
-//                )
-////                frontImage.setImageBitmap(bitmap)
-//                supportFragmentManager?.beginTransaction()?.replace(R.id.layout,AddPostFragment())?.commit()
-//                finish()
-//                val path = (Environment
-//                    .getExternalStorageDirectory()
-//                    .toString() + File.separator
-//                        + "Phoenix" + File.separator + "default")
-//                file?.delete()
-//                var outFile: OutputStream? = null
-//                val file = File(path, System.currentTimeMillis().toString() + ".jpg")
-//                try {
-//                    outFile = FileOutputStream(file)
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile)
-//                    outFile.flush()
-//                    outFile.close()
-//                } catch (e: FileNotFoundException) {
-//                    e.printStackTrace()
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-//
-//    }
+    private fun locationpermission() {
+        // checking location permission
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // request permission
+            ActivityCompat.requestPermissions(
+                this as Activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQ_CODE
+            );
+            return
+        }
+        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                // getting the last known or current location
+                try {
+                    var latitude = location.latitude
+                    var longitude = location.longitude
+                    SavedPrefManager.setLatitudeLocation(latitude)
+                    SavedPrefManager.setLongitudeLocation(longitude)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    this, "Failed on getting current location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
 }

@@ -120,6 +120,7 @@ data class ProfileResult (
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
     @SerializedName("__v") val __v : Int,
+
     @SerializedName("deviceToken") val deviceToken : String
 )
 
@@ -137,6 +138,8 @@ data class PostResult (
     @SerializedName("categoryId") val categoryId : CategoryId,
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("address") val address: String,
+
     @SerializedName("__v") val __v : Int
 )
 

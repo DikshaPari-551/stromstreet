@@ -92,16 +92,9 @@ class ServiceManager(var mContext: Context?) {
 
     }
 
-
-
-//
-//    fun updateprofile(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it,true)!!.update(jsonObject) }!!.enqueue(callBack)
-//
-//    }
-
-    fun getProfile(callBack: ApiCallBack<Responce>, token : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!.enqueue(callBack)
+    fun getProfile(callBack: ApiCallBack<Responce>, token: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getUserProfile(token) }!!
+            .enqueue(callBack)
     }
 
     fun getFollower(callBack: ApiCallBack<LocalActivityResponse>) {
@@ -112,17 +105,19 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.followingUser() }!!.enqueue(callBack)
     }
 
-    fun getFollowunfollow(callBack: ApiCallBack<Responce>,_id : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followingUnfollow(_id) }!!.enqueue(callBack)
+    fun getFollowunfollow(callBack: ApiCallBack<Responce>, _id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingUnfollow(_id) }!!
+            .enqueue(callBack)
     }
 
 
-
-    fun getLikeunlike(callBack: ApiCallBack<Responce>,_id : String) {
+    fun getLikeunlike(callBack: ApiCallBack<Responce>, _id: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.likeUnlike(_id) }!!.enqueue(callBack)
     }
-  fun getSavepost(callBack: ApiCallBack<Responce>,postId : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.saveUnsave(postId) }!!.enqueue(callBack)
+
+    fun getSavepost(callBack: ApiCallBack<Responce>, postId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.saveUnsave(postId) }!!
+            .enqueue(callBack)
     }
 
     fun getLogout(callBack: ApiCallBack<Responce>) {
@@ -133,31 +128,44 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.savedList() }!!.enqueue(callBack)
     }
 
-    fun commentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, postId : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.comment(postId,jsonObject) }!!
+    fun commentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, postId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.comment(postId, jsonObject) }!!
             .enqueue(callBack)
     }
-    fun reportPostApi(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, _id : String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.reportPost(_id,jsonObject) }!!
+
+    fun reportPostApi(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, _id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.reportPost(_id, jsonObject) }!!
             .enqueue(callBack)
     }
-    fun getPostDetails(callBack: ApiCallBack<Responce>,postId: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!.enqueue(callBack)
+
+    fun getPostDetails(callBack: ApiCallBack<Responce>, postId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!
+            .enqueue(callBack)
     }
 
     fun getLocalActivity(
         callBack: ApiCallBack<LocalActivityResponse>,
-        lat: Double,
-        lng: Double,
+        lat: Double?,
+        lng: Double?,
         apiRequest: Api_Request?
     ) {
         mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest) }!!.enqueue(callBack)
     }
-    fun getTrendingPost(callBack: ApiCallBack<LocalActivityResponse>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.trendingPost() }!!.enqueue(callBack)
+    fun getTrendingPost(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        latitude: Double?,
+        longitude: Double?,
+        apiRequest: Api_Request?
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
     }
 
-    fun getFollowingActivity(callBack: ApiCallBack<LocalActivityResponse>) {
+    fun getFollowingActivity(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        latitude: Double?,
+        longitude: Double?,
+        apiRequest: Api_Request
+    ) {
         mContext?.let { Remotedatasource.current(it, true)!!.followingActivity() }!!.enqueue(callBack)
     }
 
@@ -175,90 +183,35 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-
-
-
-    fun getOtherProfile(callBack: ApiCallBack<Responce>,_id: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.getOtherProfile(_id) }!!.enqueue(callBack)
+    fun getOtherProfile(callBack: ApiCallBack<Responce>, _id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getOtherProfile(_id) }!!
+            .enqueue(callBack)
     }
 
-    fun getOtherUserProfile(callBack: ApiCallBack<Responce>,_id: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.otherUserProfile(_id) }!!.enqueue(callBack)
+    fun getOtherUserProfile(callBack: ApiCallBack<Responce>, _id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.otherUserProfile(_id) }!!
+            .enqueue(callBack)
     }
-    fun getOtherUserPost(callBack: ApiCallBack<Responce>,userId: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.otherUserPost(userId) }!!.enqueue(callBack)
+
+    fun getOtherUserPost(callBack: ApiCallBack<Responce>, userId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.otherUserPost(userId) }!!
+            .enqueue(callBack)
     }
 
     fun getPostlist(callBack: ApiCallBack<LocalActivityResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.getPostList() }!!.enqueue(callBack)
     }
-    fun getOtherPostlist(callBack: ApiCallBack<Responce>,userId: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.getOtherPostList(userId) }!!.enqueue(callBack)
+
+    fun getOtherPostlist(callBack: ApiCallBack<Responce>, userId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getOtherPostList(userId) }!!
+            .enqueue(callBack)
     }
 
-    fun getCommentlist(callBack: ApiCallBack<Responce>,postId: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.getCommentList(postId) }!!.enqueue(callBack)
+    fun getCommentlist(callBack: ApiCallBack<Responce>, postId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getCommentList(postId) }!!
+            .enqueue(callBack)
     }
-//    fun getFollower(callBack: ApiCallBack<Responce>, token : String) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(token) }!!.enqueue(callBack)
-//    }
-//    fun googleSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.googleSignUp(jsonObject) }!!
-//            .enqueue(callBack)
-//
-//    }
-//    fun getLogout(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.getlogout() }!!.enqueue(callBack)
-//
-//    }
-//    fun sendfeedback(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.sendFeedback(jsonObject) }!!
-//            .enqueue(callBack)
-//
-//    }
-//    fun deleteacc(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.deleteAccount(jsonObject) }!!
-//            .enqueue(callBack)
-//
-//    }
-//
-//    //sleep trainig
-//
-//    fun sleepTraining(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.sleeptraining(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
-//
-//    fun sleepTrainingRecording(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.sleeptrainingrecording(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
-//
-//    fun facebookSignUp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, false)!!.facebooksignup(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
-//
-//    fun getSleepTraining(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.getsleeptraining() }!!.enqueue(callBack)
-//    }
-//    fun getSleepTrainingRecording(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.getsleeptrainingrecording() }!!.enqueue(callBack)
-//    }
-//
-//    fun createTrailList(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.createTrail(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
-//
-//    fun getTrailList(callBack: ApiCallBack<Responce>) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.trailList() }!!.enqueue(callBack)
-//    }
-//
-//    fun trailDetail(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-//        mContext?.let { Remotedatasource.current(it, true)!!.trailDetail(jsonObject) }!!
-//            .enqueue(callBack)
-//    }
+
 
 }
 

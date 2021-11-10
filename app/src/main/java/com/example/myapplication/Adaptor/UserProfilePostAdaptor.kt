@@ -21,6 +21,7 @@ class UserProfilePostAdaptor(
 ):  RecyclerView.Adapter<UserProfilePostAdaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var item = view.findViewById<ImageView>(R.id.item)
+        var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserProfilePostAdaptor.MyViewHolder {
@@ -35,9 +36,15 @@ class UserProfilePostAdaptor(
 
     override fun onBindViewHolder(holder: UserProfilePostAdaptor.MyViewHolder, position: Int) {
         try {
-            var filedata = list[position].imageLinks[0]
+            if (list[position].mediaType.toLowerCase().equals("video")){
+                holder.videoIcon.visibility = View.VISIBLE
+                var filedata = list[position].thumbNail
+                Glide.with(context).load(filedata).into(holder.item);
+            }else{
+                var filedata = list[position].imageLinks[0]
+                Glide.with(context).load(filedata).into(holder.item);
+            }
 
-            Glide.with(context).load(filedata).into(holder.item);
         }catch (e: IndexOutOfBoundsException){
             e.printStackTrace()
         }

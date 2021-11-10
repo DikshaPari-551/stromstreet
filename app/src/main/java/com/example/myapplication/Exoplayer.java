@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Activities.PostActivity2;
 import com.example.myapplication.customclickListner.IPlayer;
 import com.example.myapplication.customclickListner.IPlayerUI;
@@ -29,6 +29,7 @@ import com.example.myapplication.entity.Response.Responce;
 import com.example.myapplication.entity.Service_Base.ApiResponseListener;
 import com.example.myapplication.entity.Service_Base.ServiceManager;
 import com.example.myapplication.extension.androidextention;
+import com.example.myapplication.util.LoginFlagTwo;
 import com.example.myapplication.util.SavedPrefManager;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.PlaybackPreparer;
@@ -215,16 +216,28 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
         comment = findViewById(R.id.comment);
         comment.setOnClickListener(v->{
-            Intent i =new  Intent(this, PostActivity2.class);
-            startActivity(i);
+            if (LoginFlagTwo.getFLAG().equals("true")) {
+                Intent i = new Intent(this, PostActivity2.class);
+                startActivity(i);
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+            }
         });
 
         video_post_like.setOnClickListener(v->{
+
+            if (LoginFlagTwo.getFLAG().equals("true")) {
             likeunlike();
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+            }
         });
 
 
         savePost.setOnClickListener(v->{
+            if (LoginFlagTwo.getFLAG().equals("true")) {
             saveunsave();
             if (click == false) {
                 Toast.makeText(this,"Post Saved", Toast.LENGTH_SHORT).show();
@@ -233,10 +246,14 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 Toast.makeText(this,"Post Unsaved", Toast.LENGTH_SHORT).show();
                 click = false;
             }
+        } else {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        }
         });
 
         sharePost.setOnClickListener (v->{
-
+            if (LoginFlagTwo.getFLAG().equals("true")) {
                 Intent i =new  Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                   String shareBody= "Share Body";
@@ -244,16 +261,29 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 i.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
                 i.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(i, "Sharing using"));
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+            }
         });
 
         notifyPost.setOnClickListener (v->{
+            if (LoginFlagTwo.getFLAG().equals("true")) {
             Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        }
 
         });
 
         follow.setOnClickListener (v->{
+            if (LoginFlagTwo.getFLAG().equals("true")) {
             followunfollow();
-
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+            }
         });
 
 
@@ -327,28 +357,33 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
         @Override
         public void onApiSuccess(Responce response, @Nullable String apiName) {
+            commentcount.setText(String.valueOf(response.result.getCommentCount()));
+            LikeUnlike = response.result.isLike();
+            isFollow = response.result.isFollow();
             if (apiName.equals("PostDetails"))
             {
-                commentcount.setText(String.valueOf(response.result.getCommentCount()));
-                LikeUnlike = response.result.isLike();
-                isFollow = response.result.isFollow();
                 username.setText(response.result.getPostResult().getUserId().getUserName());
                 layoutMore.setText(response.result.getPostResult().getDescription());
                 eventType.setText(response.result.getPostResult().getCategoryId().getCategoryName().toString());
                 totalLike.setText(String.valueOf(response.result.getLikeCount()));
                 commentcount.setText(String.valueOf(response.result.getCommentCount()));
                 postid =  response.result.getPostResult().getUserId().get_id();
-
+                viedeourl =  response.result.getPostResult().getVideoLink();
 
 //            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
-
+                try {
+                  String profile = response.result.getPostResult().getUserId().getProfilePic().toString();
+                    Glide.with(this).load(profile).into(profileimg);
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
                 if (LikeUnlike == true)
                 {
-                    video_post_like.setBackgroundColor(Color.RED);
+                    video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartred));
                 } else if (LikeUnlike == false) {
-                    video_post_like.setColorFilter((R.color.white));
+                    video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartwhite));
                 }
-
+                initPre23(response.result.getPostResult().getVideoLink());
             }
             else
             if (apiName.equals("FollowUnfollow"))
@@ -363,15 +398,12 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                   if (apiName.equals("LikeUnlike")) {
                 postdetails();
             }
-            viedeourl="https://res.cloudinary.com/mobiloitte-testing/video/upload/v1634802739/j7iau2ry8rlfiixkz16r.mp4";
-            initPre23("");
         }
 
 
         @Override
         public void onApiErrorBody(@Nullable ResponseBody response, @Nullable String apiName) {
-            viedeourl="https://res.cloudinary.com/mobiloitte-testing/video/upload/v1634802739/j7iau2ry8rlfiixkz16r.mp4";
-            initPre23("");
+
         }
 
         @Override
@@ -498,7 +530,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         {
             if ((Util.SDK_INT <= 23 || !player.hasPlayer()))
             {
-                initPlayer(video);
+                initPlayer(videoLink);
             }
         }
 
@@ -530,7 +562,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                                int[] grantResults) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-               // initPlayer(video);
+                initPlayer(video);
             } else {
                // showToast(R.string.storage_permission_denied);
                 finish();

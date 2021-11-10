@@ -57,7 +57,6 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/taj_mahal"
                         android:scaleType="fitXY"
                         android:layout_marginTop="35dp">
                     </ImageView>
@@ -98,7 +97,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:paddingLeft="20dp"
-                                        android:text="Rockingprince$"
+                                        android:text=""
                                         android:fontFamily="@font/opensans_regular"
                                         android:textColor="@color/black"
                                         android:textSize="18dp"
@@ -129,9 +128,10 @@
                                         android:src="@drawable/location_black" />
 
                                     <TextView
+                                        android:id="@+id/address"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Okhla phase1"
+                                        android:text=""
                                         android:fontFamily="@font/opensans_light"
                                         android:textColor="@color/black"
                                         android:textSize="12dp"
