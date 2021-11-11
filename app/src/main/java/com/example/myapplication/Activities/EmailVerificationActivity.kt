@@ -19,7 +19,6 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
-import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import java.lang.Exception
 
@@ -174,8 +173,8 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+        androidextention.disMissProgressDialog(this)
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
             if (nameapi.equals("VerifyOtp")) {
                 if(activityFlag == "forgotactivity") {
                     if (response.responseCode == "200") {
@@ -203,14 +202,12 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
                 }
             } else if (nameapi.equals("ResendOtp")) {
                 if (response.responseCode == "200") {
+                    androidextention.disMissProgressDialog(this)
                     Toast.makeText(this, "Success" + response.result.otp, Toast.LENGTH_LONG).show()
 
                 }
 
             }
-        } else {
-
-            diasplay_toast("Please check internet connection.")
         }
     }
 

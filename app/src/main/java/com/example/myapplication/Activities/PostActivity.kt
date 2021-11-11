@@ -75,6 +75,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
+        getINent()
+        postdetails()
         backPostButton = findViewById(R.id.back_arrow_post)
         profileimg = findViewById(R.id.profileimg)
         sharePost = findViewById(R.id.share_post)
@@ -329,6 +331,12 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
 
+            if (isFollow == true) {
+                follow.setText("Unfollow")
+            } else if (isFollow == false) {
+                follow.setText("Follow")
+            }
+
 
             try {
                 if (response.result.postResult.imageLinks.size > 1) {
@@ -350,11 +358,12 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         } else if (apiName.equals("LikeUnlike")) {
             postdetails()
         } else if (apiName.equals("FollowUnfollow")) {
-            if (isFollow == true) {
-                follow.setText("Unfollow")
-            } else if (isFollow == false) {
-                follow.setText("Follow")
-            }
+            postdetails()
+//            if (isFollow == true) {
+//                follow.setText("Unfollow")
+//            } else if (isFollow == false) {
+//                follow.setText("Follow")
+//            }
         }
 //        else if (apiName.equals("SaveUnsave")) {
 //            if (isFollow == true) {
