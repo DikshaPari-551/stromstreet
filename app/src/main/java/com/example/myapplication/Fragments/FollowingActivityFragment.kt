@@ -179,7 +179,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -196,13 +196,10 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
     override fun customClick(value: Docss, type: String)   {
         USERID =   value._id
-
         if (type.equals("profile")){
-
             var intent = Intent(mContext, PostActivity::class.java)
 //            intent.putExtra("userId", USERID)
             SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-
             startActivity(intent)
         }
     }

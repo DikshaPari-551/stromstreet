@@ -52,12 +52,10 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var viewPager2: ViewPager2
     lateinit var indicator3: CircleIndicator3
     private lateinit var adapter: ImageSliderAdaptor
-
     var USERID: String = ""
     var postid: String = ""
     var LikeUnlike: Boolean = false
     var isFollow: Boolean = false
-
 //    lateinit var totalshare: TextView
 
     private var loginFlag: Boolean = false
@@ -316,6 +314,12 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
 
+            if (isFollow == true) {
+                follow.setText("Unfollow")
+            } else if (isFollow == false) {
+                follow.setText("Follow")
+            }
+
 
             try {
                 if (response.result.postResult.imageLinks.size > 1) {
@@ -337,11 +341,12 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         } else if (apiName.equals("LikeUnlike")) {
             postdetails()
         } else if (apiName.equals("FollowUnfollow")) {
-            if (isFollow == true) {
-                follow.setText("Unfollow")
-            } else if (isFollow == false) {
-                follow.setText("Follow")
-            }
+            postdetails()
+//            if (isFollow == true) {
+//                follow.setText("Unfollow")
+//            } else if (isFollow == false) {
+//                follow.setText("Follow")
+//            }
         }
 //        else if (apiName.equals("SaveUnsave")) {
 //            if (isFollow == true) {
