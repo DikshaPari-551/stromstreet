@@ -18,18 +18,16 @@ import com.example.myapplication.Exoplayer
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.CustomClickListner3
 import com.example.myapplication.entity.ApiCallBack
-import com.example.myapplication.entity.Response.Docs
-import com.example.myapplication.entity.Response.Docss
-import com.example.myapplication.entity.Response.LocalActivityResponse
-import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Response.*
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
-class FirstFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , CustomClickListner2 {
+class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse> , CustomClickListner3 {
 
     lateinit var recycler: RecyclerView
     lateinit var noPost: TextView
@@ -59,8 +57,8 @@ class FirstFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , C
         if (androidextention.isOnline(mContext)) {
             androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
-            val callBack: ApiCallBack<LocalActivityResponse> =
-                ApiCallBack<LocalActivityResponse>(this, "SavedPostList", mContext)
+            val callBack: ApiCallBack<UserPostResponse> =
+                ApiCallBack<UserPostResponse>(this, "SavedPostList", mContext)
 
 
             try {
@@ -71,12 +69,12 @@ class FirstFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , C
         }
     }
 
-    override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
+    override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(mContext)
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
-            var list = ArrayList<Docss>()
+            var list = ArrayList<UserPostDocs>()
             if(list != null) {
                 list.addAll(response.result.docs)
                 setAdapter(list)
@@ -99,7 +97,7 @@ class FirstFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , C
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
-    fun setAdapter(list: ArrayList<Docss>) {
+    fun setAdapter(list: ArrayList<UserPostDocs>) {
         adaptor = this?.let { ProfileAdaptor(it,list, this) }!!
         val layoutManager = GridLayoutManager(activity, 3)
         recycler?.layoutManager = layoutManager
@@ -107,7 +105,9 @@ class FirstFragment : Fragment(), ApiResponseListener<LocalActivityResponse> , C
     }
 
 
-    override fun customClick(value: Docss, type: String) {
+//    override fun customClick(value: Docss, type: String)
+
+    override fun customClick(value: UserPostDocs, type: String) {
         USERID = value._id
 //
 //        if (type.equals("profile")) {

@@ -2,6 +2,7 @@ package com.example.myapplication.entity.Service_Base
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Response.UserPostResponse
 import okhttp3.MultipartBody
 
 import retrofit2.Call
@@ -77,7 +78,7 @@ interface Api_interface {
     fun logoutUser(): Call<Responce>?
 
     @GET("user/savePostList")
-    fun savedList(): Call<Responce>?
+    fun savedList(): Call<UserPostResponse>?
 
     @POST("user/comment")
     fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
@@ -115,7 +116,7 @@ interface Api_interface {
     fun otherUserPost(@Query("userId") userId: String): Call<Responce>?
 
     @POST("user/userPostList")
-    fun getPostList(): Call<LocalActivityResponse>?
+    fun getPostList(): Call<UserPostResponse>?
 
     @GET("user/othersPostList")
     fun getOtherPostList(@Query("userId") userId: String): Call<Responce>?
