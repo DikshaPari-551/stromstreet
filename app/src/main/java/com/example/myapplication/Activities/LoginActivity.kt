@@ -270,6 +270,8 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             else if (response.result.otpVerification == true)
             {
                 SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.TOKEN,response.result.token)
+                SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.USERID,response.result._id)
+
                 SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.userName,response.result.userName)
                 SavedPrefManager.saveStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN,"true")
                 LoginFlagTwo.setFLAG("true")

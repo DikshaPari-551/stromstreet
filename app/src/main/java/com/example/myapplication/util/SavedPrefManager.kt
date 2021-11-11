@@ -167,6 +167,7 @@ class SavedPrefManager(var context: Context) {
 
         const val AUTH_TOKEN = "auth_token"
         const val TOKEN = "token"
+        const val USERID = "userid"
         const val userName = "userName"
          var _id = "_id"
          var otherUserId = "otherUserId"
@@ -194,6 +195,10 @@ class SavedPrefManager(var context: Context) {
 
 
         private const val PREF_HIGH_QUALITY = "pref_high_quality"
+        const val IMAGE_ONE : String = "IMAGE_ONE"
+        const val IMAGE_TWO : String = "IMAGE_TWO"
+        const val IMAGE_THREE : String = "IMAGE_THREE"
+
         fun getInstance(context: Context): SavedPrefManager? {
             if (instance == null) {
                 synchronized(SavedPrefManager::class.java) {
