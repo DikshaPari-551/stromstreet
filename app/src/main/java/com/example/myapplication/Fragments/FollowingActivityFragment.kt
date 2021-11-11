@@ -155,17 +155,11 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
             try {
                 if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
-
                     serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
-
                 } else if (searchValue != null && !searchValue.equals("")) {
-
                     serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
-
                 } else {
-
                     serviceManager.getFollowingActivity(callBack,null, null, apiRequest)
-
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -180,7 +174,6 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         var list = ArrayList<Docss>()
         list.addAll(response.result.docs)
         setAdapter(list)
-
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
