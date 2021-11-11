@@ -173,7 +173,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             }
         } else {
 
-            diasplay_toast("Check Your Internet Connection")
+            diasplay_toast("Please check internet connection.")
         }
     }
 

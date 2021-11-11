@@ -24,7 +24,7 @@ import okhttp3.ResponseBody
 
 
 class secondFragment(var s: String) : Fragment(), FilterCustomListener {
-lateinit var man:ImageView
+    lateinit var man: ImageView
     lateinit var textSearch1: LinearLayout
     lateinit var textSearch2: LinearLayout
     lateinit var textSearch3: LinearLayout
@@ -35,12 +35,12 @@ lateinit var man:ImageView
     lateinit var textSearch5: LinearLayout
     lateinit var categoryList: RecyclerView
 
-    lateinit var serviceManager : ServiceManager
+    lateinit var serviceManager: ServiceManager
     lateinit var callBack: ApiCallBack<Responce>
-    lateinit var mContext : Context
+    lateinit var mContext: Context
     lateinit var adaptor: CategoryListAdaptor
     var catId: String = ""
-     var maxDis: Int = 0
+    var maxDis: Int = 0
 
 
     override fun onCreateView(
@@ -48,52 +48,52 @@ lateinit var man:ImageView
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var v= inflater.inflate(R.layout.fragment_second, container, false)
+        var v = inflater.inflate(R.layout.fragment_second, container, false)
         mContext = activity!!.applicationContext
         serviceManager = ServiceManager(activity)
 
-        man=v.findViewById(R.id.user)
+        man = v.findViewById(R.id.user)
 
-        textSearch1=v.findViewById(R.id.textsearch1)
-        textSearch2=v.findViewById(R.id.textsearch2)
+        textSearch1 = v.findViewById(R.id.textsearch1)
+        textSearch2 = v.findViewById(R.id.textsearch2)
 
-        textSearch3=v.findViewById(R.id.textsearch3)
-        textSearch4=v.findViewById(R.id.textsearch4)
+        textSearch3 = v.findViewById(R.id.textsearch3)
+        textSearch4 = v.findViewById(R.id.textsearch4)
 
-        textSearch5=v.findViewById(R.id.textsearch5)
-        textSearch6=v.findViewById(R.id.textsearch6)
-        categoryList=v.findViewById(R.id.categoty_list)
+        textSearch5 = v.findViewById(R.id.textsearch5)
+        textSearch6 = v.findViewById(R.id.textsearch6)
+        categoryList = v.findViewById(R.id.categoty_list)
 
         //api
         categoryListApi()
-        textSearch1.setOnClickListener{
+        textSearch1.setOnClickListener {
             textSearch1.setBackgroundResource(R.drawable.drawable_chat)
             textSearch2.setBackgroundResource(R.drawable.background_edit_text)
             textSearch3.setBackgroundResource(R.drawable.background_edit_text)
             textSearch4.setBackgroundResource(R.drawable.background_edit_text)
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
             textSearch6.setBackgroundResource(R.drawable.background_edit_text)
-            maxDis =5
+            maxDis = 5
         }
-        textSearch3.setOnClickListener{
+        textSearch3.setOnClickListener {
             textSearch3.setBackgroundResource(R.drawable.drawable_chat)
             textSearch2.setBackgroundResource(R.drawable.background_edit_text)
             textSearch1.setBackgroundResource(R.drawable.background_edit_text)
             textSearch4.setBackgroundResource(R.drawable.background_edit_text)
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
             textSearch6.setBackgroundResource(R.drawable.background_edit_text)
-            maxDis=10
+            maxDis = 10
         }
-        textSearch4.setOnClickListener{
+        textSearch4.setOnClickListener {
             textSearch4.setBackgroundResource(R.drawable.drawable_chat)
             textSearch2.setBackgroundResource(R.drawable.background_edit_text)
             textSearch3.setBackgroundResource(R.drawable.background_edit_text)
             textSearch1.setBackgroundResource(R.drawable.background_edit_text)
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
             textSearch6.setBackgroundResource(R.drawable.background_edit_text)
-            maxDis=15
+            maxDis = 15
         }
-        textSearch5.setOnClickListener{
+        textSearch5.setOnClickListener {
             textSearch5.setBackgroundResource(R.drawable.drawable_chat)
             textSearch2.setBackgroundResource(R.drawable.background_edit_text)
             textSearch3.setBackgroundResource(R.drawable.background_edit_text)
@@ -103,7 +103,7 @@ lateinit var man:ImageView
             maxDis = 20
 
         }
-        textSearch6.setOnClickListener{
+        textSearch6.setOnClickListener {
             textSearch6.setBackgroundResource(R.drawable.drawable_chat)
             textSearch2.setBackgroundResource(R.drawable.background_edit_text)
             textSearch3.setBackgroundResource(R.drawable.background_edit_text)
@@ -112,7 +112,7 @@ lateinit var man:ImageView
             textSearch5.setBackgroundResource(R.drawable.background_edit_text)
             maxDis = 30
         }
-        textSearch2.setOnClickListener{
+        textSearch2.setOnClickListener {
             textSearch2.setBackgroundResource(R.drawable.drawable_chat)
             textSearch1.setBackgroundResource(R.drawable.background_edit_text)
             textSearch3.setBackgroundResource(R.drawable.background_edit_text)
@@ -136,18 +136,18 @@ lateinit var man:ImageView
                     fragObj
                 )
                     ?.commit()
-            } else if(s.equals("trending")) {
-                    val bundle = Bundle()
-                    bundle.putString("CAT_ID", catId)
-                    bundle.putInt("MAX_DIS", maxDis)
-                    val fragObj = TrendingFragment()
+            } else if (s.equals("trending")) {
+                val bundle = Bundle()
+                bundle.putString("CAT_ID", catId)
+                bundle.putInt("MAX_DIS", maxDis)
+                val fragObj = TrendingFragment()
                 fragObj.arguments = bundle
                 getFragmentManager()?.beginTransaction()?.replace(
                     R.id.linear_layout,
                     fragObj
                 )
                     ?.commit()
-            } else if(s.equals("following")) {
+            } else if (s.equals("following")) {
                 val bundle = Bundle()
                 bundle.putString("CAT_ID", catId)
                 bundle.putInt("MAX_DIS", maxDis)
@@ -164,47 +164,51 @@ lateinit var man:ImageView
     }
 
     private fun categoryListApi() {
-        androidextention.showProgressDialog(mContext)
-        callBack =
-            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
-                override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    if (response.responseCode == "200") {
-                        val list : List<CategoryResult> = response.result.categoryResult
-                        setCategoryListAdaptor(list)
-                    } else {
+        if (androidextention.isOnline(mContext)) {
+            androidextention.showProgressDialog(mContext)
+            callBack =
+                ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+                    override fun onApiSuccess(response: Responce, apiName: String?) {
+                        androidextention.disMissProgressDialog(mContext)
+                        if (response.responseCode == "200") {
+                            val list: List<CategoryResult> = response.result.categoryResult
+                            setCategoryListAdaptor(list)
+                        } else {
+                            Toast.makeText(
+                                activity,
+                                response.responseMessage,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+
+                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                        androidextention.disMissProgressDialog(mContext)
                         Toast.makeText(
                             activity,
-                            response.responseMessage,
+                            "error response" + response.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                }
 
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(
-                        activity,
-                        "error response" + response.toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                        androidextention.disMissProgressDialog(mContext)
+                        Toast.makeText(
+                            activity,
+                            "failure response:" + failureMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
 
-                override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
-                    Toast.makeText(
-                        activity,
-                        "failure response:" + failureMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                }, "CategoryList", mContext)
 
-            }, "CategoryList",mContext)
+            try {
+                serviceManager.getCategoryList(callBack)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
 
-        try {
-            serviceManager.getCategoryList(callBack)
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
@@ -243,7 +247,7 @@ lateinit var man:ImageView
                     ).show()
                 }
 
-            }, "Filter",mContext)
+            }, "Filter", mContext)
 
 //        val api_Request = Api_Request()
 //        api_Request.categoryId = ""
@@ -257,7 +261,7 @@ lateinit var man:ImageView
     }
 
     fun setCategoryListAdaptor(list: List<CategoryResult>) {
-        adaptor = CategoryListAdaptor(list,this,mContext)
+        adaptor = CategoryListAdaptor(list, this, mContext)
         val layoutManager = LinearLayoutManager(activity)
         categoryList.layoutManager = layoutManager
         categoryList.adapter = adaptor

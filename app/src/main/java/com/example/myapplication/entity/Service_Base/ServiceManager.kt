@@ -5,6 +5,8 @@ import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Response.UserPostDocs
+import com.example.myapplication.entity.Response.UserPostResponse
 import okhttp3.MultipartBody
 
 
@@ -124,7 +126,7 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.logoutUser() }!!.enqueue(callBack)
     }
 
-    fun getSavedList(callBack: ApiCallBack<Responce>) {
+    fun getSavedList(callBack: ApiCallBack<UserPostResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.savedList() }!!.enqueue(callBack)
     }
 
@@ -178,8 +180,9 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, false)!!.uploadFile(file!!) }!!
             .enqueue(callBack)
     }
-    fun addUpost(callBack: ApiCallBack<Responce>, file: ArrayList<MultipartBody.Part>?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.addUPost(file!!) }!!
+
+    fun uploadMultiData(callBack: ApiCallBack<Responce>, file: ArrayList<MultipartBody.Part>?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.addUPost(file!!) }!!
             .enqueue(callBack)
     }
 
@@ -198,7 +201,7 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-    fun getPostlist(callBack: ApiCallBack<LocalActivityResponse>) {
+    fun getPostlist(callBack: ApiCallBack<UserPostResponse>) {
         mContext?.let { Remotedatasource.current(it, true)!!.getPostList() }!!.enqueue(callBack)
     }
 

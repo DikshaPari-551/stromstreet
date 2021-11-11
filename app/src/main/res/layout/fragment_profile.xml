@@ -74,8 +74,7 @@
                             android:id="@+id/user_profile"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/circleprofile"
-                            />
+                            android:src="@drawable/circleprofile" />
 
                         <TextView
                             android:id="@+id/username"
@@ -83,8 +82,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
-                            android:text="Rockingprince$"
                             android:fontFamily="@font/opensans_semibold"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -114,7 +113,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="20dp"
-                                    android:text="100"
+                                    android:text="0"
                                     android:fontFamily="@font/opensans_semibold"
                                     android:textColor="@color/black"
                                     android:textSize="20sp"
@@ -145,7 +144,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="20dp"
                                     android:fontFamily="@font/opensans_semibold"
-                                    android:text="20"
+                                    android:text="0"
                                     android:textColor="@color/black"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />

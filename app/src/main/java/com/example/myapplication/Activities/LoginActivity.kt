@@ -254,8 +254,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 e.printStackTrace()
             }
         } else {
-
-            diasplay_toast("Check Your Internet Connection")
+            diasplay_toast("Please check internet connection.")
         }
     }
 

@@ -15,16 +15,19 @@ import com.example.myapplication.Adaptor.SaveListAdaptor
 import com.example.myapplication.Exoplayer
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
+import com.example.myapplication.customclickListner.CustomClickListner3
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Response.Docs
 import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Response.UserPostDocs
+import com.example.myapplication.entity.Response.UserPostResponse
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
-class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickListner {
+class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , CustomClickListner3 {
     lateinit var recyclerview:RecyclerView
     lateinit var mContext : Context
     lateinit var adaptor: SaveListAdaptor
@@ -51,8 +54,8 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickL
         if (androidextention.isOnline(mContext)) {
             androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
-            val callBack: ApiCallBack<Responce> =
-                ApiCallBack<Responce>(this, "SavedPostList", mContext)
+            val callBack: ApiCallBack<UserPostResponse> =
+                ApiCallBack<UserPostResponse>(this, "SavedPostList", mContext)
 
 
             try {
@@ -63,12 +66,12 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickL
         }
     }
 
-    override fun onApiSuccess(response: Responce, apiName: String?) {
+    override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(mContext)
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
-            var list = ArrayList<Docs>()
+            var list = ArrayList<UserPostDocs>()
             list.addAll(response.result.docs)
             setAdapter(list)
 
@@ -77,21 +80,25 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickL
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        androidextention.disMissProgressDialog(mContext)
+
         Toast.makeText(activity, "No Post Saved", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        androidextention.disMissProgressDialog(mContext)
+
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
-    fun setAdapter(list: ArrayList<Docs>) {
+    fun setAdapter(list: ArrayList<UserPostDocs>) {
         adaptor = this?.let { SaveListAdaptor(it, list,this) }!!
         val layoutManager = GridLayoutManager(activity,3)
         recyclerview?.layoutManager = layoutManager
         recyclerview?.adapter = adaptor
     }
 
-    override fun customClick(value: Docs, type: String) {
+    override fun customClick(value: UserPostDocs, type: String) {
         USERID = value.postId._id
 
 //        if (type.equals("profile")) {
@@ -125,5 +132,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<Responce> , CustomClickL
 
         }
     }
+
+
 }
 

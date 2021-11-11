@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@color/black"
+    android:orientation="vertical"
     tools:context=".Fragments.AddPostFragment">
 
 
-        <RelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/black"
@@ -31,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:text="Add Post"
             android:fontFamily="@font/opensans_regular"
+            android:text="Add Post"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -45,13 +45,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
-        android:orientation="vertical"
-        android:background="@drawable/add_post_bg">
+        android:background="@drawable/add_post_bg"
+        android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
             <LinearLayout
@@ -60,40 +59,40 @@
                 android:layout_margin="20dp"
                 android:orientation="vertical">
 
-<!--                <FrameLayout-->
-<!--                    android:id="@+id/recycler_view_container"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
+                <!--                <FrameLayout-->
+                <!--                    android:id="@+id/recycler_view_container"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content">-->
 
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:id="@+id/add_post_recycler_view"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content" />-->
+                <!--                    <androidx.recyclerview.widget.RecyclerView-->
+                <!--                        android:id="@+id/add_post_recycler_view"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content" />-->
 
-<!--                </FrameLayout>-->
+                <!--                </FrameLayout>-->
 
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="80dp">
+                    android:layout_height="80dp"
+                    android:orientation="horizontal">
+
                     <ImageView
                         android:id="@+id/image_1"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:padding="3dp"
                         android:scaleType="fitXY"
-
-                        />
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/image_2"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:padding="3dp"
                         android:layout_marginLeft="10dp"
+                        android:padding="3dp"
                         android:scaleType="fitXY"
+                        android:visibility="gone"
 
                         />
 
@@ -101,9 +100,10 @@
                         android:id="@+id/image_3"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:padding="3dp"
                         android:layout_marginLeft="10dp"
+                        android:padding="3dp"
                         android:scaleType="fitXY"
+                        android:visibility="gone"
 
                         />
 
@@ -125,12 +125,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/opensans_light"
                         android:gravity="center"
                         android:text=""
-                        android:textStyle="bold"
-                        android:fontFamily="@font/opensans_light"
                         android:textColor="@color/black"
-                        android:textSize="30px" />
+                        android:textSize="30px"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -145,16 +145,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="Write about post...."
                         android:fontFamily="@font/opensans_regular"
+                        android:gravity="top|left"
+                        android:hint="Write about post...."
                         android:inputType="textMultiLine"
                         android:lines="8"
-                        android:minLines="6"
-                        android:gravity="top|left"
                         android:maxLines="10"
-                        android:scrollbars="vertical"
+                        android:minLines="6"
                         android:paddingLeft="10dp"
                         android:paddingTop="20dp"
+                        android:scrollbars="vertical"
                         android:textSize="13dp" />
                 </LinearLayout>
 
@@ -180,14 +180,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerVertical="true"
-                                android:fontFamily="@font/opensans_regular"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="5dp"
                                 android:autofillHints="@string/app_name"
                                 android:background="@android:color/transparent"
+                                android:fontFamily="@font/opensans_regular"
                                 android:gravity="center"
                                 android:spinnerMode="dropdown" />
-
 
 
                             <ImageView
@@ -219,16 +218,16 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/opensans_regular"
                         android:gravity="center"
                         android:text="POST"
-                        android:fontFamily="@font/opensans_regular"
-                        android:textStyle="bold"
+                        android:textColor="@color/white"
                         android:textSize="20dp"
-                        android:textColor="@color/white"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 </LinearLayout>
