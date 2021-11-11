@@ -60,6 +60,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     var postid: String = ""
     var LikeUnlike: Boolean = false
     var isFollow: Boolean = false
+
 //    lateinit var totalshare: TextView
 
     private var loginFlag: Boolean = false
@@ -74,6 +75,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
+        getINent()
+        postdetails()
         backPostButton = findViewById(R.id.back_arrow_post)
         profileimg = findViewById(R.id.profileimg)
         sharePost = findViewById(R.id.share_post)

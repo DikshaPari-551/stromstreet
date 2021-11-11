@@ -9,4 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/recyclervieww"/>
+
+    <TextView
+        android:id="@+id/no_post"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No post available."
+        android:gravity="center"
+        android:textSize="21dp"
+        android:visibility="gone"/>
 </FrameLayout>

@@ -1,7 +1,9 @@
 package com.example.myapplication.Fragments
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.icu.text.Transliterator
 import android.location.Address
 import android.location.Geocoder
@@ -10,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -39,8 +42,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var mContext: Context
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
+    private var latitude: Double? = null
+    private var longitude: Double? = null
     lateinit var man: LinearLayout
     lateinit var recycler_view2: RecyclerView
     lateinit var localpost: TextView
@@ -65,7 +68,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         savedInstanceState: Bundle?
     ): View? {
         mContext = activity!!
-//        locationpermission()
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
 
@@ -93,7 +95,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             getLocalActivityApi()
         }
 
-//        address()
+
         getLocalActivityApi()
 
 
@@ -113,27 +115,31 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         }
 
         localpost.setOnClickListener {
-            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
-                ?.commit()
             followingPost.setTextColor(resources.getColor(R.color.white))
             home_text.setText("Local Activity")
             localpost.setTextColor(resources.getColor(R.color.orange))
             filter.visibility = View.GONE
             userHome.visibility = View.GONE
             backArrowHome.visibility = View.VISIBLE
-
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
+                ?.commit()
 
         }
         followingPost.setOnClickListener {
-            fragmentManager?.beginTransaction()
-                ?.replace(R.id.linear_layout, FollowingActivityFragment())
-                ?.commit()
-            followingPost.setTextColor(resources.getColor(R.color.orange))
-            home_text.setText("Following Activity")
-            localpost.setTextColor(resources.getColor(R.color.white))
-            filter.visibility = View.GONE
-            userHome.visibility = View.GONE
-            backArrowHome.visibility = View.VISIBLE
+            if(SavedPrefManager.getStringPreferences(mContext,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+                followingPost.setTextColor(resources.getColor(R.color.orange))
+                home_text.setText("Following Activity")
+                localpost.setTextColor(resources.getColor(R.color.white))
+                filter.visibility = View.GONE
+                userHome.visibility = View.GONE
+                backArrowHome.visibility = View.VISIBLE
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.linear_layout, FollowingActivityFragment())
+                    ?.commit()
+            } else {
+                val i = Intent(mContext, LoginActivity::class.java)
+                startActivity(i)
+            }
 
         }
 
@@ -159,7 +165,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         val gcd = Geocoder(mContext, Locale.getDefault())
         var addresses: List<Address>? = null
         try {
-            addresses = gcd.getFromLocation(latitude, longitude, 1)
+            addresses = gcd.getFromLocation(latitude!!, longitude!!, 1)
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -248,6 +254,4 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             }
         }
     }
-
-
 }

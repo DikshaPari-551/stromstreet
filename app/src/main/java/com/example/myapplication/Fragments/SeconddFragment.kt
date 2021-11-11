@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,8 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
     lateinit var mContext : Context
     lateinit var adaptor: SaveListAdaptor
     lateinit var USERID: String
+    lateinit var noPost: TextView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +42,8 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
     ): View? {
         // Inflate the layout for this fragment
         var v=  inflater.inflate(R.layout.fragment_secondd, container, false)
+        noPost = v.findViewById(R.id.no_post)
+
         mContext= activity!!
 
         savedpostlist()
@@ -82,7 +87,9 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
         androidextention.disMissProgressDialog(mContext)
 
-        Toast.makeText(activity, "No Post Saved", Toast.LENGTH_LONG).show()
+//        Toast.makeText(activity, "No Post Saved", Toast.LENGTH_LONG).show()
+        noPost.visibility = View.VISIBLE
+
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
