@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
             AddPostFragment(requestCode, resultCode, data, bottomSheetDialog, imagePath)
         ).commit()
     }
-
+//
 //    private fun locationpermission() {
 //        // checking location permission
 //        if (ActivityCompat.checkSelfPermission(

@@ -68,8 +68,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         savedInstanceState: Bundle?
     ): View? {
         mContext = activity!!
-//        locationpermission()
-        getLocation()
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
 
@@ -97,7 +95,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             getLocalActivityApi()
         }
 
-//        address()
+
         getLocalActivityApi()
 
 
@@ -255,44 +253,5 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 startActivity(intent)
             }
         }
-    }
-
-    fun getLocation() {
-        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
-        if (ActivityCompat.checkSelfPermission(
-                mContext,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                mContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                // getting the last known or current location
-                try {
-                    latitude = location.latitude
-                    longitude = location.longitude
-                    SavedPrefManager.setLatitudeLocation(latitude!!)
-                    SavedPrefManager.setLongitudeLocation(longitude!!)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    mContext, "Failed on getting current location",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
     }
 }

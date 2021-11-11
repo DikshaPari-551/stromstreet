@@ -119,7 +119,7 @@ interface Api_interface {
     fun getPostList(): Call<UserPostResponse>?
 
     @GET("user/othersPostList")
-    fun getOtherPostList(@Query("userId") userId: String): Call<Responce>?
+    fun getOtherPostList(@Query("userId") userId: String): Call<UserPostResponse>?
 
     @GET("user/commentList")
     fun getCommentList(@Query("postId") postId: String): Call<Responce>?

@@ -27,7 +27,7 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
-class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse> , CustomClickListner3 {
+class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse>, CustomClickListner3 {
 
     lateinit var recycler: RecyclerView
     lateinit var noPost: TextView
@@ -75,20 +75,15 @@ class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse> , Custom
             androidextention.disMissProgressDialog(mContext)
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
             var list = ArrayList<UserPostDocs>()
-            if(list != null) {
-                list.addAll(response.result.docs)
-                setAdapter(list)
-            } else {
-
-            }
-
+            list.addAll(response.result.docs)
+            setAdapter(list)
         }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
         androidextention.disMissProgressDialog(mContext)
-
-        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
+//        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
+        noPost.visibility = View.VISIBLE
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -98,7 +93,7 @@ class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse> , Custom
     }
 
     fun setAdapter(list: ArrayList<UserPostDocs>) {
-        adaptor = this?.let { ProfileAdaptor(it,list, this) }!!
+        adaptor = this?.let { ProfileAdaptor(it, list, this) }!!
         val layoutManager = GridLayoutManager(activity, 3)
         recycler?.layoutManager = layoutManager
         recycler?.adapter = adaptor
@@ -119,16 +114,12 @@ class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse> , Custom
 //        }
 
         if (type.equals("profile")) {
-            if(value.mediaType.toLowerCase().equals("video"))
-            {
+            if (value.mediaType.toLowerCase().equals("video")) {
                 var intent = Intent(mContext, Exoplayer::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 startActivity(intent)
 
-            }
-            else
-
-            {
+            } else {
                 var intent = Intent(mContext, PostActivity::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 startActivity(intent)
