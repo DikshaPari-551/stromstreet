@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         RequestPermission.requestMultiplePermissions(this)
-        locationpermission()
+//        locationpermission()
 //        marshMallowPermission =MarshMallowPermission(this)
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
@@ -176,40 +176,40 @@ class MainActivity : AppCompatActivity(), ClickListner {
         ).commit()
     }
 
-    private fun locationpermission() {
-        // checking location permission
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // request permission
-            ActivityCompat.requestPermissions(
-                this as Activity,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQ_CODE
-            );
-            return
-        }
-        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                // getting the last known or current location
-                try {
-                    var latitude = location.latitude
-                    var longitude = location.longitude
-                    SavedPrefManager.setLatitudeLocation(latitude)
-                    SavedPrefManager.setLongitudeLocation(longitude)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this, "Failed on getting current location",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-    }
+//    private fun locationpermission() {
+//        // checking location permission
+//        if (ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            // request permission
+//            ActivityCompat.requestPermissions(
+//                this as Activity,
+//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                LOCATION_PERMISSION_REQ_CODE
+//            );
+//            return
+//        }
+//        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        fusedLocationClient.lastLocation
+//            .addOnSuccessListener { location ->
+//                // getting the last known or current location
+//                try {
+//                    var latitude = location.latitude
+//                    var longitude = location.longitude
+//                    SavedPrefManager.setLatitudeLocation(latitude)
+//                    SavedPrefManager.setLongitudeLocation(longitude)
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
+//            .addOnFailureListener {
+//                Toast.makeText(
+//                    this, "Failed on getting current location",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//    }
 
 }
