@@ -50,8 +50,9 @@ class MainActivity : AppCompatActivity(), ClickListner {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        RequestPermission.requestMultiplePermissions(this)
         locationpermission()
+        RequestPermission.requestMultiplePermissions(this)
+
 //        marshMallowPermission =MarshMallowPermission(this)
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
@@ -191,25 +192,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
             );
             return
         }
-        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                // getting the last known or current location
-                try {
-                    var latitude = location.latitude
-                    var longitude = location.longitude
-                    SavedPrefManager.setLatitudeLocation(latitude)
-                    SavedPrefManager.setLongitudeLocation(longitude)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this, "Failed on getting current location",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+
     }
 
 }
