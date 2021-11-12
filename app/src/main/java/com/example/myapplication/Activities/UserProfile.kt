@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.ProfileAdaptor
 import com.example.myapplication.Adaptor.UserProfilePostAdaptor
 import com.example.myapplication.Exoplayer
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.entity.ApiCallBack
@@ -33,6 +34,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var totalfollower: LinearLayout
     lateinit var totalfollowing: LinearLayout
     lateinit var followbtn: LinearLayout
+    lateinit var message: LinearLayout
+
     lateinit var backButton: ImageView
     lateinit var profileImage: CircleImageView
     var mContext: Context = this
@@ -50,7 +53,9 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var postRecycler: RecyclerView
     var isFollow: Boolean = false
     lateinit var USERID: String
+    lateinit var reciver_id: String
     lateinit var Userid: String
+    lateinit var user_name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +73,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         following = findViewById(R.id.following)
         followuser = findViewById(R.id.followuser)
         followbtn = findViewById(R.id.followbtn)
+        message= findViewById(R.id.message)
         profileImage = findViewById(R.id.profileImage)
         postRecycler = findViewById(R.id.postRecycler)
         totalfollower = findViewById(R.id.totalfollower)
@@ -91,6 +97,11 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         back_arrow.setOnClickListener {
             finish()
         }
+        message.setOnClickListener({
+           startActivity(Intent(this, ChatActivity::class.java).putExtra("reciver_id",reciver_id).putExtra("username",user_name))
+
+
+        })
     }
 
     private fun userpostlist() {
@@ -145,13 +156,17 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
             username.setText(response.result.profileResult.userName)
             followers.setText(response.result.followerCount.toString())
             following.setText(response.result.followingCount.toString())
+            user_name= response.result.profileResult.fullName
+          reciver_id=  response.result.profileResult._id
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
         try {
             var filedata = response.result.profileResult.profilePic
             Glide.with(mContext).load(filedata).into(profileImage);
-        } catch (e: Exception) {
+        } catch (e: Exception)
+        {
             e.printStackTrace()
         }
 

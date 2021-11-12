@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.app.Activity
 import  com.example.myapplication.R
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,6 +18,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.myapplication.Fragments.*
 import com.example.myapplication.customclickListner.ClickListner
+import com.example.myapplication.entity.Response.Chalist
+import com.example.myapplication.entity.Response.Chatlist
+import com.example.myapplication.entity.Response.Messages
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.socket.SocketManager
 import com.example.myapplication.util.SavedPrefManager
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
     val CAMERA_PERM_CODE = 101
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
 
-    var marshMallowPermission: MarshMallowPermission? = null
+
 
     lateinit var socketInstance: SocketManager
 
@@ -197,6 +201,8 @@ class MainActivity : AppCompatActivity(), ClickListner {
             override fun chatlist(listdat: ArrayList<Chalist>) {
 
             }
+
+
 
             override fun viewchat(listdat: ArrayList<Messages>) {
 
