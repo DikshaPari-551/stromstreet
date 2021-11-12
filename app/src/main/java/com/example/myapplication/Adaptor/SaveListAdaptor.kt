@@ -24,6 +24,8 @@ class SaveListAdaptor(
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var item = view.findViewById<ImageView>(R.id.item)
         var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
+        var imageIcon = view.findViewById<ImageView>(R.id.image_icon)
+
 
     }
 
@@ -44,8 +46,14 @@ class SaveListAdaptor(
                 var filedata = list[position].postId.thumbNail
                 Glide.with(context).load(filedata).into(holder.item);
             }else{
-                var filedata = list[position].postId.imageLinks[0]
-                Glide.with(context).load(filedata).into(holder.item);
+                if (list.get(position).postId.imageLinks.size > 1) {
+                    holder.imageIcon.visibility = View.VISIBLE
+                    var filedata = list[position].postId.imageLinks[0]
+                    Glide.with(context).load(filedata).into(holder.item);
+                } else {
+                    var filedata = list[position].postId.imageLinks[0]
+                    Glide.with(context).load(filedata).into(holder.item);
+                }
             }
 
         }catch (e: IndexOutOfBoundsException){

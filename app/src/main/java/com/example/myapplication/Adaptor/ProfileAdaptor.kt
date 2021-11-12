@@ -25,6 +25,7 @@ class ProfileAdaptor(
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var item = view.findViewById<ImageView>(R.id.item)
         var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
+        var imageIcon = view.findViewById<ImageView>(R.id.image_icon)
 
     }
 
@@ -46,8 +47,14 @@ class ProfileAdaptor(
                 Glide.with(context).load(thumbnail).into(holder.item);
             }
             else{
-                var filedata = list[position].imageLinks[0]
-                Glide.with(context).load(filedata).into(holder.item);
+                if (list.get(position).imageLinks.size > 1) {
+                    holder.imageIcon.visibility = View.VISIBLE
+                    var filedata = list[position].imageLinks[0]
+                    Glide.with(context).load(filedata).into(holder.item);
+                } else {
+                    var filedata = list[position].imageLinks[0]
+                    Glide.with(context).load(filedata).into(holder.item);
+                }
             }
 
         }catch (e: IndexOutOfBoundsException){

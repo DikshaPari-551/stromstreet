@@ -35,6 +35,7 @@ class HomeAdaptor(
         var text_okhla = view.findViewById<TextView>(R.id.text_okhla)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
         var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
+        var imageIcon = view.findViewById<ImageView>(R.id.image_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdaptor.MyViewHolder {
@@ -53,7 +54,9 @@ class HomeAdaptor(
             holder.name.setText(list[position].userDetails.userName.toString())
             holder.bio.setText(list[position].userDetails.bio.toString())
             holder.text_okhla.setText(list[position].address)
-            holder.text_weather.setText(list[position].categoryDetails.get(position).categoryName)
+            for(i in 0 until list.size) {
+                holder.text_weather.setText(list[position].categoryDetails.get(i).categoryName)
+            }
         }catch (e: Exception){
             e.printStackTrace()
         }
@@ -67,8 +70,14 @@ class HomeAdaptor(
                 Glide.with(context).load(filedata).into(holder.postView);
             }
             else{
-                var filedata = list[position].imageLinks[0]
-                Glide.with(context).load(filedata).into(holder.postView);
+                if(list.get(position).imageLinks.size > 1) {
+                    holder.imageIcon.visibility = View.VISIBLE
+                    var filedata = list[position].imageLinks[0]
+                    Glide.with(context).load(filedata).into(holder.postView);
+                } else {
+                    var filedata = list[position].imageLinks[0]
+                    Glide.with(context).load(filedata).into(holder.postView);
+                }
             }
 
         }catch (e: Exception){
