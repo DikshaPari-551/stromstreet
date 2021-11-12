@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        locationpermission()
         RequestPermission.requestMultiplePermissions(this)
 //        locationpermission()
 //        marshMallowPermission =MarshMallowPermission(this)
@@ -90,8 +91,9 @@ class MainActivity : AppCompatActivity(), ClickListner {
 
         loginFlag = LoginFlag.getLoginFlag()
 
-        menu.setOnClickListener{
-            supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment()).commit()
+        menu.setOnClickListener {
+            supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment())
+                .commit()
             profile.setColorFilter(resources.getColor(R.color.grey))
             menu.setColorFilter(resources.getColor(R.color.white))
             bubble.setColorFilter(resources.getColor(R.color.grey))
@@ -113,9 +115,11 @@ class MainActivity : AppCompatActivity(), ClickListner {
             chat.setColorFilter(resources.getColor(R.color.white))
 
         }
-        add.setOnClickListener{
-            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
-                var bottomsheet = bottomSheetDialog("addpost",this)
+        add.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                var bottomsheet = bottomSheetDialog("addpost", this)
                 bottomsheet.show(supportFragmentManager, "bottomsheet")
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
@@ -146,8 +150,10 @@ class MainActivity : AppCompatActivity(), ClickListner {
         }
         profile.setColorFilter(resources.getColor(R.color.grey))
 
-        profile.setOnClickListener{
-            if(  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
+        profile.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 profile.setColorFilter(resources.getColor(R.color.white))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.grey))
@@ -290,5 +296,41 @@ class MainActivity : AppCompatActivity(), ClickListner {
 //        }
 //
 //    }
+
+    private fun locationpermission() {
+        // checking location permission
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // request permission
+            ActivityCompat.requestPermissions(
+                this as Activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQ_CODE
+            );
+            return
+        }
+        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                // getting the last known or current location
+                try {
+                    var latitude = location.latitude
+                    var longitude = location.longitude
+                    SavedPrefManager.setLatitudeLocation(latitude)
+                    SavedPrefManager.setLongitudeLocation(longitude)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    this, "Failed on getting current location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
 
 }

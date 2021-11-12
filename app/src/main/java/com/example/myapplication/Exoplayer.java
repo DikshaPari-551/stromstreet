@@ -3,21 +3,9 @@ package com.example.myapplication;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.pm.ActivityInfo;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Activities.PostActivity2;
@@ -28,8 +16,6 @@ import com.example.myapplication.entity.ApiCallBack;
 import com.example.myapplication.entity.Response.Responce;
 import com.example.myapplication.entity.Service_Base.ApiResponseListener;
 import com.example.myapplication.entity.Service_Base.ServiceManager;
-import com.example.myapplication.extension.androidextention;
-import com.example.myapplication.util.LoginFlagTwo;
 import com.example.myapplication.util.SavedPrefManager;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.PlaybackPreparer;
@@ -44,7 +30,6 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.EventLogger;
-import com.google.gson.JsonObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -52,22 +37,14 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -83,32 +60,19 @@ import androidx.core.content.ContextCompat;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.DecoderInitializationException;
 import com.google.android.exoplayer2.mediacodec.MediaCodecUtil.DecoderQueryException;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.DebugTextViewHelper;
 import com.google.android.exoplayer2.ui.PlaybackControlView;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.util.Util;
 
 
 import java.io.File;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.util.List;
-
-import android.os.Bundle;
-
-import org.jetbrains.annotations.NotNull;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTouchListener,
         OnClickListener, ExoPlayer.EventListener, PlaybackPreparer, SimpleExoPlayer.VideoListener, IPlayerUI, PlaybackControlView.VisibilityListener, ApiResponseListener<Responce> {
@@ -215,7 +179,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
         comment = findViewById(R.id.comment);
         comment.setOnClickListener(v -> {
-            if (LoginFlagTwo.getFLAG().equals("true")) {
+            if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 Intent i = new Intent(this, PostActivity2.class);
                 startActivity(i);
             } else {
@@ -226,7 +192,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
         video_post_like.setOnClickListener(v -> {
 
-            if (LoginFlagTwo.getFLAG().equals("true")) {
+            if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 likeunlike();
             } else {
                 Intent i = new Intent(this, LoginActivity.class);
@@ -236,7 +204,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
 
         savePost.setOnClickListener(v -> {
-            if (LoginFlagTwo.getFLAG().equals("true")) {
+            if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 saveunsave();
                 if (click == false) {
                     Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show();
@@ -252,7 +222,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         });
 
         sharePost.setOnClickListener(v -> {
-            if (LoginFlagTwo.getFLAG().equals("true")) {
+            if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                 String shareBody = "Share Body";
@@ -267,7 +239,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         });
 
         notifyPost.setOnClickListener(v -> {
-            if (LoginFlagTwo.getFLAG().equals("true")) {
+            if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
             } else {
                 Intent i = new Intent(this, LoginActivity.class);
@@ -277,7 +251,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         });
 
         follow.setOnClickListener(v -> {
-            if (LoginFlagTwo.getFLAG().equals("true")) {
+            if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 followunfollow();
             } else {
                 Intent i = new Intent(this, LoginActivity.class);
@@ -511,7 +487,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     @Override
     public void onResume() {
         super.onResume();
-
+        postdetails();
     }
 
     private void initPre23(String videoLink) {

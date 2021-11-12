@@ -1,6 +1,7 @@
 package com.example.myapplication.Fragments
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -67,12 +68,13 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mContext = activity!!
-        fusedLocationClient =
-            LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
+//        fusedLocationClient =
+//            LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
 
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_home, container, false)
+        mContext = activity!!
+
         recycler_view1 = v.findViewById(R.id.recycler_view1)
         home_text = v.findViewById(R.id.home_text)
         localpost = v.findViewById(R.id.text_local_post)
@@ -95,9 +97,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             getSearchText = searchText.text.toString()
             getLocalActivityApi()
         }
+        locationpermission()
 
-
-        getLocalActivityApi()
 
 
         man.setOnClickListener {
@@ -127,7 +128,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
         }
         followingPost.setOnClickListener {
-            if(SavedPrefManager.getStringPreferences(mContext,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+            if (SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 followingPost.setTextColor(resources.getColor(R.color.orange))
                 home_text.setText("Following Activity")
                 localpost.setTextColor(resources.getColor(R.color.white))
@@ -255,4 +258,42 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             }
         }
     }
+
+    private fun locationpermission() {
+        // checking location permission
+        if (ActivityCompat.checkSelfPermission(
+                mContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // request permission
+            ActivityCompat.requestPermissions(
+                mContext as Activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQ_CODE
+            );
+            return
+        }
+        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                // getting the last known or current location
+                try {
+                    latitude = location.latitude
+                    longitude = location.longitude
+                    SavedPrefManager.setLatitudeLocation(latitude!!)
+                    SavedPrefManager.setLongitudeLocation(longitude!!)
+                    getLocalActivityApi()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    mContext, "Failed on getting current location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
 }

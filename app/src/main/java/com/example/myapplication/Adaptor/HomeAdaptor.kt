@@ -53,6 +53,7 @@ class HomeAdaptor(
             holder.name.setText(list[position].userDetails.userName.toString())
             holder.bio.setText(list[position].userDetails.bio.toString())
             holder.text_okhla.setText(list[position].address)
+            holder.text_weather.setText(list[position].categoryDetails.get(position).categoryName)
         }catch (e: Exception){
             e.printStackTrace()
         }

@@ -22,7 +22,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        locationpermission()
 
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
