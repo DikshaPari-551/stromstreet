@@ -31,8 +31,8 @@ class TrendingListAdaptor(
         var text_okhla = view.findViewById<TextView>(R.id.text_okhla)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
         var text_weather = view.findViewById<TextView>(R.id.text_weather)
-
-
+        var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
+        var imageIcon = view.findViewById<ImageView>(R.id.image_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingListAdaptor.MyViewHolder {
@@ -46,23 +46,28 @@ class TrendingListAdaptor(
     }
 
     override fun onBindViewHolder(holder: TrendingListAdaptor.MyViewHolder, position: Int) {
-
-
         try {
-            holder.name.setText(list[position].userDetails.userName.toString())
-            holder.bio.setText(list[position].userDetails.bio.toString())
-            holder.text_okhla.setText(list[position].address)
-            holder.text_weather.setText(list[position].categoryDetails[position].categoryName)
-
-
-            if (list[position].mediaType.toLowerCase().equals("video")){
-                var filedata = list[position].thumbNail
-                Glide.with(context).load(filedata).into(holder.postView);
-            }else{
-                var filedata = list[position].imageLinks[0]
-                Glide.with(context).load(filedata).into(holder.postView);
+            for(i in 0 until list.size) {
+                holder.name.setText(list[position].userDetails.userName.toString())
+                holder.bio.setText(list[position].userDetails.bio.toString())
+                holder.text_okhla.setText(list[position].address)
+                holder.text_weather.setText(list[position].categoryDetails.get(i).categoryName)
+                if (list[position].mediaType.toLowerCase().equals("video")){
+                    holder.videoIcon.visibility = View.VISIBLE
+                    var filedata = list[position].thumbNail
+                    Glide.with(context).load(filedata).into(holder.postView);
+                }
+                else{
+                    if(list.get(position).imageLinks.size > 1) {
+                        holder.imageIcon.visibility = View.VISIBLE
+                        var filedata = list[position].imageLinks[0]
+                        Glide.with(context).load(filedata).into(holder.postView);
+                    } else {
+                        var filedata = list[position].imageLinks[0]
+                        Glide.with(context).load(filedata).into(holder.postView);
+                    }
+                }
             }
-
         }catch (e: IndexOutOfBoundsException){
             e.printStackTrace()
         }

@@ -26,5 +26,15 @@
             android:layout_marginRight="32dp"
             android:background="@drawable/ic_video_solid"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/image_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/ic_multi_image"
+            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

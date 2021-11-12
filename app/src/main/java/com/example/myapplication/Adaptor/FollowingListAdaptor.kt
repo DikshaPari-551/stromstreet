@@ -27,7 +27,11 @@ class FollowingListAdaptor(
         var postView = view.findViewById<ImageView>(R.id.postView)
         var name = view.findViewById<TextView>(R.id.name)
         var bio = view.findViewById<TextView>(R.id.bio)
+        var location = view.findViewById<TextView>(R.id.text_okhla)
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
+        var text_weather = view.findViewById<TextView>(R.id.text_weather)
+        var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
+        var imageIcon = view.findViewById<ImageView>(R.id.image_icon)
     }
 
     override fun onCreateViewHolder(
@@ -44,11 +48,30 @@ class FollowingListAdaptor(
     }
 
     override fun onBindViewHolder(holder: FollowingListAdaptor.MyViewHolder, position: Int) {
-        holder.name.setText(list[position].userDetails.userName.toString())
-        holder.bio.setText(list[position].userDetails.bio.toString())
         try {
-            var filedata = list[position].imageLinks[0]
-            Glide.with(context).load(filedata).into(holder.postView);
+            for(i in 0 until list.size) {
+                holder.name.setText(list[position].userDetails.userName.toString())
+                holder.bio.setText(list[position].userDetails.bio.toString())
+                holder.location.setText(list[position].address.toString())
+                holder.text_weather.setText(list[position].categoryDetails.get(i).categoryName)
+                if (list[position].mediaType.toLowerCase().equals("video")){
+                    holder.videoIcon.visibility = View.VISIBLE
+                    var filedata = list[position].thumbNail
+                    Glide.with(context).load(filedata).into(holder.postView);
+                }
+                else{
+                    if(list.get(position).imageLinks.size > 1) {
+                        holder.imageIcon.visibility = View.VISIBLE
+                        var filedata = list[position].imageLinks[0]
+                        Glide.with(context).load(filedata).into(holder.postView);
+                    } else {
+                        var filedata = list[position].imageLinks[0]
+                        Glide.with(context).load(filedata).into(holder.postView);
+                    }
+                }
+            }
+//            var filedata = list[position].imageLinks[0]
+//            Glide.with(context).load(filedata).into(holder.postView);
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
