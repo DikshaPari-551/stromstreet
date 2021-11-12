@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import android.Manifest
 import android.app.Activity
-import  com.example.myapplication.R
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -19,8 +18,8 @@ import androidx.core.content.ContextCompat
 import com.example.myapplication.Fragments.*
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.Response.Chalist
-import com.example.myapplication.entity.Response.Chatlist
 import com.example.myapplication.entity.Response.Messages
+import com.example.myapplication.entity.permission.MarshMallowPermission
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.socket.SocketManager
 import com.example.myapplication.util.SavedPrefManager
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
     val CAMERA_PERM_CODE = 101
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
 
-
+    var marshMallowPermission: MarshMallowPermission? = null
 
     lateinit var socketInstance: SocketManager
 
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         RequestPermission.requestMultiplePermissions(this)
-        locationpermission()
+//        locationpermission()
 //        marshMallowPermission =MarshMallowPermission(this)
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
@@ -112,9 +111,6 @@ class MainActivity : AppCompatActivity(), ClickListner {
             menu.setColorFilter(resources.getColor(R.color.grey))
             bubble.setColorFilter(resources.getColor(R.color.grey))
             chat.setColorFilter(resources.getColor(R.color.white))
-
-
-
 
         }
         add.setOnClickListener{
@@ -202,8 +198,6 @@ class MainActivity : AppCompatActivity(), ClickListner {
 
             }
 
-
-
             override fun viewchat(listdat: ArrayList<Messages>) {
 
             }
@@ -226,40 +220,75 @@ class MainActivity : AppCompatActivity(), ClickListner {
         ).commit()
     }
 
-    private fun locationpermission() {
-        // checking location permission
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // request permission
-            ActivityCompat.requestPermissions(
-                this as Activity,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQ_CODE
-            );
-            return
-        }
-        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                // getting the last known or current location
-                try {
-                    var latitude = location.latitude
-                    var longitude = location.longitude
-                    SavedPrefManager.setLatitudeLocation(latitude)
-                    SavedPrefManager.setLongitudeLocation(longitude)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this, "Failed on getting current location",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, d: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, d)
+//        if(resultCode == AppCompatActivity.RESULT_OK){
+//            if(requestCode == 1) {
+//                file = File(Environment.getExternalStorageDirectory().toString())
+//                for (temp in file!!.listFiles()) {
+//                    if (temp.name == "temp.jpg") {
+//                        file = temp
+//                        break
+//                    }
+//                }
+//            }
+//        }
+//        val bitmap: Bitmap
+//        if (requestCode == GALLERY) {
+//            try {
+//                val selectedImage: Uri? = d?.data
+//
+//                val filePath = arrayOf(MediaStore.Images.Media.DATA)
+//                val c: Cursor? =
+//                    contentResolver.query(selectedImage!!, filePath, null, null, null)
+//                c?.moveToFirst()
+//                val columnIndex: Int = c!!.getColumnIndex(filePath[0])
+//                val picturePath: String = c.getString(columnIndex)
+//                c?.close()
+//                val thumbnail = BitmapFactory.decodeFile(picturePath)
+////                    Log.w(
+////                        "path of image from gallery",
+////                        picturePath + ""
+////                    )
+//                supportFragmentManager?.beginTransaction()?.replace(R.id.layout,AddPostFragment())?.commit()
+//                finish()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        } else if (requestCode == CAMERA) {
+//            try {
+//                val bitmapOptions = BitmapFactory.Options()
+//                bitmap = BitmapFactory.decodeFile(
+//                    file?.absolutePath,
+//                    bitmapOptions
+//                )
+////                frontImage.setImageBitmap(bitmap)
+//                supportFragmentManager?.beginTransaction()?.replace(R.id.layout,AddPostFragment())?.commit()
+//                finish()
+//                val path = (Environment
+//                    .getExternalStorageDirectory()
+//                    .toString() + File.separator
+//                        + "Phoenix" + File.separator + "default")
+//                file?.delete()
+//                var outFile: OutputStream? = null
+//                val file = File(path, System.currentTimeMillis().toString() + ".jpg")
+//                try {
+//                    outFile = FileOutputStream(file)
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile)
+//                    outFile.flush()
+//                    outFile.close()
+//                } catch (e: FileNotFoundException) {
+//                    e.printStackTrace()
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//
+//    }
 
 }

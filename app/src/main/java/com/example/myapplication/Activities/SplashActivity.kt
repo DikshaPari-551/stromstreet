@@ -1,18 +1,29 @@
 package com.example.myapplication.Activities
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.util.SavedPrefManager
+import com.google.android.gms.location.LocationServices
 
 class SplashActivity : AppCompatActivity() {
+    private val LOCATION_PERMISSION_REQ_CODE = 1000;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        locationpermission()
+
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -32,5 +43,42 @@ class SplashActivity : AppCompatActivity() {
             finish()
         }, 3000) // 3000 is the delayed time in milliseconds.
     }
+
+    private fun locationpermission() {
+        // checking location permission
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // request permission
+            ActivityCompat.requestPermissions(
+                this as Activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQ_CODE
+            );
+            return
+        }
+        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                // getting the last known or current location
+                try {
+                    var latitude = location.latitude
+                    var longitude = location.longitude
+                    SavedPrefManager.setLatitudeLocation(latitude)
+                    SavedPrefManager.setLongitudeLocation(longitude)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    this, "Failed on getting current location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
 }
 

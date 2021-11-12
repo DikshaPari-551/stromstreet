@@ -40,6 +40,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     lateinit var trandingBackButton: ImageView
     lateinit var filter: ImageView
     lateinit var userTrendingImg: ImageView
+    lateinit var internetConnection: LinearLayout
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     var searchValue = ""
@@ -59,6 +60,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
+        internetConnection = v.findViewById(R.id.no_wifi)
+
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -152,21 +155,17 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
             try {
                 if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
-
                     serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
-
                 } else if (searchValue != null && !searchValue.equals("")) {
-
                     serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
-
                 } else {
-
                     serviceManager.getFollowingActivity(callBack,null, null, apiRequest)
-
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        } else {
+            internetConnection.visibility = View.VISIBLE
         }
     }
 
@@ -175,11 +174,10 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         var list = ArrayList<Docss>()
         list.addAll(response.result.docs)
         setAdapter(list)
-
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -196,13 +194,10 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
     override fun customClick(value: Docss, type: String)   {
         USERID =   value._id
-
         if (type.equals("profile")){
-
             var intent = Intent(mContext, PostActivity::class.java)
 //            intent.putExtra("userId", USERID)
             SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-
             startActivity(intent)
         }
     }

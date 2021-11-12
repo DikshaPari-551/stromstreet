@@ -11,13 +11,15 @@ import com.example.myapplication.Fragments.SeconddFragment
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.CustomClickListner3
 import com.example.myapplication.entity.Response.Docs
 import com.example.myapplication.entity.Response.Docss
+import com.example.myapplication.entity.Response.UserPostDocs
 
 class ProfileAdaptor(
     var context: FirstFragment,
-    var list: ArrayList<Docss>,
-    var listener: CustomClickListner2
+    var list: ArrayList<UserPostDocs>,
+    var listener: CustomClickListner3
 
 ) :  RecyclerView.Adapter<ProfileAdaptor.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {

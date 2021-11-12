@@ -2,8 +2,11 @@ package com.example.myapplication.Activities
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +17,9 @@ import com.example.myapplication.Exoplayer
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
+import com.example.myapplication.customclickListner.CustomClickListner3
 import com.example.myapplication.entity.ApiCallBack
-import com.example.myapplication.entity.Response.Docs
-import com.example.myapplication.entity.Response.Docss
-import com.example.myapplication.entity.Response.LocalActivityResponse
-import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Response.*
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
@@ -28,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.ResponseBody
 import java.lang.Exception
 
-class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomClickListner {
+class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomClickListner3 {
     lateinit var tag: ImageView
     lateinit var back_tab1: LinearLayout
     lateinit var totalfollower: LinearLayout
@@ -50,6 +51,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var followers: TextView
     lateinit var following: TextView
     lateinit var followuser: TextView
+    lateinit var noPost: TextView
     lateinit var postRecycler: RecyclerView
     var isFollow: Boolean = false
     lateinit var USERID: String
@@ -60,8 +62,14 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(R.color.black)
+        }
         profileApi()
-        userpostlist()
+        newPostList()
 
 //        color_grid=findViewById(R.id.color_grid)
 ////        back_tab=findViewById(R.id.back_tab)
@@ -78,6 +86,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         postRecycler = findViewById(R.id.postRecycler)
         totalfollower = findViewById(R.id.totalfollower)
         totalfollowing = findViewById(R.id.totalfollowing)
+        noPost = findViewById(R.id.no_post)
+
 
 //        totalfollower.setOnClickListener {
 //            var intent = Intent(this, Followers::class.java)
@@ -104,14 +114,32 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         })
     }
 
-    private fun userpostlist() {
+    private fun newPostList() {
         Userid =
             SavedPrefManager.getStringPreferences(this, SavedPrefManager.otherUserId).toString()
         if (androidextention.isOnline(mContext)) {
             androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
-            val callBack: ApiCallBack<Responce> =
-                ApiCallBack<Responce>(this, "OtherUserPostList", mContext)
+            val callBack: ApiCallBack<UserPostResponse> =
+                ApiCallBack<UserPostResponse>(object : ApiResponseListener<UserPostResponse> {
+                    override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
+                        androidextention.disMissProgressDialog(mContext)
+                        var list = ArrayList<UserPostDocs>()
+                        list.addAll(response.result.docs)
+                        setAdapter(list)
+                    }
+
+                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                        androidextention.disMissProgressDialog(mContext)
+                        noPost.visibility = View.VISIBLE
+                    }
+
+                    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                        androidextention.disMissProgressDialog(mContext)
+                        Toast.makeText(mContext, "Invalid response.", Toast.LENGTH_LONG).show()
+                    }
+
+                },"OtherPostResponse",mContext)
             try {
                 serviceManager.getOtherPostlist(callBack, Userid)
             } catch (e: Exception) {
@@ -119,6 +147,22 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
             }
         }
     }
+
+//    private fun userpostlist() {
+//        Userid =
+//            SavedPrefManager.getStringPreferences(this, SavedPrefManager.otherUserId).toString()
+//        if (androidextention.isOnline(mContext)) {
+//            androidextention.showProgressDialog(mContext)
+//            val serviceManager = ServiceManager(mContext)
+//            val callBack: ApiCallBack<Responce> =
+//                ApiCallBack<Responce>(this, "OtherUserPostList", mContext)
+//            try {
+//                serviceManager.getOtherPostlist(callBack, Userid)
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
     private fun followUnfollow() {
         val Userid =
@@ -181,29 +225,33 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
             }
         } else if (apiName.equals("FollowUnfollow")) {
             profileApi()
-        } else if (apiName.equals("OtherUserPostList")) {
-            var list = ArrayList<Docs>()
-            list.addAll(response.result.docs)
-            setAdapter(list)
         }
+//        else if (apiName.equals("OtherUserPostList")) {
+//            var list = ArrayList<Docs>()
+//            list.addAll(response.result.docs)
+//            setAdapter(list)
+//        }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        androidextention.disMissProgressDialog(this)
         Toast.makeText(this, "No Post Found", Toast.LENGTH_LONG).show()
+
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        androidextention.disMissProgressDialog(this)
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
-    fun setAdapter(list: ArrayList<Docs>) {
+    fun setAdapter(list: ArrayList<UserPostDocs>) {
         adaptor = this?.let { UserProfilePostAdaptor(it, list, this) }!!
         val layoutManager = GridLayoutManager(this, 3)
         postRecycler?.layoutManager = layoutManager
         postRecycler?.adapter = adaptor
     }
 
-    override fun customClick(value: Docs, type: String) {
+    override fun customClick(value: UserPostDocs, type: String) {
         USERID = value._id
 
 //        if (type.equals("profile")) {

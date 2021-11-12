@@ -21,6 +21,7 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
+import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import org.w3c.dom.Text
 import java.lang.Exception
@@ -128,41 +129,60 @@ class ResetPasswordActivity : AppCompatActivity() {
     }
 
     private fun resetPassword() {
-        androidextention.showProgressDialog(this)
-        val callBack: ApiCallBack<Responce> =
-            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
-                override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(this@ResetPasswordActivity)
-                    if (response.responseCode == "200") {
-                        Toast.makeText(this@ResetPasswordActivity, response.responseMessage, Toast.LENGTH_SHORT)
-                            .show()
-                        val intent = Intent(this@ResetPasswordActivity,LoginActivity::class.java)
-                        startActivity(intent)
-                        finishAffinity()
+        if (androidextention.isOnline(this)) {
+            androidextention.showProgressDialog(this)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+                    override fun onApiSuccess(response: Responce, apiName: String?) {
+                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+                        if (response.responseCode == "200") {
+                            Toast.makeText(
+                                this@ResetPasswordActivity,
+                                response.responseMessage,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            val intent =
+                                Intent(this@ResetPasswordActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                            finishAffinity()
+                        }
                     }
-                }
 
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                    androidextention.disMissProgressDialog(this@ResetPasswordActivity)
-                    Toast.makeText(this@ResetPasswordActivity, "Something Went Wrong " + response.toString(), Toast.LENGTH_SHORT).show()
-                }
+                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+                        Toast.makeText(
+                            this@ResetPasswordActivity,
+                            "Something Went Wrong " + response.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
-                override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(this@ResetPasswordActivity)
-                    Toast.makeText(this@ResetPasswordActivity, "Server not responding " + failureMessage, Toast.LENGTH_SHORT).show()
-                }
+                    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+                        Toast.makeText(
+                            this@ResetPasswordActivity,
+                            "Server not responding " + failureMessage,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
-            }, "RestPassword", this)
+                }, "RestPassword", this)
 
-        val apiRequest = Api_Request()
-        apiRequest.newPassword = new_pass
-        val token =  SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN)!!
-        try {
-            serviceManager.userRestPassword(callBack, apiRequest,token
+            val apiRequest = Api_Request()
+            apiRequest.newPassword = new_pass
+            val token = SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN)!!
+            try {
+                serviceManager.userRestPassword(
+                    callBack, apiRequest, token
 
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+
+            diasplay_toast("Please check internet connection.")
         }
     }
 }

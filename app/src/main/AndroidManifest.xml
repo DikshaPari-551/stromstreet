@@ -28,7 +28,8 @@
         <activity android:name=".Activities.LocationAddress"></activity>
         <activity
             android:name=".Exoplayer"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ExoPlayer"
             android:exported="true" />
@@ -60,9 +61,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".LoginActivity" />
+            android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.SignUpActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.SplashActivity"
             android:screenOrientation="portrait">

@@ -43,6 +43,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var userTrendingImg:ImageView
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
+    lateinit var internetConnection: LinearLayout
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     var searchValue = ""
@@ -67,6 +68,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         recycler_view2 = v.findViewById(R.id.recycler_view2)
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
+        internetConnection = v.findViewById(R.id.no_wifi)
+
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -87,25 +90,32 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
         textLocalPostTrending.setOnClickListener{
-            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
-                ?.commit()
             textLocalPostTrending.setTextColor(resources.getColor(R.color.orange))
             trending_post_text.setText("Local Activity")
             textFollowingPostTrending.setTextColor(resources.getColor(R.color.white))
             trandingBackButton.visibility = View.VISIBLE
             userTrendingImg.visibility = View.GONE
             filter.visibility =View.GONE
-
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
+                ?.commit()
         }
 
         textFollowingPostTrending=v.findViewById(R.id.text_following_post_trending)
         textFollowingPostTrending.setOnClickListener{
-            textFollowingPostTrending.setTextColor(resources.getColor(R.color.orange))
-            trending_post_text.setText("Following Activity")
-            textLocalPostTrending.setTextColor(resources.getColor(R.color.white))
-            trandingBackButton.visibility = View.VISIBLE
-            userTrendingImg.visibility = View.GONE
-            filter.visibility =View.GONE
+            if(SavedPrefManager.getStringPreferences(mContext,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+                textFollowingPostTrending.setTextColor(resources.getColor(R.color.orange))
+                trending_post_text.setText("Following Activity")
+                textLocalPostTrending.setTextColor(resources.getColor(R.color.white))
+                trandingBackButton.visibility = View.VISIBLE
+                userTrendingImg.visibility = View.GONE
+                filter.visibility = View.GONE
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.linear_layout, FollowingActivityFragment())
+                    ?.commit()
+            } else {
+                val i = Intent(mContext, LoginActivity::class.java)
+                startActivity(i)
+            }
         }
 
         userTrendingImg=v.findViewById(R.id.user_treanding_img)
@@ -164,6 +174,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        } else {
+            internetConnection.visibility = View.VISIBLE
         }
     }
 

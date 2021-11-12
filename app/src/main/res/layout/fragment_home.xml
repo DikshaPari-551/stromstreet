@@ -27,20 +27,22 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:id="@+id/user_home"
 
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:padding="10dp"
-                    android:layout_height="wrap_content">
+                    android:padding="10dp">
 
-                <ImageView
-                    android:layout_width="13.3dp"
-                    android:layout_height="13.5dp"
-                    android:src="@drawable/man"
-                    android:visibility="visible" />
+                    <ImageView
+                        android:layout_width="13.3dp"
+                        android:layout_height="13.5dp"
+                        android:src="@drawable/man"
+                        android:visibility="visible" />
                 </LinearLayout>
+
                 <ImageView
                     android:id="@+id/back_arrow_home"
                     android:layout_width="25dp"
@@ -65,16 +67,17 @@
                     android:id="@+id/filter"
 
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:padding="10dp"
 
-                    android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="13.3dp"
-                    android:layout_height="13.5dp"
-                    android:src="@drawable/filterhome"
-                    android:visibility="visible" />
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="13.3dp"
+                        android:layout_height="13.5dp"
+                        android:src="@drawable/filterhome"
+                        android:visibility="visible" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -216,6 +219,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/no_wifi"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/no_wifi" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="Please check internet connection."
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 

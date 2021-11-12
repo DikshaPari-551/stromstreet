@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import com.example.myapplication.R;
 
 public class LoginFlagTwo {
-   public static String FLAG = "flag";
+    public static String FLAG = "flag";
 
     public static String getFLAG() {
         return FLAG;

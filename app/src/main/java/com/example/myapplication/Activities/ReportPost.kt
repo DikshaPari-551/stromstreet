@@ -57,7 +57,7 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "CreateReport", mContext)
             val apiRequest = Api_Request()
-            apiRequest.reportType = "post"
+            apiRequest.reportType = "Post"
             apiRequest.comment = "string"
             apiRequest.description = reportvalue.toString()
 

@@ -2,6 +2,7 @@ package com.example.myapplication.entity.Service_Base
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Response.UserPostResponse
 import okhttp3.MultipartBody
 
 import retrofit2.Call
@@ -77,7 +78,7 @@ interface Api_interface {
     fun logoutUser(): Call<Responce>?
 
     @GET("user/savePostList")
-    fun savedList(): Call<Responce>?
+    fun savedList(): Call<UserPostResponse>?
 
     @POST("user/comment")
     fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
@@ -96,8 +97,8 @@ interface Api_interface {
     fun uploadFile(@Part file : MultipartBody.Part?): Call<Responce>?
 
     @Multipart
-    @POST("admin/uploadFile")
-    fun addUPost(file: ArrayList<MultipartBody.Part>?): Call<Responce>?
+    @POST("admin/uploadMultipleFile")
+    fun addUPost(@Part file: ArrayList<MultipartBody.Part>?): Call<Responce>?
 
     @POST("user/localActivities")
     fun localActivity(@Query("lat") lat : Double?,@Query("lng") lng : Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
@@ -105,8 +106,8 @@ interface Api_interface {
     @POST("user/trendingPostList")
     fun trendingPost(@Query("lat") latitude: Double?,@Query("lng") longitude: Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
 
-    @POST("user/trendingPostList")
-    fun followingActivity(): Call<LocalActivityResponse>?
+    @POST("user/followingActivity")
+    fun followingActivity(@Query("lat") latitude: Double?,@Query("lng") longitude: Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
 
     @GET("user/seeOtherProfile")
     fun otherUserProfile(@Query("_id") _id: String): Call<Responce>?
@@ -115,10 +116,10 @@ interface Api_interface {
     fun otherUserPost(@Query("userId") userId: String): Call<Responce>?
 
     @POST("user/userPostList")
-    fun getPostList(): Call<LocalActivityResponse>?
+    fun getPostList(): Call<UserPostResponse>?
 
     @GET("user/othersPostList")
-    fun getOtherPostList(@Query("userId") userId: String): Call<Responce>?
+    fun getOtherPostList(@Query("userId") userId: String): Call<UserPostResponse>?
 
     @GET("user/commentList")
     fun getCommentList(@Query("postId") postId: String): Call<Responce>?

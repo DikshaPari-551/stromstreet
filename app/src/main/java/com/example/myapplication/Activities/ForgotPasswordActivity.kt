@@ -20,6 +20,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import java.lang.Exception
 
@@ -102,6 +103,9 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
             } else {
                 Toast.makeText(this, response.responseMessage, Toast.LENGTH_LONG).show()
             }
+        } else {
+
+            diasplay_toast("Please check internet connection.")
         }
     }
 

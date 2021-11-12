@@ -80,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
-                            android:text="Rockingprince$"
+                            android:text=""
                             android:fontFamily="@font/opensans_semibold"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -111,7 +111,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="20dp"
-                                    android:text="100"
+                                    android:text="0"
                                     android:fontFamily="@font/opensans_semibold"
                                     android:textColor="@color/black"
                                     android:textSize="20sp"
@@ -142,7 +142,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="20dp"
                                     android:fontFamily="@font/opensans_semibold"
-                                    android:text="20"
+                                    android:text="0"
                                     android:textColor="@color/black"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
@@ -246,6 +246,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/postRecycler"/>
+                    <TextView
+                        android:id="@+id/no_post"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="No post available."
+                        android:gravity="center"
+                        android:textSize="21dp"
+                        android:visibility="gone"/>
                 </RelativeLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

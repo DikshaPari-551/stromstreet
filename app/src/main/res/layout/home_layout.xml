@@ -30,9 +30,8 @@
                 <ImageView
                     android:id="@+id/postView"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:scaleType="fitXY"
-                    />
+                    android:layout_height="146dp"
+                    android:scaleType="fitXY" />
 
 
             </RelativeLayout>
@@ -44,6 +43,7 @@
                 android:textStyle="bold"
                 android:textSize="7.5sp"
                 android:id="@+id/bio"
+                android:maxLines="1"
                 android:textColor="@color/black"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="5dp"/>
@@ -72,6 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:maxLines="1"
                     android:fontFamily="@font/opensans_light"
                     android:textSize="7.5sp"
                     android:id="@+id/text_okhla"
@@ -80,9 +81,10 @@
 
             </LinearLayout>
         </LinearLayout>
+
         <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="23dp"
+            android:layout_width="59dp"
+            android:layout_height="22dp"
             android:background="@drawable/rectangle_back"
             android:gravity="center">
 
@@ -98,6 +100,7 @@
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:text=""
+                android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="7.5sp"
                 android:textStyle="bold" />

@@ -19,6 +19,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import java.lang.Exception
 
@@ -120,53 +121,62 @@ class ChangePassword : AppCompatActivity() {
     }
 
     private fun changePassword() {
-        androidextention.showProgressDialog(this)
-        val serviceManager = ServiceManager(this)
-        val callBack: ApiCallBack<Responce> =
-            ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
-                override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(this@ChangePassword)
-                    if (response.responseCode == "200") {
+        if (androidextention.isOnline(this)) {
+            androidextention.showProgressDialog(this)
+            val serviceManager = ServiceManager(this)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+                    override fun onApiSuccess(response: Responce, apiName: String?) {
+                        androidextention.disMissProgressDialog(this@ChangePassword)
+                        if (response.responseCode == "200") {
+                            Toast.makeText(
+                                this@ChangePassword,
+                                response.responseMessage,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            finish()
+                        } else {
+                            Toast.makeText(
+                                this@ChangePassword,
+                                response.responseMessage,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                        androidextention.disMissProgressDialog(this@ChangePassword)
                         Toast.makeText(
                             this@ChangePassword,
-                            response.responseMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        finish()
-                    } else {
-                        Toast.makeText(
-                            this@ChangePassword,
-                            response.responseMessage,
+                            "Something Went Wrong" + response.toString(),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                }
 
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                    androidextention.disMissProgressDialog(this@ChangePassword)
-                    Toast.makeText(
-                        this@ChangePassword,
-                        "Something Went Wrong" + response.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                        androidextention.disMissProgressDialog(this@ChangePassword)
+                        Toast.makeText(
+                            this@ChangePassword,
+                            "Server not responding" + failureMessage,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
 
-                override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(this@ChangePassword)
-                    Toast.makeText(this@ChangePassword, "Server not responding" + failureMessage, Toast.LENGTH_SHORT)
-                        .show()
-                }
+                }, "ResetPassword", this)
 
-            }, "ResetPassword", this)
+            val apiRequest = Api_Request()
+            apiRequest.oldPassword = oldPass
+            apiRequest.newPassword = newPass
 
-        val apiRequest = Api_Request()
-        apiRequest.oldPassword = oldPass
-        apiRequest.newPassword = newPass
+            try {
+                serviceManager.userChangePassword(callBack, apiRequest)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
 
-        try {
-            serviceManager.userChangePassword(callBack, apiRequest)
-        } catch (e: Exception) {
-            e.printStackTrace()
+            diasplay_toast("Please check internet connection.")
         }
     }
 }
