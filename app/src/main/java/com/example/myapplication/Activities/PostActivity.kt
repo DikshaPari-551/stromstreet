@@ -109,6 +109,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
 
 
+        comment = findViewById(R.id.comment)
         comment.setOnClickListener {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")

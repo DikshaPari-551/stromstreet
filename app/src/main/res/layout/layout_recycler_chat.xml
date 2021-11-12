@@ -1,22 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
-    android:layout_height="match_parent">
+android:orientation="vertical"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_marginBottom="5dp"
-android:layout_alignParentEnd="true"
-        android:layout_height="wrap_content"
-        android:background="@drawable/drawable_chat">
-<TextView
-    android:layout_width="wrap_content"
-    android:textSize="15sp"
-    android:id="@+id/text_list"
-    android:textStyle="normal"
-    android:text=""
-    android:padding="10dp"
-    android:textColor="@color/black"
-    android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:layout_marginBottom="5dp"
+    android:layout_marginRight="80dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+
+    android:layout_height="wrap_content"
+android:id="@+id/sender"
+
+
+        >
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/br_reciver"
+                android:padding="5dp"
+                android:id="@+id/sendertext"
+                android:fontFamily="@font/opensans_regular"
+
+                android:text="asda"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
     </LinearLayout>
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="80dp"
+         android:orientation="horizontal"
+     android:gravity="right"
+        android:layout_height="wrap_content"
+        android:id="@+id/reciver"
+
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/br_sender"
+            android:padding="5dp"
+            android:id="@+id/recivertext"
+            android:fontFamily="@font/opensans_regular"
+
+            android:text="Hello"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

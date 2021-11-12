@@ -10,46 +10,42 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.MessageAdaptor
-import com.example.myapplication.Fragments.ChatFragment
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
-import com.example.myapplication.socket.SocketInstance
-import com.google.gson.JsonObject
-import io.socket.client.IO
+import com.example.myapplication.entity.Response.Chalist
+import com.example.myapplication.entity.Response.Messages
+import com.example.myapplication.socket.SocketManager
+import com.example.myapplication.util.SavedPrefManager
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import org.json.JSONObject
-import java.net.URISyntaxException
-import org.json.JSONException
-
-
-
-
 
 class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
+      lateinit var adaptor:MessageAdaptor
     lateinit var right_arrow_Chat:ImageView
     lateinit var sendImgIcon: ImageView
     lateinit var backButtton: ImageView
+    lateinit var user_name: TextView
+
     lateinit var recyclerList: RecyclerView
     lateinit var chat_layout: LinearLayout
     lateinit var list_view: ListView
     var arr: ArrayList<HashMap<String, String>> = arrayListOf()
     lateinit var  socket: Socket
+    var USERID:String=""
+    lateinit var listdatlist: ArrayList<Messages>
+    var reciver_id:String=""
+    var username:String=""
     lateinit var adapter: Adapter
     private var hasConnection = false
-
+    lateinit var socketInstance: SocketManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        val rmApplication: SocketInstance = applicationContext as SocketInstance
-        socket= rmApplication.getMSocket()
 
-        val options = IO.Options()
-        options.reconnection = true //reconnection
-        options.forceNew = true
 
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
@@ -60,35 +56,31 @@ class ChatActivity : AppCompatActivity() {
         chat_layout = findViewById(R.id.chat_Activity)
         backButtton = findViewById(R.id.right_arrow)
         recyclerList = findViewById(R.id.rcycler_list)
-//
+        user_name= findViewById(R.id.username)
         sendImgIcon = findViewById(R.id.send_img_icon)
         add = findViewById(R.id.text_add)
 
-        val layoutManager = LinearLayoutManager(this)
-        var adaptor = MessageAdaptor(arr)
-        recyclerList.layoutManager = layoutManager
-        recyclerList.adapter = adaptor
 
+        socketInstance = SocketManager.getInstance(this)
+        GETINTENT()
         sendImgIcon.setOnClickListener {
 
             var text = add.text.toString()
-            var hash: HashMap<String, String> = HashMap()
-            hash.put("Data", text)
-            arr.add(hash)
-            adaptor.notifyDataSetChanged()
+//
+            socketInstance.Update(text,USERID,reciver_id)
             add.setText("")
-            Update(text)
+          //  Update(text)
 
 //            list_view.setBackgroundResource(R.drawable.drawable_chat)
         }
 
         backButtton.setOnClickListener {
-            var fragment : ChatFragment = ChatFragment()
-//            supportFragmentManager.beginTransaction().replace(R.id.chat_Activity,HomeFragment()).commit()
-//            val i = Intent(this, ChatFragment::class.java)
-//            startActivity(i)
-
-//        }
+//            var fragment : ChatFragment = ChatFragment()
+////            supportFragmentManager.beginTransaction().replace(R.id.chat_Activity,HomeFragment()).commit()
+////            val i = Intent(this, ChatFragment::class.java)
+////            startActivity(i)
+//
+////        }
             var intent =  Intent(this,MainActivity::class.java)
             intent .putExtra("openF2",true)
             overridePendingTransition(0, 0);
@@ -100,76 +92,126 @@ class ChatActivity : AppCompatActivity() {
         if(savedInstanceState != null){
             hasConnection = savedInstanceState.getBoolean("hasConnection");
         }
+        // SocketManager.getInstance(this).initialize(socketList)
+        initializeSocket()
+        socketInstance.ONLINE_USER(USERID)
 
-        if(hasConnection){
-
-        }else {
-
-//            socket!!.connect()
-//            socket!!.on("oneToOneChat", onNewMessage)
-//
-
-            socket= rmApplication.getMSocket()
-            socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
-            socket.on(Socket.EVENT_CONNECT, onConnect);
-            socket.connect();
-            ONLINE()
-        }
-        try {
-            val jsonObject = JSONObject("{\"userId\":\"616e08960a9d5515902f7ae2\"}")
-            System.out.println("")
-        } catch (err: JSONException) {
-            Log.d("Error", err.toString())
-        }
 
     }
+
+    private fun GETINTENT()
+    {
+        if (getIntent() != null)
+        {
+            if (intent.getStringExtra("reciver_id") != null) {
+                reciver_id = intent.getStringExtra("reciver_id")!!
+            }
+            if (intent.getStringExtra("username") != null) {
+                username = intent.getStringExtra("username")!!
+                user_name.setText(username)
+            }
+
+        }
+        USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager.USERID).toString()
+        socketInstance.VIEWcHAT(
+            USERID,reciver_id)
+    }
+
+
+    private fun ONLINE_LISTENER() {
+        val jsonObject = JSONObject()
+                    .put("userId", "616dccdab83a9818f8080f3c")
+            socket!!.emit("onlineUser", jsonObject);
+          }
+
+    private fun ONLINE_USER() {
+
+        //socketInstance.socket!!.on("onlineUser",OnlineUser);
+    }
+
+    private fun initializeSocket() {
+        // if (ConnectionDetector.getInstance(this).isNetworkAvailable) {
+        onAddListeners()
+        if (!socketInstance.isConnected) {
+            socketInstance.connect()
+        } else {
+            //   onlineStatus()
+
+        }
+
+//        } else {
+//            // showData()
+//        }
+    }
+    private fun onAddListeners()
+    {
+
+        socketInstance.initialize(object : SocketManager.SocketListener {
+            override fun onConnected() {
+                Log.e("browse_page_err", "omd " + "onConnected")
+
+                // onlineStatus()
+            }
+
+            override fun onDisConnected() {
+                socketInstance.connect()
+            }
+
+            override fun chatlist(listdat: ArrayList<Chalist>) {
+
+            }
+
+            override fun viewchat(listdat: ArrayList<Messages>) {
+                if(listdat!=null)
+                {
+                    listdatlist=listdat
+                    val layoutManager = LinearLayoutManager(baseContext)
+                    var adaptor = MessageAdaptor(listdatlist,USERID)
+                    recyclerList.layoutManager = layoutManager
+                    recyclerList.adapter = adaptor
+                    recyclerList.smoothScrollToPosition(listdatlist.count());
+                }
+                }
+
+            override fun oneToOneChat(listdatset: Messages) {
+                listdatlist.add(listdatset)
+                recyclerList.adapter!!.notifyDataSetChanged()
+                recyclerList.smoothScrollToPosition(listdatlist.count());
+            }
+        })}
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean("hasConnection", hasConnection)
     }
-    private fun ONLINE() {
 
-      val jsonObject = JSONObject()
-          .put("userId", "6177b1bc38ccc313ed3ff099")
-        //socket?.on("new message", onNewMessage);
-          socket!!.emit("onlineUser",jsonObject.toString());
-      if(socket!!.connected()==true)
-      {
-         System.out.println("check"+toString())
-      }
-       // socket?.on("onlineUser", `onNewMessage`);
 
-    }
 
-    private fun Update(text: String) {
-        val data = JSONObject()
-        data.put("senderId", "616dccdab83a9818f8080f3c");
-        data.put("receiverId", "616e08960a9d5515902f7ae2");
-        data.put("message", text);
-        socket!!.emit("oneToOneChat", data);
-       // socket?.emit("new message", "message");
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        socket!!.disconnect()
-        socket!!.off("oneToOneChat", onNewMessage);
+        //socket!!.disconnect()
+       //socket!!.off("oneToOneChat", onNewMessage);
     }
-    object onNewMessage : Emitter.Listener {
-        override fun call(vararg args: Any?)
-        {
+//    object onNewMessage : Emitter.Listener {
+//        override fun call(vararg args: Any?)
+//        {
+//
+//            val jsonObject = JSONObject()
+//                    .put("userId", "616dccdab83a9818f8080f3c")
+//            socket!!.emit("oneToOneChat", jsonObject);
+//        }
+//
+//
+//    }
 
-            Log.d("check",args.toString())
-        }
-
-
-    }
 
     object onConnectError : Emitter.Listener
     {
         override fun call(vararg args: Any?)
         {
             Log.d("checks",args.toString())
+
         }
 
     }
@@ -180,6 +222,8 @@ class ChatActivity : AppCompatActivity() {
 
     }
 }
+
+
 
 
 

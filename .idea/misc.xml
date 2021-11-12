@@ -3,14 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/drawable/br_reciver.xml" value="0.28425925925925927" />
+        <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/drawable/br_sender.xml" value="0.28425925925925927" />
+        <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/activity_chat.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/activity_check.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/activity_checksocket.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/activity_exo_player.xml" value="0.27395833333333336" />
         <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/activity_exoplayer.xml" value="0.35104166666666664" />
+        <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/activity_login.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/activity_post.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/custom_exo_controller_view.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/exo_playback_control_view.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/fragment_chat.xml" value="0.17037037037037037" />
+        <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/lauout_follow.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/Admin/Documents/stromestreet-ios-android-app-21063861-android/app/src/main/res/layout/layout_recycler_chat.xml" value="0.25" />
       </map>
     </option>
   </component>
