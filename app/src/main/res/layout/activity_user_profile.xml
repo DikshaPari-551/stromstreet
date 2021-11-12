@@ -35,8 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:text="Profile"
                 android:fontFamily="@font/opensans_regular"
+                android:text="Profile"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -64,7 +64,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
@@ -79,11 +79,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="20dp"
-                            android:text=""
+                            android:layout_marginTop="15dp"
                             android:fontFamily="@font/opensans_semibold"
+                            android:text=""
+                            android:gravity="center"
+                            android:maxLines="2"
                             android:textColor="@color/black"
-                            android:textSize="15sp"
+                            android:textSize="18dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -111,20 +113,20 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="20dp"
-                                    android:text="0"
                                     android:fontFamily="@font/opensans_semibold"
+                                    android:text="0"
                                     android:textColor="@color/black"
-                                    android:textSize="20sp"
+                                    android:textSize="18dp"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
-                                    android:text="Followers"
                                     android:fontFamily="@font/opensans_regular"
+                                    android:text="Followers"
                                     android:textColor="@color/black"
-                                    android:textSize="15sp"
+                                    android:textSize="18dp"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -144,35 +146,37 @@
                                     android:fontFamily="@font/opensans_semibold"
                                     android:text="0"
                                     android:textColor="@color/black"
-                                    android:textSize="20sp"
+                                    android:textSize="18dp"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
-                                    android:text="Following"
                                     android:fontFamily="@font/opensans_regular"
+                                    android:text="Following"
                                     android:textColor="@color/black"
-                                    android:textSize="15sp"
+                                    android:textSize="18dp"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
                             <LinearLayout
 
+                                android:id="@+id/followbtn"
                                 android:layout_width="0dp"
                                 android:layout_height="30dp"
-                            android:layout_weight="1"
                                 android:layout_marginTop="20dp"
-                                android:gravity="center"
-                                android:id="@+id/followbtn"
                                 android:layout_marginRight="30dp"
-                                android:background="@drawable/gradient_backgrounds">
+                                android:layout_weight="1"
+                                android:background="@drawable/gradient_backgrounds"
+                                android:gravity="center">
 
                                 <TextView
                                     android:id="@+id/followuser"
@@ -180,14 +184,14 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
                                     android:layout_gravity="center"
-                                    android:text="Unfollow"
+                                    android:fontFamily="@font/opensans_regular"
                                     android:paddingLeft="15dp"
                                     android:paddingRight="15dp"
-                                    android:visibility="visible"
-                                    android:fontFamily="@font/opensans_regular"
+                                    android:text="Unfollow"
                                     android:textColor="@color/white"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
+                                    android:textSize="15dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
                                 <!--                            <TextView-->
                                 <!--                                android:id="@+id/unfollowuser"-->
                                 <!--                                android:layout_width="wrap_content"-->
@@ -202,27 +206,28 @@
                                 <!--                                android:textStyle="bold" />-->
 
                             </LinearLayout>
+
                             <LinearLayout
+                                android:id="@+id/message"
                                 android:layout_width="0dp"
                                 android:layout_height="30dp"
-                                android:layout_weight="1"
                                 android:layout_marginTop="20dp"
-                                android:gravity="center"
-                                android:id="@+id/message"
                                 android:layout_marginRight="30dp"
-                                android:background="@drawable/gradient_backgrounds">
+                                android:layout_weight="1"
+                                android:background="@drawable/gradient_backgrounds"
+                                android:gravity="center">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
                                     android:layout_gravity="center"
-                                    android:text="Message"
+                                    android:fontFamily="@font/opensans_regular"
                                     android:paddingLeft="15dp"
                                     android:paddingRight="15dp"
-                                    android:fontFamily="@font/opensans_regular"
+                                    android:text="Message"
                                     android:textColor="@color/white"
-                                    android:textSize="15sp"
+                                    android:textSize="15dp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
@@ -231,29 +236,31 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/tab_profle_layout2"
-                    android:layout_marginTop="20dp"
+                <include
+                    layout="@layout/tab_profle_layout2"
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"/>
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginTop="20dp" />
 
                 <RelativeLayout
+                    android:id="@+id/layout_tabsss"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/layout_tabsss"
                     android:padding="10dp">
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/postRecycler"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/postRecycler"/>
+                        android:layout_height="match_parent" />
+
                     <TextView
                         android:id="@+id/no_post"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="No post available."
                         android:gravity="center"
+                        android:text="No post available."
                         android:textSize="21dp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
                 </RelativeLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
