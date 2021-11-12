@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ class MessageAdaptor(var listdat: ArrayList<Messages>, var USERID: String) : Rec
         var sendertext=view.findViewById<TextView>(R.id.sendertext)
         var recivertext=view.findViewById<TextView>(R.id.recivertext)
         var sender=view.findViewById<LinearLayout>(R.id.sender)
-        var reciver=view.findViewById<LinearLayout>(R.id.reciver)
+        var reciver=view.findViewById<RelativeLayout>(R.id.reciver)
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageAdaptor.MyViewHolder {
