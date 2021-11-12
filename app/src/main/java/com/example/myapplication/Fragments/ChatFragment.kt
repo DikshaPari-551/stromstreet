@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.Chat_Adaptor
@@ -89,6 +90,13 @@ class ChatFragment : Fragment() {
                 val layoutManager = LinearLayoutManager(activity)
                 recycler_view3.layoutManager = layoutManager
                 recycler_view3.adapter = adaptor
+            }
+                else
+            {
+//                Toast.makeText(
+//                    this, ,
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
                }
 

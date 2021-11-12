@@ -194,8 +194,6 @@ class SavedPrefManager(var context: Context) {
         const val LONGITUDE = "LONG"
         private var lat : Double? = null
         private var long : Double? = null
-
-
         private const val PREF_HIGH_QUALITY = "pref_high_quality"
 
 
