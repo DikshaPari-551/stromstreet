@@ -189,6 +189,8 @@ class SavedPrefManager(var context: Context) {
         const val IMAGE_ONE : String = "IMAGE_ONE"
         const val IMAGE_TWO : String = "IMAGE_TWO"
         const val IMAGE_THREE : String = "IMAGE_THREE"
+        const val LATITUDE = "LAT"
+        const val LONGITUDE = "LONG"
         private var lat : Double? = null
         private var long : Double? = null
 
