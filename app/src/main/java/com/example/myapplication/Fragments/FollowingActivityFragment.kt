@@ -171,9 +171,13 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
-        var list = ArrayList<Docss>()
-        list.addAll(response.result.docs)
-        setAdapter(list)
+        try {
+            var list = ArrayList<Docss>()
+            list.addAll(response.result.docs)
+            setAdapter(list)
+        } catch(e : java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
