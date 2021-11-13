@@ -5,7 +5,6 @@ import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
-import com.example.myapplication.entity.Response.UserPostDocs
 import com.example.myapplication.entity.Response.UserPostResponse
 import okhttp3.MultipartBody
 
@@ -159,7 +158,8 @@ class ServiceManager(var mContext: Context?) {
         callBack: ApiCallBack<LocalActivityResponse>,
         latitude: Double?,
         longitude: Double?,
-        apiRequest: Api_Request?
+        apiRequest: Api_Request?,
+
     ) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
     }
