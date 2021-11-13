@@ -763,7 +763,7 @@ class AddPostFragment(
             try {
                 var fullAddress = addresses.get(0).getAddressLine(0)
                 val arrOfStr: List<String> = fullAddress.split(", ")
-                locality = arrOfStr[5]+", "+ arrOfStr[6]
+               locality = arrOfStr[1]+", "+ arrOfStr[2]+", "+ addresses[0].locality
 //                locality = addresses[0].locality
 
             } catch (e: NullPointerException) {

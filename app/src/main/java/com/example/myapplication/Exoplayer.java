@@ -347,18 +347,22 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (LikeUnlike == true) {
-                video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartred));
-            } else if (LikeUnlike == false) {
-                video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartwhite));
-            }
-            initPre23(response.result.getPostResult().getVideoLink());
-        } else if (apiName.equals("FollowUnfollow")) {
             if (isFollow == true) {
                 follow.setText("Unfollow");
             } else if (isFollow == false) {
                 follow.setText("Follow");
             }
+            if (LikeUnlike == true) {
+                video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartred));
+            } else if (LikeUnlike == false) {
+                video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartwhite));
+            }
+
+            initPre23(response.result.getPostResult().getVideoLink());
+        } else if (apiName.equals("FollowUnfollow")) {
+            postdetails();
+
+
         } else if (apiName.equals("LikeUnlike")) {
             postdetails();
         }
