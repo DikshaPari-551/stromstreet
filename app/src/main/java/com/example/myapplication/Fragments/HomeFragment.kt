@@ -194,7 +194,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             val apiRequest = Api_Request()
             apiRequest.categoryId = catId
             apiRequest.search = getSearchText
-//            try {
+            try {
                 if (catId != null && !catId.equals("")) {
                     serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
                     println("Filter Response : -" + apiRequest.toString())
@@ -204,9 +204,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 } else {
                     serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
                 }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         } else {
             internetConnection.visibility = View.VISIBLE
         }

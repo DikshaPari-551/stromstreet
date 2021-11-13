@@ -12,8 +12,8 @@ class LocalActivityResponse {
 
     @SerializedName("responseCode")
     val responseCode: String? = null
-}
 
+}
 data class Resultt(
 
     @SerializedName("docs") val docs: List<Docss>,
@@ -46,16 +46,16 @@ data class Docss(
     @SerializedName("likeCount") val likeCount: Int,
     @SerializedName("categoryDetails") val categoryDetails: List<CategoryDetails>,
     @SerializedName("description") val description : String,
-)
+    )
 
 data class CategoryDetails (
-
     @SerializedName("_id") val _id : String,
     @SerializedName("status") val status : String,
     @SerializedName("categoryName") val categoryName : String,
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
-    @SerializedName("__v") val __v : Int
+    @SerializedName("__v") val __v : Int,
+    @SerializedName("image") val image : String
 )
 data class UserDetailss(
 
@@ -86,7 +86,5 @@ data class UserDetailss(
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String,
     @SerializedName("__v") val __v: Int
-
-
 )
 
