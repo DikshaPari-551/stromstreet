@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -58,11 +59,16 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var filter: LinearLayout
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
+    lateinit var progress_bar: ProgressBar
     lateinit var internetConnection: LinearLayout
+    lateinit var nestedScrollView: NestedScrollView
     var getSearchText = ""
     var catId: String = ""
     var locality: String = ""
     var maxDis: Int = 0
+    var page: Int = 1
+    var pages: Int = 0
+    var limit : Int = 10
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,6 +91,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         searchText = v.findViewById(R.id.search_text)
         internetConnection = v.findViewById(R.id.no_wifi)
         goButton = v.findViewById(R.id.go)
+        progress_bar = v.findViewById(R.id.progress_bar)
+        nestedScrollView = v.findViewById(R.id.nestedScrollView)
+        filter = v.findViewById(R.id.filter)
+
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -153,15 +163,32 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 ?.commit()
         }
 
-        filter = v.findViewById(R.id.filter)
         filter.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 secondFragment("home")
             )
                 ?.commit()
-
         }
+
+        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+            override fun onScrollChange(
+                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
+                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+                    page++
+                    progress_bar.visibility=View.VISIBLE
+                    if(page > pages) {
+                        progress_bar.visibility=View.GONE
+                    } else {
+                        getLocalActivityApi()
+                    }
+
+                }
+
+            }
+
+        })
+
         return v
     }
 
@@ -194,15 +221,16 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             val apiRequest = Api_Request()
             apiRequest.categoryId = catId
             apiRequest.search = getSearchText
+
 //            try {
                 if (catId != null && !catId.equals("")) {
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
                     println("Filter Response : -" + apiRequest.toString())
 
                 } else if (getSearchText != null && !getSearchText.equals("")) {
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
                 } else {
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
                 }
 //            } catch (e: Exception) {
 //                e.printStackTrace()
@@ -213,21 +241,26 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
+        progress_bar.visibility=View.GONE
         androidextention.disMissProgressDialog(activity)
+        pages = response.result.pages
         var list = ArrayList<Docss>()
         list.addAll(response.result.docs)
         setAdapter(list)
-
 //        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
+        progress_bar.visibility=View.GONE
+
         Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
+        progress_bar.visibility=View.GONE
+
         Toast.makeText(activity, "Something want wrong", Toast.LENGTH_LONG).show()
     }
 
@@ -237,9 +270,17 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         val layoutManager = GridLayoutManager(activity, 2)
         recycler_view1?.layoutManager = layoutManager
         recycler_view1?.adapter = adaptor
-        adaptor.notifyDataSetChanged()
 
+//        recycler_view1.scrollToPosition(0)
+//         adaptor.notifyDataSetChanged()
+
+
+//        getData(page,limit)
     }
+
+//    private fun getData(page: Int, limit: Int) {
+//
+//    }
 
 
     override fun customClick(value: Docss, type: String) {

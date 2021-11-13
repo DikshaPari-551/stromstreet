@@ -149,9 +149,11 @@ class ServiceManager(var mContext: Context?) {
         callBack: ApiCallBack<LocalActivityResponse>,
         lat: Double?,
         lng: Double?,
-        apiRequest: Api_Request?
+        apiRequest: Api_Request?,
+        page: String?,
+        limit: String?
     ) {
-        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest) }!!.enqueue(callBack)
+        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest,page,limit) }!!.enqueue(callBack)
     }
     fun getTrendingPost(
         callBack: ApiCallBack<LocalActivityResponse>,

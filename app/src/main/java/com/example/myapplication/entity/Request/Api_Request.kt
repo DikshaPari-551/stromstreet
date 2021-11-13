@@ -82,6 +82,12 @@ class Api_Request {
     @SerializedName("address")
     var address: String? = null
 
+    @SerializedName("page")
+    var page: String? = null
+
+    @SerializedName("limit")
+    var limit: String? = null
+
     @SerializedName("imageLinks")
     var imageLinks: List<String>? = null
 
