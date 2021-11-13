@@ -273,6 +273,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     private fun likeunlike() {
+        androidextention.showProgressDialog(mContext)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -286,6 +287,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     private fun followunfollow() {
+        androidextention.showProgressDialog(mContext)
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
@@ -376,6 +378,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+        androidextention.disMissProgressDialog(this)
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
