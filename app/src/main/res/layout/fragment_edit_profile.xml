@@ -111,7 +111,7 @@
                                         android:fontFamily="@font/opensans_light"
                                         android:text=""
                                         android:textColor="@color/black"
-                                        android:textSize="20sp"
+                                        android:textSize="20dp"
                                         android:textStyle="bold" />
 
                                     <TextView
@@ -121,7 +121,7 @@
                                         android:fontFamily="@font/opensans_semibold"
                                         android:text=""
                                         android:textColor="@color/black"
-                                        android:textSize="15sp"
+                                        android:textSize="15dp"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
@@ -146,7 +146,7 @@
                                     android:fontFamily="@font/opensans_regular"
                                     android:text="Edit Profile"
                                     android:textColor="@color/white"
-                                    android:textSize="15sp"
+                                    android:textSize="16dp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
@@ -168,7 +168,7 @@
                                     android:fontFamily="@font/opensans_regular"
                                     android:text="Change Password"
                                     android:textColor="@color/white"
-                                    android:textSize="15sp"
+                                    android:textSize="16dp"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -194,7 +194,7 @@
                                 android:fontFamily="@font/opensans_semibold"
                                 android:text="Phone       :"
                                 android:textColor="@color/black"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -205,7 +205,7 @@
                                 android:fontFamily="@font/opensans_regular"
                                 android:text=""
                                 android:textColor="@color/darkgrey"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -222,7 +222,7 @@
                                 android:fontFamily="@font/opensans_semibold"
                                 android:text="Email         :"
                                 android:textColor="@color/black"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -233,7 +233,7 @@
                                 android:fontFamily="@font/opensans_regular"
                                 android:text=""
                                 android:textColor="@color/darkgrey"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -250,7 +250,7 @@
                                 android:fontFamily="@font/opensans_semibold"
                                 android:text="Bio             :"
                                 android:textColor="@color/black"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -262,7 +262,7 @@
                                 android:maxLines="5"
                                 android:text=""
                                 android:textColor="@color/darkgrey"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
