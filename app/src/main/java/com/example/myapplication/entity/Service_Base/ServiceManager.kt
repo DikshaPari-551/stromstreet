@@ -129,8 +129,8 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.savedList() }!!.enqueue(callBack)
     }
 
-    fun commentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, postId: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.comment(postId, jsonObject) }!!
+    fun commentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, postId: String?,commentId : String?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.comment(postId,commentId, jsonObject) }!!
             .enqueue(callBack)
     }
 
@@ -214,6 +214,11 @@ class ServiceManager(var mContext: Context?) {
 
     fun getCommentlist(callBack: ApiCallBack<Responce>, postId: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.getCommentList(postId) }!!
+            .enqueue(callBack)
+    }
+
+    fun getRepliesCommentlist(callBack: ApiCallBack<Responce>, commentId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getRepliesCommentlist(commentId) }!!
             .enqueue(callBack)
     }
 

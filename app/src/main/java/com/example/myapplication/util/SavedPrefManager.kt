@@ -168,6 +168,7 @@ class SavedPrefManager(var context: Context) {
         const val AUTH_TOKEN = "auth_token"
         const val TOKEN = "token"
         const val USERID = "userid"
+        const val COMMENT_ID = "commentId"
         const val userName = "userName"
          var _id = "_id"
          var otherUserId = "otherUserId"

@@ -2,7 +2,6 @@ package com.example.myapplication.Activities
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,17 +11,16 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.myapplication.Adaptor.Following_Adaptor
-import com.example.myapplication.Adaptor.MessageAdaptor
 import com.example.myapplication.Adaptor.Post2Adapter
-import com.example.myapplication.Fragments.ProfileFragment
+import com.example.myapplication.Adaptor.RepliesCommentAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.CustomReplyListener
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.CommentList
-import com.example.myapplication.entity.Response.Docs
+import com.example.myapplication.entity.Response.Replies
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
@@ -33,7 +31,7 @@ import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import java.lang.Exception
 
-class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
+class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, CustomReplyListener {
     private lateinit var post2recycler: RecyclerView
     private var loginFlag: Boolean = false
     lateinit var follow1: TextView
@@ -52,17 +50,20 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var profileImage: ImageView
     lateinit var loadcomment: TextView
     lateinit var commenttext: EditText
+    lateinit var commentRV: RecyclerView
     lateinit var commentvalue: String
     lateinit var commentLayout: RelativeLayout
 
     var mContext: Context = this
     lateinit var vedio: ImageView
     var USERID: String = ""
+    var COMMENT_ID: String = ""
     var LikeUnlike: Boolean = false
     var postid: String = ""
     var mediatype: String = ""
     var isFollow: Boolean = false
     var click: Boolean = false
+    var commentType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,10 +95,12 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
         commentLayout = findViewById(R.id.commentLayout)
         profileImage = findViewById(R.id.profileImage)
         address = findViewById(R.id.address)
+        COMMENT_ID = SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.COMMENT_ID)!!
 
         getINent()
         postdetails()
         Commentlist()
+
 
         follow1.setOnClickListener {
             followunfollow()
@@ -109,7 +112,13 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
 
         loadcomment.setOnClickListener {
             commentvalue = commenttext.text.toString().trim()
-            postcomment()
+            if (commentType.equals("POST")) {
+                postcomment(commentType, "")
+            } else {
+                postcomment(commentType, COMMENT_ID)
+//                RepliesCommentList(commentRV)
+
+            }
         }
         report.setOnClickListener {
             val i = Intent(this, ReportPost::class.java)
@@ -152,6 +161,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
 
         add_comment.setOnClickListener {
             commentLayout.visibility = View.VISIBLE
+            commentType = "POST"
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
@@ -214,7 +224,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
         }
     }
 
-    private fun postcomment() {
+    private fun postcomment(commentType: String, commentId: String) {
         if (androidextention.isOnline(this)) {
             androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
@@ -224,7 +234,11 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
             apiRequest.commentType = "String"
             apiRequest.comment = commentvalue
             try {
-                serviceManager.commentOnPost(callBack, apiRequest, USERID)
+                if (commentType.equals("POST")) {
+                    serviceManager.commentOnPost(callBack, apiRequest, USERID, "")
+                } else if (commentType.equals("COMMENT")) {
+                    serviceManager.commentOnPost(callBack, apiRequest, null, commentId)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -242,6 +256,38 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
                 ApiCallBack<Responce>(this, "Commentlist", mContext)
             try {
                 serviceManager.getCommentlist(callBack, USERID)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun RepliesCommentList(commentRepliesRecyclerView: RecyclerView) {
+        if (androidextention.isOnline(this)) {
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+                    override fun onApiSuccess(response: Responce, apiName: String?) {
+                        var replierCommentList = ArrayList<Replies>()
+                        replierCommentList.addAll(response.result.replies)
+//                        setAdapter(replierCommentList,"COMMENT")
+                        var adaptor = RepliesCommentAdaptor(mContext, replierCommentList)
+                        val layoutManager = LinearLayoutManager(mContext)
+                        commentRepliesRecyclerView.layoutManager = layoutManager
+                        commentRepliesRecyclerView.adapter = adaptor
+                    }
+
+                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                        Toast.makeText(mContext, "Data not found.", Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                        Toast.makeText(mContext, "Server not responding", Toast.LENGTH_LONG).show()
+                    }
+
+                }, "RepliesCommentlist", mContext)
+            try {
+                serviceManager.getRepliesCommentlist(callBack, COMMENT_ID)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -278,14 +324,14 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
             } else if (LikeUnlike == false) {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
             }
-            if (mediatype.toLowerCase().equals("image")){
+            if (mediatype.toLowerCase().equals("image")) {
                 try {
                     var filedata = response.result.postResult.imageLinks[0]
                     Glide.with(this).load(filedata).into(vedio);
                 } catch (e: IndexOutOfBoundsException) {
                     e.printStackTrace()
                 }
-            }else if (mediatype.toLowerCase().equals("video")){
+            } else if (mediatype.toLowerCase().equals("video")) {
                 try {
                     var filedata = response.result.postResult.thumbNail
                     Glide.with(this).load(filedata).into(vedio);
@@ -314,17 +360,28 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
 //        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
 
         if (apiName.equals("Commentlist")) {
-            var list = ArrayList<CommentList>()
-            list.addAll(response.result.commentList)
-            setAdapter(list)
+            var postCommentList = ArrayList<CommentList>()
+            postCommentList.addAll(response.result.commentList)
+            setAdapter(postCommentList,"POST")
+
         }
     }
 
-    private fun setAdapter(list: ArrayList<CommentList>) {
-        var adaptor = Post2Adapter(this, list)
-        val layoutManager = LinearLayoutManager(this)
-        post2recycler.layoutManager = layoutManager
-        post2recycler.adapter = adaptor
+    private fun setAdapter(
+        list: ArrayList<CommentList>?,commentType : String
+
+    ) {
+        if(commentType.equals("POST")) {
+            var adaptor = Post2Adapter(this, list!!, this)
+            val layoutManager = LinearLayoutManager(this)
+            post2recycler.layoutManager = layoutManager
+            post2recycler.adapter = adaptor
+        } else {
+            var adaptor = Post2Adapter(this, list!!, this)
+            val layoutManager = LinearLayoutManager(this)
+            post2recycler.layoutManager = layoutManager
+            post2recycler.adapter = adaptor
+        }
     }
 
 
@@ -334,5 +391,15 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce> {
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
+    }
+
+    override fun replyListener(commentRepliesRecyclerView: RecyclerView) {
+//        commentRV = commentRepliesRecyclerView
+        commentLayout.visibility = View.VISIBLE
+        commentType = "COMMENT"
+        RepliesCommentList(commentRepliesRecyclerView)
+
+//        commentvalue = commenttext.text.toString().trim()
+//        postcomment("COMMENT",commentId)
     }
 }
