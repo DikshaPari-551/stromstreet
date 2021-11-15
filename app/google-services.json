@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "882424449305",
+    "project_id": "stromstreet-189fa",
+    "storage_bucket": "stromstreet-189fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882424449305:android:4f973e16101d0423a51d88",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "882424449305-dkmr187ies7mm5ac321l8d45lrpdurne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_CeuDPCf2DVSXabtDbIVQC6AcIAOjreY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "882424449305-dkmr187ies7mm5ac321l8d45lrpdurne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

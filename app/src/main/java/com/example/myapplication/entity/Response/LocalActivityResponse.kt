@@ -12,8 +12,8 @@ class LocalActivityResponse {
 
     @SerializedName("responseCode")
     val responseCode: String? = null
-}
 
+}
 data class Resultt(
 
     @SerializedName("docs") val docs: List<Docss>,
@@ -33,6 +33,7 @@ data class Docss(
     @SerializedName("thumbNail") val thumbNail: String,
     @SerializedName("address") val address: String,
     @SerializedName("videoLink") val videoLink: String,
+    @SerializedName("shareCount") val shareCount : Int,
     @SerializedName("userId") val userId: String,
     @SerializedName("categoryId") val categoryId: String,
     @SerializedName("createdAt") val createdAt: String,
@@ -44,22 +45,17 @@ data class Docss(
     @SerializedName("followerId") val followerId: FollowerId,
     @SerializedName("likeCount") val likeCount: Int,
     @SerializedName("categoryDetails") val categoryDetails: List<CategoryDetails>,
-    @SerializedName("description") val description : String
-
-
-
-
-
-)
+    @SerializedName("description") val description : String,
+    )
 
 data class CategoryDetails (
-
     @SerializedName("_id") val _id : String,
     @SerializedName("status") val status : String,
     @SerializedName("categoryName") val categoryName : String,
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
-    @SerializedName("__v") val __v : Int
+    @SerializedName("__v") val __v : Int,
+    @SerializedName("image") val image : String
 )
 data class UserDetailss(
 
@@ -76,11 +72,15 @@ data class UserDetailss(
     @SerializedName("email") val email: String,
     @SerializedName("password") val password: String,
     @SerializedName("userName") val userName: String,
+    @SerializedName("online") val online : Boolean,
+    @SerializedName("notification") val notification : Boolean,
+    @SerializedName("inActive") val inActive : Boolean,
     @SerializedName("bio") val bio: String,
     @SerializedName("deviceType") val deviceType: String,
     @SerializedName("deviceToken") val deviceToken: String,
     @SerializedName("profilePic") val profilePic: String,
     @SerializedName("socialLinks") val socialLinks: SocialLinks,
+    @SerializedName("isReset") val isReset : Boolean,
     @SerializedName("otp") val otp: Int,
     @SerializedName("otpTime") val otpTime: Long,
     @SerializedName("createdAt") val createdAt: String,

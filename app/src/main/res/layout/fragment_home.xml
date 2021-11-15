@@ -214,16 +214,35 @@
             android:layout_marginBottom="50dp"
             app:cardCornerRadius="30dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view1"
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp" />
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
 
             <LinearLayout
+                android:id="@+id/no_wifi"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/no_wifi"
                 android:visibility="gone">
 
                 <LinearLayout

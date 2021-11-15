@@ -1,6 +1,7 @@
 package com.example.myapplication.Fragments
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -57,22 +59,28 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var filter: LinearLayout
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
+    lateinit var progress_bar: ProgressBar
     lateinit var internetConnection: LinearLayout
+    lateinit var nestedScrollView: NestedScrollView
     var getSearchText = ""
     var catId: String = ""
     var locality: String = ""
     var maxDis: Int = 0
+    var page: Int = 1
+    var pages: Int = 0
+    var limit : Int = 10
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mContext = activity!!
-        fusedLocationClient =
-            LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
+//        fusedLocationClient =
+//            LocationServices.getFusedLocationProviderClient(mContext as FragmentActivity)
 
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_home, container, false)
+        mContext = activity!!
+
         recycler_view1 = v.findViewById(R.id.recycler_view1)
         home_text = v.findViewById(R.id.home_text)
         localpost = v.findViewById(R.id.text_local_post)
@@ -83,6 +91,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         searchText = v.findViewById(R.id.search_text)
         internetConnection = v.findViewById(R.id.no_wifi)
         goButton = v.findViewById(R.id.go)
+        progress_bar = v.findViewById(R.id.progress_bar)
+        nestedScrollView = v.findViewById(R.id.nestedScrollView)
+        filter = v.findViewById(R.id.filter)
+
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -92,11 +104,11 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             e.printStackTrace()
         }
         goButton.setOnClickListener {
+            getSearchText = searchText.text.toString()
             getLocalActivityApi()
         }
+        locationpermission()
 
-
-        getLocalActivityApi()
 
 
         man.setOnClickListener {
@@ -126,7 +138,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
         }
         followingPost.setOnClickListener {
-            if(SavedPrefManager.getStringPreferences(mContext,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+            if (SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 followingPost.setTextColor(resources.getColor(R.color.orange))
                 home_text.setText("Following Activity")
                 localpost.setTextColor(resources.getColor(R.color.white))
@@ -149,15 +163,32 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 ?.commit()
         }
 
-        filter = v.findViewById(R.id.filter)
         filter.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 secondFragment("home")
             )
                 ?.commit()
-
         }
+
+        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+            override fun onScrollChange(
+                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
+                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+                    page++
+                    progress_bar.visibility=View.VISIBLE
+                    if(page > pages) {
+                        progress_bar.visibility=View.GONE
+                    } else {
+                        getLocalActivityApi()
+                    }
+
+                }
+
+            }
+
+        })
+
         return v
     }
 
@@ -190,40 +221,46 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             val apiRequest = Api_Request()
             apiRequest.categoryId = catId
             apiRequest.search = getSearchText
-            try {
+
+//            try {
                 if (catId != null && !catId.equals("")) {
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
                     println("Filter Response : -" + apiRequest.toString())
 
                 } else if (getSearchText != null && !getSearchText.equals("")) {
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
                 } else {
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest)
+                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
         } else {
             internetConnection.visibility = View.VISIBLE
         }
     }
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
+        progress_bar.visibility=View.GONE
         androidextention.disMissProgressDialog(activity)
+        pages = response.result.pages
         var list = ArrayList<Docss>()
         list.addAll(response.result.docs)
         setAdapter(list)
-
 //        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
+        progress_bar.visibility=View.GONE
+
         Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
+        progress_bar.visibility=View.GONE
+
         Toast.makeText(activity, "Something want wrong", Toast.LENGTH_LONG).show()
     }
 
@@ -233,9 +270,17 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         val layoutManager = GridLayoutManager(activity, 2)
         recycler_view1?.layoutManager = layoutManager
         recycler_view1?.adapter = adaptor
-        adaptor.notifyDataSetChanged()
 
+//        recycler_view1.scrollToPosition(0)
+//         adaptor.notifyDataSetChanged()
+
+
+//        getData(page,limit)
     }
+
+//    private fun getData(page: Int, limit: Int) {
+//
+//    }
 
 
     override fun customClick(value: Docss, type: String) {
@@ -253,5 +298,42 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 startActivity(intent)
             }
         }
+    }
+
+    private fun locationpermission() {
+        // checking location permission
+        if (ActivityCompat.checkSelfPermission(
+                mContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // request permission
+            ActivityCompat.requestPermissions(
+                mContext as Activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQ_CODE
+            );
+            return
+        }
+        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                // getting the last known or current location
+                try {
+                    latitude = location.latitude
+                    longitude = location.longitude
+                    SavedPrefManager.setLatitudeLocation(latitude!!)
+                    SavedPrefManager.setLongitudeLocation(longitude!!)
+                    getLocalActivityApi()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    mContext, "Failed on getting current location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 }

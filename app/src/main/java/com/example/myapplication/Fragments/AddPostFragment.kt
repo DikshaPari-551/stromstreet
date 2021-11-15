@@ -6,13 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -763,9 +761,11 @@ class AddPostFragment(
         }
         if (addresses != null && addresses.size > 0) {
             try {
-                locality = addresses[0].locality
+                var fullAddress = addresses.get(0).getAddressLine(0)
+                val arrOfStr: List<String> = fullAddress.split(", ")
+               locality = arrOfStr[1]+", "+ arrOfStr[2]+", "+ addresses[0].locality
+//                locality = addresses[0].locality
 
-//
             } catch (e: NullPointerException) {
                 e.printStackTrace()
             }

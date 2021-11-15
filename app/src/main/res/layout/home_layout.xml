@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wheather"
+                android:text=""
                 android:fontFamily="@font/opensans_regular"
                 android:textStyle="bold"
                 android:id="@+id/text_weather"
@@ -115,6 +115,17 @@
             android:layout_alignParentRight="true"
             android:visibility="gone"
             android:background="@drawable/ic_video_solid"
+            />
+        <ImageView
+            android:id="@+id/image_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="12dp"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:background="@drawable/ic_multi_image"
             />
     </RelativeLayout>
 

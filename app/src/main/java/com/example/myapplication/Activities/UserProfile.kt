@@ -36,12 +36,10 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var totalfollowing: LinearLayout
     lateinit var followbtn: LinearLayout
     lateinit var message: LinearLayout
-
     lateinit var backButton: ImageView
     lateinit var profileImage: CircleImageView
     var mContext: Context = this
     lateinit var adaptor: UserProfilePostAdaptor
-
     lateinit var color_grid: ImageView
     lateinit var back_arrow: ImageView
     lateinit var back_tab: LinearLayout
