@@ -322,7 +322,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
             try {
                 var profile = response.result.postResult.userId.profilePic.toString()
-                Glide.with(this).load(profile).into(profileimg);
+                Glide.with(this).load(profile).placeholder(R.drawable.circleprofile).into(profileimg);
             } catch (e: Exception) {
                 e.printStackTrace()
             }
