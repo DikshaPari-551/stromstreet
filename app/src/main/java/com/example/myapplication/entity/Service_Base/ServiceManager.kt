@@ -134,6 +134,11 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
+    fun replyCommentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, commentId : String?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.replyComment(commentId, jsonObject) }!!
+            .enqueue(callBack)
+    }
+
     fun reportPostApi(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, _id: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.reportPost(_id, jsonObject) }!!
             .enqueue(callBack)
