@@ -74,6 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/opensans_regular"
+                        android:layout_gravity="center"
                         android:padding="5dp"
 
                         android:text=""
@@ -108,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_regular"
                     android:padding="5dp"
+                    android:layout_gravity="center"
                     android:text=""
                     android:textColor="@color/white"
                     android:textSize="12sp"
@@ -197,12 +199,12 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -216,20 +218,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="5">
+                        android:weightSum="1">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profileimg"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:layout_weight="1.5"
+                            android:layout_weight="0.3"
                             android:paddingLeft="15dp"
                             android:src="@drawable/circleprofile" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="0.7"
                             android:orientation="vertical"
                             android:paddingTop="5dp">
 
@@ -263,34 +265,42 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
                                 android:orientation="horizontal"
-                                android:paddingLeft="20dp">
+                                android:weightSum="1"
+                                >
 
                                 <ImageView
-                                    android:layout_width="10dp"
-                                    android:layout_height="10dp"
+
+                                    android:layout_width="60dp"
+                                    android:layout_height="15dp"
+                                    android:layout_weight="0.3"
                                     android:layout_gravity="center_vertical"
                                     android:src="@drawable/location_white" />
 
                                 <TextView
                                     android:id="@+id/address"
-                                    android:layout_width="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:layout_width="match_parent"
+                                    android:layout_gravity="center"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/opensans_light"
                                     android:text=""
+                                    android:maxLines="1"
                                     android:textColor="@color/white"
-                                    android:textSize="10sp"
+                                    android:textSize="12dp"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/eventType"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.3"
+                                    android:layout_width="100dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center"
                                     android:fontFamily="@font/opensans_regular"
-                                    android:paddingLeft="15dp"
                                     android:text="Event"
                                     android:textColor="@color/white"
                                     android:textSize="12sp"
