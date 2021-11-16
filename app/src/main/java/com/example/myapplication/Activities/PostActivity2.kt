@@ -364,6 +364,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             postCommentList.addAll(response.result.commentList)
             setAdapter(postCommentList,"POST")
 
+            if (response.result.commentList.get(0).equals("COOMENT")){
+                RepliesCommentList(commentRV)
+            }
+
         }
     }
 
@@ -394,7 +398,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     override fun replyListener(commentRepliesRecyclerView: RecyclerView) {
-//        commentRV = commentRepliesRecyclerView
+        commentRV = commentRepliesRecyclerView
         commentLayout.visibility = View.VISIBLE
         commentType = "COMMENT"
         RepliesCommentList(commentRepliesRecyclerView)

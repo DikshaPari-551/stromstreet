@@ -111,6 +111,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     private boolean playWhenReady = true, isLiked, LikeUnlike = false, isFollow = false;
     private boolean startAutoPlay;
     private String viedeourl = "";
+    private String des = "";
 
     private LinearLayout llComment, llShare, llDownload, bottomlayout;
     private TextView tvPostLike, tvPostComment, tvPostShare, tvPostViews, tvPostUserName, tvUserImageNull, tvDPostTime, txtDiscription;
@@ -128,7 +129,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     private static final String KEY_WINDOW = "window";
     private static final String KEY_POSITION = "position";
     private static final String KEY_AUTO_PLAY = "auto_play";
-    private TextView follow, more, username, commentcount, totalLike, eventType, layoutMore;
+    private TextView follow, more, username, commentcount, totalLike, eventType, layoutMore, limitTextMore;
     private CircleImageView profileimg;
     private ImageView backPostButton, comment, video_post_like, savePost, sharePost, notifyPost;
     private LinearLayout internetConnection;
@@ -156,6 +157,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
         username = findViewById(R.id.username);
         layoutMore = findViewById(R.id.text_more);
+        limitTextMore = findViewById(R.id.limit_text_more);
         eventType = findViewById(R.id.eventType);
         totalLike = findViewById(R.id.totalLike);
         commentcount = findViewById(R.id.commentcount);
@@ -191,6 +193,13 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 startActivity(i);
             }
         });
+        more.setOnClickListener(v ->{
+            limitTextMore.setVisibility(View.GONE);
+            layoutMore.setVisibility(View.VISIBLE);
+            layoutMore.setText(des);
+            more.setText("");
+        });
+
 
         video_post_like.setOnClickListener(v -> {
 
@@ -229,8 +238,8 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             ) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
-                String shareBody = "Share Body";
-                String shareSubject = "Share Subject";
+                String shareBody = viedeourl;
+                String shareSubject = "Share link:-";
                 i.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
                 i.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(i, "Sharing using"));
@@ -333,7 +342,11 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         isFollow = response.result.isFollow();
         if (apiName.equals("PostDetails")) {
             username.setText(response.result.getPostResult().getUserId().getUserName());
-            layoutMore.setText(response.result.getPostResult().getDescription());
+            des = response.result.getPostResult().getDescription();
+            if(des.length() > 70) {
+                more.setVisibility(View.VISIBLE);
+            }
+            limitTextMore.setText(response.result.getPostResult().getDescription());
             eventType.setText(response.result.getPostResult().getCategoryId().getCategoryName().toString());
             totalLike.setText(String.valueOf(response.result.getLikeCount()));
             commentcount.setText(String.valueOf(response.result.getCommentCount()));
