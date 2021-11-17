@@ -8,13 +8,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:background="@drawable/rount_rect"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -47,6 +48,7 @@
                     <!--                        android:src="@drawable/filterhome" />-->
 
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -57,22 +59,21 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scaleType="fitXY"
-                        android:layout_marginTop="35dp">
-                    </ImageView>
+                        android:layout_marginTop="35dp"
+                        android:scaleType="fitXY"></ImageView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:orientation="vertical"
-                        android:layout_weight="3">
+                        android:layout_weight="3"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:layout_marginLeft="25dp"
                             android:layout_marginTop="25dp"
-                            android:layout_marginLeft="25dp">
+                            android:orientation="horizontal">
 
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/profileImage"
@@ -96,22 +97,23 @@
                                         android:id="@+id/username"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:fontFamily="@font/opensans_regular"
                                         android:paddingLeft="20dp"
                                         android:text=""
-                                        android:fontFamily="@font/opensans_regular"
                                         android:textColor="@color/black"
                                         android:textSize="18dp"
                                         android:textStyle="bold" />
+
                                     <TextView
                                         android:id="@+id/follow1"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="+ follow"
-                                        android:fontFamily="@font/opensans_regular"
-                                        android:textSize="15dp"
                                         android:layout_gravity="center_vertical"
+                                        android:fontFamily="@font/opensans_regular"
+                                        android:paddingLeft="10dp"
+                                        android:text="+ follow"
                                         android:textColor="@color/black"
-                                        android:paddingLeft="10dp"/>
+                                        android:textSize="15dp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -123,41 +125,40 @@
 
                                     <ImageView
                                         android:layout_width="10dp"
-                                        android:layout_gravity="center_vertical"
                                         android:layout_height="10dp"
+                                        android:layout_gravity="center_vertical"
                                         android:src="@drawable/location_black" />
 
                                     <TextView
                                         android:id="@+id/address"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text=""
                                         android:fontFamily="@font/opensans_light"
+                                        android:text=""
                                         android:textColor="@color/black"
-                                        android:textSize="12dp"
-                                        />
+                                        android:textSize="12dp" />
 
                                     <TextView
                                         android:id="@+id/eventType"
 
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:fontFamily="@font/opensans_regular"
                                         android:paddingLeft="15dp"
                                         android:text="Event"
-                                        android:fontFamily="@font/opensans_regular"
                                         android:textColor="@color/black"
                                         android:textSize="12dp"
                                         android:textStyle="bold" />
+
                                     <TextView
                                         android:id="@+id/report"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:fontFamily="@font/opensans_regular"
                                         android:paddingLeft="15dp"
                                         android:text="Report"
-                                        android:fontFamily="@font/opensans_regular"
                                         android:textColor="@color/black"
-                                        android:textSize="12dp"
-                                         />
+                                        android:textSize="12dp" />
 
                                 </LinearLayout>
                             </LinearLayout>
@@ -165,6 +166,7 @@
 
                         </LinearLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -187,15 +189,16 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="#6D959493"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp"
+                        android:background="#6D959493" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginLeft="25dp"
-                        android:layout_marginTop="15dp">
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -213,8 +216,8 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""
                                 android:fontFamily="@font/opensans_regular"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
@@ -224,8 +227,8 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginLeft="50dp">
+                            android:layout_marginLeft="50dp"
+                            android:orientation="vertical">
 
 
                             <ImageView
@@ -239,8 +242,8 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""
                                 android:fontFamily="@font/opensans_regular"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
@@ -249,9 +252,8 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginLeft="50dp">
-
+                            android:layout_marginLeft="50dp"
+                            android:orientation="vertical">
 
 
                             <ImageView
@@ -263,19 +265,20 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""
                                 android:fontFamily="@font/opensans_regular"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="#6D959493"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp"
+                        android:background="#6D959493" />
 
 
                     <TextView
@@ -295,8 +298,8 @@
 
                         android:id="@+id/post2recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_marginBottom="10dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
 
                         <!--            <androidx.recyclerview.widget.RecyclerView-->
 
@@ -305,11 +308,7 @@
                         <!--                android:layout_height="wrap_content">-->
 
 
-
-
-
                         <!--            </androidx.recyclerview.widget.RecyclerView>-->
-
 
 
                     </androidx.recyclerview.widget.RecyclerView>
@@ -318,25 +317,31 @@
             </FrameLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <androidx.cardview.widget.CardView
-
-
+        <RelativeLayout
+            android:id="@+id/commentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:orientation="vertical"
-            app:cardBackgroundColor="@color/white"
-            app:contentPadding="2dp">
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:background="@color/white"
+            android:visibility="gone">
 
             <RelativeLayout
-                android:id="@+id/commentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 >
 
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="1.5dp">
 
-
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/user_image_comment"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@color/red" />
+                </LinearLayout>
                 <!--                <TextView-->
                 <!--                    android:id="@+id/commentname"-->
                 <!--                    android:layout_width="match_parent"-->
@@ -346,26 +351,43 @@
                 <!--                    android:textColor="@color/black"-->
                 <!--                    android:textSize="16sp"-->
                 <!--                    android:textStyle="bold" />-->
-
-                <EditText
-                    android:id="@+id/commenttext"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/loadcomment"
-                    android:text=""
-                    android:textColor="@color/black" />
+                    android:layout_toRightOf="@+id/container"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/comment_et"
+                    >
+                    <EditText
+                        android:id="@+id/commenttext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:hint="Add Comment"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:textColor="@color/black"
+                        android:gravity="top|start"
+                        android:padding="10dp"
+                        android:maxLines="1000"
+                        android:scrollbars="vertical"
+                        android:background="@null"
+                        android:textSize="15dp"/>
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/loadcomment"
                     android:layout_width="wrap_content"
-                    android:text="Post"
-                    android:textSize="15dp"
-                    android:paddingLeft="10dp"
-                    android:gravity="center"
-                    android:paddingRight="10dp"
-                    android:textColor="#f74b69"
-                    android:layout_alignParentRight="true"
                     android:layout_height="40dp"
-                    />
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Post"
+                    android:textColor="#f74b69"
+                    android:textSize="15dp" />
                 <!--                <TextView-->
                 <!--                    android:id="@+id/commenttime"-->
                 <!--                    android:layout_width="wrap_content"-->
@@ -376,7 +398,7 @@
                 <!--                    android:text="12/06/19" />-->
             </RelativeLayout>
 
-        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
     </LinearLayout>
 

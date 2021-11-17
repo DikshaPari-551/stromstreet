@@ -29,6 +29,7 @@ class Post2Adapter(
         var reply = view.findViewById<LinearLayout>(R.id.reply)
         var replyCount = view.findViewById<TextView>(R.id.reply_count)
         var likeCount = view.findViewById<TextView>(R.id.like_count)
+        var likes = view.findViewById<LinearLayout>(R.id.likes)
         var commentLike = view.findViewById<ImageView>(R.id.comment_like)
         var profileImage = view.findViewById<CircleImageView>(R.id.profileImage)
         var commentRepliesRecyclerView = view.findViewById<RecyclerView>(R.id.commentReplies_RV)
@@ -50,7 +51,10 @@ class Post2Adapter(
         holder.itemUsername.setText(list[position].userId.userName.toString())
         holder.commentText.setText(list[position].comment.toString())
         holder.replyCount.setText(list.get(position).replyCount.toString())
-        holder.likeCount.setText("0")
+        if(list.get(position).likeCount > 0) {
+            holder.likes.visibility = View.VISIBLE
+            holder.likeCount.setText(list.get(position).likeCount.toString())
+        }
         try {
             var filedata = list[position].userId.profilePic.toString()
 

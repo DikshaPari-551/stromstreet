@@ -3,12 +3,13 @@ package com.example.myapplication.Activities
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -29,7 +30,6 @@ import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
-import java.lang.Exception
 
 class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, CustomReplyListener, CustomCommentLikeListener{
     private lateinit var post2recycler: RecyclerView
@@ -48,6 +48,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     lateinit var share: ImageView
     lateinit var backButton: ImageView
     lateinit var profileImage: ImageView
+    lateinit var userImageComment: ImageView
     lateinit var loadcomment: TextView
     lateinit var commenttext: EditText
     lateinit var commentRV: RecyclerView
@@ -97,7 +98,16 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         commentLayout = findViewById(R.id.commentLayout)
         profileImage = findViewById(R.id.profileImage)
         address = findViewById(R.id.address)
-
+        userImageComment = findViewById(R.id.user_image_comment)
+        commentType = "POST"
+        if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                .equals("true")
+        ) {
+            commentLayout.visibility = View.VISIBLE
+            add_comment.visibility = View.GONE
+            add_comment.isEnabled = false
+//                commentType = "POST"
+        }
         getINent()
         postdetails()
         Commentlist()
@@ -112,11 +122,18 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         }
 
         loadcomment.setOnClickListener {
-            commentvalue = commenttext.text.toString().trim()
-            if (commentType.equals("POST")) {
-                postcomment(commentType, "")
+            if(!commenttext.text.toString().equals("") && commenttext.text.toString() != null) {
+                commentvalue = commenttext.text.toString()
+                if (commentType.equals("POST")) {
+                    postcomment(commentType, "")
+//                commentLayout.visibility = View.VISIBLE
+                } else {
+                    postcomment(commentType, COMMENT_ID)
+                    commentType = "POST"
+
+                }
             } else {
-                postcomment(commentType, COMMENT_ID)
+                Toast.makeText(mContext,"Please add comment.",Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -135,7 +152,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
-                Toast.makeText(this, "Please comment", Toast.LENGTH_LONG).show()
+                commenttext.requestFocus()
+                val imgr: InputMethodManager =
+                    mContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
@@ -159,17 +179,18 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             }
         }
 
-        add_comment.setOnClickListener {
-            commentLayout.visibility = View.VISIBLE
-            commentType = "POST"
-            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
-                    .equals("true")
-            ) {
-            } else {
-                val i = Intent(this, LoginActivity::class.java)
-                startActivity(i)
-            }
-        }
+//        add_comment.setOnClickListener {
+//
+//            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+//                    .equals("true")
+//            ) {
+//                commentLayout.visibility = View.VISIBLE
+////                commentType = "POST"
+//            } else {
+//                val i = Intent(this, LoginActivity::class.java)
+//                startActivity(i)
+//            }
+//        }
     }
 
     private fun followunfollow() {
@@ -222,7 +243,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 
     private fun postcomment(commentType: String, commentId: String) {
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "Comment", mContext)
@@ -246,7 +266,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 
     private fun Commentlist() {
         if (androidextention.isOnline(this)) {
-//            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "Commentlist", mContext)
@@ -279,6 +298,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             try {
                 var filedata = response.result.postResult.userId.profilePic
                 Glide.with(this).load(filedata).into(profileImage);
+                Glide.with(this).load(filedata).into(userImageComment);
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -316,6 +336,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             commentLayout.visibility = View.GONE
             AppConst.hideKeyboard(this);
             Commentlist()
+            commentLayout.visibility = View.VISIBLE
         }
         isFollow = response.result.isFollow
         if (apiName.equals("PostDetails")) {
@@ -330,6 +351,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             var postCommentList = ArrayList<CommentList>()
             postCommentList.addAll(response.result.commentList)
             setAdapter(postCommentList)
+            postdetails()
         }
     }
 
@@ -380,7 +402,11 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     override fun replyListener(commentRepliesRecyclerView: RecyclerView, position: Int, _id: String) {
-        commentLayout.visibility = View.VISIBLE
+//        commentLayout.visibility = View.VISIBLE
+        commenttext.requestFocus()
+        val imgr: InputMethodManager =
+            mContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         commentRepliesRecyclerView.visibility = View.VISIBLE
         commentType = "COMMENT"
         COMMENT_ID = _id
