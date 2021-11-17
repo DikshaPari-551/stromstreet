@@ -20,8 +20,8 @@ import de.hdodenhof.circleimageview.CircleImageView
 class Post2Adapter(
     var mContext: Context,
     var list: ArrayList<CommentList>,
-    var customReplyListener : CustomReplyListener,
-    var customCommentLikeListener : CustomCommentLikeListener
+    var customReplyListener: CustomReplyListener,
+    var customCommentLikeListener: CustomCommentLikeListener
 ) : RecyclerView.Adapter<Post2Adapter.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemUsername = view.findViewById<TextView>(R.id.itemUsername)
@@ -58,14 +58,19 @@ class Post2Adapter(
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
-        var adaptor = RepliesCommentAdaptor(mContext,
+        var adaptor = RepliesCommentAdaptor(
+            mContext,
             list.get(position).replies as ArrayList<Replies>
         )
         val layoutManager = LinearLayoutManager(mContext)
         holder.commentRepliesRecyclerView.layoutManager = layoutManager
         holder.commentRepliesRecyclerView.adapter = adaptor
         holder.reply.setOnClickListener {
-            customReplyListener?.replyListener(holder.commentRepliesRecyclerView,position,commentId)
+            customReplyListener?.replyListener(
+                holder.commentRepliesRecyclerView,
+                position,
+                commentId
+            )
         }
 
         holder.commentLike.setOnClickListener {

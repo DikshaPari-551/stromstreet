@@ -32,19 +32,20 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_regular"
                     android:paddingLeft="10dp"
-                    android:text="Rockingprince$"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/repliersComment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="18dp"
                     android:fontFamily="@font/opensans_regular"
-                    android:text="Lorem ipsum dolor sit amet,"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="11sp" />
 
@@ -52,7 +53,7 @@
                     android:id="@+id/repliersLikeIcon"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="-15dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/grey_heart">
 
