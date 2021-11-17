@@ -25,7 +25,7 @@ class RepliesCommentAdaptor(var mcontext: Context, var list: ArrayList<Replies>)
         holder.replierComment.setText(list.get(position).comment)
         try {
             var filedata = list[position].userId.profilePic
-            Glide.with(mcontext).load(filedata).into(holder.replierImage);
+            Glide.with(mcontext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.replierImage);
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }

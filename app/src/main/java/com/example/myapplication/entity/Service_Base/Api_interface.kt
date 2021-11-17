@@ -83,6 +83,8 @@ interface Api_interface {
     @POST("user/comment")
     fun comment(@Query("postId") postId: String?, @Query("commentId") commentId: String?, @Body apiRequest: Api_Request?): Call<Responce>?
 
+    @POST("user/comment")
+    fun replyComment(@Query("commentId") commentId: String?, @Body apiRequest: Api_Request?): Call<Responce>?
     @POST("user/createReport")
     fun reportPost(@Query("_id") _id: String, @Body apiRequest: Api_Request?): Call<Responce>?
 
