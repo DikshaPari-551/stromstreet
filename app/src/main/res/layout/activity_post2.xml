@@ -275,8 +275,8 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""
                                 android:fontFamily="@font/opensans_regular"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
@@ -285,9 +285,8 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginLeft="50dp">
-
+                            android:layout_marginLeft="50dp"
+                            android:orientation="vertical">
 
 
                             <ImageView
@@ -299,6 +298,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/opensans_regular"
                                 android:text=""
                                 android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
@@ -312,8 +312,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="#6D959493"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp"
+                        android:background="#6D959493" />
 
 
                     <TextView
@@ -333,8 +333,8 @@
 
                         android:id="@+id/post2recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_marginBottom="10dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
 
                         <!--            <androidx.recyclerview.widget.RecyclerView-->
 
@@ -356,25 +356,32 @@
             </FrameLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <androidx.cardview.widget.CardView
-
-
+        <RelativeLayout
+            android:id="@+id/commentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:orientation="vertical"
-            app:cardBackgroundColor="@color/white"
-            app:contentPadding="2dp">
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:background="@color/white"
+            android:visibility="gone">
 
             <RelativeLayout
-                android:id="@+id/commentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 >
 
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="1.5dp">
 
-
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/user_image_comment"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@color/red" />
+                </LinearLayout>
                 <!--                <TextView-->
                 <!--                    android:id="@+id/commentname"-->
                 <!--                    android:layout_width="match_parent"-->
@@ -384,26 +391,43 @@
                 <!--                    android:textColor="@color/black"-->
                 <!--                    android:textSize="16sp"-->
                 <!--                    android:textStyle="bold" />-->
-
-                <EditText
-                    android:id="@+id/commenttext"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/loadcomment"
-                    android:text=""
-                    android:textColor="@color/black" />
+                    android:layout_toRightOf="@+id/container"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/comment_et"
+                    >
+                    <EditText
+                        android:id="@+id/commenttext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:hint="Add Comment"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:textColor="@color/black"
+                        android:gravity="top|start"
+                        android:padding="10dp"
+                        android:maxLines="1000"
+                        android:scrollbars="vertical"
+                        android:background="@null"
+                        android:textSize="15dp"/>
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/loadcomment"
                     android:layout_width="wrap_content"
-                    android:text="Post"
-                    android:textSize="15dp"
-                    android:paddingLeft="10dp"
-                    android:gravity="center"
-                    android:paddingRight="10dp"
-                    android:textColor="#f74b69"
-                    android:layout_alignParentRight="true"
                     android:layout_height="40dp"
-                    />
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Post"
+                    android:textColor="#f74b69"
+                    android:textSize="15dp" />
                 <!--                <TextView-->
                 <!--                    android:id="@+id/commenttime"-->
                 <!--                    android:layout_width="wrap_content"-->
@@ -414,7 +438,7 @@
                 <!--                    android:text="12/06/19" />-->
             </RelativeLayout>
 
-        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
     </LinearLayout>
 

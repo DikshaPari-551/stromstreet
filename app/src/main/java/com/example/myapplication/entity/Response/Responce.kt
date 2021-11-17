@@ -84,7 +84,10 @@ data class Replies (
     @SerializedName("comment") val comment : String,
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
-    @SerializedName("__v") val __v : Int
+    @SerializedName("__v") val __v : Int,
+    @SerializedName("isLike") val isLike : Boolean,
+    @SerializedName("likeCount") val likeCount : Int
+
 )
 
 data class CommentList (
@@ -100,7 +103,10 @@ data class CommentList (
     @SerializedName("updatedAt") val updatedAt : String,
     @SerializedName("__v") val __v : Int,
     @SerializedName("replies") val replies : List<Replies>,
-    @SerializedName("replyCount") val replyCount : Int
+    @SerializedName("replyCount") val replyCount : Int,
+    @SerializedName("isLike") val isLike : Boolean,
+    @SerializedName("likeCount") val likeCount : Int
+
 
     )
 
