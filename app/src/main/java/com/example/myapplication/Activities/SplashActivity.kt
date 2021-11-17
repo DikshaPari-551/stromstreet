@@ -21,7 +21,9 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_splash)
+        locationpermission()
 
         if (Build.VERSION.SDK_INT >= 21) {
             val window = window
@@ -40,23 +42,33 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }, 3000) // 3000 is the delayed time in milliseconds.
+        }, 3000) // 3000    // is the delayed time in milliseconds.
+
+
     }
 
     private fun locationpermission() {
         // checking location permission
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // request permission
-            ActivityCompat.requestPermissions(
-                this as Activity,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQ_CODE
-            );
-            return
+            ActivityCompat.requestPermissions(this as Activity,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQ_CODE);
+            locationpermission()
+//
+//            if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                Handler().postDelayed({
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                }, 3000)
+//            }
+
+        } else {
+
+            Handler().postDelayed({
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }, 3000)
         }
         var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.lastLocation
@@ -77,6 +89,7 @@ class SplashActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
     }
 
 }

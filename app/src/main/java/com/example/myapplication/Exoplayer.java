@@ -98,6 +98,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     private View rootView;
     private LinearLayout debugRootView;
     private TextView debugTextView;
+    private TextView address;
     private Button retryButton;
     private boolean isShowingTrackSelectionDialog;
     private FrameLayout exo_fullscreen_button;
@@ -151,6 +152,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         video_post_like = findViewById(R.id.video_post_like);
         notifyPost = findViewById(R.id.notify_post);
         follow = findViewById(R.id.follow);
+        address = findViewById(R.id.address);
 
         more = findViewById(R.id.more);
         simpleExoPlayerView = findViewById(R.id.player_view);
@@ -352,7 +354,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             commentcount.setText(String.valueOf(response.result.getCommentCount()));
             postid = response.result.getPostResult().getUserId().get_id();
             viedeourl = response.result.getPostResult().getVideoLink();
-
+            address.setText(response.result.getPostResult().getAddress());
 //            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
             try {
                 String profile = response.result.getPostResult().getUserId().getProfilePic().toString();

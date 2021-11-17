@@ -259,8 +259,8 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profileimg"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_weight="0.3"
                             android:paddingLeft="15dp"
                             android:src="@drawable/circleprofile" />
@@ -326,7 +326,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/opensans_light"
                                     android:text=""
-                                    android:maxLines="1"
+                                    android:maxLines="2"
                                     android:textColor="@color/white"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
@@ -336,7 +336,7 @@
                                     android:layout_weight="0.3"
                                     android:layout_width="100dp"
                                     android:layout_height="30dp"
-                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:fontFamily="@font/opensans_regular"
                                     android:text="Event"
                                     android:textColor="@color/white"

@@ -95,7 +95,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         progress_bar = v.findViewById(R.id.progress_bar)
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
         filter = v.findViewById(R.id.filter)
-
+        locationpermission()
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -108,7 +108,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             getSearchText = searchText.text.toString()
             getLocalActivityApi()
         }
-        locationpermission()
+
 
 
 

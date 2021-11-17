@@ -38,11 +38,11 @@ class RequestPermission {
                     }
 
                 }).withErrorListener {
-                    Toast.makeText(
-                        context,
-                        "Some Error! ",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        "Some Error! ",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
                 .onSameThread()
                 .check()

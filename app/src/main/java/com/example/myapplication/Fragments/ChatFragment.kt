@@ -87,7 +87,7 @@ class ChatFragment : Fragment() {
             override fun chatlist(listdat: ArrayList<Chalist>)
             {if(listdat!=null)
             {
-                adaptor = activity?.let { Chat_Adaptor(it, listdat ) }!!
+                adaptor = activity?.let { Chat_Adaptor(it, listdat,USERIDdata ) }!!
                 val layoutManager = LinearLayoutManager(activity)
                 recycler_view3.layoutManager = layoutManager
                 recycler_view3.adapter = adaptor
