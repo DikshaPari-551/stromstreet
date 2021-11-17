@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
@@ -15,6 +16,7 @@ import com.example.myapplication.Adaptor.Post2Adapter
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.CustomCommentLikeListener
 import com.example.myapplication.customclickListner.CustomReplyListener
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
@@ -29,7 +31,7 @@ import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import java.lang.Exception
 
-class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, CustomReplyListener{
+class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, CustomReplyListener, CustomCommentLikeListener{
     private lateinit var post2recycler: RecyclerView
     private var loginFlag: Boolean = false
     lateinit var follow1: TextView
@@ -59,6 +61,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     var LikeUnlike: Boolean = false
     var postid: String = ""
     var mediatype: String = ""
+    var shareLink: String = ""
     var isFollow: Boolean = false
     var click: Boolean = false
     var commentType = ""
@@ -94,7 +97,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         commentLayout = findViewById(R.id.commentLayout)
         profileImage = findViewById(R.id.profileImage)
         address = findViewById(R.id.address)
-//        COMMENT_ID = SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.COMMENT_ID)!!
 
         getINent()
         postdetails()
@@ -115,10 +117,9 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 postcomment(commentType, "")
             } else {
                 postcomment(commentType, COMMENT_ID)
-//                RepliesCommentList(commentRV)
-
             }
         }
+
         report.setOnClickListener {
             val i = Intent(this, ReportPost::class.java)
             intent.putExtra("userId", USERID)
@@ -172,8 +173,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     private fun followunfollow() {
-//        val Userid = SavedPrefManager.getStringPreferences(this, SavedPrefManager.otherUserId).toString()
-//        val Userid = SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -187,7 +186,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     private fun likeunlike() {
-//        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -203,7 +201,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     private fun getINent() {
         try {
             USERID = SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -261,38 +258,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         }
     }
 
-//    private fun RepliesCommentList(commentRepliesRecyclerView: RecyclerView) {
-//        if (androidextention.isOnline(this)) {
-//            val serviceManager = ServiceManager(mContext)
-//            val callBack: ApiCallBack<Responce> =
-//                ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
-//                    override fun onApiSuccess(response: Responce, apiName: String?) {
-//                        var replierCommentList = ArrayList<Replies>()
-//                        replierCommentList.addAll(response.result.replies)
-////                        setAdapter(replierCommentList,"COMMENT")
-//                        var adaptor = RepliesCommentAdaptor(mContext, replierCommentList)
-//                        val layoutManager = LinearLayoutManager(mContext)
-//                        commentRepliesRecyclerView.layoutManager = layoutManager
-//                        commentRepliesRecyclerView.adapter = adaptor
-//                    }
-//
-//                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-//                        Toast.makeText(mContext, "Data not found.", Toast.LENGTH_LONG).show()
-//                    }
-//
-//                    override fun onApiFailure(failureMessage: String?, apiName: String?) {
-//                        Toast.makeText(mContext, "Server not responding", Toast.LENGTH_LONG).show()
-//                    }
-//
-//                }, "RepliesCommentlist", mContext)
-//            try {
-//                serviceManager.getRepliesCommentlist(callBack, COMMENT_ID)
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-
     override fun onApiSuccess(response: Responce, apiName: String?) {
         if (apiName.equals("PostDetails")) {
             try {
@@ -304,6 +269,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 postid = response.result.postResult.userId._id.toString()
                 address.setText(response.result.postResult.address.toString())
                 mediatype = response.result.postResult.mediaType
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -316,7 +282,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-//        totalshare.setText(response.result.commentCount)
+
             if (LikeUnlike == true) {
                 video_post_like.setColorFilter(resources.getColor(R.color.red))
 
@@ -326,6 +292,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             if (mediatype.toLowerCase().equals("image")) {
                 try {
                     var filedata = response.result.postResult.imageLinks[0]
+                    shareLink = filedata
                     Glide.with(this).load(filedata).into(vedio);
                 } catch (e: IndexOutOfBoundsException) {
                     e.printStackTrace()
@@ -333,6 +300,8 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             } else if (mediatype.toLowerCase().equals("video")) {
                 try {
                     var filedata = response.result.postResult.thumbNail
+                    shareLink = response.result.postResult.videoLink
+
                     Glide.with(this).load(filedata).into(vedio);
                 } catch (e: IndexOutOfBoundsException) {
                     e.printStackTrace()
@@ -356,52 +325,54 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 follow1.setText("Follow")
             }
         }
-//        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
 
         if (apiName.equals("Commentlist")) {
             var postCommentList = ArrayList<CommentList>()
             postCommentList.addAll(response.result.commentList)
             setAdapter(postCommentList)
-//            if(commentType.equals("POST")) {
-//                System.out.println("POST")
-//                adaptor.notifyDataSetChanged()
-//            }
-//
-//            else  if(commentType.equals("COMMENT")) {
-//                System.out.println("COMMENT")
-//
-//                adaptor.notifyDataSetChanged()
-//            }
-//            else
-//            {
-//
-//                setAdapter(postCommentList)
-//            }
-
-//            if (response.result.commentList.get(0).equals("COOMENT")){
-//                RepliesCommentList(commentRV)
-//            }
-
         }
     }
 
+    fun commentLikeApi(commentId: String) {
+        if(androidextention.isOnline(mContext)){
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(object : ApiResponseListener<Responce>{
+                    override fun onApiSuccess(response: Responce, apiName: String?) {
+                        Log.d("commentlikes", response.result.toString())
+                    }
+
+                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                        Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
+
+                    }
+
+                    override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                        Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
+                    }
+
+                } , "CommentLikeApi", mContext)
+            try {
+                serviceManager.getCommentLikes(callBack, commentId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }else {
+            Toast.makeText(mContext,"Please check your internet connection!!", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
     private fun setAdapter(list: ArrayList<CommentList>?) {
-//        if(commentType.equals("POST")) {
-            adaptor = Post2Adapter(this, list!!,this)
+            adaptor = Post2Adapter(this, list!!,this,this)
             val layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, true)
             post2recycler.layoutManager = layoutManager
             post2recycler.adapter = adaptor
-//        } else {
-//            var adaptor = Post2Adapter(this, list!!, this)
-//            val layoutManager = LinearLayoutManager(this)
-//            post2recycler.layoutManager = layoutManager
-//            post2recycler.adapter = adaptor
-//        }
     }
 
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-//        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Data not found.", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -413,10 +384,9 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         commentRepliesRecyclerView.visibility = View.VISIBLE
         commentType = "COMMENT"
         COMMENT_ID = _id
+    }
 
-//        RepliesCommentList(commentRepliesRecyclerView)
-//
-////        commentvalue = commenttext.text.toString().trim()
-////        postcomment("COMMENT",commentId)
+    override fun commentLikeListener(commentId: String) {
+        commentLikeApi(commentId)
     }
 }

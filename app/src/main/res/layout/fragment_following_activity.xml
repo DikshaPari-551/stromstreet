@@ -23,19 +23,24 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <ImageView
+                <LinearLayout
                     android:id="@+id/user_treanding_img"
-                    android:layout_width="13.3dp"
-                    android:layout_height="13.5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:visibility="visible"
-                    android:src="@drawable/man" />
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="13.3dp"
+                        android:layout_height="13.5dp"
+                        android:layout_centerVertical="true"
+                        android:visibility="visible"
+                        android:src="@drawable/man" />
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/back_arrow_tranding"
@@ -51,21 +56,28 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true"
-                    android:text="Following Activity"
+                    android:text="Home"
                     android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <ImageView
+                <LinearLayout
                     android:id="@+id/filter"
-                    android:layout_width="13.3dp"
-                    android:layout_height="13.5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:visibility="visible"
-                    android:src="@drawable/filterhome" />
+                    android:padding="10dp">
 
+                    <ImageView
+                        android:layout_width="13.3dp"
+                        android:layout_height="13.5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="visible"
+                        android:src="@drawable/filterhome"  />
+                </LinearLayout>
             </RelativeLayout>
 
             <View
@@ -113,7 +125,7 @@
                         android:gravity="center"
                         android:text="Following Activity"
                         android:fontFamily="@font/opensans_regular"
-                        android:textColor="@color/white"
+                        android:textColor="@color/red"
                         android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -196,6 +208,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="-30dp"
+            android:layout_marginBottom="50dp"
+
             android:id="@+id/card"
             app:cardCornerRadius="30dp"
             >

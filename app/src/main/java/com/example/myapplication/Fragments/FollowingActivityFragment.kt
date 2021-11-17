@@ -38,8 +38,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     lateinit var recycler_view2: RecyclerView
     lateinit var trending_post_text: TextView
     lateinit var trandingBackButton: ImageView
-    lateinit var filter: ImageView
-    lateinit var userTrendingImg: ImageView
+    lateinit var filter: LinearLayout
+    lateinit var userTrendingImg: LinearLayout
     lateinit var internetConnection: LinearLayout
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
@@ -61,6 +61,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         trending_post_text=v.findViewById(R.id.trending_post_text)
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
         internetConnection = v.findViewById(R.id.no_wifi)
+        userTrendingImg=v.findViewById(R.id.user_treanding_img)
 
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -108,7 +109,6 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
             filter.visibility =View.GONE
         }
 
-        userTrendingImg=v.findViewById(R.id.user_treanding_img)
         userTrendingImg.setOnClickListener{
             if(  SavedPrefManager.getStringPreferences(activity,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
                 getFragmentManager()?.beginTransaction()?.replace(

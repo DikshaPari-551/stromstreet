@@ -90,35 +90,35 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             getTrendingPostApi()
         }
 
-        textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
-        textLocalPostTrending.setOnClickListener{
-            textLocalPostTrending.setTextColor(resources.getColor(R.color.orange))
-            trending_post_text.setText("Local Activity")
-            textFollowingPostTrending.setTextColor(resources.getColor(R.color.white))
-            trandingBackButton.visibility = View.VISIBLE
-            userTrendingImg.visibility = View.GONE
-            filter.visibility =View.GONE
-            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
-                ?.commit()
-        }
-
-        textFollowingPostTrending=v.findViewById(R.id.text_following_post_trending)
-        textFollowingPostTrending.setOnClickListener{
-            if(SavedPrefManager.getStringPreferences(mContext,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
-                textFollowingPostTrending.setTextColor(resources.getColor(R.color.orange))
-                trending_post_text.setText("Following Activity")
-                textLocalPostTrending.setTextColor(resources.getColor(R.color.white))
-                trandingBackButton.visibility = View.VISIBLE
-                userTrendingImg.visibility = View.GONE
-                filter.visibility = View.GONE
-                fragmentManager?.beginTransaction()
-                    ?.replace(R.id.linear_layout, FollowingActivityFragment())
-                    ?.commit()
-            } else {
-                val i = Intent(mContext, LoginActivity::class.java)
-                startActivity(i)
-            }
-        }
+//        textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
+//        textLocalPostTrending.setOnClickListener{
+//            textLocalPostTrending.setTextColor(resources.getColor(R.color.orange))
+//            trending_post_text.setText("Local Activity")
+//            textFollowingPostTrending.setTextColor(resources.getColor(R.color.white))
+//            trandingBackButton.visibility = View.VISIBLE
+//            userTrendingImg.visibility = View.GONE
+//            filter.visibility =View.GONE
+//            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
+//                ?.commit()
+//        }
+//
+//        textFollowingPostTrending=v.findViewById(R.id.text_following_post_trending)
+//        textFollowingPostTrending.setOnClickListener{
+//            if(SavedPrefManager.getStringPreferences(mContext,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+//                textFollowingPostTrending.setTextColor(resources.getColor(R.color.orange))
+//                trending_post_text.setText("Following Activity")
+//                textLocalPostTrending.setTextColor(resources.getColor(R.color.white))
+//                trandingBackButton.visibility = View.VISIBLE
+//                userTrendingImg.visibility = View.GONE
+//                filter.visibility = View.GONE
+//                fragmentManager?.beginTransaction()
+//                    ?.replace(R.id.linear_layout, FollowingActivityFragment())
+//                    ?.commit()
+//            } else {
+//                val i = Intent(mContext, LoginActivity::class.java)
+//                startActivity(i)
+//            }
+//        }
 
         userTrendingImg=v.findViewById(R.id.user_treanding_img)
         userTrendingImg.setOnClickListener{
