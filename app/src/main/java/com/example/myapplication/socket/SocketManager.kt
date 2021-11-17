@@ -10,7 +10,10 @@ import com.example.myapplication.entity.Response.Responce
 import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
+import io.socket.emitter.Emitter
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SocketManager private constructor(context: Context) {
 
@@ -35,8 +38,6 @@ class SocketManager private constructor(context: Context) {
     }
      fun ONLINE_USER(s: String)
      {
-
-
          val jsonObject = JSONObject()
                      .put("userId", "616dccdab83a9818f8080f3c")
              socket!!.emit("onlineUser", jsonObject);
@@ -70,7 +71,7 @@ class SocketManager private constructor(context: Context) {
     }
 
     /* Add Listener to Socket*/
-    fun addListener(key: String) {
+    fun addListener(key: String, param: SocketMessageListener) {
         Log.e("browse_page_err", "getcheck" +  "Socket Connect--"+key)
 
         socket.on(key) { args ->
@@ -141,7 +142,8 @@ class SocketManager private constructor(context: Context) {
             options.reconnectionAttempts = 40
             options.secure = true
             options.timeout = 900000
-            socket = IO.socket("https://node-stromestreet.mobiloitte.com")
+            socket = IO.socket("http://172.16.2.19:3027")
+          //  socket = IO.socket("https://node-stromestreet.mobiloitte.com")
             socket.on(Socket.EVENT_CONNECT) {
                 Handler(Looper.getMainLooper()).post {
                     if (socket.connected()) {
@@ -150,6 +152,7 @@ class SocketManager private constructor(context: Context) {
                         Log.d(TAG, "Socket Connected :- " + socketId)
                         Log.e("browse_page_err", "" +  "Socket Connect"+socketId)
                         socketListener.onConnected()
+
                     }
                 }
             }.on(Socket.EVENT_DISCONNECT) { args ->
@@ -170,6 +173,9 @@ class SocketManager private constructor(context: Context) {
                 }
 
             }
+
+//                .on("viewChat",NewMessage)
+//                .on("oneToOneChat",Messagedata)
                     .on("oneToOneChat") { args ->
                         Handler(Looper.getMainLooper()).post {
                             if (args != null && args.isNotEmpty())
@@ -213,7 +219,9 @@ class SocketManager private constructor(context: Context) {
                                 val gson = Gson()
                                 val fcmResponse: Responce = gson.fromJson(args[0].toString(), Responce::class.java)
                                 System.out.println("viewChat="+fcmResponse.toString())
-                               // socketListener.chatlist(fcmResponse.result.messages)
+                                Log.e("viewChat", fcmResponse.toString())
+
+                                // socketListener.chatlist(fcmResponse.result.messages)
                                 socketListener.viewchat(fcmResponse.result.messages)
 
                                 //  ArraySingleton.getInstance().addToArray(fcmResponse.categoryResult)
@@ -233,6 +241,23 @@ class SocketManager private constructor(context: Context) {
             Log.e("browse_page_err---", "" +  ex.message)
 
         }
+    }
+
+    object Messagedata : Emitter.Listener {
+        override fun call(vararg args: Any?) {
+            System.out.println("viewChat="+"message")
+        }
+
+    }
+
+}
+
+object NewMessage : Emitter.Listener {
+    override fun call(vararg args: Any?) {
+        Handler(Looper.getMainLooper()).post {
+            System.out.println("viewChat="+"connection")
+        }
+
     }
 
 }

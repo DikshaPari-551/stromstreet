@@ -1,8 +1,10 @@
 package com.example.myapplication.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
 import android.widget.*
@@ -19,6 +21,14 @@ import com.example.myapplication.util.SavedPrefManager
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import android.os.Looper
+
+
+
+
 
 class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
@@ -27,7 +37,7 @@ class ChatActivity : AppCompatActivity() {
     lateinit var sendImgIcon: ImageView
     lateinit var backButtton: ImageView
     lateinit var user_name: TextView
-
+    var mContext: Context = this
     lateinit var recyclerList: RecyclerView
     lateinit var chat_layout: LinearLayout
     lateinit var list_view: ListView
@@ -37,10 +47,11 @@ class ChatActivity : AppCompatActivity() {
     lateinit var listdatlist: ArrayList<Messages>
     var reciver_id:String=""
     var username:String=""
+    var i=0;
     lateinit var adapter: Adapter
     private var hasConnection = false
     lateinit var socketInstance: SocketManager
-
+    lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,9 +80,7 @@ class ChatActivity : AppCompatActivity() {
 //
             socketInstance.Update(text,USERID,reciver_id)
             add.setText("")
-          //  Update(text)
-
-//            list_view.setBackgroundResource(R.drawable.drawable_chat)
+            //VIEWCHAT()
         }
 
         backButtton.setOnClickListener {
@@ -88,15 +97,23 @@ class ChatActivity : AppCompatActivity() {
             finish();
             startActivity(intent);
         }
-
+         layoutManager = LinearLayoutManager(baseContext)
+        recyclerList.layoutManager = layoutManager
         if(savedInstanceState != null){
             hasConnection = savedInstanceState.getBoolean("hasConnection");
         }
         // SocketManager.getInstance(this).initialize(socketList)
         initializeSocket()
         socketInstance.ONLINE_USER(USERID)
-
-
+//        Handler(Looper.getMainLooper()).postDelayed({
+//
+//        }, 1500)
+        //VIEWCHAT()
+        Timer().scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                VIEWCHAT()
+            }
+        }, 0, 1500)
     }
 
     private fun GETINTENT()
@@ -113,16 +130,23 @@ class ChatActivity : AppCompatActivity() {
 
         }
         USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager.USERID).toString()
-        socketInstance.VIEWcHAT(
-            USERID,reciver_id)
+//        socketInstance.VIEWcHAT(
+//            USERID,reciver_id)
+//        Thread { runOnUiThread {
+//            socketInstance.VIEWcHAT(
+//                USERID,reciver_id) } }.start()
+   //     VIEWCHAT()
+
+
+
     }
 
+    private fun VIEWCHAT() {
+        socketInstance.VIEWcHAT(
+            USERID,reciver_id)
+        System.out.println("USERID="+USERID+"reciver_id"+reciver_id)
+    }
 
-    private fun ONLINE_LISTENER() {
-        val jsonObject = JSONObject()
-                    .put("userId", "616dccdab83a9818f8080f3c")
-            socket!!.emit("onlineUser", jsonObject);
-          }
 
     private fun ONLINE_USER() {
 
@@ -162,15 +186,19 @@ class ChatActivity : AppCompatActivity() {
             }
 
             override fun viewchat(listdat: ArrayList<Messages>) {
-                if(listdat!=null)
+                if(listdat!=null&&i==0)
                 {
                     listdatlist=listdat
-                    val layoutManager = LinearLayoutManager(baseContext)
                     var adaptor = MessageAdaptor(listdatlist,USERID)
-                    recyclerList.layoutManager = layoutManager
                     recyclerList.adapter = adaptor
-                    recyclerList.smoothScrollToPosition(listdatlist.count());
+                    recyclerList.scrollToPosition(removeDuplocatElemts(listdatlist).size - 1)
+
                 }
+                else
+                {
+
+                }
+
                 }
 
             override fun oneToOneChat(listdatset: Messages) {
@@ -178,7 +206,32 @@ class ChatActivity : AppCompatActivity() {
                 recyclerList.adapter!!.notifyDataSetChanged()
                 recyclerList.smoothScrollToPosition(listdatlist.count());
             }
-        })}
+        }
+
+
+        )
+        //socketInstance.addListener("viewChat",SocketManager.SocketMessageListener)
+        socketInstance.addListener("viewChat", object : SocketManager.SocketMessageListener {
+            override fun onMessage(vararg args: Any) {
+                val data = args[0] as JSONObject
+                Log.e("browse_page_err", "sendMessage " + data.toString())
+
+            }
+        })
+
+    }
+
+    private fun removeDuplocatElemts(listdatlist: ArrayList<Messages>):  ArrayList<Messages>
+    {
+        var copyChatList: java.util.ArrayList<Messages> = ArrayList()
+        for (i in 0..listdatlist.size - 1) {
+            if (!copyChatList.contains(listdatlist[i])) {
+                copyChatList.add(listdatlist[i])
+            }
+        }
+
+        return copyChatList
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

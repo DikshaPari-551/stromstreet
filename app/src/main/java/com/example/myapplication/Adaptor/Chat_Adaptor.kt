@@ -17,9 +17,13 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.util.ArrayList
 
 class Chat_Adaptor(
-        var mcontext: Context,
-        var list: ArrayList<Chalist>?
+    var mcontext: Context,
+    var list: ArrayList<Chalist>?,
+   var USERID_data: String
 ) : RecyclerView.Adapter<Chat_Adaptor.MyViewHolder>() {
+    lateinit var id: String
+    lateinit var full_name: String
+
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var chat = view.findViewById<LinearLayout>(R.id.chat_layout)
         var image = view.findViewById<CircleImageView>(R.id.image)
@@ -41,12 +45,30 @@ class Chat_Adaptor(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         try {
-            holder.followername.setText(list!!.get(position).receiverId.fullName)
-            var filedata = list!!.get(position).receiverId.profilePic.replace("\"".toRegex(), "")
-            if(!filedata.equals("")||filedata!=null)
+            if(USERID_data.equals(list!!.get(position).receiverId._id))
             {
-                Glide.with(mcontext).load(filedata).into(holder.image);
+                holder.followername.setText(list!!.get(position).senderId.fullName)
+                id=list!!.get(position).senderId._id
+                full_name=list!!.get(position).senderId.fullName
+                var filedata = list!!.get(position).receiverId.profilePic.replace("\"".toRegex(), "")
+                if(!filedata.equals("")||filedata!=null)
+                {
+                    Glide.with(mcontext).load(filedata).into(holder.image);
+                }
+
             }
+            else{
+                holder.followername.setText(list!!.get(position).receiverId.fullName)
+                full_name= list!!.get(position).receiverId.fullName
+                id=list!!.get(position).receiverId._id
+                var filedata = list!!.get(position).receiverId.profilePic.replace("\"".toRegex(), "")
+                if(!filedata.equals("")||filedata!=null)
+                {
+                    Glide.with(mcontext).load(filedata).into(holder.image);
+                }
+            }
+
+
 
 
         }catch (e: IndexOutOfBoundsException){
@@ -57,8 +79,16 @@ class Chat_Adaptor(
         }
         holder.chat.setOnClickListener {
             try {
-                (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java).putExtra("reciver_id",list!!.get(position).receiverId._id).putExtra("username",list!!.get(position).receiverId.fullName))
+                if(USERID_data.equals(list!!.get(position).receiverId._id))
+                {
+                    (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java).putExtra("reciver_id",list!!.get(position).senderId._id).putExtra("username",list!!.get(position).senderId.fullName))
 
+
+                }
+                else{
+                    (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java).putExtra("reciver_id",list!!.get(position).receiverId._id).putExtra("username",list!!.get(position).receiverId.fullName))
+
+                }
 
             }catch (e: IndexOutOfBoundsException){
                 e.printStackTrace()
