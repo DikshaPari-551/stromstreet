@@ -59,7 +59,8 @@ data class CategoryDetails (
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
     @SerializedName("__v") val __v : Int,
-    @SerializedName("image") val image : String,
+    @SerializedName("image") val image : String
+
     )
 
 

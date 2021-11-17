@@ -134,4 +134,7 @@ interface Api_interface {
     @GET("user/commentReplies")
     fun getRepliesCommentlist(@Query("commentId") commentId: String): Call<Responce>?
 
+    @GET("user/likeUnlikeComment")
+    fun commentLikes(@Query("commentId") commentId: String): Call<Responce>?
+
 }

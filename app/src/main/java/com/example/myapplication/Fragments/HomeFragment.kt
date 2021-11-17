@@ -128,12 +128,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         }
 
         localpost.setOnClickListener {
-            followingPost.setTextColor(resources.getColor(R.color.white))
-            home_text.setText("Local Activity")
-            localpost.setTextColor(resources.getColor(R.color.orange))
-            filter.visibility = View.GONE
-            userHome.visibility = View.GONE
-            backArrowHome.visibility = View.VISIBLE
+//            followingPost.setTextColor(resources.getColor(R.color.white))
+//            home_text.setText("Local Activity")
+//            localpost.setTextColor(resources.getColor(R.color.orange))
+//            filter.visibility = View.GONE
+//            userHome.visibility = View.GONE
+//            backArrowHome.visibility = View.VISIBLE
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
                 ?.commit()
 
@@ -142,12 +142,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             if (SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
-                followingPost.setTextColor(resources.getColor(R.color.orange))
-                home_text.setText("Following Activity")
-                localpost.setTextColor(resources.getColor(R.color.white))
-                filter.visibility = View.GONE
-                userHome.visibility = View.GONE
-                backArrowHome.visibility = View.VISIBLE
+//                followingPost.setTextColor(resources.getColor(R.color.orange))
+//                home_text.setText("Following Activity")
+//                localpost.setTextColor(resources.getColor(R.color.white))
+//                filter.visibility = View.GONE
+//                userHome.visibility = View.GONE
+//                backArrowHome.visibility = View.VISIBLE
                 fragmentManager?.beginTransaction()
                     ?.replace(R.id.linear_layout, FollowingActivityFragment())
                     ?.commit()

@@ -30,7 +30,6 @@
 
                 <LinearLayout
                     android:id="@+id/user_home"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -109,7 +108,7 @@
                         android:fontFamily="@font/opensans_regular"
                         android:gravity="center"
                         android:text="Local Activity"
-                        android:textColor="@color/white"
+                        android:textColor="@color/red"
                         android:textSize="15sp" />
                 </LinearLayout>
 

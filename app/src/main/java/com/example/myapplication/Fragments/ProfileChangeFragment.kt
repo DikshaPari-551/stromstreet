@@ -343,7 +343,8 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
                         image = data.data!!
-                        userProfile.setImageURI(image)
+                        Glide.with(mContext).load(image).into(userProfile)
+//                        userProfile.setImageURI(image)
                         bottomSheetDialog.dismiss()
                         val path = getPathFromURI(image)
                         if (path != null) {
@@ -357,7 +358,8 @@ class ProfileChangeFragment : Fragment(), ClickListner {
             } else if (requestCode == CAMERA) {
                 if (resultCode == Activity.RESULT_OK) {
                     imageFile = File(imagePath)
-                    userProfile.setImageURI(Uri.fromFile(imageFile))
+                    Glide.with(mContext).load(imageFile).into(userProfile)
+//                    userProfile.setImageURI(Uri.fromFile(imageFile))
                     bottomSheetDialog.dismiss()
                     USER_IMAGE_UPLOADED = "ture"
                     uploadUserImageApi()

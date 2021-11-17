@@ -227,6 +227,11 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
+    fun getCommentLikes(callBack: ApiCallBack<Responce>, commentId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.commentLikes(commentId) }!!
+            .enqueue(callBack)
+    }
+
 
 }
 
