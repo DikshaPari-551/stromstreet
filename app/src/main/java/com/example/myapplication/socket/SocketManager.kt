@@ -52,7 +52,8 @@ class SocketManager private constructor(context: Context) {
         socket!!.emit("oneToOneChat", data);
         // socket?.emit("new message", "message");
     }
-    fun VIEWcHAT(sender: String, reciver_id: String) {
+    fun VIEWcHAT(sender: String, reciver_id: String)
+    {
         val data = JSONObject()
         data.put("senderId", sender);
         data.put("receiverId", reciver_id);
@@ -142,8 +143,8 @@ class SocketManager private constructor(context: Context) {
             options.reconnectionAttempts = 40
             options.secure = true
             options.timeout = 900000
-            socket = IO.socket("http://172.16.2.19:3027")
-          //  socket = IO.socket("https://node-stromestreet.mobiloitte.com")
+          //  socket = IO.socket("http://172.16.2.19:3027")
+           socket = IO.socket("https://node-stromestreet.mobiloitte.com")
             socket.on(Socket.EVENT_CONNECT) {
                 Handler(Looper.getMainLooper()).post {
                     if (socket.connected()) {

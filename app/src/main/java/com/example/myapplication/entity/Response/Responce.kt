@@ -95,6 +95,8 @@ data class Messages (
     @SerializedName("message") val message : String,
     @SerializedName("_id") val _id : String,
     @SerializedName("receiverId") val receiverId : String,
+    @SerializedName("createdAt") val createdAt : String
+
 
 )
 data class ProfileResult (
