@@ -351,25 +351,38 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             var postCommentList = ArrayList<CommentList>()
             postCommentList.addAll(response.result.commentList)
             setAdapter(postCommentList)
-            postdetails()
         }
     }
 
-    fun commentLikeApi(commentId: String) {
+    fun commentLikeApi(commentId: String, commentLike: ImageView) {
         if(androidextention.isOnline(mContext)){
+            androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(object : ApiResponseListener<Responce>{
                     override fun onApiSuccess(response: Responce, apiName: String?) {
                         Log.d("commentlikes", response.result.toString())
+                        if (response.responseCode == "200"){
+                            if (response.result.isLike == true) {
+                                commentLike.setColorFilter(resources.getColor(R.color.red))
+                            } else {
+                                commentLike.setColorFilter(resources.getColor(R.color.grey))
+                            }
+                            Commentlist()
+                            androidextention.disMissProgressDialog(mContext)
+                        } else {
+                            Toast.makeText(mContext,response.responseMessage,Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-                        Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
+                        androidextention.disMissProgressDialog(mContext)
+//                        Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
 
                     }
 
                     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+                        androidextention.disMissProgressDialog(mContext)
                         Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
                     }
 
@@ -386,7 +399,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     private fun setAdapter(list: ArrayList<CommentList>?) {
-            adaptor = Post2Adapter(this, list!!,this,this)
+            adaptor = Post2Adapter(this, list!!,this,this,resources)
             val layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, true)
             post2recycler.layoutManager = layoutManager
             post2recycler.adapter = adaptor
@@ -394,7 +407,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Data not found.", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Data not found.", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -412,7 +425,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         COMMENT_ID = _id
     }
 
-    override fun commentLikeListener(commentId: String) {
-        commentLikeApi(commentId)
+    override fun commentLikeListener(commentId: String, commentLike: ImageView) {
+        commentLikeApi(commentId,commentLike)
     }
 }
