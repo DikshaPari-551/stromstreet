@@ -106,6 +106,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         limitTextMore.visibility = View.VISIBLE
         layoutMore.visibility = View.GONE
 
+
         getINent()
         postdetails()
         val callback: OnPageChangeCallback = object : OnPageChangeCallback() {
