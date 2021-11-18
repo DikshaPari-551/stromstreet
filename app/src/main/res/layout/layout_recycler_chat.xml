@@ -10,7 +10,8 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+
+
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="80dp"
@@ -36,8 +37,9 @@
         android:id="@+id/reciver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+
         android:layout_marginRight="5dp"
+        android:layout_marginLeft="80dp"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         >
@@ -47,6 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
+            android:background="@drawable/br_sender"
+
             android:orientation="horizontal"
             >
 
@@ -54,13 +58,24 @@
                 android:id="@+id/recivertext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/br_sender"
                 android:fontFamily="@font/opensans_regular"
                 android:padding="5dp"
                 android:text="Hello"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvChatReceiverTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+              android:text="12.22 pm"
+
+               android:gravity="right"
+                android:layout_below="@+id/recivertext"
+                android:textColor="@color/black"
+                android:textSize="7dp"
+                android:textStyle="normal" />
         </RelativeLayout>
 
 
