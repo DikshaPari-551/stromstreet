@@ -1,6 +1,7 @@
 package com.example.myapplication.Adaptor
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +16,15 @@ import com.example.myapplication.customclickListner.CustomCommentLikeListener
 import com.example.myapplication.customclickListner.CustomReplyListener
 import com.example.myapplication.entity.Response.CommentList
 import com.example.myapplication.entity.Response.Replies
+import com.example.myapplication.util.DateFormat
 import de.hdodenhof.circleimageview.CircleImageView
 
 class Post2Adapter(
     var mContext: Context,
     var list: ArrayList<CommentList>,
-    var customReplyListener : CustomReplyListener,
-    var customCommentLikeListener : CustomCommentLikeListener
+    var customReplyListener: CustomReplyListener,
+    var customCommentLikeListener: CustomCommentLikeListener,
+    var resources: Resources
 ) : RecyclerView.Adapter<Post2Adapter.MyViewHolder>() {
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemUsername = view.findViewById<TextView>(R.id.itemUsername)
@@ -29,8 +32,10 @@ class Post2Adapter(
         var reply = view.findViewById<LinearLayout>(R.id.reply)
         var replyCount = view.findViewById<TextView>(R.id.reply_count)
         var likeCount = view.findViewById<TextView>(R.id.like_count)
+        var commentTime = view.findViewById<TextView>(R.id.comment_time)
         var likes = view.findViewById<LinearLayout>(R.id.likes)
         var commentLike = view.findViewById<ImageView>(R.id.comment_like)
+        var timeContainer = view.findViewById<LinearLayout>(R.id.time_container)
         var profileImage = view.findViewById<CircleImageView>(R.id.profileImage)
         var commentRepliesRecyclerView = view.findViewById<RecyclerView>(R.id.commentReplies_RV)
     }
@@ -48,12 +53,24 @@ class Post2Adapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var commentId = list.get(position)._id
+        var formatdate = DateFormat.covertTimeOtherFormat(list.get(position).createdAt)
         holder.itemUsername.setText(list[position].userId.userName.toString())
         holder.commentText.setText(list[position].comment.toString())
         holder.replyCount.setText(list.get(position).replyCount.toString())
-        if(list.get(position).likeCount > 0) {
+
+        holder.timeContainer.visibility = View.VISIBLE
+        holder.commentTime.setText(formatdate)
+
+        if (list.get(position).isLike == true) {
+            holder.commentLike.setColorFilter(resources.getColor(R.color.red))
+        } else {
+            holder.commentLike.setColorFilter(resources.getColor(R.color.grey))
+        }
+        if (list.get(position).likeCount > 0) {
             holder.likes.visibility = View.VISIBLE
             holder.likeCount.setText(list.get(position).likeCount.toString())
+        } else {
+            holder.likes.visibility = View.GONE
         }
         try {
             var filedata = list[position].userId.profilePic.toString()
@@ -62,18 +79,23 @@ class Post2Adapter(
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
-        var adaptor = RepliesCommentAdaptor(mContext,
-            list.get(position).replies as ArrayList<Replies>
+        var adaptor = RepliesCommentAdaptor(
+            mContext,
+            list.get(position).replies as ArrayList<Replies>, resources, customCommentLikeListener
         )
         val layoutManager = LinearLayoutManager(mContext)
         holder.commentRepliesRecyclerView.layoutManager = layoutManager
         holder.commentRepliesRecyclerView.adapter = adaptor
         holder.reply.setOnClickListener {
-            customReplyListener?.replyListener(holder.commentRepliesRecyclerView,position,commentId)
+            customReplyListener?.replyListener(
+                holder.commentRepliesRecyclerView,
+                position,
+                commentId
+            )
         }
 
         holder.commentLike.setOnClickListener {
-            customCommentLikeListener.commentLikeListener(commentId)
+            customCommentLikeListener.commentLikeListener(commentId, holder.commentLike)
         }
 
     }

@@ -61,53 +61,36 @@
 
                         <ImageView
                             android:id="@+id/comment_like"
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="5dp"
                             android:src="@drawable/grey_heart">
 
                         </ImageView>
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="20dp"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/heart3" />
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="6dp"
-                            android:src="@drawable/heart3" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/opensans_regular"
-                            android:paddingLeft="15dp"
-                            android:text=""
-                            android:textColor="#014fa0"
-                            android:textSize="12dp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/time_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                        <TextView
+                            android:id="@+id/comment_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="8dp"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="12dp"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/likes"
@@ -120,7 +103,6 @@
                             android:id="@+id/like_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="8dp"
                             android:text="0"
                             android:textColor="@color/black"
@@ -130,6 +112,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3dp"
+                            android:layout_marginRight="10dp"
                             android:layout_marginTop="8dp"
                             android:text="Likes"
                             android:textColor="@color/black"
@@ -146,7 +129,6 @@
                             android:id="@+id/reply_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="8dp"
                             android:text=""
                             android:textColor="@color/black"

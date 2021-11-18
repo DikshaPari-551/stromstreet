@@ -50,8 +50,8 @@
 
                 <ImageView
                     android:id="@+id/repliersLikeIcon"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/grey_heart">
@@ -71,7 +71,7 @@
                     android:layout_height="10dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/heart3"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="10dp"
@@ -79,7 +79,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="6dp"
                     android:src="@drawable/heart3"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
 
                 <TextView
@@ -91,44 +91,68 @@
                     android:textColor="#014fa0"
                     android:textSize="8dp"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/likes"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:layout_marginLeft="10dp"
+                >
 
-                <TextView
-                    android:id="@+id/like_count"
+                <LinearLayout
+                    android:id="@+id/comment_time_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
-                    android:text="0"
-                    android:textColor="@color/black"
-                    android:textSize="11dp" />
+                    android:visibility="gone">
 
+                    <TextView
+                        android:id="@+id/comment_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Likes"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/likes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Likes"
-                    android:textColor="@color/black"
-                    android:textSize="11dp" />
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/like_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="11dp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Likes"
+                        android:textColor="@color/black"
+                        android:textSize="11dp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:paddingRight="20dp"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="25dp"
@@ -214,10 +238,10 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:paddingRight="20dp"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="25dp"
