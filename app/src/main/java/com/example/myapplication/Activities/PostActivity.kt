@@ -66,6 +66,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
 //    lateinit var totalshare: TextView
 
+
     private var loginFlag: Boolean = false
 
     var click: Boolean = false
