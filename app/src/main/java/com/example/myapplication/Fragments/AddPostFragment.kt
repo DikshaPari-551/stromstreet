@@ -245,6 +245,7 @@ class AddPostFragment(
                         if (response.responseCode == "200") {
                             androidextention.showProgressDialog(activity)
                             var data: List<MediaResult> = response.result.mediaResult
+                            Log.d("uploadResponse",data.toString())
                             for (i in 0 until data.size) {
                                 imageType = data.get(i).mediaType
                                 if (imageType == "image") {

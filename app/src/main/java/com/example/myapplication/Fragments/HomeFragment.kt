@@ -9,6 +9,7 @@ import android.icu.text.Transliterator
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -224,13 +225,17 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
 //            try {
                 if (catId != null && !catId.equals("")) {
+
                     serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
-                    println("Filter Response : -" + apiRequest.toString())
 
                 } else if (getSearchText != null && !getSearchText.equals("")) {
+
                     serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
+
                 } else {
+
                     serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
+
                 }
 //            } catch (e: Exception) {
 //                e.printStackTrace()

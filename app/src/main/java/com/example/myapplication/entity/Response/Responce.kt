@@ -70,9 +70,23 @@ data class Result(
     @SerializedName("isFollow") val isFollow : Boolean,
     @SerializedName("commentList") val commentList : List<CommentList>,
     @SerializedName("messages") val messages : ArrayList<Messages>,
-    @SerializedName("mediaResult") val mediaResult : List<MediaResult>
+    @SerializedName("mediaResult") val mediaResult : List<MediaResult>,
+    @SerializedName("replies") val replies : List<Replies>,
 )
 
+data class Replies (
+
+    @SerializedName("commentType") val commentType : String,
+    @SerializedName("status") val status : String,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("postId") val postId : String,
+    @SerializedName("userId") val userId : UserId,
+    @SerializedName("commentId") val commentId : String,
+    @SerializedName("comment") val comment : String,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int
+)
 
 data class CommentList (
 

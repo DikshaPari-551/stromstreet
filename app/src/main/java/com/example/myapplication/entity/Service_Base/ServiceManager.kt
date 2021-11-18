@@ -5,7 +5,6 @@ import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
-import com.example.myapplication.entity.Response.UserPostDocs
 import com.example.myapplication.entity.Response.UserPostResponse
 import okhttp3.MultipartBody
 
@@ -130,8 +129,8 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.savedList() }!!.enqueue(callBack)
     }
 
-    fun commentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, postId: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.comment(postId, jsonObject) }!!
+    fun commentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, postId: String?,commentId : String?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.comment(postId,commentId, jsonObject) }!!
             .enqueue(callBack)
     }
 
@@ -159,7 +158,8 @@ class ServiceManager(var mContext: Context?) {
         callBack: ApiCallBack<LocalActivityResponse>,
         latitude: Double?,
         longitude: Double?,
-        apiRequest: Api_Request?
+        apiRequest: Api_Request?,
+
     ) {
         mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
     }
@@ -214,6 +214,11 @@ class ServiceManager(var mContext: Context?) {
 
     fun getCommentlist(callBack: ApiCallBack<Responce>, postId: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.getCommentList(postId) }!!
+            .enqueue(callBack)
+    }
+
+    fun getRepliesCommentlist(callBack: ApiCallBack<Responce>, commentId: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getRepliesCommentlist(commentId) }!!
             .enqueue(callBack)
     }
 

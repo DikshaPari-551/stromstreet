@@ -9,7 +9,10 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.R
 
-class ImageSliderAdaptor(var imageList: List<String>, var postActivity: PostActivity) : RecyclerView.Adapter<ImageSliderAdaptor.MyViewHolder>() {
+class ImageSliderAdaptor(
+    var imageList: List<String>,
+    var postActivity: PostActivity
+) : RecyclerView.Adapter<ImageSliderAdaptor.MyViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

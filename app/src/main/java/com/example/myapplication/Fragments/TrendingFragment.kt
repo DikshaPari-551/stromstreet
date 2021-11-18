@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.TrendingListAdaptor
@@ -49,6 +48,9 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     var searchValue = ""
     var catId: String = ""
     var maxDis: Int = 0
+    var page: Int = 1
+    var pages: Int = 0
+    var limit : Int = 10
     //    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
 //    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1")
 //    var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event")
@@ -160,11 +162,21 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             try {
                 if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
 
-                    serviceManager.getTrendingPost(callBack, latitude, longitude, apiRequest)
+                    serviceManager.getTrendingPost(
+                        callBack,
+                        latitude,
+                        longitude,
+                        apiRequest
+                    )
 
                 } else if (searchValue != null && !searchValue.equals("")) {
 
-                    serviceManager.getTrendingPost(callBack, null, null, apiRequest)
+                    serviceManager.getTrendingPost(
+                        callBack,
+                        null,
+                        null,
+                        apiRequest
+                    )
 
                 } else {
 

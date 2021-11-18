@@ -21,6 +21,7 @@ data class Resultt(
     @SerializedName("limit") val limit: Int,
     @SerializedName("page") val page: Int,
     @SerializedName("pages") val pages: Int
+
 )
 
 data class Docss(
@@ -46,7 +47,10 @@ data class Docss(
     @SerializedName("likeCount") val likeCount: Int,
     @SerializedName("categoryDetails") val categoryDetails: List<CategoryDetails>,
     @SerializedName("description") val description : String,
-    )
+    @SerializedName("title") val title : String
+
+
+)
 
 data class CategoryDetails (
     @SerializedName("_id") val _id : String,
@@ -55,8 +59,10 @@ data class CategoryDetails (
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,
     @SerializedName("__v") val __v : Int,
-    @SerializedName("image") val image : String
-)
+    @SerializedName("image") val image : String,
+    )
+
+
 data class UserDetailss(
 
     @SerializedName("_id") val _id: String,

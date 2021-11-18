@@ -2,9 +2,12 @@ package com.example.myapplication.Activities
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.example.myapplication.R
@@ -23,6 +26,7 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
 
     lateinit var report_text: EditText
     lateinit var submitreport: LinearLayout
+    lateinit var backArrow: ImageView
     lateinit var reportvalue: String
     lateinit var _id: String
     var mContext: Context = this
@@ -30,10 +34,20 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_post)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(R.color.black)
+        }
         report_text = findViewById(R.id.report_text)
         submitreport = findViewById(R.id.submitreport)
+        backArrow = findViewById(R.id.back_arrow)
         getInent()
 
+        backArrow.setOnClickListener {
+            finish()
+        }
 
         submitreport.setOnClickListener {
             reportvalue= report_text.text.toString().trim()

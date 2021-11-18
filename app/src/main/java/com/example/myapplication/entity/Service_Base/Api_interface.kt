@@ -81,7 +81,7 @@ interface Api_interface {
     fun savedList(): Call<UserPostResponse>?
 
     @POST("user/comment")
-    fun comment(@Query("postId") postId: String, @Body apiRequest: Api_Request?): Call<Responce>?
+    fun comment(@Query("postId") postId: String?, @Query("commentId") commentId: String?, @Body apiRequest: Api_Request?): Call<Responce>?
 
     @POST("user/createReport")
     fun reportPost(@Query("_id") _id: String, @Body apiRequest: Api_Request?): Call<Responce>?
@@ -104,7 +104,12 @@ interface Api_interface {
     fun localActivity(@Query("lat") lat : Double?,@Query("lng") lng : Double?, @Body apiRequest: Api_Request?,@Query("page") page : String?,@Query("limit") limit : String?): Call<LocalActivityResponse>?
 
     @POST("user/trendingPostList")
-    fun trendingPost(@Query("lat") latitude: Double?,@Query("lng") longitude: Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
+    fun trendingPost(
+        @Query("lat") latitude: Double?,
+        @Query("lng") longitude: Double?,
+        @Body apiRequest: Api_Request?,
+
+    ): Call<LocalActivityResponse>?
 
     @POST("user/followingActivity")
     fun followingActivity(@Query("lat") latitude: Double?,@Query("lng") longitude: Double?, @Body apiRequest: Api_Request?): Call<LocalActivityResponse>?
@@ -123,5 +128,8 @@ interface Api_interface {
 
     @GET("user/commentList")
     fun getCommentList(@Query("postId") postId: String): Call<Responce>?
+
+    @GET("user/commentReplies")
+    fun getRepliesCommentlist(@Query("commentId") commentId: String): Call<Responce>?
 
 }

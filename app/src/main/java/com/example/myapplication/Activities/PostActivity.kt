@@ -2,24 +2,23 @@ package com.example.myapplication.Activities
 
 import android.content.Context
 import android.content.Intent
-import android.media.Image
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.*
-import androidx.activity.OnBackPressedCallback
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.ImageSliderAdaptor
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
-import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.entity.ApiCallBack
-import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
@@ -28,7 +27,6 @@ import com.example.myapplication.util.SavedPrefManager
 import de.hdodenhof.circleimageview.CircleImageView
 import me.relex.circleindicator.CircleIndicator3
 import okhttp3.ResponseBody
-import java.lang.Exception
 
 class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
@@ -44,6 +42,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     var mContext: Context = this
     lateinit var username: TextView
     lateinit var layoutMore: TextView
+    lateinit var limitTextMore: TextView
     lateinit var eventType: TextView
     lateinit var totalLike: TextView
     lateinit var commentcount: TextView
@@ -52,6 +51,10 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var viewPager2: ViewPager2
     lateinit var indicator3: CircleIndicator3
     lateinit var internetConnection: LinearLayout
+    var shareImageLinks = ArrayList<String>()
+    var shareLink: String = ""
+    var VP_Position = 0
+    var des = ""
 
     private lateinit var adapter: ImageSliderAdaptor
 
@@ -89,6 +92,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         loginFlag = LoginFlag.getLoginFlag()
         username = findViewById(R.id.username)
         layoutMore = findViewById(R.id.text_more)
+        limitTextMore = findViewById(R.id.limit_text_more)
         eventType = findViewById(R.id.eventType)
         totalLike = findViewById(R.id.totalLike)
         commentcount = findViewById(R.id.commentcount)
@@ -97,9 +101,20 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         indicator3 = findViewById(R.id.indicator)
         internetConnection = findViewById(R.id.no_wifi)
         comment = findViewById(R.id.comment)
+//        comment = findViewById(R.id.comment)
+        limitTextMore.visibility = View.VISIBLE
+        layoutMore.visibility = View.GONE
 
         getINent()
         postdetails()
+        val callback: OnPageChangeCallback = object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                sharePostLink(position)
+            }
+        }
+        viewPager2.registerOnPageChangeCallback(callback);
+
 
         backPostButton.setOnClickListener {
 //            val i = Intent(this, MainActivity::class.java)
@@ -109,7 +124,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
 
 
-        comment = findViewById(R.id.comment)
         comment.setOnClickListener {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
@@ -168,8 +182,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             ) {
                 val i = Intent(Intent.ACTION_SEND)
                 i.setType("text/plain")
-                var shareBody: String = "Share Body"
-                var shareSubject: String = "Share Subject"
+                var shareBody: String = shareLink
+                var shareSubject: String = "Share link:-"
                 i.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
                 i.putExtra(Intent.EXTRA_TEXT, shareBody)
                 startActivity(Intent.createChooser(i, "Sharing using"))
@@ -207,18 +221,18 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
 
 
-//        more.setOnClickListener {
-//
-////            layoutMore.setText("Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt giugugguuhut dalore magna aliqua. Quis ipsum sus-\\n lacus\"Lorem ipsum dolor sit amet,consectetuar adipscing elit, sed de eimuod\\ntempor incididunt ut dalore magna aliqua. Quis ipsum sus-\\n lacus")
-//            more.setText("")
-//        }
-
-//        var path = "android.resource://com.example.myapplication/" + R.raw.vedio
-//        var u: Uri = Uri.parse(path.toString())
-//        vedio.setVideoURI(u)
-//        vedio.start()
+        more.setOnClickListener {
+            limitTextMore.visibility = View.GONE
+            layoutMore.visibility = View.VISIBLE
+            layoutMore.setText(des)
+            more.setText("")
+        }
 
 
+    }
+
+    private fun sharePostLink(position: Int) {
+        shareLink = shareImageLinks.get(position)
     }
 
     private fun getINent() {
@@ -244,7 +258,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }  else {
+        } else {
             internetConnection.visibility = View.VISIBLE
             comment.isEnabled = false
             video_post_like.isEnabled = false
@@ -310,7 +324,11 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         if (apiName.equals("PostDetails")) {
             try {
                 username.setText(response.result.postResult.userId.userName.toString())
-                layoutMore.setText(response.result.postResult.description)
+                des = response.result.postResult.description
+                if(des.length > 70) {
+                    more.visibility = View.VISIBLE
+                }
+                limitTextMore.setText(response.result.postResult.description)
                 eventType.setText(response.result.postResult.categoryId.categoryName.toString())
                 totalLike.setText(response.result.likeCount.toString())
                 commentcount.setText(response.result.commentCount.toString())
@@ -322,7 +340,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
             try {
                 var profile = response.result.postResult.userId.profilePic.toString()
-                Glide.with(this).load(profile).into(profileimg);
+                Glide.with(this).load(profile).placeholder(R.drawable.circleprofile)
+                    .into(profileimg);
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -347,11 +366,12 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     viewPager2.visibility = View.VISIBLE
                     indicator3.visibility = View.VISIBLE
                     val imageList: List<String> = response.result.postResult.imageLinks
+                    shareImageLinks = imageList as ArrayList<String>
                     setImageAdaptor(imageList)
                 } else {
                     var filedata = response.result.postResult.imageLinks[0]
                     Glide.with(this).load(filedata).into(vedio);
-
+                    shareLink = filedata
                 }
 
             } catch (e: IndexOutOfBoundsException) {
@@ -362,19 +382,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             postdetails()
         } else if (apiName.equals("FollowUnfollow")) {
             postdetails()
-//            if (isFollow == true) {
-//                follow.setText("Unfollow")
-//            } else if (isFollow == false) {
-//                follow.setText("Follow")
-//            }
         }
-//        else if (apiName.equals("SaveUnsave")) {
-//            if (isFollow == true) {
-//                follow.setText("Unfollow")
-//            } else if (isFollow == false) {
-//                follow.setText("Follow")
-//            }
-//        }
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
