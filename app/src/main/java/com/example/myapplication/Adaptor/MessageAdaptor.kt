@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.entity.Response.Messages
+import com.example.myapplication.util.DateFormat
 
 class MessageAdaptor(var listdat: ArrayList<Messages>, var USERID: String) :
     RecyclerView.Adapter<MessageAdaptor.MyViewHolder>() {
@@ -19,6 +20,8 @@ class MessageAdaptor(var listdat: ArrayList<Messages>, var USERID: String) :
         var recivertext = view.findViewById<TextView>(R.id.recivertext)
         var sender = view.findViewById<LinearLayout>(R.id.sender)
         var reciver = view.findViewById<RelativeLayout>(R.id.reciver)
+        var sendertime= view.findViewById<TextView>(R.id.sendertime)
+        var tvChatReceiverTime= view.findViewById<TextView>(R.id.tvChatReceiverTime)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageAdaptor.MyViewHolder {
@@ -31,6 +34,7 @@ class MessageAdaptor(var listdat: ArrayList<Messages>, var USERID: String) :
             holder.sender.visibility = View.VISIBLE
             holder.reciver.visibility = View.GONE
             holder.sendertext.setText(listdat.get(position).message)
+           holder.sendertime.setText(DateFormat.getDateOfhourminute(listdat.get(position).createdAt))
 //        val params = LinearLayout.LayoutParams(
 //            LinearLayout.LayoutParams.MATCH_PARENT,
 //            LinearLayout.LayoutParams.WRAP_CONTENT
@@ -43,6 +47,7 @@ class MessageAdaptor(var listdat: ArrayList<Messages>, var USERID: String) :
             holder.sender.visibility = View.GONE
             holder.reciver.visibility = View.VISIBLE
             holder.recivertext.setText(listdat.get(position).message)
+            holder.tvChatReceiverTime.setText(DateFormat.getDateOfhourminute(listdat.get(position).createdAt))
         }
 
     }
