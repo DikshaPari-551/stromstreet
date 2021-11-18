@@ -19,7 +19,7 @@ import java.util.ArrayList
 class Chat_Adaptor(
     var mcontext: Context,
     var list: ArrayList<Chalist>?,
-    var USERID_data: String
+   var USERID_data: String
 ) : RecyclerView.Adapter<Chat_Adaptor.MyViewHolder>() {
     lateinit var id: String
     lateinit var full_name: String
@@ -28,7 +28,7 @@ class Chat_Adaptor(
         var chat = view.findViewById<LinearLayout>(R.id.chat_layout)
         var image = view.findViewById<CircleImageView>(R.id.image)
         var followername = view.findViewById<TextView>(R.id.followername)
-        //  var profileImage = view.findViewById<CircleImageView>(R.id.profileImage)
+      //  var profileImage = view.findViewById<CircleImageView>(R.id.profileImage)
 
     }
 
@@ -79,8 +79,16 @@ class Chat_Adaptor(
         }
         holder.chat.setOnClickListener {
             try {
-                (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java).putExtra("reciver_id",id).putExtra("username",full_name))
+                if(USERID_data.equals(list!!.get(position).receiverId._id))
+                {
+                    (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java).putExtra("reciver_id",list!!.get(position).senderId._id).putExtra("username",list!!.get(position).senderId.fullName))
 
+
+                }
+                else{
+                    (mcontext as MainActivity).startActivity(Intent(mcontext, ChatActivity::class.java).putExtra("reciver_id",list!!.get(position).receiverId._id).putExtra("username",list!!.get(position).receiverId.fullName))
+
+                }
 
             }catch (e: IndexOutOfBoundsException){
                 e.printStackTrace()
@@ -88,6 +96,6 @@ class Chat_Adaptor(
             catch (e: NullPointerException){
                 e.printStackTrace()
             }
-        }
+                 }
     }
 }

@@ -7,17 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.Chat_Adaptor
 import com.example.myapplication.R
-import com.example.myapplication.Singleton.ArraySingleton
 import com.example.myapplication.entity.Response.Chalist
 import com.example.myapplication.entity.Response.Messages
 import com.example.myapplication.socket.SocketManager
+import com.example.myapplication.util.SavedPrefManager
 import com.example.myapplication.util.SavedPrefManager.Companion.USERID
-import com.example.myapplication.util.SavedPrefManager.Companion._id
 import com.example.myapplication.util.SavedPrefManager.Companion.getStringPreferences
 import kotlin.collections.ArrayList
 
@@ -26,6 +24,7 @@ class ChatFragment : Fragment() {
     lateinit var recycler_view3:RecyclerView
     lateinit var backButton:ImageView
     var USERIDdata: String=""
+    var USERID_data: String=""
     lateinit var adaptor:Chat_Adaptor
     lateinit var socketInstance: SocketManager
     private var list: ArrayList<Chalist>? = null
@@ -43,6 +42,8 @@ class ChatFragment : Fragment() {
         backButton=v.findViewById(R.id.back_arrow_chat)
         socketInstance = SocketManager.getInstance(context!!)
         socketInstance.CHAT_LIST(USERIDdata)
+        USERID_data = SavedPrefManager.getStringPreferences(context, SavedPrefManager.USERID).toString()
+//
         initializeSocket()
        // list = ArraySingleton.getInstance().array
 
@@ -87,7 +88,7 @@ class ChatFragment : Fragment() {
             override fun chatlist(listdat: ArrayList<Chalist>)
             {if(listdat!=null)
             {
-                adaptor = activity?.let { Chat_Adaptor(it, listdat,USERIDdata ) }!!
+                adaptor = activity?.let { Chat_Adaptor(it, listdat, USERID_data ) }!!
                 val layoutManager = LinearLayoutManager(activity)
                 recycler_view3.layoutManager = layoutManager
                 recycler_view3.adapter = adaptor
@@ -102,7 +103,6 @@ class ChatFragment : Fragment() {
                }
 
             override fun viewchat(listdat: ArrayList<Messages>) {
-                TODO("Not yet implemented")
             }
 
             override fun oneToOneChat(listdat: Messages)
