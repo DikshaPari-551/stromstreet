@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:fontFamily="@font/opensans_light"
+                android:paddingRight="10dp"
                 android:textStyle="bold"
                 android:textSize="7.5sp"
                 android:id="@+id/bio"

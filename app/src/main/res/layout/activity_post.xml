@@ -223,8 +223,8 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profileimg"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
                             android:layout_weight="0.3"
                             android:paddingLeft="15dp"
                             android:src="@drawable/circleprofile" />
@@ -298,7 +298,7 @@
                                 <TextView
                                     android:id="@+id/eventType"
                                     android:layout_weight="0.3"
-                                    android:layout_width="100dp"
+                                    android:layout_width="110dp"
                                     android:layout_height="30dp"
                                     android:layout_gravity="center"
                                     android:fontFamily="@font/opensans_regular"

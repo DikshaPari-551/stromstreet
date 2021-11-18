@@ -1,6 +1,7 @@
 package com.example.myapplication.Activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.Follower_Adaptor
 import com.example.myapplication.R
+import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.entity.Response.LocalActivityResponse
@@ -21,10 +23,11 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
-class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse> {
+class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse>,CustomClickListner2 {
     lateinit var adaptor: Follower_Adaptor
     lateinit var recycler_view3: RecyclerView
     lateinit var back_arrow_chat: ImageView
+    var otherUserId: String = ""
 
     //    var list: ArrayList<Docs> = arrayListOf()
     var mContext: Context = this
@@ -88,9 +91,24 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
 
 
     fun setAdapter(list: ArrayList<Docss>) {
-        adaptor = this?.let { Follower_Adaptor(it, list) }!!
+        adaptor = this?.let { Follower_Adaptor(it,this, list) }!!
         val layoutManager = LinearLayoutManager(this)
         recycler_view3.layoutManager = layoutManager
         recycler_view3.adapter = adaptor
+    }
+
+    override fun customClick(value: Docss, type: String)    {
+//        value.userId
+        otherUserId = value.followerId._id
+
+        if (type.equals("profile")){
+            var intent = Intent(applicationContext, UserProfile::class.java)
+            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.otherUserId,otherUserId)
+
+            startActivity(intent)
+        }
+//        if (type.equals("Follow")){
+//            followerApi()
+//        }
     }
 }

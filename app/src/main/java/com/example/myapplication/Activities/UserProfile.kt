@@ -218,8 +218,11 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         if (apiName.equals("Profile")) {
             if (isFollow == true) {
                 followuser.setText("Unfollow")
+                message.visibility = View.VISIBLE
+
             } else if (isFollow == false) {
                 followuser.setText("Follow")
+                message.visibility = View.GONE
             }
         } else if (apiName.equals("FollowUnfollow")) {
             profileApi()

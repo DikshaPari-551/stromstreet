@@ -183,11 +183,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                     } else {
                         getLocalActivityApi()
                     }
-
                 }
-
             }
-
         })
 
         return v
