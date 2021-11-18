@@ -56,6 +56,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     var VP_Position = 0
     var des = ""
 
+
     private lateinit var adapter: ImageSliderAdaptor
 
 
