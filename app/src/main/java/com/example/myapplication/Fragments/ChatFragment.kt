@@ -23,7 +23,7 @@ import kotlin.collections.ArrayList
 class ChatFragment : Fragment() {
     lateinit var recycler_view3:RecyclerView
     lateinit var backButton:ImageView
-    var USERIDdata: String=""
+
     var USERID_data: String=""
     lateinit var adaptor:Chat_Adaptor
     lateinit var socketInstance: SocketManager
@@ -36,16 +36,13 @@ class ChatFragment : Fragment() {
         // Inflate the layout for this fragment
 
         var v= inflater.inflate(R.layout.fragment_chat, container, false)
-        USERIDdata = getStringPreferences(context!!, USERID).toString()
-
         recycler_view3=v.findViewById(R.id.recycler_view3)
         backButton=v.findViewById(R.id.back_arrow_chat)
-        socketInstance = SocketManager.getInstance(context!!)
-        socketInstance.CHAT_LIST(USERIDdata)
-        USERID_data = SavedPrefManager.getStringPreferences(context, SavedPrefManager.USERID).toString()
+
+
 //
-        initializeSocket()
-       // list = ArraySingleton.getInstance().array
+
+
 
 
         backButton.setOnClickListener{
@@ -59,6 +56,13 @@ class ChatFragment : Fragment() {
 
 
         return v
+    }
+
+    private fun SocketInitalize() {
+        USERID_data = getStringPreferences(context, USERID).toString()
+        socketInstance = SocketManager.getInstance(context!!)
+        socketInstance.CHAT_LIST(USERID_data)
+        initializeSocket()
     }
 
     private fun initializeSocket()
@@ -111,5 +115,9 @@ class ChatFragment : Fragment() {
             }
         })}
 
+    override fun onResume() {
+        super.onResume()
+        SocketInitalize()
+    }
 
 }

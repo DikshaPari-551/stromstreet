@@ -26,20 +26,43 @@ class DateFormat {
                 val hour = TimeUnit.MILLISECONDS.toHours(dateDiff)
                 if (second < 60) {
                     convTime = "Just Now"
+                } else if (second > 60) {
+                    convTime = "Just Now"
                 } else if (minute < 60) {
                     convTime = "$minute mins $suffix"
                 } else if (hour < 24) {
                     convTime = "$hour hours $suffix"
                 } else if (hour >= 24) {
-                    val newSdf = SimpleDateFormat("yyyy-mm-dd HH:mm:ss")
-                    newSdf.timeZone = TimeZone.getTimeZone("UTC")
-                    convTime = newSdf.format(date)
+//                    val newSdf = SimpleDateFormat("yyyy-mm-dd HH:mm:ss")
+//                    newSdf.timeZone = TimeZone.getTimeZone("UTC")
+//                    convTime = newSdf.format(date)
+                    convTime = "$dateDiff days $suffix"
                 }
             } catch (e: ParseException) {
                 e.printStackTrace()
                 //Log.e("ConvTimeE", e.getMessage());
             }
             return convTime
+        }
+
+        fun getDateOfhourminute(date: String?): String? {
+            var result = ""
+
+//        SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss.SSS'Z'");
+            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            //  SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            sourceFormat.timeZone = TimeZone.getTimeZone("UTC")
+            var parsed: Date? = null // => Date is in UTC now
+            parsed = try {
+                sourceFormat.parse(date)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+                return ""
+            }
+            val destFormat = SimpleDateFormat("h:mm aa")
+            destFormat.timeZone = TimeZone.getDefault()
+            result = destFormat.format(parsed)
+            return result
         }
     }
 }

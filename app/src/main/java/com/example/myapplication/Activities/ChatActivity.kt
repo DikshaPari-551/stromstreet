@@ -26,6 +26,8 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import android.os.Looper
 import android.view.View
+import com.bumptech.glide.Glide
+import de.hdodenhof.circleimageview.CircleImageView
 
 
 class ChatActivity : AppCompatActivity() {
@@ -34,6 +36,8 @@ class ChatActivity : AppCompatActivity() {
     lateinit var right_arrow_Chat:ImageView
     lateinit var sendImgIcon: ImageView
     lateinit var backButtton: ImageView
+    lateinit var userprofile: CircleImageView
+
     lateinit var user_name: TextView
     var mContext: Context = this
     lateinit var recyclerList: RecyclerView
@@ -45,6 +49,7 @@ class ChatActivity : AppCompatActivity() {
     lateinit var listdatlist: ArrayList<Messages>
     var reciver_id:String=""
     var username:String=""
+    var profileimage:String=""
     var i=0;
     var  flag:Boolean=false
      var timer:Timer= Timer()
@@ -66,6 +71,7 @@ class ChatActivity : AppCompatActivity() {
         }
         chat_layout = findViewById(R.id.chat_Activity)
         backButtton = findViewById(R.id.right_arrow)
+        userprofile = findViewById(R.id.userprofile)
         recyclerList = findViewById(R.id.rcycler_list)
         user_name= findViewById(R.id.username)
         sendImgIcon = findViewById(R.id.send_img_icon)
@@ -142,6 +148,11 @@ class ChatActivity : AppCompatActivity() {
                 username = intent.getStringExtra("username")!!
                 user_name.setText(username)
             }
+            if (intent.getStringExtra("profileimage") != null) {
+                profileimage = intent.getStringExtra("profileimage")!!
+                Glide.with(this).load(profileimage).into(userprofile);
+            }
+
 
         }
         USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager.USERID).toString()
