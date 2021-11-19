@@ -62,9 +62,10 @@ class Post2Adapter(
         holder.commentTime.setText(formatdate)
 
         if (list.get(position).isLike == true) {
-            holder.commentLike.setColorFilter(resources.getColor(R.color.red))
+//            holder.commentLike.setColorFilter(resources.getColor(R.color.red))
+            holder.commentLike.setImageDrawable(resources.getDrawable(R.drawable.heartred))
         } else {
-            holder.commentLike.setColorFilter(resources.getColor(R.color.grey))
+            holder.commentLike.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
         }
         if (list.get(position).likeCount > 0) {
             holder.likes.visibility = View.VISIBLE
@@ -75,7 +76,7 @@ class Post2Adapter(
         try {
             var filedata = list[position].userId.profilePic.toString()
 
-            Glide.with(mContext).load(filedata).into(holder.profileImage);
+            Glide.with(mContext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.profileImage);
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }

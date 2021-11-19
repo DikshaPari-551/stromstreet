@@ -7,19 +7,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.ProfileAdaptor
-import com.example.myapplication.Adaptor.SaveListAdaptor
 import com.example.myapplication.Exoplayer
 import com.example.myapplication.R
-import com.example.myapplication.customclickListner.CustomClickListner
-import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.customclickListner.CustomClickListner3
 import com.example.myapplication.entity.ApiCallBack
+import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.*
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
@@ -27,13 +27,20 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
-class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse>, CustomClickListner3 {
+class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>, CustomClickListner3 {
 
     lateinit var recycler: RecyclerView
     lateinit var noPost: TextView
     lateinit var mContext: Context
     lateinit var adaptor: ProfileAdaptor
     lateinit var USERID: String
+    lateinit var progress_bar: ProgressBar
+    lateinit var nestedScrollView: NestedScrollView
+    var page: Int = 1
+    var pages: Int = 0
+    var limit : Int = 10
+    var list = ArrayList<UserPostDocs>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +50,26 @@ class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse>, CustomC
         var v = inflater.inflate(R.layout.fragment_first, container, false)
         recycler = v.findViewById(R.id.recycler_view_tab1)
         noPost = v.findViewById(R.id.no_post)
-
+        progress_bar = v.findViewById(R.id.progress_bar)
+        nestedScrollView = v.findViewById(R.id.nestedScrollView)
         mContext = activity!!
         userpostlist()
 
+        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+            override fun onScrollChange(
+
+                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
+                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+                    page++
+                    progress_bar.visibility=View.VISIBLE
+                    if(page > pages) {
+                        progress_bar.visibility=View.GONE
+                    } else {
+                        userpostlist()
+                    }
+                }
+            }
+        })
 
         return v
 
@@ -60,9 +83,11 @@ class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse>, CustomC
             val callBack: ApiCallBack<UserPostResponse> =
                 ApiCallBack<UserPostResponse>(this, "SavedPostList", mContext)
 
-
+            var apiRequest = Api_Request()
+            apiRequest.page = page.toString()
+            apiRequest.limit = limit.toString()
             try {
-                serviceManager.getPostlist(callBack)
+                serviceManager.getPostlist(callBack,apiRequest)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -74,7 +99,6 @@ class FirstFragment : Fragment(), ApiResponseListener<UserPostResponse>, CustomC
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(mContext)
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
-            var list = ArrayList<UserPostDocs>()
             list.addAll(response.result.docs)
             setAdapter(list)
         }

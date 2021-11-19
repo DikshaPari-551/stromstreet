@@ -123,7 +123,7 @@ interface Api_interface {
     fun otherUserPost(@Query("userId") userId: String): Call<Responce>?
 
     @POST("user/userPostList")
-    fun getPostList(): Call<UserPostResponse>?
+    fun getPostList(@Body apiRequest: Api_Request): Call<UserPostResponse>?
 
     @GET("user/othersPostList")
     fun getOtherPostList(@Query("userId") userId: String): Call<UserPostResponse>?

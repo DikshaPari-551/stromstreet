@@ -38,11 +38,18 @@ class DateFormat {
                 } else if (hour < 24) {
                     convTime = "$hour hours $suffix"
                 } else if (hour >= 24) {
-                    val newSdf = SimpleDateFormat("yyyy-mm-dd HH:mm:ss")
-                    newSdf.timeZone = TimeZone.getTimeZone("UTC")
+//                    val newSdf = SimpleDateFormat("yyyy-mm-dd HH:mm:ss")
+//                    newSdf.timeZone = TimeZone.getTimeZone("UTC")
 //                    convTime = newSdf.format(date)
                     convTime = "$dayOfMonth days $suffix"
-
+                } else if(dayOfMonth > 7) {
+                    convTime = "$dayOfWeek week $suffix"
+                } else if(dayOfWeek > 4) {
+                    convTime = "$weekOfMonth week $suffix"
+                } else if(weekOfMonth > 4) {
+                    convTime = "$month month $suffix"
+                } else if(month > 12) {
+                    convTime = "$year month $suffix"
                 }
             } catch (e: ParseException) {
                 e.printStackTrace()

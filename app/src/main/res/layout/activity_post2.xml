@@ -189,7 +189,7 @@
                                         android:layout_height="30dp"
                                         android:gravity="center"
                                         android:fontFamily="@font/opensans_regular"
-                                        android:text="Event"
+                                        android:text=""
                                         android:textColor="@color/black"
                                         android:textSize="12sp"
                                         android:textStyle="bold" />
@@ -282,6 +282,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/share1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="50dp"
@@ -289,7 +290,6 @@
 
 
                             <ImageView
-                                android:id="@+id/share1"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/grey_share" />
@@ -378,7 +378,7 @@
                         android:id="@+id/user_image_comment"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@color/red" />
+                        android:src="@drawable/circleprofile" />
                 </LinearLayout>
                 <!--                <TextView-->
                 <!--                    android:id="@+id/commentname"-->

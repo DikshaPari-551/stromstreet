@@ -15,12 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.myapplication.Activities.NoInternetActivity
 import com.example.myapplication.Fragments.*
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.Response.Chalist
 import com.example.myapplication.entity.Response.Messages
 import com.example.myapplication.entity.permission.MarshMallowPermission
 import com.example.myapplication.entity.permission.RequestPermission
+import com.example.myapplication.extension.androidextention
 import com.example.myapplication.socket.SocketManager
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.LocationServices
@@ -30,17 +32,17 @@ import java.io.*
 
 
 class MainActivity : AppCompatActivity(), ClickListner {
-    lateinit var menu:ImageView
-    lateinit var bubble:ImageView
-    lateinit var profile:ImageView
-    lateinit var add:ImageView
-    private var loginFlag : Boolean = false
-    lateinit var user_home:ImageView
-    lateinit var filter:ImageView
-    lateinit var  topText:TextView
-    var file : File? = null
+    lateinit var menu: ImageView
+    lateinit var bubble: ImageView
+    lateinit var profile: ImageView
+    lateinit var add: ImageView
+    private var loginFlag: Boolean = false
+    lateinit var user_home: ImageView
+    lateinit var filter: ImageView
+    lateinit var topText: TextView
+    var file: File? = null
     private var GALLERY = 1
-    private  var CAMERA:Int = 2
+    private var CAMERA: Int = 2
     val CAMERA_PERM_CODE = 101
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
 
@@ -49,8 +51,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
     lateinit var socketInstance: SocketManager
 
 
-
-    lateinit var chat:ImageView
+    lateinit var chat: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
@@ -81,10 +82,10 @@ class MainActivity : AppCompatActivity(), ClickListner {
 //            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 //            window.setStatusBarColor(Color.)
 //        }
-        menu=findViewById(R.id.menu)
-        bubble=findViewById(R.id.bubble)
-        profile=findViewById(R.id.profile)
-        add=findViewById(R.id.add)
+        menu = findViewById(R.id.menu)
+        bubble = findViewById(R.id.bubble)
+        profile = findViewById(R.id.profile)
+        add = findViewById(R.id.add)
 
 
 
@@ -100,10 +101,10 @@ class MainActivity : AppCompatActivity(), ClickListner {
 
             chat.setColorFilter(resources.getColor(R.color.grey))
         }
-        chat=findViewById(R.id.chat)
+        chat = findViewById(R.id.chat)
         chat.setColorFilter(resources.getColor(R.color.grey))
 
-        chat.setOnClickListener{
+        chat.setOnClickListener {
             supportFragmentManager.beginTransaction().replace(
                 R.id.linear_layout,
                 TrendingFragment()
@@ -132,8 +133,10 @@ class MainActivity : AppCompatActivity(), ClickListner {
         }
         bubble.setColorFilter(resources.getColor(R.color.grey))
 
-        bubble.setOnClickListener{
-            if (  SavedPrefManager.getStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN).equals("true")) {
+        bubble.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
 
 
                 profile.setColorFilter(resources.getColor(R.color.grey))
@@ -158,8 +161,13 @@ class MainActivity : AppCompatActivity(), ClickListner {
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.grey))
                 chat.setColorFilter(resources.getColor(R.color.grey))
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.linear_layout, ProfileFragment()).commit()
+                if (androidextention.isOnline(this)) {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.linear_layout, ProfileFragment()).commit()
+                } else {
+                    val intent = Intent(this, NoInternetActivity::class.java)
+                    startActivity(intent)
+                }
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
@@ -177,7 +185,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
     }
 
     private fun initializeSocket() {
-          onAddListeners()
+        onAddListeners()
         if (!socketInstance.isConnected) {
             socketInstance.connect()
         } else {
@@ -211,7 +219,8 @@ class MainActivity : AppCompatActivity(), ClickListner {
             override fun oneToOneChat(listdat: Messages) {
 
             }
-        })}
+        })
+    }
 
     override fun clickListner(
         requestCode: Int,

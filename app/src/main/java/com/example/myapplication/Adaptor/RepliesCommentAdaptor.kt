@@ -38,9 +38,10 @@ class RepliesCommentAdaptor(
         holder.timeContainer.visibility = View.VISIBLE
         holder.commentTime.setText(formatdate)
         if (list.get(position).isLike == true) {
-            holder.repliersLikeIcon.setColorFilter(resources.getColor(R.color.red))
+            holder.repliersLikeIcon.setImageDrawable(resources.getDrawable(R.drawable.heartred))
+//            holder.repliersLikeIcon.setColorFilter(resources.getColor(R.color.red))
         } else {
-            holder.repliersLikeIcon.setColorFilter(resources.getColor(R.color.grey))
+            holder.repliersLikeIcon.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
         }
         if(list.get(position).likeCount > 0) {
             holder.likes.visibility = View.VISIBLE
