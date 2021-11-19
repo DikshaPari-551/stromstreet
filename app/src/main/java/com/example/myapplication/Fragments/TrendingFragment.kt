@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
@@ -32,29 +33,30 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var mContext: Context
     lateinit var adaptor: TrendingListAdaptor
     lateinit var USERID: String
-    lateinit var Go : LinearLayout
-    lateinit var textLocalPostTrending:TextView
-    lateinit var textFollowingPostTrending:TextView
+    lateinit var Go: LinearLayout
+    lateinit var textLocalPostTrending: TextView
+    lateinit var textFollowingPostTrending: TextView
     lateinit var recycler_view2: RecyclerView
-    lateinit var trending_post_text:TextView
+    lateinit var trending_post_text: TextView
     lateinit var trandingBackButton: ImageView
     lateinit var filter: LinearLayout
-    lateinit var userTrendingImg:ImageView
+    lateinit var userTrendingImg: ImageView
     lateinit var searchText: EditText
     lateinit var goButton: LinearLayout
     lateinit var internetConnection: LinearLayout
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
+    lateinit var nestedScrollView: NestedScrollView
+    lateinit var progress_bar: ProgressBar
+
+    var list = ArrayList<Docss>()
     var searchValue = ""
     var catId: String = ""
     var maxDis: Int = 0
     var page: Int = 1
     var pages: Int = 0
-    var limit : Int = 10
-    //    var weather  : List<String> =listOf("Weather","Crime","Weater","Crime","Weather")
-//    var okhla  : List<String> =listOf("Okhla phase1","Okhla phase2","Okhla phase1","Okhla phase2","Okhla phase1")
-//    var event  : List<String> =listOf("Event","Traffic","Event","Traffic","Event")
-//    var lajpat  : List<String> =listOf("Lajpat Nagar","Okhla Saket","Lajpat Nagar","Saket","Lajpat Nagar")
+    var limit: Int = 10
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,29 +65,32 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         mContext = activity!!
 
         // Inflate the layout for this fragment
-        var v= inflater.inflate(R.layout.fragment_trending, container, false)
+        var v = inflater.inflate(R.layout.fragment_trending, container, false)
 
         searchText = v.findViewById(R.id.trending_search_text)
         goButton = v.findViewById(R.id.go)
         recycler_view2 = v.findViewById(R.id.recycler_view2)
-        trending_post_text=v.findViewById(R.id.trending_post_text)
-        trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
+        trending_post_text = v.findViewById(R.id.trending_post_text)
+        trandingBackButton = v.findViewById(R.id.back_arrow_tranding)
         internetConnection = v.findViewById(R.id.no_wifi)
+        nestedScrollView = v.findViewById(R.id.nestedScrollView)
+        progress_bar = v.findViewById(R.id.progress_bar)
 
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
             catId = arguments?.getString("CAT_ID")!!
             maxDis = arguments?.getInt("MAX_DIS")!!
-        } catch(e : java.lang.Exception) {
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
         getTrendingPostApi()
-        trandingBackButton.setOnClickListener{
-            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, TrendingFragment())?.commit()
+        trandingBackButton.setOnClickListener {
+            fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, TrendingFragment())
+                ?.commit()
 
         }
-        goButton.setOnClickListener{
+        goButton.setOnClickListener {
             searchValue = searchText.text.toString()
             getTrendingPostApi()
         }
@@ -120,21 +125,23 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 //            }
 //        }
 
-        userTrendingImg=v.findViewById(R.id.user_treanding_img)
-        userTrendingImg.setOnClickListener{
-            if(  SavedPrefManager.getStringPreferences(activity,  SavedPrefManager.KEY_IS_LOGIN).equals("true")){
+        userTrendingImg = v.findViewById(R.id.user_treanding_img)
+        userTrendingImg.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
                 getFragmentManager()?.beginTransaction()?.replace(
                     R.id.linear_layout,
                     ProfileFragment()
                 )
                     ?.commit()
-            }else{
+            } else {
                 val i = Intent(activity, LoginActivity::class.java)
                 startActivity(i)
             }
         }
-        filter=v.findViewById(R.id.filter)
-        filter.setOnClickListener{
+        filter = v.findViewById(R.id.filter)
+        filter.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
                 secondFragment("trending")
@@ -142,9 +149,26 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                 ?.commit()
 
         }
+
+        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+            override fun onScrollChange(
+                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
+                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+//                    val lastVisibleItemPosition: Int = layoutManager.findLastVisibleItemPosition()
+
+                    page++
+                    progress_bar.visibility=View.VISIBLE
+                    if(page > pages) {
+                        progress_bar.visibility=View.GONE
+                    } else {
+                        getTrendingPostApi()
+                    }
+                }
+            }
+        })
+
+
         return v
-
-
     }
 
     private fun getTrendingPostApi() {
@@ -162,25 +186,15 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             try {
                 if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
 
-                    serviceManager.getTrendingPost(
-                        callBack,
-                        latitude,
-                        longitude,
-                        apiRequest
-                    )
+                    serviceManager.getTrendingPost(callBack,latitude,longitude,apiRequest,page.toString(),limit.toString())
 
                 } else if (searchValue != null && !searchValue.equals("")) {
 
-                    serviceManager.getTrendingPost(
-                        callBack,
-                        null,
-                        null,
-                        apiRequest
-                    )
+                    serviceManager.getTrendingPost(callBack,null,null,apiRequest,page.toString(),limit.toString())
 
                 } else {
 
-                    serviceManager.getTrendingPost(callBack, null, null, apiRequest)
+                    serviceManager.getTrendingPost(callBack, null, null, apiRequest,page.toString(),limit.toString())
 
                 }
             } catch (e: Exception) {
@@ -193,7 +207,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
-        var list = ArrayList<Docss>()
+        pages = response.result.pages
+
         list.addAll(response.result.docs)
         setAdapter(list)
 
@@ -212,25 +227,21 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     }
 
     fun setAdapter(list: ArrayList<Docss>) {
-        adaptor = this?.let { TrendingListAdaptor(it, list,this) }!!
-        val layoutManager = GridLayoutManager(activity,2)
+        adaptor = this?.let { TrendingListAdaptor(it, list, this) }!!
+        val layoutManager = GridLayoutManager(activity, 2)
         recycler_view2?.layoutManager = layoutManager
         recycler_view2?.adapter = adaptor
         adaptor.notifyDataSetChanged()
     }
 
-    override fun customClick(value: Docss, type: String)   {
-        USERID =   value._id
+    override fun customClick(value: Docss, type: String) {
+        USERID = value._id
         if (type.equals("profile")) {
-            if(value.mediaType.toLowerCase().equals("video"))
-            {
+            if (value.mediaType.toLowerCase().equals("video")) {
                 var intent = Intent(mContext, Exoplayer::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 startActivity(intent)
-            }
-            else
-
-            {
+            } else {
                 var intent = Intent(mContext, PostActivity::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 startActivity(intent)

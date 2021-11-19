@@ -40,15 +40,17 @@ class ServiceManager(var mContext: Context?) {
 //    }
 
     fun otp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.getotp(jsonObject) }!!.enqueue(callBack)
+        mContext?.let { Remotedatasource.current(it, false)!!.getotp(jsonObject) }!!
+            .enqueue(callBack)
     }
 
     fun vOtp(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
-        mContext?.let { Remotedatasource.current(it, false)!!.verifyOtp(jsonObject) }!!.enqueue(callBack)
+        mContext?.let { Remotedatasource.current(it, false)!!.verifyOtp(jsonObject) }!!
+            .enqueue(callBack)
     }
 
-    fun userRestPassword(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, token : String) {
-        mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(token,jsonObject) }!!
+    fun userRestPassword(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, token: String) {
+        mContext?.let { Remotedatasource.current(it, false)!!.resetPassword(token, jsonObject) }!!
             .enqueue(callBack)
 
     }
@@ -129,12 +131,23 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.savedList() }!!.enqueue(callBack)
     }
 
-    fun commentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, postId: String?,commentId : String?) {
-        mContext?.let { Remotedatasource.current(it, true)!!.comment(postId,commentId, jsonObject) }!!
+    fun commentOnPost(
+        callBack: ApiCallBack<Responce>,
+        jsonObject: Api_Request?,
+        postId: String?,
+        commentId: String?
+    ) {
+        mContext?.let {
+            Remotedatasource.current(it, true)!!.comment(postId, commentId, jsonObject)
+        }!!
             .enqueue(callBack)
     }
 
-    fun replyCommentOnPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, commentId : String?) {
+    fun replyCommentOnPost(
+        callBack: ApiCallBack<Responce>,
+        jsonObject: Api_Request?,
+        commentId: String?
+    ) {
         mContext?.let { Remotedatasource.current(it, true)!!.replyComment(commentId, jsonObject) }!!
             .enqueue(callBack)
     }
@@ -157,25 +170,37 @@ class ServiceManager(var mContext: Context?) {
         page: String?,
         limit: String?
     ) {
-        mContext?.let { Remotedatasource.current(it, true)!!.localActivity(lat,lng,apiRequest,page,limit) }!!.enqueue(callBack)
+        mContext?.let {
+            Remotedatasource.current(it, true)!!.localActivity(lat, lng, apiRequest, page, limit)
+        }!!.enqueue(callBack)
     }
+
     fun getTrendingPost(
         callBack: ApiCallBack<LocalActivityResponse>,
         latitude: Double?,
         longitude: Double?,
         apiRequest: Api_Request?,
-
+        page: String?,
+        limit: String?
     ) {
-        mContext?.let { Remotedatasource.current(it, true)!!.trendingPost(latitude,longitude,apiRequest) }!!.enqueue(callBack)
+        mContext?.let {
+            Remotedatasource.current(it, true)!!
+                .trendingPost(latitude, longitude, apiRequest, page, limit)
+        }!!.enqueue(callBack)
     }
 
     fun getFollowingActivity(
         callBack: ApiCallBack<LocalActivityResponse>,
         latitude: Double?,
         longitude: Double?,
-        apiRequest: Api_Request?
+        apiRequest: Api_Request?,
+        page: String?,
+        limit: String?
     ) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followingActivity(latitude,longitude,apiRequest) }!!.enqueue(callBack)
+        mContext?.let {
+            Remotedatasource.current(it, true)!!
+                .followingActivity(latitude, longitude, apiRequest, page, limit)
+        }!!.enqueue(callBack)
     }
 
     fun userUploadMedia(callBack: ApiCallBack<Responce>, image: MultipartBody.Part) {
@@ -183,7 +208,7 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-    fun userUploadFile(callBack: ApiCallBack<Responce>, file : MultipartBody.Part?) {
+    fun userUploadFile(callBack: ApiCallBack<Responce>, file: MultipartBody.Part?) {
         mContext?.let { Remotedatasource.current(it, false)!!.uploadFile(file!!) }!!
             .enqueue(callBack)
     }
@@ -212,8 +237,13 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getPostList() }!!.enqueue(callBack)
     }
 
-    fun getOtherPostlist(callBack: ApiCallBack<UserPostResponse>, userId: String) {
-        mContext?.let { Remotedatasource.current(it, true)!!.getOtherPostList(userId) }!!
+    fun getOtherPostlist(
+        callBack: ApiCallBack<UserPostResponse>, userId: String, page: String?,
+        limit: String?
+    ) {
+        mContext?.let {
+            Remotedatasource.current(it, true)!!.getOtherPostList(userId, page, limit)
+        }!!
             .enqueue(callBack)
     }
 

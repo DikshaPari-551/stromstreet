@@ -29,18 +29,18 @@
         android:text="Login Now"
         android:fontFamily="@font/opensans_semibold"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="25dp"
         android:textStyle="bold" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_marginTop="21.5dp"
         android:text="Please enter the details below to continue."
         android:fontFamily="@font/opensans_semibold"
         android:textColor="@color/darkgrey"
-        android:textSize="12.5sp"
+        android:textSize="12dp"
         android:textStyle="bold" />
     <RelativeLayout
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
             android:hint="Enter email address/phone number"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
-            android:textSize="15sp" />
+            android:textSize="15dp" />
     </LinearLayout>
         <TextView
             android:id="@+id/username_login_up"
@@ -120,7 +120,7 @@
             android:hint="Enter password"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
-            android:textSize="15sp" />
+            android:textSize="15dp" />
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -165,7 +165,7 @@
             android:fontFamily="@font/opensans_regular"
             android:layout_marginRight="-5dp"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -181,7 +181,7 @@
                 android:text="@string/forgotpassword"
                 android:fontFamily="@font/opensans_italic"
                 android:textColor="@color/black"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -214,7 +214,7 @@
             android:text="LOGIN"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="25dp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -233,7 +233,7 @@
                 android:fontFamily="@font/opensans_regular"
             android:text="Don't have an account?"
                 android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textStyle="normal" />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -247,7 +247,7 @@
                 android:fontFamily="@font/opensans_italic"
                 android:id="@+id/text_sign_up"
                 android:textColor="@color/black"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textStyle="bold"
 
                  />

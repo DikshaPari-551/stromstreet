@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -56,6 +57,12 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var reciver_id: String
     lateinit var Userid: String
     lateinit var user_name: String
+    lateinit var progress_bar: ProgressBar
+    lateinit var nestedScrollView: NestedScrollView
+    var list = ArrayList<UserPostDocs>()
+    var page: Int = 1
+    var pages: Int = 0
+    var limit : Int = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,19 +92,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         totalfollower = findViewById(R.id.totalfollower)
         totalfollowing = findViewById(R.id.totalfollowing)
         noPost = findViewById(R.id.no_post)
-
-
-//        totalfollower.setOnClickListener {
-//            var intent = Intent(this, Followers::class.java)
-//            startActivity(intent)
-//        }
-//        totalfollowing.setOnClickListener {
-//            var intent = Intent(this, Following::class.java)
-//            intent.putExtra("userId", Userid)
-//
-//
-//            startActivity(intent)
-//        }
+        progress_bar = findViewById(R.id.progress_bar)
+        nestedScrollView = findViewById(R.id.nestedScrollView)
 
         followbtn.setOnClickListener {
             followUnfollow()
@@ -107,9 +103,25 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         }
         message.setOnClickListener({
            startActivity(Intent(this, ChatActivity::class.java).putExtra("reciver_id",reciver_id).putExtra("username",user_name))
-
-
         })
+
+        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+            override fun onScrollChange(
+                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
+                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+//                    val lastVisibleItemPosition: Int = layoutManager.findLastVisibleItemPosition()
+
+                    page++
+                    progress_bar.visibility=View.VISIBLE
+                    if(page > pages) {
+                        progress_bar.visibility=View.GONE
+                    } else {
+                        newPostList()
+                    }
+                }
+            }
+        })
+
     }
 
     private fun newPostList() {
@@ -122,7 +134,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
                 ApiCallBack<UserPostResponse>(object : ApiResponseListener<UserPostResponse> {
                     override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
                         androidextention.disMissProgressDialog(mContext)
-                        var list = ArrayList<UserPostDocs>()
+                        pages = response.result.pages
+
                         list.addAll(response.result.docs)
                         setAdapter(list)
                     }
@@ -139,7 +152,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
 
                 },"OtherPostResponse",mContext)
             try {
-                serviceManager.getOtherPostlist(callBack, Userid)
+                serviceManager.getOtherPostlist(callBack, Userid,page.toString(),limit.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }

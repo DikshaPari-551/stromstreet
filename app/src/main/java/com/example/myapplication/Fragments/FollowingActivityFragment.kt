@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
@@ -40,13 +41,18 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     lateinit var trandingBackButton: ImageView
     lateinit var filter: LinearLayout
     lateinit var userTrendingImg: LinearLayout
+    lateinit var progress_bar: ProgressBar
     lateinit var internetConnection: LinearLayout
+    lateinit var nestedScrollView: NestedScrollView
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
+    var list = ArrayList<Docss>()
     var searchValue = ""
     var catId: String = ""
     var maxDis: Int = 0
-
+    var page: Int = 1
+    var pages: Int = 0
+    var limit : Int = 10
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,6 +68,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         trandingBackButton=v.findViewById(R.id.back_arrow_tranding)
         internetConnection = v.findViewById(R.id.no_wifi)
         userTrendingImg=v.findViewById(R.id.user_treanding_img)
+        progress_bar = v.findViewById(R.id.progress_bar)
+        nestedScrollView = v.findViewById(R.id.nestedScrollView)
 
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -130,12 +138,24 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
                 ?.commit()
 
         }
-//        var adaptor = activity?.let {
-//
-//        }
-//        val layoutManager = LinearLayoutManager(activity)
-//        recycler_view2.layoutManager = layoutManager
-//        recycler_view2.adapter = adaptor
+        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+            override fun onScrollChange(
+                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
+                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+//                    val lastVisibleItemPosition: Int = layoutManager.findLastVisibleItemPosition()
+
+                    page++
+                    progress_bar.visibility=View.VISIBLE
+                    if(page > pages) {
+                        progress_bar.visibility=View.GONE
+                    } else {
+                        getFollowingApi()
+                    }
+                }
+            }
+        })
+
+
         return v
 
 
@@ -155,11 +175,11 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
             try {
                 if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
-                    serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
+                    serviceManager.getFollowingActivity(callBack,null,null, apiRequest,page.toString(),limit.toString())
                 } else if (searchValue != null && !searchValue.equals("")) {
-                    serviceManager.getFollowingActivity(callBack,null,null, apiRequest)
+                    serviceManager.getFollowingActivity(callBack,null,null, apiRequest,page.toString(),limit.toString())
                 } else {
-                    serviceManager.getFollowingActivity(callBack,null, null, apiRequest)
+                    serviceManager.getFollowingActivity(callBack,null, null, apiRequest,page.toString(),limit.toString())
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -172,7 +192,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
         try {
-            var list = ArrayList<Docss>()
+            pages = response.result.pages
             list.addAll(response.result.docs)
             setAdapter(list)
         } catch(e : java.lang.Exception) {
