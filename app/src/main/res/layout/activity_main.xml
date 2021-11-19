@@ -12,9 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/linear_layout"
+        android:layout_above="@+id/list"
       />
 
 <include layout="@layout/bottom_bar_list"
+    android:id="@+id/list"
 android:layout_alignParentBottom="true"
     android:layout_height="50dp"
 

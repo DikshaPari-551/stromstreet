@@ -45,7 +45,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     lateinit var address: TextView
     lateinit var video_post_like: ImageView
     lateinit var comment: ImageView
-    lateinit var share: ImageView
+    lateinit var share: LinearLayout
     lateinit var backButton: ImageView
     lateinit var profileImage: ImageView
     lateinit var userImageComment: ImageView
@@ -152,6 +152,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
+                commentType = "POST"
                 commenttext.requestFocus()
                 val imgr: InputMethodManager =
                     mContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -168,7 +169,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             ) {
                 val i = Intent(Intent.ACTION_SEND)
                 i.setType("text/plain")
-                var shareBody: String = "Share Body"
+                var shareBody: String = shareLink
                 var shareSubject: String = "Share Subject"
                 i.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
                 i.putExtra(Intent.EXTRA_TEXT, shareBody)
@@ -297,17 +298,17 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             LikeUnlike = response.result.isLike
             try {
                 var filedata = response.result.postResult.userId.profilePic
-                Glide.with(this).load(filedata).into(profileImage);
-                Glide.with(this).load(filedata).into(userImageComment);
+                Glide.with(this).load(filedata).placeholder(R.drawable.circleprofile).into(profileImage);
+                Glide.with(this).load(filedata).placeholder(R.drawable.circleprofile).into(userImageComment);
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
             if (LikeUnlike == true) {
-                video_post_like.setColorFilter(resources.getColor(R.color.red))
+                video_post_like.setImageDrawable(resources.getDrawable(R.drawable.heartred))
 
             } else if (LikeUnlike == false) {
-                video_post_like.setColorFilter(resources.getColor(R.color.white))
+                video_post_like.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
             }
             if (mediatype.toLowerCase().equals("image")) {
                 try {
@@ -329,6 +330,12 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             }
 
         } else if (apiName.equals("LikeUnlike")) {
+            if (LikeUnlike == true) {
+                video_post_like.setImageDrawable(resources.getDrawable(R.drawable.heartred))
+
+            } else if (LikeUnlike == false) {
+                video_post_like.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
+            }
             postdetails()
         }
         if (apiName.equals("Comment")) {
@@ -364,9 +371,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                         Log.d("commentlikes", response.result.toString())
                         if (response.responseCode == "200"){
                             if (response.result.isLike == true) {
-                                commentLike.setColorFilter(resources.getColor(R.color.red))
+                                commentLike.setImageDrawable(resources.getDrawable(R.drawable.heartred))
+//                                commentLike.setColorFilter(resources.getColor(R.color.red))
                             } else {
-                                commentLike.setColorFilter(resources.getColor(R.color.grey))
+                                commentLike.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
                             }
                             Commentlist()
                             androidextention.disMissProgressDialog(mContext)

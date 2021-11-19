@@ -233,8 +233,10 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-    fun getPostlist(callBack: ApiCallBack<UserPostResponse>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.getPostList() }!!.enqueue(callBack)
+    fun getPostlist(
+        callBack: ApiCallBack<UserPostResponse>, apiRequest: Api_Request
+        ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getPostList(apiRequest) }!!.enqueue(callBack)
     }
 
     fun getOtherPostlist(

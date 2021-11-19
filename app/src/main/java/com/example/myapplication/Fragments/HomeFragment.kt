@@ -17,12 +17,14 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Activities.NoInternetActivity
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.ScrollListener
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docss
@@ -38,7 +40,8 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
-class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, CustomClickListner2 {
+class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, CustomClickListner2,
+    ScrollListener {
     lateinit var mContext: Context
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -108,17 +111,20 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         }
 
 
-
-
         man.setOnClickListener {
             if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true"))
             ) {
-                getFragmentManager()?.beginTransaction()?.replace(
-                    R.id.linear_layout,
-                    ProfileFragment()
-                )
-                    ?.commit()
+                if(androidextention.isOnline(mContext)) {
+                    getFragmentManager()?.beginTransaction()?.replace(
+                        R.id.linear_layout,
+                        ProfileFragment()
+                    )
+                        ?.commit()
+                }else{
+                    val intent = Intent(mContext,NoInternetActivity::class.java)
+                    startActivity(intent)
+                }
             } else {
                 val i = Intent(activity, LoginActivity::class.java)
                 startActivity(i)
@@ -335,5 +341,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                     Toast.LENGTH_SHORT
                 ).show()
             }
+    }
+
+    override fun myScrollListener() {
+        TODO("Not yet implemented")
     }
 }

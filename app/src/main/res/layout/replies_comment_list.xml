@@ -12,7 +12,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/repliersImage"
             android:layout_width="45dp"
-            android:layout_height="45dp" />
+            android:layout_height="45dp"
+            android:src="@drawable/circleprofile"/>
 
 
         <LinearLayout
@@ -32,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_regular"
                     android:paddingLeft="10dp"
-                    android:text="Rockingprince$"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -51,8 +52,8 @@
 
                 <ImageView
                     android:id="@+id/repliersLikeIcon"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
                     android:layout_marginLeft="-15dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/grey_heart">
@@ -99,6 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
                 >
 
                 <LinearLayout
@@ -113,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="8dp"
-                        android:text="Likes"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="12dp" />
                 </LinearLayout>
@@ -140,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:layout_marginTop="8dp"
-                        android:text="Likes"
+                        android:text="Like"
                         android:textColor="@color/black"
                         android:textSize="11dp" />
                 </LinearLayout>

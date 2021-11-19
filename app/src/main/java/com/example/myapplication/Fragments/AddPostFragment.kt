@@ -384,13 +384,17 @@ class AddPostFragment(
 
 
     private fun setSpinnerAdapter(spinnerData: ArrayList<String?>) {
-        val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
+        try {
+            val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
                 activity!!,
                 android.R.layout.simple_list_item_1,
                 spinnerData as List<Any?>
-        )
+            )
 
-        spin.adapter = adapter
+            spin.adapter = adapter
+        }catch (e :java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
 

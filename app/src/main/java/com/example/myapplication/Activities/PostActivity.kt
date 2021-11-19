@@ -372,9 +372,14 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     shareImageLinks = imageList as ArrayList<String>
                     setImageAdaptor(imageList)
                 } else {
-                    var filedata = response.result.postResult.imageLinks[0]
-                    Glide.with(this).load(filedata).into(vedio);
-                    shareLink = filedata
+                    try {
+                        var filedata = response.result.postResult.imageLinks[0]
+                        Glide.with(this).load(filedata).into(vedio);
+                        shareLink = filedata
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
+                    }
+
                 }
 
             } catch (e: IndexOutOfBoundsException) {
