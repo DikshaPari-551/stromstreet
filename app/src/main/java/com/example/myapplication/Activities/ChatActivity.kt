@@ -25,9 +25,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import android.os.Looper
-
-
-
+import android.view.View
+import com.bumptech.glide.Glide
+import de.hdodenhof.circleimageview.CircleImageView
 
 
 class ChatActivity : AppCompatActivity() {
@@ -36,6 +36,8 @@ class ChatActivity : AppCompatActivity() {
     lateinit var right_arrow_Chat:ImageView
     lateinit var sendImgIcon: ImageView
     lateinit var backButtton: ImageView
+    lateinit var userprofile: CircleImageView
+
     lateinit var user_name: TextView
     var mContext: Context = this
     lateinit var recyclerList: RecyclerView
@@ -47,7 +49,10 @@ class ChatActivity : AppCompatActivity() {
     lateinit var listdatlist: ArrayList<Messages>
     var reciver_id:String=""
     var username:String=""
+    var profileimage:String=""
     var i=0;
+    var  flag:Boolean=false
+     var timer:Timer= Timer()
     lateinit var adapter: Adapter
     private var hasConnection = false
     lateinit var socketInstance: SocketManager
@@ -66,6 +71,7 @@ class ChatActivity : AppCompatActivity() {
         }
         chat_layout = findViewById(R.id.chat_Activity)
         backButtton = findViewById(R.id.right_arrow)
+        userprofile = findViewById(R.id.userprofile)
         recyclerList = findViewById(R.id.rcycler_list)
         user_name= findViewById(R.id.username)
         sendImgIcon = findViewById(R.id.send_img_icon)
@@ -84,18 +90,9 @@ class ChatActivity : AppCompatActivity() {
         }
 
         backButtton.setOnClickListener {
-//            var fragment : ChatFragment = ChatFragment()
-////            supportFragmentManager.beginTransaction().replace(R.id.chat_Activity,HomeFragment()).commit()
-////            val i = Intent(this, ChatFragment::class.java)
-////            startActivity(i)
-//
-////        }
-            var intent =  Intent(this,MainActivity::class.java)
-            intent .putExtra("openF2",true)
-            overridePendingTransition(0, 0);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            finish();
-            startActivity(intent);
+            timer.cancel()
+            finish()
+
         }
          layoutManager = LinearLayoutManager(baseContext)
         recyclerList.layoutManager = layoutManager
@@ -109,11 +106,35 @@ class ChatActivity : AppCompatActivity() {
 //
 //        }, 1500)
         //VIEWCHAT()
-        Timer().scheduleAtFixedRate(object : TimerTask() {
+        timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 VIEWCHAT()
             }
         }, 0, 1500)
+
+        initScrollListener()
+
+    }
+
+    private fun initScrollListener()
+    {
+        recyclerList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
+                if (dy < 0) {
+                    flag=true
+                }
+            }
+        })
+        recyclerList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerList.canScrollVertically(1)) {
+                    flag=false
+                }
+            }
+        })
     }
 
     private fun GETINTENT()
@@ -127,6 +148,11 @@ class ChatActivity : AppCompatActivity() {
                 username = intent.getStringExtra("username")!!
                 user_name.setText(username)
             }
+            if (intent.getStringExtra("profileimage") != null) {
+                profileimage = intent.getStringExtra("profileimage")!!
+                Glide.with(this).load(profileimage).into(userprofile);
+            }
+
 
         }
         USERID = SavedPrefManager.getStringPreferences(this,SavedPrefManager.USERID).toString()
@@ -186,25 +212,43 @@ class ChatActivity : AppCompatActivity() {
             }
 
             override fun viewchat(listdat: ArrayList<Messages>) {
-                if(listdat!=null&&i==0)
-                {
-                    listdatlist=listdat
-                    var adaptor = MessageAdaptor(listdatlist,USERID)
-                    recyclerList.adapter = adaptor
-                    recyclerList.scrollToPosition(removeDuplocatElemts(listdatlist).size - 1)
+                if(listdat!=null)
+                {listdatlist=listdat
+                    if(i==0)
+                    {
+                         adaptor = MessageAdaptor(listdatlist,USERID)
+                        recyclerList.adapter = adaptor
+                        adaptor.notifyDataSetChanged()
+                    }
+                   else{
+
+//                        listdatlist.add(removeDuplocatElemts(listdatlist).get(listdatlist.size-1))
+//
+//                        recyclerList.adapter!!.notifyDataSetChanged()
+//                        System.out.println("listdatsize="+listdat.size)
+                    }
+
+                    if(flag)
+                    {
+
+                    }
+                    else{
+                        System.out.println("listdatsize="+listdat.size)
+                        adaptor = MessageAdaptor(listdatlist,USERID)
+                        recyclerList.adapter = adaptor
+                        adaptor.notifyDataSetChanged()
+                        recyclerList.scrollToPosition(removeDuplocatElemts(listdatlist).size - 1)
+
+                    }
 
                 }
-                else
-                {
-
-                }
-
+                i++
                 }
 
             override fun oneToOneChat(listdatset: Messages) {
-                listdatlist.add(listdatset)
-                recyclerList.adapter!!.notifyDataSetChanged()
-                recyclerList.smoothScrollToPosition(listdatlist.count());
+//                listdatlist.add(listdatset)
+//                recyclerList.adapter!!.notifyDataSetChanged()
+//                recyclerList.smoothScrollToPosition(listdatlist.count());
             }
         }
 
@@ -243,7 +287,8 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //socket!!.disconnect()
+        socketInstance.socket.disconnect()
+
        //socket!!.off("oneToOneChat", onNewMessage);
     }
 //    object onNewMessage : Emitter.Listener {
@@ -273,6 +318,12 @@ class ChatActivity : AppCompatActivity() {
             Log.d("chseck",args.toString())
         }
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        timer.cancel()
+        finish()
     }
 }
 

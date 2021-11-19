@@ -50,5 +50,25 @@ class DateFormat {
             }
             return convTime
         }
+
+        fun getDateOfhourminute(date: String?): String? {
+            var result = ""
+
+//        SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss.SSS'Z'");
+            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            //  SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            sourceFormat.timeZone = TimeZone.getTimeZone("UTC")
+            var parsed: Date? = null // => Date is in UTC now
+            parsed = try {
+                sourceFormat.parse(date)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+                return ""
+            }
+            val destFormat = SimpleDateFormat("h:mm aa")
+            destFormat.timeZone = TimeZone.getDefault()
+            result = destFormat.format(parsed)
+            return result
+        }
     }
 }
