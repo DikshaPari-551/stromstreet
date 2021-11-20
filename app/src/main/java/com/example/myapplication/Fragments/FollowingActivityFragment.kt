@@ -150,6 +150,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
                         progress_bar.visibility=View.GONE
                     } else {
                         getFollowingApi()
+                        androidextention.disMissProgressDialog(activity)
+
                     }
                 }
             }
