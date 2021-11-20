@@ -5,11 +5,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.icu.text.Transliterator
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +15,6 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.NoInternetActivity
@@ -66,6 +63,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var progress_bar: ProgressBar
     lateinit var internetConnection: LinearLayout
     lateinit var nestedScrollView: NestedScrollView
+    var list = ArrayList<Docss>()
     var getSearchText = ""
     var catId: String = ""
     var locality: String = ""
@@ -182,6 +180,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             override fun onScrollChange(
                 v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
                 if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+//                    val lastVisibleItemPosition: Int = layoutManager.findLastVisibleItemPosition()
+
                     page++
                     progress_bar.visibility=View.VISIBLE
                     if(page > pages) {
@@ -252,7 +252,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         progress_bar.visibility=View.GONE
         androidextention.disMissProgressDialog(activity)
         pages = response.result.pages
-        var list = ArrayList<Docss>()
+
         list.addAll(response.result.docs)
         setAdapter(list)
 //        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
@@ -286,9 +286,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 //        getData(page,limit)
     }
 
-//    private fun getData(page: Int, limit: Int) {
-//
-//    }
+
 
 
     override fun customClick(value: Docss, type: String) {

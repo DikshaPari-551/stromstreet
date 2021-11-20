@@ -146,7 +146,7 @@ class ProfileFragment : Fragment() , ApiResponseListener<Responce> {
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
-        username.setText(response.result.userResult.userName)
+        username.setText(response.result.userResult.fullName)
         followers.setText(response.result.followerCount.toString())
         following.setText(response.result.followingCount.toString())
         Glide.with(mContext).load(response.result.userResult.profilePic)

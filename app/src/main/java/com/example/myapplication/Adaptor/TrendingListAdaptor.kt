@@ -68,7 +68,7 @@ class TrendingListAdaptor(
                     }
                 }
             }
-        }catch (e: IndexOutOfBoundsException){
+        }catch (e: Exception){
             e.printStackTrace()
         }
 

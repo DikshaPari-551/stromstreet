@@ -11,7 +11,7 @@ class DateFormat {
         @SuppressLint("SimpleDateFormat")
         fun covertTimeOtherFormat(dataDate: String?): String? {
             var convTime = ""
-            val suffix = "ago"
+            val suffix = "ago."
             try {
                 val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
                 sdf.timeZone = TimeZone.getTimeZone("UTC")
