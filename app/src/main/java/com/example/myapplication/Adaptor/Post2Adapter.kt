@@ -2,12 +2,14 @@ package com.example.myapplication.Adaptor
 
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -51,6 +53,7 @@ class Post2Adapter(
         return list.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var commentId = list.get(position)._id
         var formatdate = DateFormat.covertTimeOtherFormat(list.get(position).createdAt)

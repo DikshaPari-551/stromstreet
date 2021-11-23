@@ -81,6 +81,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         }
 
         Go.setOnClickListener{
+            list.clear()
             searchValue = searchText.text.toString()
             getFollowingApi()
 

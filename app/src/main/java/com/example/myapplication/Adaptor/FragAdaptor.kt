@@ -37,7 +37,7 @@ class FragAdaptor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
            0->{return "one"}
            1->{return  "two"}
        }
-        c
+
         return super.getPageTitle(position)
     }
 

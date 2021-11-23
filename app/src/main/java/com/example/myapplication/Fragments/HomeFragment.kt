@@ -106,6 +106,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             e.printStackTrace()
         }
         goButton.setOnClickListener {
+            list.clear()
             getSearchText = searchText.text.toString()
             getLocalActivityApi()
         }

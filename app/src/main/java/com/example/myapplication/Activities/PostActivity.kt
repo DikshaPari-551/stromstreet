@@ -227,6 +227,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         more.setOnClickListener {
             limitTextMore.visibility = View.GONE
             layoutMore.visibility = View.VISIBLE
+
             layoutMore.setText(des)
             more.setText("")
         }

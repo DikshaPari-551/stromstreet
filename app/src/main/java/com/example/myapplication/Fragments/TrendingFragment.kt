@@ -91,6 +91,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         }
         goButton.setOnClickListener {
+            list.clear()
             searchValue = searchText.text.toString()
             getTrendingPostApi()
         }
