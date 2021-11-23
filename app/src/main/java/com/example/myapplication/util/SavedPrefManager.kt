@@ -270,6 +270,7 @@ class SavedPrefManager(var context: Context) {
             return sharedPreferences.getBoolean(key, false)
         }
 
+
         /**
          * Removes all the fields from SharedPrefs
          */

@@ -62,7 +62,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     var list = ArrayList<UserPostDocs>()
     var page: Int = 1
     var pages: Int = 0
-    var limit : Int = 20
+    var limit : Int = 12
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,6 +117,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
                         progress_bar.visibility=View.GONE
                     } else {
                         newPostList()
+                        androidextention.disMissProgressDialog(mContext)
+
                     }
                 }
             }

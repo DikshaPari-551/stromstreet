@@ -55,18 +55,11 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     var shareLink: String = ""
     var VP_Position = 0
     var des = ""
-
-
     private lateinit var adapter: ImageSliderAdaptor
-
-
     var USERID: String = ""
     var postid: String = ""
     var LikeUnlike: Boolean = false
     var isFollow: Boolean = false
-
-//    lateinit var totalshare: TextView
-
 
     private var loginFlag: Boolean = false
 
@@ -103,7 +96,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         indicator3 = findViewById(R.id.indicator)
         internetConnection = findViewById(R.id.no_wifi)
         comment = findViewById(R.id.comment)
-//        comment = findViewById(R.id.comment)
         limitTextMore.visibility = View.VISIBLE
         layoutMore.visibility = View.GONE
 
@@ -118,10 +110,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
         viewPager2.registerOnPageChangeCallback(callback);
 
-
         backPostButton.setOnClickListener {
-//            val i = Intent(this, MainActivity::class.java)
-//            startActivity(i)
             finish()
 
         }
@@ -329,7 +318,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             try {
                 username.setText(response.result.postResult.userId.userName.toString())
                 des = response.result.postResult.description
-                if(des.length > 70) {
+                if (des.length > 70) {
                     more.visibility = View.VISIBLE
                 }
                 limitTextMore.setText(response.result.postResult.description)

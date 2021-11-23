@@ -189,6 +189,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                         progress_bar.visibility=View.GONE
                     } else {
                         getLocalActivityApi()
+                        androidextention.disMissProgressDialog(activity)
+
                     }
                 }
             }
