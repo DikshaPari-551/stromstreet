@@ -27,7 +27,6 @@ class ServiceManager(var mContext: Context?) {
     fun requestLoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
         mContext?.let { Remotedatasource.current(it, false)!!.getRegisterApi(jsonObject) }!!
             .enqueue(callBack)
-
     }
 
     fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
@@ -100,12 +99,21 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-    fun getFollower(callBack: ApiCallBack<LocalActivityResponse>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followerUser() }!!.enqueue(callBack)
+    fun getFollower(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        page: String?,
+        limit: String?
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followerUser(page, limit) }!!.enqueue(callBack)
     }
 
-    fun getFollowing(callBack: ApiCallBack<Responce>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.followingUser() }!!.enqueue(callBack)
+    fun getFollowing(
+        callBack: ApiCallBack<Responce>,
+        page: String?,
+        limit: String?
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.followingUser(page, limit) }!!
+            .enqueue(callBack)
     }
 
     fun getFollowunfollow(callBack: ApiCallBack<Responce>, _id: String) {
@@ -235,8 +243,9 @@ class ServiceManager(var mContext: Context?) {
 
     fun getPostlist(
         callBack: ApiCallBack<UserPostResponse>, apiRequest: Api_Request
-        ) {
-        mContext?.let { Remotedatasource.current(it, true)!!.getPostList(apiRequest) }!!.enqueue(callBack)
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getPostList(apiRequest) }!!
+            .enqueue(callBack)
     }
 
     fun getOtherPostlist(
