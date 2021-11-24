@@ -26,8 +26,6 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.socket.SocketManager
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.LocationServices
-
-import com.google.android.gms.location.FusedLocationProviderClient
 import java.io.*
 
 
@@ -180,6 +178,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
         socketInstance = SocketManager.getInstance(this)
 
         initializeSocket()
+
 
 
     }

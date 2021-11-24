@@ -24,6 +24,8 @@ import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import okhttp3.ResponseBody
 import java.util.regex.Pattern
 
@@ -217,8 +219,20 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     private fun initializedControl() {
-        deviceToken =
-            Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                // Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            SavedPrefManager.saveStringPreferences(applicationContext, SavedPrefManager.KEY_DEVICE_TOKEN,token)
+            // Log and toast
+            //  val msg = getString(R.string.msg_token_fmt, token)
+            // Log.d(TAG, msg)
+            //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
 
 //        locationpermission()
     }
@@ -234,10 +248,13 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "LoginApi", mContext)
             val apiRequest = Api_Request()
+
+
             apiRequest.emailUserName = uemail
             apiRequest.password = upassword
             apiRequest.deviceType = "android"
-            apiRequest.deviceToken = deviceToken
+            apiRequest.deviceToken =  SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.KEY_DEVICE_TOKEN).toString();
+
 //            savedPrefManager.saveStringPreferences(
 //                this,
 //                savedPrefManager.PASSWORD,

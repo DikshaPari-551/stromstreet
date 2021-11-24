@@ -48,6 +48,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun locationpermission() {
+
         // checking location permission
         if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // request permission
