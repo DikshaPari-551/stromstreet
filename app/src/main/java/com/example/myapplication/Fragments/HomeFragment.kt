@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,6 +73,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     var page: Int = 1
     var pages: Int = 0
     var limit : Int = 10
+    var searchFlag = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -106,6 +109,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             e.printStackTrace()
         }
         goButton.setOnClickListener {
+            list.clear()
+            searchFlag = true
             getSearchText = searchText.text.toString()
             getLocalActivityApi()
         }
@@ -195,6 +200,24 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             }
         })
 
+        searchText.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0!!.length == 0) {
+                    list.clear()
+                    getSearchText = ""
+                    getLocalActivityApi()
+                }
+            }
+
+        })
         return v
     }
 
@@ -218,6 +241,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
     private fun getLocalActivityApi() {
+        searchFlag = false
         if (androidextention.isOnline(mContext)) {
             androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
@@ -260,7 +284,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 //        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
         progress_bar.visibility=View.GONE
 

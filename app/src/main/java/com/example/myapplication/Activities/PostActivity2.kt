@@ -12,7 +12,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.myapplication.Adaptor.CommentImageSliderAdaptor
+import com.example.myapplication.Adaptor.ImageSliderAdaptor
 import com.example.myapplication.Adaptor.Post2Adapter
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.LoginFlag
@@ -31,7 +34,8 @@ import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 
-class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, CustomReplyListener, CustomCommentLikeListener{
+class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, CustomReplyListener,
+    CustomCommentLikeListener {
     private lateinit var post2recycler: RecyclerView
     private var loginFlag: Boolean = false
     lateinit var follow1: TextView
@@ -54,6 +58,20 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     lateinit var commentRV: RecyclerView
     lateinit var commentvalue: String
     lateinit var commentLayout: RelativeLayout
+    var shareImageLinks = ArrayList<String>()
+
+    private lateinit var adapter2: CommentImageSliderAdaptor
+
+    //multiimage view
+
+    lateinit var multiPostViewer: RelativeLayout
+    lateinit var postViewer: RelativeLayout
+    lateinit var multiPost: ViewPager2
+    lateinit var imageCount: TextView
+    lateinit var totalImageCount: TextView
+    var tImageCounter = 0
+    var imageCounter = 1
+
 
     var mContext: Context = this
     lateinit var vedio: ImageView
@@ -66,7 +84,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     var isFollow: Boolean = false
     var click: Boolean = false
     var commentType = ""
-    lateinit var adaptor : Post2Adapter
+    lateinit var adaptor: Post2Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +95,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
+
 
         post2recycler = findViewById(R.id.post2recyclerview)
         loginFlag = LoginFlag.getLoginFlag()
@@ -99,6 +118,13 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         profileImage = findViewById(R.id.profileImage)
         address = findViewById(R.id.address)
         userImageComment = findViewById(R.id.user_image_comment)
+
+//multiimage view
+        multiPostViewer = findViewById(R.id.multi_post_viewer)
+        postViewer = findViewById(R.id.post_viewer)
+        multiPost = findViewById(R.id.multi_post)
+        imageCount = findViewById(R.id.image_count)
+        totalImageCount = findViewById(R.id.total_image_count)
         commentType = "POST"
         if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                 .equals("true")
@@ -122,7 +148,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         }
 
         loadcomment.setOnClickListener {
-            if(!commenttext.text.toString().equals("") && commenttext.text.toString() != null) {
+            if (!commenttext.text.toString().equals("") && commenttext.text.toString() != null) {
                 commentvalue = commenttext.text.toString()
                 if (commentType.equals("POST")) {
                     postcomment(commentType, "")
@@ -133,7 +159,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 
                 }
             } else {
-                Toast.makeText(mContext,"Please add comment.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "Please add comment.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -148,6 +174,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             likeunlike()
         }
 
+
         comment.setOnClickListener {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
@@ -156,7 +183,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 commenttext.requestFocus()
                 val imgr: InputMethodManager =
                     mContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+                imgr.toggleSoftInput(
+                    InputMethodManager.SHOW_FORCED,
+                    InputMethodManager.HIDE_IMPLICIT_ONLY
+                )
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
@@ -170,7 +200,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 val i = Intent(Intent.ACTION_SEND)
                 i.setType("text/plain")
                 var shareBody: String = shareLink
-                var shareSubject: String = "Share Subject"
+                var shareSubject: String = "Strome street post link:"
                 i.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
                 i.putExtra(Intent.EXTRA_TEXT, shareBody)
                 startActivity(Intent.createChooser(i, "Sharing using"))
@@ -179,6 +209,17 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 startActivity(i)
             }
         }
+
+        val callback: ViewPager2.OnPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if(tImageCounter >= position) {
+                    var count = position + 1
+                    imageCount.text = count.toString()
+                }
+            }
+        }
+        multiPost.registerOnPageChangeCallback(callback);
 
 //        add_comment.setOnClickListener {
 //
@@ -298,8 +339,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             LikeUnlike = response.result.isLike
             try {
                 var filedata = response.result.postResult.userId.profilePic
-                Glide.with(this).load(filedata).placeholder(R.drawable.circleprofile).into(profileImage);
-                Glide.with(this).load(filedata).placeholder(R.drawable.circleprofile).into(userImageComment);
+                Glide.with(this).load(filedata).placeholder(R.drawable.circleprofile)
+                    .into(profileImage);
+                Glide.with(this).load(filedata).placeholder(R.drawable.circleprofile)
+                    .into(userImageComment);
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -311,15 +354,36 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 video_post_like.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
             }
             if (mediatype.toLowerCase().equals("image")) {
-                try {
-                    var filedata = response.result.postResult.imageLinks[0]
-                    shareLink = filedata
-                    Glide.with(this).load(filedata).into(vedio);
-                } catch (e: IndexOutOfBoundsException) {
-                    e.printStackTrace()
+                if (response.result.postResult.imageLinks.size > 1) {
+//                    try {
+                    postViewer.visibility = View.GONE
+                    multiPostViewer.visibility = View.VISIBLE
+                    imageCount.text = imageCounter.toString()
+                    tImageCounter = response.result.postResult.imageLinks.size
+                    var total = response.result.postResult.imageLinks.size.toString()
+                    totalImageCount.text = "/$total"
+                    val imageList: List<String> = response.result.postResult.imageLinks
+                    shareImageLinks = imageList as ArrayList<String>
+                    setImageAdaptor(imageList)
+//                    } catch (e: java.lang.Exception) {
+//                        e.printStackTrace()
+//                    }
+                } else {
+                    try {
+                        postViewer.visibility = View.VISIBLE
+                        multiPostViewer.visibility = View.GONE
+                        var filedata = response.result.postResult.imageLinks[0]
+                        shareLink = filedata
+                        Glide.with(this).load(filedata).into(vedio);
+                    } catch (e: IndexOutOfBoundsException) {
+                        e.printStackTrace()
+                    }
                 }
+
             } else if (mediatype.toLowerCase().equals("video")) {
                 try {
+                    postViewer.visibility = View.VISIBLE
+                    multiPostViewer.visibility = View.GONE
                     var filedata = response.result.postResult.thumbNail
                     shareLink = response.result.postResult.videoLink
 
@@ -362,14 +426,14 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     fun commentLikeApi(commentId: String, commentLike: ImageView) {
-        if(androidextention.isOnline(mContext)){
+        if (androidextention.isOnline(mContext)) {
             androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
-                ApiCallBack<Responce>(object : ApiResponseListener<Responce>{
+                ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                     override fun onApiSuccess(response: Responce, apiName: String?) {
                         Log.d("commentlikes", response.result.toString())
-                        if (response.responseCode == "200"){
+                        if (response.responseCode == "200") {
                             if (response.result.isLike == true) {
                                 commentLike.setImageDrawable(resources.getDrawable(R.drawable.heartred))
 //                                commentLike.setColorFilter(resources.getColor(R.color.red))
@@ -379,11 +443,12 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                             Commentlist()
                             androidextention.disMissProgressDialog(mContext)
                         } else {
-                            Toast.makeText(mContext,response.responseMessage,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(mContext, response.responseMessage, Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(mContext)
 //                        Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
 
@@ -391,38 +456,52 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 
                     override fun onApiFailure(failureMessage: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(mContext)
-                        Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mContext, "Server not responding.", Toast.LENGTH_SHORT)
+                            .show()
                     }
 
-                } , "CommentLikeApi", mContext)
+                }, "CommentLikeApi", mContext)
             try {
                 serviceManager.getCommentLikes(callBack, commentId)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }else {
-            Toast.makeText(mContext,"Please check your internet connection!!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(mContext, "Please check your internet connection!!", Toast.LENGTH_SHORT)
+                .show()
         }
 
     }
 
     private fun setAdapter(list: ArrayList<CommentList>?) {
-            adaptor = Post2Adapter(this, list!!,this,this,resources)
-            val layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, true)
-            post2recycler.layoutManager = layoutManager
-            post2recycler.adapter = adaptor
+        adaptor = Post2Adapter(this, list!!, this, this, resources)
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
+        post2recycler.layoutManager = layoutManager
+        post2recycler.adapter = adaptor
     }
 
+    private fun setImageAdaptor(imageList: List<String>) {
+        adapter2 = CommentImageSliderAdaptor(imageList, this)
+        multiPost.adapter = adapter2
+    }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
+        androidextention.disMissProgressDialog(mContext)
+
 //        Toast.makeText(this, "Data not found.", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        androidextention.disMissProgressDialog(mContext)
+
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
-    override fun replyListener(commentRepliesRecyclerView: RecyclerView, position: Int, _id: String) {
+    override fun replyListener(
+        commentRepliesRecyclerView: RecyclerView,
+        position: Int,
+        _id: String
+    ) {
 //        commentLayout.visibility = View.VISIBLE
         commenttext.requestFocus()
         val imgr: InputMethodManager =
@@ -434,6 +513,6 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     override fun commentLikeListener(commentId: String, commentLike: ImageView) {
-        commentLikeApi(commentId,commentLike)
+        commentLikeApi(commentId, commentLike)
     }
 }

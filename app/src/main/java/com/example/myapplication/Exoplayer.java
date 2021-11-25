@@ -223,9 +223,12 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 saveunsave();
                 if (click == false) {
                     Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show();
+                    savePost.setImageDrawable(getResources().getDrawable(R.drawable.saved_post));
+
                     click = true;
                 } else if (click == true) {
                     Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
+                    savePost.setImageDrawable(getResources().getDrawable(R.drawable.unsaved_post));
                     click = false;
                 }
             } else {
@@ -385,7 +388,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
 
     @Override
-    public void onApiErrorBody(@Nullable ResponseBody response, @Nullable String apiName) {
+    public void onApiErrorBody(@Nullable String response, @Nullable String apiName) {
 
     }
 

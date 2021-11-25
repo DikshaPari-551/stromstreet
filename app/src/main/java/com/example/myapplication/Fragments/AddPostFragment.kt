@@ -210,7 +210,7 @@ class AddPostFragment(
                         }
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         Toast.makeText(
                                 activity,
                                 "error response" + response.toString(),
@@ -266,7 +266,7 @@ class AddPostFragment(
                         }
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(activity)
                         Toast.makeText(
                                 mContext,
@@ -339,7 +339,7 @@ class AddPostFragment(
                         }
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(activity)
                         Toast.makeText(
                                 activity,

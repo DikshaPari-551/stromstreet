@@ -149,7 +149,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                         }
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(this@ResetPasswordActivity)
                         Toast.makeText(
                             this@ResetPasswordActivity,

@@ -24,6 +24,7 @@ import com.example.myapplication.entity.Request.SocialLinks
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
+import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
@@ -116,6 +117,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
         }
 
         cameraProfileimg.setOnClickListener {
+            RequestPermission.requestMultiplePermissions(mContext)
             var bottomsheet =
                 bottomSheetDialog("profilechange", this)
             fragmentManager?.let { it1 -> bottomsheet.show(it1, "bottomsheet") }
@@ -146,11 +148,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
             Validations.required(
                 etuserName!!, usernameProfileText
             ) &&
-            Validations.Email(etemail!!, emailProfileText) &&
-            Validations.CheckPhoneNumber(
-                etphoneNumber!!,
-                phoneNumberProfiletext
-            )
+            Validations.Email(etemail!!, emailProfileText)
         ) {
             if (SavedPrefManager.getStringPreferences(mContext, AppConst.USER_IMAGE_LINK) != null) {
                 updateProfileDeatils()
@@ -158,6 +156,12 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 updateProfileDeatils()
             }
         }
+
+//                &&
+//                Validations.CheckPhoneNumber(
+//                    etphoneNumber!!,
+//                    phoneNumberProfiletext
+//                )
     }
 
     fun getProfile() {
@@ -186,7 +190,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                     }
                 }
 
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                override fun onApiErrorBody(response: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         mContext,
@@ -237,7 +241,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                     }
                 }
 
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                override fun onApiErrorBody(response: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         activity,
@@ -296,7 +300,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                     }
                 }
 
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                override fun onApiErrorBody(response: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         mContext,

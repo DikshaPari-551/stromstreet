@@ -31,16 +31,14 @@ class FragAdaptor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return 2
     }
 
+
     override fun getPageTitle(position: Int): CharSequence? {
        when(position){
            0->{return "one"}
            1->{return  "two"}
        }
 
-
         return super.getPageTitle(position)
-
-
     }
 
 }

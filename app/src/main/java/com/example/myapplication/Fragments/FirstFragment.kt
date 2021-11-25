@@ -104,7 +104,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>, Custo
         }
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(mContext)
 //        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
         noPost.visibility = View.VISIBLE

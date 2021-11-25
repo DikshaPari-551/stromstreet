@@ -84,7 +84,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
         }
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(mContext)
 
 //        Toast.makeText(activity, "No Post Saved", Toast.LENGTH_LONG).show()

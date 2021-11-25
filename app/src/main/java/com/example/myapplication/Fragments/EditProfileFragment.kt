@@ -125,7 +125,7 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
 
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
