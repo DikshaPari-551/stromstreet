@@ -18,16 +18,24 @@ class CategoryListAdaptor(
     var secondFragment: FilterCustomListener,
     var mContext: Context
 ) :  RecyclerView.Adapter<CategoryListAdaptor.MyViewHolder>() {
-
+    var selectPosition : Int = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.category_list, null)
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        if(position == selectPosition) {
+            holder.radioButton.isChecked = true
+            secondFragment.filterCustomListener(list.get(position)._id)
+        } else {
+            holder.radioButton.isChecked = false
+        }
         holder.radioButton.setText(list.get(position).categoryName)
         holder.radioButton.setOnClickListener{
             secondFragment.filterCustomListener(list.get(position)._id)
+            selectPosition = position
+            notifyDataSetChanged()
         }
 
     }

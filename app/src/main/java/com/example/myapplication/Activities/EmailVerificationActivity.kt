@@ -211,7 +211,7 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
         }
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(this)
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }

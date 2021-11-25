@@ -144,7 +144,7 @@ class ChangePassword : AppCompatActivity() {
                         }
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(this@ChangePassword)
                         Toast.makeText(
                             this@ChangePassword,

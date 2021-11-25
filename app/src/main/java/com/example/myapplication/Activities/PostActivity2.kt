@@ -448,7 +448,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                         }
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(mContext)
 //                        Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
 
@@ -485,7 +485,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         multiPost.adapter = adapter2
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(mContext)
 
 //        Toast.makeText(this, "Data not found.", Toast.LENGTH_LONG).show()

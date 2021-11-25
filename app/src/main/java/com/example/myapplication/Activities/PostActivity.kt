@@ -156,9 +156,11 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 saveunsave()
                 if (click == false) {
                     Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show()
+                    savePost.setImageDrawable(resources.getDrawable(R.drawable.saved_post))
                     click = true
                 } else if (click == true) {
                     Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show()
+                    savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
                     click = false
                 }
             } else {
@@ -383,7 +385,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(this)
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }

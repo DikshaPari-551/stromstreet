@@ -447,6 +447,7 @@
                     android:id="@+id/container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:padding="1.5dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -483,8 +484,8 @@
                         android:gravity="top|start"
                         android:hint="Add Comment"
                         android:inputType="textMultiLine"
-                        android:maxLines="1000"
                         android:padding="10dp"
+                        android:lines="1"
                         android:scrollbars="vertical"
                         android:textColor="@color/black"
                         android:textSize="15dp" />

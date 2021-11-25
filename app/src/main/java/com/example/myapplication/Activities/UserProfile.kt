@@ -50,6 +50,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var followers: TextView
     lateinit var following: TextView
     lateinit var followuser: TextView
+    lateinit var userbio: TextView
     lateinit var noPost: TextView
     lateinit var postRecycler: RecyclerView
     var isFollow: Boolean = false
@@ -94,6 +95,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         noPost = findViewById(R.id.no_post)
         progress_bar = findViewById(R.id.progress_bar)
         nestedScrollView = findViewById(R.id.nestedScrollView)
+        userbio = findViewById(R.id.userbio)
 
         followbtn.setOnClickListener {
             followUnfollow()
@@ -142,7 +144,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
                         setAdapter(list)
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(mContext)
                         noPost.visibility = View.VISIBLE
                     }
@@ -211,6 +213,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         androidextention.disMissProgressDialog(this)
         try {
             username.setText(response.result.profileResult.userName)
+            userbio.setText(response.result.profileResult.bio)
             followers.setText(response.result.followerCount.toString())
             following.setText(response.result.followingCount.toString())
             user_name= response.result.profileResult.fullName
@@ -249,7 +252,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
 //        }
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(this)
         Toast.makeText(this, "No Post Found", Toast.LENGTH_LONG).show()
 

@@ -86,12 +86,13 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     private val GALLERY = 1
     private var CAMERA: Int = 2
     val CAMERA_PERM_CODE = 101
+    var detailsValidationFlag = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-        RequestPermission.requestMultiplePermissions(this)
         mContext = this
         serviceManager = ServiceManager(mContext)
         emailSignUp_et = findViewById(R.id.email_sign_etext)
@@ -134,10 +135,12 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
 
 
         layout_signup.setOnClickListener {
+            CheckValidations()
             ConfirmPassword()
             checkboxCheck()
-            CheckValidations()
-            Signup()
+            if(checkboxCheck() == true && ConfirmPassword() == true && detailsValidationFlag == true) {
+                Signup()
+            }
         }
     }
 
@@ -198,8 +201,8 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         }
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
+    override fun onApiErrorBody(response: String?, apiName: String?) {
+        Toast.makeText(this, "This email already exists.", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -226,26 +229,26 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             ) && ConfirmPassword() && checkboxCheck() == true
         ) {
 
-
+            detailsValidationFlag = true
         }
-//        Validations.required(
-//            fullnameSignUp,
-//            nameSignUp
-//        )
-        //       Validations.Email(email_sign_up, emailSignUp_text)
-//        Validations.Email(
-//            email_sign_up,
-//            emailSignUp_text
-////        )
-//        Validations.required(
-//            username_ett,
-//            username_text
-//        )
-//        Validations.CheckPhoneNumber(
-//            phone_ett,
-//            phone_text
-//        )
-//            Validations.Password(password, password_text)
+        Validations.required(
+            fullnameSignUp,
+            nameSignUp
+        )
+               Validations.Email(email_sign_up, emailSignUp_text)
+        Validations.Email(
+            email_sign_up,
+            emailSignUp_text
+        )
+        Validations.required(
+            username_ett,
+            username_text
+        )
+        Validations.CheckPhoneNumber(
+            phone_ett,
+            phone_text
+        )
+            Validations.Password(password, password_text)
 
     }
 
@@ -367,7 +370,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
                     }
                 }
 
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                override fun onApiErrorBody(response: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         mContext,
@@ -400,6 +403,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         }
     }
     private fun askCameraPermissions() {
+        RequestPermission.requestMultiplePermissions(this)
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA

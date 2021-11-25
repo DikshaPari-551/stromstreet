@@ -3,6 +3,8 @@ package com.example.myapplication.Fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +55,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     var page: Int = 1
     var pages: Int = 0
     var limit : Int = 10
+    var searchFlag = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -158,6 +162,24 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
             }
         })
 
+        searchText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0!!.length == 0) {
+                    list.clear()
+                    searchValue = ""
+                    getFollowingApi()
+                }
+            }
+
+        })
 
         return v
 
@@ -165,6 +187,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     }
 
     private fun getFollowingApi() {
+        searchFlag = false
         if (androidextention.isOnline(mContext)) {
             androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
@@ -203,7 +226,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         }
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 

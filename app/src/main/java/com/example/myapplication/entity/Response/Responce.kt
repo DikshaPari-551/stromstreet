@@ -291,6 +291,9 @@ data class CategoryResult(
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String,
     @SerializedName("__v") val __v: Int
+//    ,
+//    var flag: Boolean
+
 )
 
 data class MediaResult (

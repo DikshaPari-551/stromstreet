@@ -95,7 +95,7 @@ class BottomSheetLogout : BottomSheetDialogFragment(), ApiResponseListener<Respo
             (context as Activity).finishAffinity()
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         Toast.makeText(activity, "error", Toast.LENGTH_LONG).show()
 
     }

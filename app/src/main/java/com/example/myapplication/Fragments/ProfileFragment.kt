@@ -39,6 +39,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var username: TextView
     lateinit var followers: TextView
     lateinit var following: TextView
+    lateinit var userBio: TextView
     lateinit var buttonProfileDetail: LinearLayout
 //    lateinit var progress_bar: ProgressBar
 //    lateinit var nestedScrollView: NestedScrollView
@@ -61,6 +62,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         totalfollowing = v.findViewById(R.id.totalfollowing)
         buttonProfileDetail = v.findViewById(R.id.button_profile_detail)
         user_profile = v.findViewById(R.id.user_profile)
+        userBio = v.findViewById(R.id.userbio)
 //        progress_bar = v.findViewById(R.id.progress_bar)
 //        nestedScrollView = v.findViewById(R.id.nestedScrollView)
 
@@ -165,6 +167,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
         username.setText(response.result.userResult.fullName)
+        userBio.setText(response.result.userResult.bio)
         followers.setText(response.result.followerCount.toString())
         following.setText(response.result.followingCount.toString())
         Glide.with(mContext).load(response.result.userResult.profilePic)
@@ -172,7 +175,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
 //        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 

@@ -103,14 +103,16 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
+                android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVNM "
                 android:background="@null"
                 android:maxLength="40"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:fontFamily="@font/opensans_regular"
                 android:hint="Enter fullname"
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                />
 
         </LinearLayout>
 

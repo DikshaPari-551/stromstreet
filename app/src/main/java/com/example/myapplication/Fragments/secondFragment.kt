@@ -31,6 +31,7 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
 
     lateinit var textSearch4: LinearLayout
     lateinit var textSearch6: LinearLayout
+    lateinit var applyButton: LinearLayout
 
     lateinit var textSearch5: LinearLayout
     lateinit var categoryList: RecyclerView
@@ -56,6 +57,7 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
 
         textSearch1 = v.findViewById(R.id.textsearch1)
         textSearch2 = v.findViewById(R.id.textsearch2)
+        applyButton = v.findViewById(R.id.apply_button)
 
         textSearch3 = v.findViewById(R.id.textsearch3)
         textSearch4 = v.findViewById(R.id.textsearch4)
@@ -125,6 +127,13 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
         }
 
         man.setOnClickListener {
+            getFragmentManager()?.beginTransaction()?.replace(
+                R.id.linear_layout,
+                HomeFragment()
+            )
+                ?.commit()
+        }
+        applyButton.setOnClickListener {
             if (s.equals("home")) {
                 val bundle = Bundle()
                 bundle.putString("CAT_ID", catId)
@@ -182,7 +191,7 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
                         }
                     }
 
-                    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                    override fun onApiErrorBody(response: String?, apiName: String?) {
                         androidextention.disMissProgressDialog(mContext)
                         Toast.makeText(
                             activity,
@@ -229,7 +238,7 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
                     }
                 }
 
-                override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+                override fun onApiErrorBody(response: String?, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     Toast.makeText(
                         activity,

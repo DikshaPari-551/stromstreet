@@ -26,7 +26,7 @@ class ApiCallBack<T>(
 
             response.body()?.let { apiListener!!.onApiSuccess(it, apiName) }
         } else {
-            apiListener!!.onApiErrorBody(response.errorBody(), apiName)
+            apiListener!!.onApiErrorBody(response.message().toString(), apiName)
         }
     }
 

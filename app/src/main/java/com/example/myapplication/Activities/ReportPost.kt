@@ -91,7 +91,7 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
         report_text.setText(null)
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
