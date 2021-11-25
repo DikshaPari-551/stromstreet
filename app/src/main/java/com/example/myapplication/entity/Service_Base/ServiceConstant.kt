@@ -7,10 +7,8 @@ class ServiceConstant
 //        val BASE_URL="http://172.16.2.19:3027/api/v1/"
        val BASE_URL="https://node-stromestreet.mobiloitte.com/api/v1/"
 
-
-        //local
+    //local
 //        val BASE_URL="http://172.16.2.19:3027/api/v1/"
 
     }
-
 }

@@ -5,9 +5,12 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Adaptor.Following_Adaptor
@@ -17,6 +20,7 @@ import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docs
 import com.example.myapplication.entity.Response.Responce
+import com.example.myapplication.entity.Response.UserPostDocs
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
@@ -30,7 +34,12 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
     var mContext: Context = this
     var otherUserId: String = ""
     lateinit var back_arrow_chat: ImageView
-
+    lateinit var progress_bar: ProgressBar
+    lateinit var nestedScrollView: NestedScrollView
+    var list = ArrayList<Docs>()
+    var page: Int = 1
+    var pages: Int = 0
+    var limit : Int = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +52,33 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
         }
         recycler_view3=findViewById(R.id.recycler_view3)
         back_arrow_chat=findViewById(R.id.back_arrow_chat)
+        progress_bar = findViewById(R.id.progress_bar)
+        nestedScrollView = findViewById(R.id.nestedScrollView)
+
         followingApi()
 
         back_arrow_chat.setOnClickListener {
             finish()
         }
+
+        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+            override fun onScrollChange(
+                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
+                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+//                    val lastVisibleItemPosition: Int = layoutManager.findLastVisibleItemPosition()
+
+                    page++
+                    progress_bar.visibility= View.VISIBLE
+                    if(page > pages) {
+                        progress_bar.visibility= View.GONE
+                    } else {
+                        followingApi()
+                        androidextention.disMissProgressDialog(mContext)
+
+                    }
+                }
+            }
+        })
     }
 
 
@@ -79,7 +110,7 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
 
 
             try {
-                serviceManager.getFollowing(callBack)
+                serviceManager.getFollowing(callBack,page.toString(),limit.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -90,9 +121,9 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(this)
 //            username.setText(response.result.userName)
+            pages = response.result.pages
 
 
-            var list = ArrayList<Docs>()
             list.addAll(response.result.docs)
 
             setAdapter(list)

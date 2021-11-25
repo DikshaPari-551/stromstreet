@@ -40,7 +40,7 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
     lateinit var et4: EditText
     lateinit var text_login: TextView
     private var activityFlag = ""
-
+    private var timecomplete : Boolean = false
     lateinit var submit: LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,30 +74,15 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
         et4.setOnKeyListener(GenericKeyEvent(et4, et3))
         id = intent.getStringExtra("EMAIL").toString()
         activityFlag = intent.getStringExtra("FORGOTACTIVITY")!!
-        object : CountDownTimer(180000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                var seconds = (millisUntilFinished / 1000).toInt()
-                val hours = seconds / (60 * 60)
-                val tempMint = seconds - hours * 60 * 60
-                val minutes = tempMint / 60
-                seconds = tempMint - minutes * 60
-                timer_text.setText(
-                    String.format(
-                        "%02d",
-                        minutes
-                    ) + ":" + String.format("%02d", seconds) + " sec "
-                )
-            }
+        otptimer()
 
-            override fun onFinish() {
-                timer_text.setText("Session Expired")
-            }
-        }.start()
+        text_login.setOnClickListener{
+            if (timecomplete == true) {
+               resendOtp()
+                otptimer()
 
-        text_login.setOnClickListener {
-            resendOtp()
+            }
         }
-
 
         submit.setOnClickListener {
 
@@ -133,9 +118,13 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
 //                startActivity(intent)
             }
         }
+
+
+
     }
 
     private fun resendOtp() {
+        timecomplete = false
         nameapi = "ResendOtp"
 
         androidextention.showProgressDialog(this)
@@ -152,6 +141,29 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun otptimer() {
+        object : CountDownTimer(180000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                var seconds = (millisUntilFinished / 1000).toInt()
+                val hours = seconds / (60 * 60)
+                val tempMint = seconds - hours * 60 * 60
+                val minutes = tempMint / 60
+                seconds = tempMint - minutes * 60
+                timer_text.setText(
+                    String.format(
+                        "%02d",
+                        minutes
+                    ) + ":" + String.format("%02d", seconds) + " sec "
+                )
+            }
+
+            override fun onFinish() {
+                timer_text.setText("Session Expired")
+                timecomplete = true
+            }
+        }.start()
     }
 
     private fun verifyOtp() {
@@ -176,10 +188,14 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
         androidextention.disMissProgressDialog(this)
         if (androidextention.isOnline(this)) {
             if (nameapi.equals("VerifyOtp")) {
-                if(activityFlag == "forgotactivity") {
+                if (activityFlag == "forgotactivity") {
                     if (response.responseCode == "200") {
                         androidextention.disMissProgressDialog(this)
-                        SavedPrefManager.saveStringPreferences(this, SavedPrefManager.TOKEN, response.result.token)
+                        SavedPrefManager.saveStringPreferences(
+                            this,
+                            SavedPrefManager.TOKEN,
+                            response.result.token
+                        )
                         Toast.makeText(this, response.responseMessage, Toast.LENGTH_LONG).show()
                         var intent = Intent(this, ResetPasswordActivity::class.java)
                         startActivity(intent)
@@ -203,7 +219,7 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
             } else if (nameapi.equals("ResendOtp")) {
                 if (response.responseCode == "200") {
                     androidextention.disMissProgressDialog(this)
-                    Toast.makeText(this, "Success" + response.result.otp, Toast.LENGTH_LONG).show()
+//                    Toast.makeText(this, "Success" + response.result.otp, Toast.LENGTH_LONG).show()
 
                 }
 
@@ -213,7 +229,7 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(this)
-        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Invalid OTP", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {

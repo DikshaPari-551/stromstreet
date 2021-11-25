@@ -38,7 +38,9 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var layout_tab2: RelativeLayout
     lateinit var username: TextView
     lateinit var followers: TextView
+    lateinit var folllowtext: TextView
     lateinit var following: TextView
+    lateinit var followingtxt: TextView
     lateinit var userBio: TextView
     lateinit var buttonProfileDetail: LinearLayout
 //    lateinit var progress_bar: ProgressBar
@@ -62,6 +64,8 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         totalfollowing = v.findViewById(R.id.totalfollowing)
         buttonProfileDetail = v.findViewById(R.id.button_profile_detail)
         user_profile = v.findViewById(R.id.user_profile)
+        folllowtext = v.findViewById(R.id.folllowtext)
+        followingtxt = v.findViewById(R.id.followingtxt)
         userBio = v.findViewById(R.id.userbio)
 //        progress_bar = v.findViewById(R.id.progress_bar)
 //        nestedScrollView = v.findViewById(R.id.nestedScrollView)
@@ -126,8 +130,24 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
             var intent = Intent(activity, Followers::class.java)
             startActivity(intent)
         }
+        followers.setOnClickListener {
+            var intent = Intent(activity, Followers::class.java)
+            startActivity(intent)
+        }
+        folllowtext.setOnClickListener {
+            var intent = Intent(activity, Followers::class.java)
+            startActivity(intent)
+        }
 
+        totalfollowing.setOnClickListener {
+            var intent = Intent(activity, Following::class.java)
+            startActivity(intent)
+        }
         following.setOnClickListener {
+            var intent = Intent(activity, Following::class.java)
+            startActivity(intent)
+        }
+        followingtxt.setOnClickListener {
             var intent = Intent(activity, Following::class.java)
             startActivity(intent)
         }
@@ -175,7 +195,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
 //        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
     }
 
-    override fun onApiErrorBody(response: String?, apiName: String?) {
+    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
         Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 

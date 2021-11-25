@@ -46,10 +46,16 @@ interface Api_interface {
     fun getOtherProfile(@Query("_id") _id: String): Call<Responce>?
 
     @GET("user/followerList")
-    fun followerUser(): Call<LocalActivityResponse>?
+    fun followerUser(
+        @Query("page") page: String?,
+        @Query("limit") limit: String?
+    ): Call<LocalActivityResponse>?
 
     @GET("user/followingList")
-    fun followingUser(): Call<Responce>?
+    fun followingUser(
+        @Query("page") page: String?,
+        @Query("limit") limit: String?
+    ): Call<Responce>?
 
     @POST("user/followUser")
     fun followingUnfollow(@Query("_id") _id: String): Call<Responce>?
@@ -127,7 +133,7 @@ interface Api_interface {
         @Body apiRequest: Api_Request?,
         @Query("page") page: String?,
         @Query("limit") limit: String?
-        ): Call<LocalActivityResponse>?
+    ): Call<LocalActivityResponse>?
 
     @POST("user/followingActivity")
     fun followingActivity(
@@ -148,9 +154,11 @@ interface Api_interface {
     fun getPostList(@Body apiRequest: Api_Request): Call<UserPostResponse>?
 
     @GET("user/othersPostList")
-    fun getOtherPostList(@Query("userId") userId: String,
-                         @Query("page") page: String?,
-                         @Query("limit") limit: String?): Call<UserPostResponse>?
+    fun getOtherPostList(
+        @Query("userId") userId: String,
+        @Query("page") page: String?,
+        @Query("limit") limit: String?
+    ): Call<UserPostResponse>?
 
     @GET("user/commentList")
     fun getCommentList(@Query("postId") postId: String): Call<Responce>?

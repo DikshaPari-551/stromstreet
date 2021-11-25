@@ -93,6 +93,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        RequestPermission.requestMultiplePermissions(this)
         mContext = this
         serviceManager = ServiceManager(mContext)
         emailSignUp_et = findViewById(R.id.email_sign_etext)
