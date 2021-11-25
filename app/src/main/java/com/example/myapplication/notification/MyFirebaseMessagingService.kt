@@ -11,6 +11,8 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.myapplication.Activities.PostActivity
+import com.example.myapplication.Activities.PostActivity2
+import com.example.myapplication.Activities.UserProfile
 import com.example.myapplication.R
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.tasks.OnCompleteListener
@@ -93,14 +95,31 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         PendingIntent.FLAG_ONE_SHOT
                     )
                 }
-                "COMMENT"->{
+                "COMMENT"->   {
+                    intent = Intent(this, PostActivity2::class.java)
+                    pendingIntent = PendingIntent.getActivity(
+                        applicationContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_ONE_SHOT
+                    )
                 }
-                "COMMENT"->{
+                "LIKE_COMMENT"->   {
+                    intent = Intent(this, PostActivity2::class.java)
+                    pendingIntent = PendingIntent.getActivity(
+                        applicationContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_ONE_SHOT
+                    )
                 }
-                "COMMENT"->
-                {
+//                "FOLLOW"->{
+//                    intent = Intent(this, UserProfile::class.java)
+//                    pendingIntent = PendingIntent.getActivity(applicationContext,0,intent,PendingIntent.FLAG_ONE_SHOT)
+//                    SavedPrefManager.saveStringPreferences(this, SavedPrefManager.otherUserId,otherUserId)
+//
+//                }
 
-                }
             }
             val notificationId: Int = SavedPrefManager.getIntPreferences(this, SavedPrefManager.NOTIFICATION_ID)
 

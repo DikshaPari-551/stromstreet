@@ -2,6 +2,7 @@ package com.example.myapplication.Activities
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -53,7 +54,8 @@ class SplashActivity : AppCompatActivity() {
         if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // request permission
             ActivityCompat.requestPermissions(this as Activity,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQ_CODE);
-            locationpermission()
+//            locationpermission()
+            ifdenaye()
 
         } else {
 
@@ -83,6 +85,22 @@ class SplashActivity : AppCompatActivity() {
                 ).show()
             }
 
+    }
+
+    private fun ifdenaye() {
+//        val intent = Intent(this, LocationDeny::class.java)
+//        startActivity(intent)
+        AlertDialog.Builder(this)
+            .setTitle("Location Permission Needed")
+            .setMessage("This app needs the Location permission, please accept to use location functionality")
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+                //Prompt the user once explanation has been shown
+                locationpermission()
+            }
+            .create()
+            .show()
     }
 
 }

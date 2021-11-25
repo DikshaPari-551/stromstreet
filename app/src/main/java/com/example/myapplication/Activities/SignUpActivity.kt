@@ -123,7 +123,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         youtubeLink = findViewById(R.id.su_youtube_link)
         bio_text = findViewById(R.id.bio_text)
 
-        camera.setOnClickListener {
+        circleProfile.setOnClickListener {
             askCameraPermissions()
 
         }
@@ -199,7 +199,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     }
 
     override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
-        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "The user already exist", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
@@ -228,24 +228,24 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
 
 
         }
-//        Validations.required(
-//            fullnameSignUp,
-//            nameSignUp
-//        )
-        //       Validations.Email(email_sign_up, emailSignUp_text)
-//        Validations.Email(
-//            email_sign_up,
-//            emailSignUp_text
-////        )
-//        Validations.required(
-//            username_ett,
-//            username_text
-//        )
-//        Validations.CheckPhoneNumber(
-//            phone_ett,
-//            phone_text
-//        )
-//            Validations.Password(password, password_text)
+        Validations.required(
+            fullnameSignUp,
+            nameSignUp
+        )
+               Validations.Email(email_sign_up, emailSignUp_text)
+        Validations.Email(
+            email_sign_up,
+            emailSignUp_text
+        )
+        Validations.required(
+            username_ett,
+            username_text
+        )
+        Validations.CheckPhoneNumber(
+            phone_ett,
+            phone_text
+        )
+            Validations.Password(password, password_text)
 
     }
 

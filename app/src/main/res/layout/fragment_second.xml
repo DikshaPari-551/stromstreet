@@ -206,7 +206,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/opensans_regular"
-                android:text="Search by Category:"
+                android:text="Search by category:"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />

@@ -38,7 +38,9 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var layout_tab2: RelativeLayout
     lateinit var username: TextView
     lateinit var followers: TextView
+    lateinit var folllowtext: TextView
     lateinit var following: TextView
+    lateinit var followingtxt: TextView
     lateinit var buttonProfileDetail: LinearLayout
 //    lateinit var progress_bar: ProgressBar
 //    lateinit var nestedScrollView: NestedScrollView
@@ -61,7 +63,8 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         totalfollowing = v.findViewById(R.id.totalfollowing)
         buttonProfileDetail = v.findViewById(R.id.button_profile_detail)
         user_profile = v.findViewById(R.id.user_profile)
-//        progress_bar = v.findViewById(R.id.progress_bar)
+        folllowtext = v.findViewById(R.id.folllowtext)
+        followingtxt = v.findViewById(R.id.followingtxt)
 //        nestedScrollView = v.findViewById(R.id.nestedScrollView)
 
         buttonProfileDetail.setOnClickListener {
@@ -124,8 +127,24 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
             var intent = Intent(activity, Followers::class.java)
             startActivity(intent)
         }
+        followers.setOnClickListener {
+            var intent = Intent(activity, Followers::class.java)
+            startActivity(intent)
+        }
+        folllowtext.setOnClickListener {
+            var intent = Intent(activity, Followers::class.java)
+            startActivity(intent)
+        }
 
+        totalfollowing.setOnClickListener {
+            var intent = Intent(activity, Following::class.java)
+            startActivity(intent)
+        }
         following.setOnClickListener {
+            var intent = Intent(activity, Following::class.java)
+            startActivity(intent)
+        }
+        followingtxt.setOnClickListener {
             var intent = Intent(activity, Following::class.java)
             startActivity(intent)
         }
