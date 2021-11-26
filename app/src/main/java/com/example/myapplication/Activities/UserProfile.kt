@@ -60,6 +60,9 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var user_name: String
     lateinit var progress_bar: ProgressBar
     lateinit var nestedScrollView: NestedScrollView
+    lateinit var moreUserBio: TextView
+    lateinit var moreButton: TextView
+    var moreText = ""
     var list = ArrayList<UserPostDocs>()
     var page: Int = 1
     var pages: Int = 0
@@ -96,6 +99,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         progress_bar = findViewById(R.id.progress_bar)
         nestedScrollView = findViewById(R.id.nestedScrollView)
         userbio = findViewById(R.id.userbio)
+        moreUserBio = findViewById(R.id.more_userbio)
+        moreButton = findViewById(R.id.more_button)
 
         followbtn.setOnClickListener {
             followUnfollow()
@@ -126,6 +131,13 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
             }
         })
 
+        moreButton.setOnClickListener {
+            if (moreText.length > 185) {
+                moreUserBio.setText(moreText)
+                moreButton.visibility = View.GONE
+                userbio.visibility = View.GONE
+            }
+        }
     }
 
     private fun newPostList() {
@@ -212,8 +224,12 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(this)
         try {
+            moreText = response.result.userResult.bio
             username.setText(response.result.profileResult.userName)
             userbio.setText(response.result.profileResult.bio)
+            if (moreText.length > 185) {
+                moreButton.visibility = View.VISIBLE
+            }
             followers.setText(response.result.followerCount.toString())
             following.setText(response.result.followingCount.toString())
             user_name= response.result.profileResult.fullName

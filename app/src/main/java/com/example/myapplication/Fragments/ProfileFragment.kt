@@ -42,6 +42,9 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var following: TextView
     lateinit var followingtxt: TextView
     lateinit var userBio: TextView
+    lateinit var moreUserBio: TextView
+    lateinit var moreButton: TextView
+    var moreText = ""
     lateinit var buttonProfileDetail: LinearLayout
 //    lateinit var progress_bar: ProgressBar
 //    lateinit var nestedScrollView: NestedScrollView
@@ -67,8 +70,11 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         folllowtext = v.findViewById(R.id.folllowtext)
         followingtxt = v.findViewById(R.id.followingtxt)
         userBio = v.findViewById(R.id.userbio)
+        moreUserBio = v.findViewById(R.id.more_userbio)
+        moreButton = v.findViewById(R.id.more_button)
 //        progress_bar = v.findViewById(R.id.progress_bar)
 //        nestedScrollView = v.findViewById(R.id.nestedScrollView)
+
 
         buttonProfileDetail.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
@@ -165,6 +171,14 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
 //                }
 //            }
 //        })
+        moreButton.setOnClickListener {
+            if (moreText.length > 185) {
+                moreUserBio.setText(moreText)
+                moreButton.visibility = View.GONE
+                userBio.visibility = View.GONE
+            }
+        }
+
         return v
     }
 
@@ -186,8 +200,12 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
+        moreText = response.result.userResult.bio
         username.setText(response.result.userResult.fullName)
         userBio.setText(response.result.userResult.bio)
+        if (moreText.length > 185) {
+            moreButton.visibility = View.VISIBLE
+        }
         followers.setText(response.result.followerCount.toString())
         following.setText(response.result.followingCount.toString())
         Glide.with(mContext).load(response.result.userResult.profilePic)
@@ -195,7 +213,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
 //        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
     }
 
-    override fun onApiErrorBody(response: ResponseBody?, apiName: String?) {
+    override fun onApiErrorBody(response: String?, apiName: String?) {
         Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 

@@ -116,6 +116,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
         }
         add.setOnClickListener {
             RequestPermission.requestMultiplePermissions(this)
+
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
