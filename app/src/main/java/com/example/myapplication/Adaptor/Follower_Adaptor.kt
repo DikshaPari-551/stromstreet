@@ -49,7 +49,7 @@ class Follower_Adaptor(
         holder.layout_logout_button.visibility=View.GONE
         try {
             var filedata = list[position].followerId.profilePic.toString()
-            Glide.with(mcontext).load(filedata).into(holder.image)
+            Glide.with(mcontext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.image)
         }catch (e: Exception){
             e.printStackTrace()
         }

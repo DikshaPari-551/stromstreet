@@ -124,7 +124,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         youtubeLink = findViewById(R.id.su_youtube_link)
         bio_text = findViewById(R.id.bio_text)
 
-        camera.setOnClickListener {
+        circleProfile.setOnClickListener {
             askCameraPermissions()
 
         }

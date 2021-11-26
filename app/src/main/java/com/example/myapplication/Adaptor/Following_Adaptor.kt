@@ -48,7 +48,7 @@ class Following_Adaptor(
 
         try {
             var filedata = list[position].userId.profilePic
-            Glide.with(mcontext).load(filedata).into(holder.image)
+            Glide.with(mcontext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.image)
         } catch (e: Exception) {
             e.printStackTrace()
         }
