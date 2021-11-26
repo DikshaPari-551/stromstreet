@@ -47,7 +47,7 @@ class bottomSheetDialog(
     val threeImageFlag = 0
     lateinit var image: Uri
     lateinit var mContext: Context
-    lateinit var imageFile: File
+    var imageFile: File? = null
     var imagePath = ""
     lateinit var serviceManager: ServiceManager
     lateinit var callBack: ApiCallBack<Responce>
@@ -151,7 +151,7 @@ class bottomSheetDialog(
                 photoURI = FileProvider.getUriForFile(
                     mContext,
                     "com.example.myapplication.fileprovider",
-                    imageFile
+                    imageFile!!
                 )
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                 startActivityForResult(takePictureIntent, CAMERA)
