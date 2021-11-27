@@ -44,7 +44,7 @@ class UserProfilePostAdaptor(
             if (list[position].mediaType.toLowerCase().equals("video")){
                 holder.videoIcon.visibility = View.VISIBLE
                 var filedata = list[position].thumbNail
-                Glide.with(context).load(filedata).into(holder.item);
+                Glide.with(context).load(filedata).placeholder(R.drawable.circleprofile).into(holder.item);
             }else{
                 if(list.get(position).imageLinks.size > 1) {
                     holder.imageIcon.visibility = View.VISIBLE

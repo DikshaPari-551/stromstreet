@@ -122,6 +122,12 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 bottomSheetDialog("profilechange", this)
             fragmentManager?.let { it1 -> bottomsheet.show(it1, "bottomsheet") }
         }
+        userProfile.setOnClickListener {
+            RequestPermission.requestMultiplePermissions(mContext)
+            var bottomsheet =
+                bottomSheetDialog("profilechange", this)
+            fragmentManager?.let { it1 -> bottomsheet.show(it1, "bottomsheet") }
+        }
 
         layoutButoonSaveChanges.setOnClickListener {
             CheckValidations()

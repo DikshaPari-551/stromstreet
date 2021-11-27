@@ -81,12 +81,16 @@ class ChatActivity : AppCompatActivity() {
         socketInstance = SocketManager.getInstance(this)
         GETINTENT()
         sendImgIcon.setOnClickListener {
-
+            if (!add.text.toString().equals("") && add.text.toString() != null) {
             var text = add.text.toString()
 //
-            socketInstance.Update(text,USERID,reciver_id)
+            socketInstance.Update(text, USERID, reciver_id)
             add.setText("")
             //VIEWCHAT()
+        }
+            else{
+                Toast.makeText(mContext, "Please Input Something", Toast.LENGTH_SHORT).show()
+            }
         }
 
         backButtton.setOnClickListener {

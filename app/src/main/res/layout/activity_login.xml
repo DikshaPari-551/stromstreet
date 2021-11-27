@@ -83,7 +83,8 @@
             android:inputType="textEmailAddress"
             android:background="@null"
             android:layout_marginRight="40dp"
-            android:hint="Enter email address/phone number"
+            android:maxLength="40"
+            android:hint="Enter email address"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
             android:textSize="15dp" />
@@ -117,6 +118,7 @@
             android:id="@+id/password_text"
             android:inputType="textPassword"
             android:layout_marginRight="40dp"
+            android:maxLength="20"
             android:hint="Enter password"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"

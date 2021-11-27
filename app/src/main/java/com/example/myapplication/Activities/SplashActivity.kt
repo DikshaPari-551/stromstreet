@@ -55,8 +55,9 @@ class SplashActivity : AppCompatActivity() {
             // request permission
             ActivityCompat.requestPermissions(this as Activity,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQ_CODE);
 //            locationpermission()
-            ifdenaye()
-
+            if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ifdenaye()
+            }
         } else {
 
             Handler().postDelayed({
@@ -91,8 +92,8 @@ class SplashActivity : AppCompatActivity() {
 //        val intent = Intent(this, LocationDeny::class.java)
 //        startActivity(intent)
         AlertDialog.Builder(this)
-            .setTitle("Location Permission Needed")
-            .setMessage("This app needs the Location permission, please accept to use location functionality")
+            .setTitle("Permissions Needed")
+            .setMessage("This app needs Some permissions, Please accept all the permissions to use this application.")
             .setPositiveButton(
                 "OK"
             ) { _, _ ->

@@ -121,7 +121,7 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         Glide.with(mContext).load(response.result.userResult.profilePic)
             .placeholder(R.drawable.circleprofile).into(userProfile)
 
-        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
+//        Toast.makeText(activity, "success", Toast.LENGTH_LONG).show()
 
     }
 

@@ -33,23 +33,41 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/tvUnreadCount"
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="30dp"
-                android:background="@drawable/bg_unread_count"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_gravity="end"
+                    android:textColor="@color/black"
+                    android:textSize="10dp"
+                    android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/tvUnreadCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/time"
+                    android:background="@drawable/bg_unread_count"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:layout_gravity="end"
+                    android:textColor="@color/white"
+                    android:textSize="8dp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
 
-                android:layout_gravity="end"
 
-                android:textColor="@color/white"
-                android:textSize="8dp"
-                android:textStyle="normal" />
+
             <ImageView
                 android:layout_width="13dp"
                 android:layout_height="13dp"

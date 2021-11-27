@@ -112,20 +112,42 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
         backPostButton.setOnClickListener {
             finish()
-
+        }
+        username.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")) {
+                USERID =
+                    SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
+                val i = Intent(this, UserProfile::class.java)
+                startActivity(i)
+                finish()
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                finish()
+            }
+        }
+        profileimg.setOnClickListener {
+            if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")) {
+                USERID = SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
+                val i = Intent(this, UserProfile::class.java)
+                startActivity(i)
+            } else {
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+            }
         }
 
 
         comment.setOnClickListener {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
-                    .equals("true")
-            ) {
+                    .equals("true")) {
                 var i = Intent(this, PostActivity2()::class.java)
                 startActivity(i)
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
-                finish()
             }
         }
 
@@ -144,7 +166,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
-                finish()
             }
         }
 
@@ -166,7 +187,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
-                finish()
             }
         }
 
@@ -184,7 +204,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
-                finish()
             }
 
         }
@@ -232,7 +251,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
     private fun getINent() {
         try {
-            USERID = SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
+            USERID =
+                SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
 //            USERID  = intent.getStringExtra("userId").toString()
 
 
@@ -265,7 +285,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     private fun saveunsave() {
-        val Token = SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
+        val Token =
+            SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
 //            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
