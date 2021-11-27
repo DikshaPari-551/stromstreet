@@ -31,8 +31,7 @@ class ApiCallBack<T>(
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {
-        try {
-            apiListener!!.onApiFailure(
+        try { apiListener!!.onApiFailure(
                 mContext!!.getString(R.string.server_not_responding),
                 apiName
             )

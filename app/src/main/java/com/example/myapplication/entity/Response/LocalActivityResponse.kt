@@ -47,9 +47,67 @@ data class Docss(
     @SerializedName("likeCount") val likeCount: Int,
     @SerializedName("categoryDetails") val categoryDetails: List<CategoryDetails>,
     @SerializedName("description") val description : String,
-    @SerializedName("title") val title : String
+    @SerializedName("title") val title : String,
+    @SerializedName("isRead") val isRead : Boolean,
+    @SerializedName("body") val body : String,
+    @SerializedName("commentId") val commentId : CommentId,
+    @SerializedName("postId") val postId : PostId,
+    @SerializedName("notificationType") val notificationType : String,
+    @SerializedName("thumbnails") val thumbnails : String,
+    @SerializedName("notificationBy") val notificationBy : NotificationBy,
+    @SerializedName("profileId") val profileId : ProfileId
+
+)
+
+data class ProfileId (
+
+    @SerializedName("emailType") val emailType : String,
+    @SerializedName("phoneNumberType") val phoneNumberType : String,
+    @SerializedName("userType") val userType : String,
+    @SerializedName("otpVerification") val otpVerification : Boolean,
+    @SerializedName("status") val status : String,
+    @SerializedName("profilePic") val profilePic : String,
+    @SerializedName("profileType") val profileType : String,
+    @SerializedName("online") val online : Boolean,
+    @SerializedName("notification") val notification : Boolean,
+    @SerializedName("inActive") val inActive : Boolean,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("password") val password : String,
+    @SerializedName("fullName") val fullName : String,
+    @SerializedName("bio") val bio : String,
+    @SerializedName("userName") val userName : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("phoneNumber") val phoneNumber : String,
+    @SerializedName("countryCode") val countryCode : String,
+    @SerializedName("otp") val otp : Int,
+    @SerializedName("otpTime") val otpTime : Long,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int,
+    @SerializedName("deviceToken") val deviceToken : String,
+    @SerializedName("deviceType") val deviceType : String,
+    )
 
 
+data class CommentId (
+
+    @SerializedName("commentType") val commentType : String,
+    @SerializedName("status") val status : String,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("postId") val postId : String,
+    @SerializedName("userId") val userId : String,
+    @SerializedName("comment") val comment : String,
+    @SerializedName("createdAt") val createdAt : String,
+    @SerializedName("updatedAt") val updatedAt : String,
+    @SerializedName("__v") val __v : Int
+)
+
+data class NotificationBy (
+
+    @SerializedName("profilePic") val profilePic : String,
+    @SerializedName("_id") val _id : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("userName") val userName : String
 )
 
 data class CategoryDetails (
@@ -62,6 +120,7 @@ data class CategoryDetails (
     @SerializedName("image") val image : String
 
     )
+
 
 
 data class UserDetailss(

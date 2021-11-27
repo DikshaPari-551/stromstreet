@@ -270,7 +270,9 @@ class ProfileChangeFragment : Fragment(), ClickListner {
         apiRequest.email = etemail
         apiRequest.userName = etuserName
         apiRequest.bio = etbio
-        apiRequest.profilePic = userProfileLink
+        if(USER_IMAGE_UPLOADED.equals("true")) {
+            apiRequest.profilePic = userProfileLink
+        }
         apiRequest.socialLinks = socialLinks
 
 

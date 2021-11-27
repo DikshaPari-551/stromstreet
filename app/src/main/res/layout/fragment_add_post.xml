@@ -84,6 +84,25 @@
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
+                    <LinearLayout
+                        android:id="@+id/add_image_one"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/add_image_border"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:text="+"
+                            android:textSize="35dp"
+                            android:gravity="center"
+                            android:textColor="#FFA500"
+                            />
+                    </LinearLayout>
+
+
+
                     <ImageView
                         android:id="@+id/image_2"
                         android:layout_width="80dp"
@@ -95,6 +114,25 @@
 
                         />
 
+                    <LinearLayout
+                        android:id="@+id/add_image_two"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/add_image_border"
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:text="+"
+                            android:textSize="35dp"
+                            android:gravity="center"
+                            android:textColor="#D8D6D6"
+                            />
+                    </LinearLayout>
+
                     <ImageView
                         android:id="@+id/image_3"
                         android:layout_width="80dp"
@@ -105,6 +143,25 @@
                         android:visibility="gone"
 
                         />
+
+                    <LinearLayout
+                        android:id="@+id/add_image_Three"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/add_image_border"
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:text="+"
+                            android:textSize="35dp"
+                            android:gravity="center"
+                            android:textColor="#D8D6D6"
+                            />
+                    </LinearLayout>
 
                 </LinearLayout>
 

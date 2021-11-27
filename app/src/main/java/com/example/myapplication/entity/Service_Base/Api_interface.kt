@@ -169,4 +169,10 @@ interface Api_interface {
     @GET("user/likeUnlikeComment")
     fun commentLikes(@Query("commentId") commentId: String): Call<Responce>?
 
+    @POST("user/notificationList")
+    fun notification(
+        @Query("page") page: String?,
+        @Query("limit") limit: String?
+    ): Call<LocalActivityResponse>?
+
 }

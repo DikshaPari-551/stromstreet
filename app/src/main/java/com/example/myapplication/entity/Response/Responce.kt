@@ -224,7 +224,10 @@ data class PostId(
     @SerializedName("categoryId") val categoryId: String,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String,
-    @SerializedName("__v") val __v: Int
+    @SerializedName("__v") val __v: Int,
+    @SerializedName("description") val description : String,
+    @SerializedName("shareCount") val shareCount : Int,
+    @SerializedName("address") val address : String
 )
 
 

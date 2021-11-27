@@ -62,11 +62,14 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var nestedScrollView: NestedScrollView
     lateinit var moreUserBio: TextView
     lateinit var moreButton: TextView
-    var moreText = ""
     var list = ArrayList<UserPostDocs>()
     var page: Int = 1
     var pages: Int = 0
-    var limit : Int = 12
+    var limit: Int = 12
+    companion object {
+        var moreText : String = ""
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +93,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         following = findViewById(R.id.following)
         followuser = findViewById(R.id.followuser)
         followbtn = findViewById(R.id.followbtn)
-        message= findViewById(R.id.message)
+        message = findViewById(R.id.message)
         profileImage = findViewById(R.id.profileImage)
         postRecycler = findViewById(R.id.postRecycler)
         totalfollower = findViewById(R.id.totalfollower)
@@ -109,19 +112,24 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
             finish()
         }
         message.setOnClickListener({
-           startActivity(Intent(this, ChatActivity::class.java).putExtra("reciver_id",reciver_id).putExtra("username",user_name))
+            startActivity(
+                Intent(this, ChatActivity::class.java).putExtra("reciver_id", reciver_id)
+                    .putExtra("username", user_name)
+            )
         })
 
-        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+        nestedScrollView.setOnScrollChangeListener(object :
+            NestedScrollView.OnScrollChangeListener {
             override fun onScrollChange(
-                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
-                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+                v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int
+            ) {
+                if (scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight) {
 //                    val lastVisibleItemPosition: Int = layoutManager.findLastVisibleItemPosition()
 
                     page++
-                    progress_bar.visibility=View.VISIBLE
-                    if(page > pages) {
-                        progress_bar.visibility=View.GONE
+                    progress_bar.visibility = View.VISIBLE
+                    if (page > pages) {
+                        progress_bar.visibility = View.GONE
                     } else {
                         newPostList()
                         androidextention.disMissProgressDialog(mContext)
@@ -132,11 +140,11 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         })
 
         moreButton.setOnClickListener {
-            if (moreText.length > 185) {
-                moreUserBio.setText(moreText)
-                moreButton.visibility = View.GONE
-                userbio.visibility = View.GONE
-            }
+
+            moreUserBio.setText(moreText)
+            moreButton.visibility = View.GONE
+            userbio.visibility = View.GONE
+
         }
     }
 
@@ -166,9 +174,9 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
                         Toast.makeText(mContext, "Invalid response.", Toast.LENGTH_LONG).show()
                     }
 
-                },"OtherPostResponse",mContext)
+                }, "OtherPostResponse", mContext)
             try {
-                serviceManager.getOtherPostlist(callBack, Userid,page.toString(),limit.toString())
+                serviceManager.getOtherPostlist(callBack, Userid, page.toString(), limit.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -224,25 +232,26 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(this)
         try {
-            moreText = response.result.userResult.bio
             username.setText(response.result.profileResult.userName)
-            userbio.setText(response.result.profileResult.bio)
-            if (moreText.length > 185) {
-                moreButton.visibility = View.VISIBLE
-            }
             followers.setText(response.result.followerCount.toString())
             following.setText(response.result.followingCount.toString())
-            user_name= response.result.profileResult.fullName
-          reciver_id=  response.result.profileResult._id
+            user_name = response.result.profileResult.fullName
+            reciver_id = response.result.profileResult._id
+            userbio.setText(response.result.profileResult.bio)
+            if (userbio.text.length > 185) {
+                moreText = response.result.profileResult.bio
+                moreButton.visibility = View.VISIBLE
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
         try {
             var filedata = response.result.profileResult.profilePic
-            Glide.with(mContext).load(filedata).into(profileImage);
-        } catch (e: Exception)
-        {
+            Glide.with(mContext).load(filedata).placeholder(R.drawable.circleprofile)
+                .into(profileImage);
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 

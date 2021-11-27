@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    >
+
+    <RelativeLayout
+        android:id="@+id/notificati_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp"
+        android:background="@color/white"
+        android:paddingTop="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:id="@+id/post_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="@font/opensans_semibold"
+            android:layout_toLeftOf="@+id/post_image"
+            android:layout_toRightOf="@+id/user_image"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/post_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/post_title"
+            android:layout_toLeftOf="@+id/post_image"
+            android:maxLines="3"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/opensans_regular"
+            android:layout_toRightOf="@+id/user_image"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/post_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/post_body"
+            android:layout_toLeftOf="@+id/post_image"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/opensans_regular"
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            android:layout_toRightOf="@+id/user_image"
+            android:text="hhlh" />
+
+        <ImageView
+            android:id="@+id/post_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#39959493"
+            android:layout_below="@+id/post_time"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

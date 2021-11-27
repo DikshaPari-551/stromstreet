@@ -30,7 +30,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="45.3dp"
         android:layout_height="match_parent"
-        android:padding="5dp"
+        android:padding="3dp"
         android:id="@+id/add"
         android:src="@drawable/circle_home"/>
     <ImageView

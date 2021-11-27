@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.NoInternetActivity
+import com.example.myapplication.Activities.NotificationActivity
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.Exoplayer
@@ -64,6 +65,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var goButton: LinearLayout
     lateinit var progress_bar: ProgressBar
     lateinit var internetConnection: LinearLayout
+    lateinit var notificatio: LinearLayout
     lateinit var nestedScrollView: NestedScrollView
     var list = ArrayList<Docss>()
     var getSearchText = ""
@@ -99,6 +101,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         progress_bar = v.findViewById(R.id.progress_bar)
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
         filter = v.findViewById(R.id.filter)
+        notificatio = v.findViewById(R.id.notificatio_icon)
         locationpermission()
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -115,6 +118,11 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             getLocalActivityApi()
         }
 
+
+        notificatio.setOnClickListener{
+            val intent = Intent(mContext, NotificationActivity::class.java)
+            startActivity(intent)
+        }
 
         man.setOnClickListener {
             if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)

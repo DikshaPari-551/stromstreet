@@ -273,6 +273,12 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-
+    fun getNotification(
+        callBack: ApiCallBack<LocalActivityResponse>,
+        page: String?,
+        limit: String?
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.notification(page, limit) }!!.enqueue(callBack)
+    }
 }
 

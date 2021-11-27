@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.LocationDeny"></activity>
+        <activity android:name=".Activities.NotificationActivity"></activity>
+        <activity android:name=".Activities.LocationDeny" />
         <activity android:name=".Activities.NoInternetActivity" />
         <activity android:name=".Activities.LocationAddress" />
         <activity

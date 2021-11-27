@@ -361,7 +361,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 //            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
             try {
                 String profile = response.result.getPostResult().getUserId().getProfilePic().toString();
-                Glide.with(this).load(profile).into(profileimg);
+                Glide.with(this).load(profile).placeholder(R.drawable.circleprofile).into(profileimg);
             } catch (Exception e) {
                 e.printStackTrace();
             }

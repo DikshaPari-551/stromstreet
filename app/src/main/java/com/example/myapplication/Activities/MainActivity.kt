@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ import com.google.android.gms.location.LocationServices
 import java.io.*
 
 
-class MainActivity : AppCompatActivity(), ClickListner {
+class MainActivity : AppCompatActivity() {
     lateinit var menu: ImageView
     lateinit var bubble: ImageView
     lateinit var profile: ImageView
@@ -85,10 +86,8 @@ class MainActivity : AppCompatActivity(), ClickListner {
         profile = findViewById(R.id.profile)
         add = findViewById(R.id.add)
 
-
-
-
         loginFlag = LoginFlag.getLoginFlag()
+
 
         menu.setOnClickListener {
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment())
@@ -120,8 +119,15 @@ class MainActivity : AppCompatActivity(), ClickListner {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
-                var bottomsheet = bottomSheetDialog("addpost", this)
-                bottomsheet.show(supportFragmentManager, "bottomsheet")
+//                supportFragmentManager.beginTransaction().replace(
+//                    R.id.linear_layout,
+//                    AddPostFragment(null,null,null,null,null)
+//                ).commit()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.linear_layout,
+                    AddPostFragment()
+                ).commit()
+
                 profile.setColorFilter(resources.getColor(R.color.grey))
                 menu.setColorFilter(resources.getColor(R.color.grey))
                 bubble.setColorFilter(resources.getColor(R.color.grey))
@@ -223,18 +229,7 @@ class MainActivity : AppCompatActivity(), ClickListner {
         })
     }
 
-    override fun clickListner(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?,
-        bottomSheetDialog: bottomSheetDialog,
-        imagePath: String
-    ) {
-        supportFragmentManager.beginTransaction().replace(
-            R.id.linear_layout,
-            AddPostFragment(requestCode, resultCode, data, bottomSheetDialog, imagePath)
-        ).commit()
-    }
+
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, d: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, d)
