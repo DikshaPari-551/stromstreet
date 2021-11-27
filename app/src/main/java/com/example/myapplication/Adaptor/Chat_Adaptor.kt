@@ -15,6 +15,7 @@ import com.example.myapplication.Activities.ChatActivity
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.entity.Response.Chalist
+import com.example.myapplication.util.DateFormat
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.ArrayList
 
@@ -31,6 +32,7 @@ class Chat_Adaptor(
         var imageset = view.findViewById<CircleImageView>(R.id.image)
         var followername = view.findViewById<TextView>(R.id.followername)
         var   tvUnreadCount = view.findViewById<TextView>(R.id.tvUnreadCount)
+        var   time = view.findViewById<TextView>(R.id.time)
       //  var profileImage = view.findViewById<CircleImageView>(R.id.profileImage)
 
     }
@@ -57,6 +59,7 @@ class Chat_Adaptor(
             {
                 holder.tvUnreadCount.visibility=View.VISIBLE
                 holder.tvUnreadCount.setText(list!!.get(position).totalUnreadMsg.toString())
+                holder.time.setText(DateFormat.getDateOfhourminute(list!!.get(position).updatedAt.toString()))
             }
 
             if(USERID_data.equals(list!!.get(position).receiverId._id))
@@ -68,7 +71,7 @@ class Chat_Adaptor(
 
                 if(filedata!=null)
                 {
-                    Glide.with(mcontext).load(filedata).into(holder.imageset);
+                    Glide.with(mcontext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.imageset);
                 }
 
             }
@@ -81,7 +84,7 @@ class Chat_Adaptor(
                 if(filedata!=null)
                 {
 
-                Glide.with(mcontext).load(filedata).into(holder.imageset);
+                Glide.with(mcontext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.imageset);
                 }
             }
 

@@ -92,7 +92,7 @@ class SplashActivity : AppCompatActivity() {
 //        val intent = Intent(this, LocationDeny::class.java)
 //        startActivity(intent)
         AlertDialog.Builder(this)
-            .setTitle("Location Permission Needed")
+            .setTitle("Permissions Needed")
             .setMessage("This app needs Some permissions, Please accept all the permissions to use this application.")
             .setPositiveButton(
                 "OK"

@@ -21,6 +21,8 @@ data class Chalist(
             @SerializedName("_id") val _id: String,
             @SerializedName("status") val status: String,
             @SerializedName("image") val image: String,
+            @SerializedName("createdAt") val createdAt: String,
+            @SerializedName("updatedAt") val updatedAt: String,
             @SerializedName("senderId") val senderId: SenderId,
             @SerializedName("receiverId") val receiverId: ReceiverId,
             @SerializedName("totalUnreadMsg") val totalUnreadMsg: Int,

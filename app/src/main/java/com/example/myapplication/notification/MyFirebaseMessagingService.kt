@@ -38,6 +38,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             if (remoteMessage.data != null) {
                 var value: Any?=null
                 var postid: Any?=null
+                var userId: Any?=null
                 for (key in remoteMessage.data!!.keys) {
                    // value = remoteMessage.data!![key]
                     if (key.equals( "notificationType")) {
@@ -46,11 +47,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                         Log.d("NotificationTag", key + "____" + value)
                     }
-                    if (key.equals("postid")) {
+                    if (key.equals("postId")) {
                         postid =
                             remoteMessage.data!![key] // value will represend your message body... Enjoy It
                         SavedPrefManager.saveStringPreferences(baseContext, SavedPrefManager._id, postid.toString())
                        // Log.d("NotificationTag", key + "____" + value)
+                    }
+                   else if (key.equals("userId")) {
+                        userId =
+                            remoteMessage.data!![key] // value will represend your message body... Enjoy It
+                        SavedPrefManager.saveStringPreferences(baseContext, SavedPrefManager.otherUserId, userId.toString())
+                        // Log.d("NotificationTag", key + "____" + value)
                     }
                 }
                 getRemoteView(value,postid)
@@ -113,12 +120,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         PendingIntent.FLAG_ONE_SHOT
                     )
                 }
-//                "FOLLOW"->{
-//                    intent = Intent(this, UserProfile::class.java)
-//                    pendingIntent = PendingIntent.getActivity(applicationContext,0,intent,PendingIntent.FLAG_ONE_SHOT)
-//                    SavedPrefManager.saveStringPreferences(this, SavedPrefManager.otherUserId,otherUserId)
-//
-//                }
+                "FOLLOW"->{
+                    intent = Intent(this, UserProfile::class.java)
+                    pendingIntent = PendingIntent.getActivity(applicationContext,0,intent,PendingIntent.FLAG_ONE_SHOT)
+
+                }
 
             }
             val notificationId: Int = SavedPrefManager.getIntPreferences(this, SavedPrefManager.NOTIFICATION_ID)

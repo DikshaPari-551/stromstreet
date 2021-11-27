@@ -83,8 +83,8 @@
             android:inputType="textEmailAddress"
             android:background="@null"
             android:layout_marginRight="40dp"
-            android:maxLength="30"
-            android:hint="Enter email address/phone number"
+            android:maxLength="40"
+            android:hint="Enter email address"
             android:fontFamily="@font/opensans_regular"
             android:textColorHint="@color/darkgrey"
             android:textSize="15dp" />

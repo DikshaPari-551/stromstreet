@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.app.Activity;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Activities.PostActivity;
 import com.example.myapplication.Activities.PostActivity2;
+import com.example.myapplication.Activities.UserProfile;
 import com.example.myapplication.customclickListner.IPlayer;
 import com.example.myapplication.customclickListner.IPlayerUI;
 import com.example.myapplication.customclickListner.PlayerImp;
@@ -209,6 +211,32 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                     .equals("true")
             ) {
                 likeunlike();
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+            }
+        });
+        username.setOnClickListener(v -> {
+
+            if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                USERID = SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.Companion.get_id()).toString();
+                Intent i = new Intent(this, UserProfile.class);
+                startActivity(i);
+            } else {
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+            }
+        });
+        profileimg.setOnClickListener(v -> {
+
+            if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true")
+            ) {
+                USERID = SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.Companion.get_id()).toString();
+                Intent i = new Intent(this, UserProfile.class);
+                startActivity(i);
             } else {
                 Intent i = new Intent(this, LoginActivity.class);
                 startActivity(i);

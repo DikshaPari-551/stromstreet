@@ -55,11 +55,8 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
 
     lateinit var password_et: EditText
     lateinit var password_text: TextView
-
-
     lateinit var phone_et: EditText
     lateinit var phone_text: TextView
-
     lateinit var emailSignUp_et: EditText
     lateinit var username_text: TextView
     lateinit var username_et: EditText
@@ -89,7 +86,6 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     var detailsValidationFlag = false
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -100,13 +96,10 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         check_text = findViewById(R.id.check_text)
         phone_et = findViewById(R.id.phonenumber_et)
         phone_text = findViewById(R.id.phone_sign_text)
-
         username_et = findViewById(R.id.username_et)
         username_text = findViewById(R.id.username_sign_text)
-
         password_et = findViewById(R.id.password_sign_et)
         password_text = findViewById(R.id.password_sign_text)
-
         emailSignUp_text = findViewById(R.id.email_sign_text)
         sign_up_full_name = findViewById(R.id.fullname_text)
         nameSignUp = findViewById(R.id.name_sign_up)
@@ -129,6 +122,10 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             askCameraPermissions()
 
         }
+        circleProfile.setOnClickListener {
+            askCameraPermissions()
+
+        }
         login.setOnClickListener {
             var intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -139,7 +136,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             CheckValidations()
             ConfirmPassword()
             checkboxCheck()
-            if(checkboxCheck() == true && ConfirmPassword() == true && detailsValidationFlag == true) {
+            if (checkboxCheck() == true && ConfirmPassword() == true && detailsValidationFlag == true) {
                 Signup()
             }
         }
@@ -236,7 +233,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             fullnameSignUp,
             nameSignUp
         )
-               Validations.Email(email_sign_up, emailSignUp_text)
+        Validations.Email(email_sign_up, emailSignUp_text)
         Validations.Email(
             email_sign_up,
             emailSignUp_text
@@ -249,7 +246,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             phone_ett,
             phone_text
         )
-            Validations.Password(password, password_text)
+        Validations.Password(password, password_text)
 
     }
 
@@ -257,18 +254,19 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         var password = password_et.text.toString()
         var confirmPassword = confirmPasswordEt.text.toString()
 
-        if (confirmPassword.length < 6) {
-
-
+        if (!confirmPassword.equals(password)) {
             confirmPasswordTEXT.setText("*Please enter new password more than 6-digits.")
             confirmPasswordTEXT.visibility = View.VISIBLE
-        } else if (!confirmPassword.equals(password)) {
-
             confirmPasswordTEXT.setText("*Both password should match.")
 
             confirmPasswordTEXT.visibility = View.VISIBLE
             return false
-        } else {
+//        } else if (!confirmPassword.equals(password)) {
+//
+//
+
+        }
+        else {
             confirmPasswordTEXT.setText("")
 
 
@@ -321,11 +319,11 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
                 }
             } else if (requestCode == CAMERA) {
                 if (resultCode == RESULT_OK) {
-                        imageFile = File(imagePath)
-                        circleProfile.setImageURI(Uri.fromFile(imageFile))
-                        bottomSheetDialog.dismiss()
-                        USER_IMAGE_UPLOADED = "ture"
-                        uploadUserImageApi()
+                    imageFile = File(imagePath)
+                    circleProfile.setImageURI(Uri.fromFile(imageFile))
+                    bottomSheetDialog.dismiss()
+                    USER_IMAGE_UPLOADED = "ture"
+                    uploadUserImageApi()
                 }
             }
 
@@ -334,10 +332,12 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             e.printStackTrace()
         }
     }
+
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        val path =
+            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
     }
 
@@ -403,6 +403,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             e.printStackTrace()
         }
     }
+
     private fun askCameraPermissions() {
         RequestPermission.requestMultiplePermissions(this)
         if (ContextCompat.checkSelfPermission(
@@ -420,6 +421,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
             bottomsheet.show(supportFragmentManager, "bottomsheet")
         }
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>,
