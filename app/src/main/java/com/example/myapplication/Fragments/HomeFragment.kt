@@ -65,7 +65,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var goButton: LinearLayout
     lateinit var progress_bar: ProgressBar
     lateinit var internetConnection: LinearLayout
-    lateinit var notificatio: LinearLayout
+    lateinit var notificatio: RelativeLayout
+    lateinit var notificationCount: TextView
     lateinit var nestedScrollView: NestedScrollView
     var list = ArrayList<Docss>()
     var getSearchText = ""
@@ -102,6 +103,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
         filter = v.findViewById(R.id.filter)
         notificatio = v.findViewById(R.id.notificatio_icon)
+        notificationCount = v.findViewById(R.id.notificationCount)
         locationpermission()
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -120,9 +122,18 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
 
         notificatio.setOnClickListener{
+            if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true"))
+            ) {
             val intent = Intent(mContext, NotificationActivity::class.java)
             startActivity(intent)
+            } else {
+                val i = Intent(mContext, LoginActivity::class.java)
+                startActivity(i)
+            }
+
         }
+
 
         man.setOnClickListener {
             if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)

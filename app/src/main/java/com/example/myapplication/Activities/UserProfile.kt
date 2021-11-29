@@ -62,6 +62,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var nestedScrollView: NestedScrollView
     lateinit var moreUserBio: TextView
     lateinit var moreButton: TextView
+    var filedata:String=""
+
     var list = ArrayList<UserPostDocs>()
     var page: Int = 1
     var pages: Int = 0
@@ -114,7 +116,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         message.setOnClickListener({
             startActivity(
                 Intent(this, ChatActivity::class.java).putExtra("reciver_id", reciver_id)
-                    .putExtra("username", user_name)
+                    .putExtra("username", user_name).putExtra("profileimage", filedata)
             )
         })
 
@@ -248,7 +250,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         }
 
         try {
-            var filedata = response.result.profileResult.profilePic
+            filedata = response.result.profileResult.profilePic
             Glide.with(mContext).load(filedata).placeholder(R.drawable.circleprofile)
                 .into(profileImage);
         } catch (e: Exception) {

@@ -22,7 +22,7 @@ import java.util.ArrayList
 class Chat_Adaptor(
     var mcontext: Context,
     var list: ArrayList<Chalist>?,
-   var USERID_data: String
+    var USERID_data: String
 ) : RecyclerView.Adapter<Chat_Adaptor.MyViewHolder>() {
     lateinit var id: String
     lateinit var full_name: String
@@ -33,7 +33,7 @@ class Chat_Adaptor(
         var followername = view.findViewById<TextView>(R.id.followername)
         var   tvUnreadCount = view.findViewById<TextView>(R.id.tvUnreadCount)
         var   time = view.findViewById<TextView>(R.id.time)
-      //  var profileImage = view.findViewById<CircleImageView>(R.id.profileImage)
+        //  var profileImage = view.findViewById<CircleImageView>(R.id.profileImage)
 
     }
 
@@ -50,43 +50,43 @@ class Chat_Adaptor(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         //try {
-            if(list!!.get(position).totalUnreadMsg==0)
-            {
-                holder.tvUnreadCount.visibility=View.GONE
-            }
-            else
-                if(list!!.get(position).totalUnreadMsg>0)
+        if(list!!.get(position).totalUnreadMsg==0)
+        {
+            holder.tvUnreadCount.visibility=View.GONE
+        }
+        else
+            if(list!!.get(position).totalUnreadMsg>0)
             {
                 holder.tvUnreadCount.visibility=View.VISIBLE
                 holder.tvUnreadCount.setText(list!!.get(position).totalUnreadMsg.toString())
                 holder.time.setText(DateFormat.getDateOfhourminute(list!!.get(position).updatedAt.toString()))
             }
 
-            if(USERID_data.equals(list!!.get(position).receiverId._id))
+        if(USERID_data.equals(list!!.get(position).receiverId._id))
+        {
+            holder.followername.setText(list!!.get(position).senderId.fullName)
+            id=list!!.get(position).senderId._id
+            full_name=list!!.get(position).senderId.fullName
+            var filedata = list!!.get(position).senderId.profilePic
+
+            if(filedata!=null)
             {
-                holder.followername.setText(list!!.get(position).senderId.fullName)
-                id=list!!.get(position).senderId._id
-                full_name=list!!.get(position).senderId.fullName
-                var filedata = list!!.get(position).senderId.profilePic
-
-                if(filedata!=null)
-                {
-                    Glide.with(mcontext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.imageset);
-                }
-
+                Glide.with(mcontext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.imageset);
             }
-            else{
-                holder.followername.setText(list!!.get(position).receiverId.fullName)
-                full_name= list!!.get(position).receiverId.fullName
-                id=list!!.get(position).receiverId._id
 
-                var filedata = list!!.get(position).receiverId.profilePic
-                if(filedata!=null)
-                {
+        }
+        else{
+            holder.followername.setText(list!!.get(position).receiverId.fullName)
+            full_name= list!!.get(position).receiverId.fullName
+            id=list!!.get(position).receiverId._id
+
+            var filedata = list!!.get(position).receiverId.profilePic
+            if(filedata!=null)
+            {
 
                 Glide.with(mcontext).load(filedata).placeholder(R.drawable.circleprofile).into(holder.imageset);
-                }
             }
+        }
 
 
 
@@ -116,6 +116,10 @@ class Chat_Adaptor(
             catch (e: NullPointerException){
                 e.printStackTrace()
             }
-                 }
+        }
+    }
+    fun filterList(filter: ArrayList<Chalist>) {
+        list = filter
+        notifyDataSetChanged()
     }
 }

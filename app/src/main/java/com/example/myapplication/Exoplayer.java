@@ -221,7 +221,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
-                USERID = SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.Companion.get_id()).toString();
+
                 Intent i = new Intent(this, UserProfile.class);
                 startActivity(i);
             } else {
@@ -234,7 +234,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
-                USERID = SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.Companion.get_id()).toString();
+
                 Intent i = new Intent(this, UserProfile.class);
                 startActivity(i);
             } else {
@@ -386,7 +386,8 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             postid = response.result.getPostResult().getUserId().get_id();
             viedeourl = response.result.getPostResult().getVideoLink();
             address.setText(response.result.getPostResult().getAddress());
-//            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.postid,USERID)
+            SavedPrefManager.Companion.saveStringPreferences(mContext, SavedPrefManager.otherUserId, postid);
+
             try {
                 String profile = response.result.getPostResult().getUserId().getProfilePic().toString();
                 Glide.with(this).load(profile).placeholder(R.drawable.circleprofile).into(profileimg);

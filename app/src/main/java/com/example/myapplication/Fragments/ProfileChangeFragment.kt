@@ -230,6 +230,8 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     if (response.responseCode == "200") {
+                        USER_IMAGE_UPLOADED = "false"
+
                         Toast.makeText(
                             activity,
                             response.responseMessage,
@@ -298,7 +300,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     if (response.responseCode == "200") {
-                        USER_IMAGE_UPLOADED = "ture"
+                        USER_IMAGE_UPLOADED = "true"
                         userProfileLink = response.result.mediaUrl
                         imageType = response.result.mediaType
 

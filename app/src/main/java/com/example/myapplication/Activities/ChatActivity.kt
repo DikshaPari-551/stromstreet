@@ -32,7 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class ChatActivity : AppCompatActivity() {
     lateinit var add: EditText
-      lateinit var adaptor:MessageAdaptor
+    lateinit var adaptor:MessageAdaptor
     lateinit var right_arrow_Chat:ImageView
     lateinit var sendImgIcon: ImageView
     lateinit var backButtton: ImageView
@@ -52,7 +52,7 @@ class ChatActivity : AppCompatActivity() {
     var profileimage:String=""
     var i=0;
     var  flag:Boolean=false
-     var timer:Timer= Timer()
+    lateinit var timer:Timer
     lateinit var adapter: Adapter
     private var hasConnection = false
     lateinit var socketInstance: SocketManager
@@ -82,12 +82,12 @@ class ChatActivity : AppCompatActivity() {
         GETINTENT()
         sendImgIcon.setOnClickListener {
             if (!add.text.toString().equals("") && add.text.toString() != null) {
-            var text = add.text.toString()
+                var text = add.text.toString()
 //
-            socketInstance.Update(text, USERID, reciver_id)
-            add.setText("")
-            //VIEWCHAT()
-        }
+                socketInstance.Update(text, USERID, reciver_id)
+                add.setText("")
+                //VIEWCHAT()
+            }
             else{
                 Toast.makeText(mContext, "Please Input Something", Toast.LENGTH_SHORT).show()
             }
@@ -98,7 +98,7 @@ class ChatActivity : AppCompatActivity() {
             finish()
 
         }
-         layoutManager = LinearLayoutManager(baseContext)
+        layoutManager = LinearLayoutManager(baseContext)
         recyclerList.layoutManager = layoutManager
         if(savedInstanceState != null){
             hasConnection = savedInstanceState.getBoolean("hasConnection");
@@ -110,14 +110,19 @@ class ChatActivity : AppCompatActivity() {
 //
 //        }, 1500)
         //VIEWCHAT()
+        CHATTIMER()
+
+        initScrollListener()
+
+    }
+
+    private fun CHATTIMER() {
+        timer= Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 VIEWCHAT()
             }
         }, 0, 1500)
-
-        initScrollListener()
-
     }
 
     private fun initScrollListener()
@@ -165,7 +170,7 @@ class ChatActivity : AppCompatActivity() {
 //        Thread { runOnUiThread {
 //            socketInstance.VIEWcHAT(
 //                USERID,reciver_id) } }.start()
-   //     VIEWCHAT()
+        //     VIEWCHAT()
 
 
 
@@ -220,11 +225,11 @@ class ChatActivity : AppCompatActivity() {
                 {listdatlist=listdat
                     if(i==0)
                     {
-                         adaptor = MessageAdaptor(listdatlist,USERID)
+                        adaptor = MessageAdaptor(listdatlist,USERID)
                         recyclerList.adapter = adaptor
                         adaptor.notifyDataSetChanged()
                     }
-                   else{
+                    else{
 
 //                        listdatlist.add(removeDuplocatElemts(listdatlist).get(listdatlist.size-1))
 //
@@ -247,7 +252,7 @@ class ChatActivity : AppCompatActivity() {
 
                 }
                 i++
-                }
+            }
 
             override fun oneToOneChat(listdatset: Messages) {
 //                listdatlist.add(listdatset)
@@ -293,7 +298,7 @@ class ChatActivity : AppCompatActivity() {
         super.onDestroy()
         socketInstance.socket.disconnect()
 
-       //socket!!.off("oneToOneChat", onNewMessage);
+        //socket!!.off("oneToOneChat", onNewMessage);
     }
 //    object onNewMessage : Emitter.Listener {
 //        override fun call(vararg args: Any?)
@@ -328,6 +333,16 @@ class ChatActivity : AppCompatActivity() {
         super.onBackPressed()
         timer.cancel()
         finish()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        CHATTIMER()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
     }
 }
 

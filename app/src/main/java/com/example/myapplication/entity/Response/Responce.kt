@@ -67,6 +67,7 @@ data class Result(
     @SerializedName("likeCount") val likeCount : Int,
     @SerializedName("commentCount") val commentCount : Int,
     @SerializedName("isLike") val isLike : Boolean,
+    @SerializedName("isSave") val isSave : Boolean,
     @SerializedName("isFollow") val isFollow : Boolean,
     @SerializedName("commentList") val commentList : List<CommentList>,
     @SerializedName("messages") val messages : ArrayList<Messages>,

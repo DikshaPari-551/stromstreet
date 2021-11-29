@@ -13,95 +13,96 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:elevation="20dp"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:background="@color/black"
+            android:elevation="20dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:id="@+id/back_arrow_chat"
-                android:layout_centerVertical="true"
-                android:src="@drawable/back_arrow" />
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Messages"
-                android:gravity="center"
-                android:fontFamily="@font/opensans_regular"
-                android:layout_centerVertical="true"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/back_arrow_chat"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/back_arrow" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Messages"
+                    android:gravity="center"
+                    android:fontFamily="@font/opensans_regular"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
 
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-
-
-
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/search_background"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="horizontal" />
 
-                android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/search" />
 
-                <EditText
+
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="7dp"
-                    android:background="@null"
-                    android:hint="Search posts..."
-                    android:fontFamily="@font/opensans_regular"
-                    android:singleLine="true"
-                    android:textColorHint="@color/black"
-                    android:textSize="12sp" />
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/search_background"
+
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/search" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="7dp"
+                        android:background="@null"
+                        android:id="@+id/search"
+                        android:hint="Search..."
+                        android:fontFamily="@font/opensans_regular"
+                        android:singleLine="true"
+                        android:textColorHint="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -393,8 +393,7 @@ class AddPostFragment() : Fragment(), ClickListner {
         )
         apiRequest.mediaType = imageType.toUpperCase()
         apiRequest.description = description.text.toString()
-        apiRequest.categoryId =
-            SavedPrefManager.getStringPreferences(activity, AppConst.POST_CATEGORY_ID)
+        apiRequest.categoryId = SavedPrefManager.getStringPreferences(activity, AppConst.POST_CATEGORY_ID)
         apiRequest.videoLink = videoLink
         apiRequest.address = locality
         apiRequest.imageLinks = responseImageList
@@ -467,99 +466,114 @@ class AddPostFragment() : Fragment(), ClickListner {
                                     imageFile = File(path)
                                 }
                                 if (videoType == "video") {
-                                    videoCount++
-                                    if (videoType == "video" && videoCount > 1) {
-                                        setImageAndVideos()
+                                    if(count==0)
+                                    {
+                                        videoCount++
+                                        if (videoType == "video" && videoCount > 1)
+                                        {
+                                            setImageAndVideos()
+                                            Toast.makeText(
+                                                mContext,
+                                                "You not select more than 1 video!!",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+
+                                        } else {
+                                            if (galleryData1.visibility == View.GONE && count == 0) {
+                                                addImageOne.visibility = View.GONE
+                                                addImageTwo.visibility = View.GONE
+                                                addImageThree.visibility = View.GONE
+                                                galleryData1.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(imageFile).into(galleryData1)
+                                                bottomSheetDialog.dismiss()
+
+                                                SavedPrefManager.saveStringPreferences(
+                                                    mContext,
+                                                    SavedPrefManager.IMAGE_ONE,
+                                                    imageFile.toString()
+                                                )
+                                                count++
+                                            } else if (galleryData2.visibility == View.GONE && count == 1) {
+                                                addImageTwo.visibility = View.GONE
+                                                addImageThree.visibility = View.VISIBLE
+                                                galleryData2.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(imageFile).into(galleryData2)
+                                                bottomSheetDialog.dismiss()
+
+                                                SavedPrefManager.saveStringPreferences(
+                                                    mContext,
+                                                    SavedPrefManager.IMAGE_TWO,
+                                                    imageFile.toString()
+                                                )
+
+                                                var imageOne =
+                                                    SavedPrefManager.getStringPreferences(
+                                                        mContext,
+                                                        SavedPrefManager.IMAGE_ONE
+                                                    )
+                                                var image = File(imageOne)
+                                                galleryData1.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(image).into(galleryData1)
+                                                count++
+
+                                            } else if (galleryData3.visibility == View.GONE && count == 2) {
+                                                addImageThree.visibility = View.GONE
+                                                galleryData3.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(imageFile).into(galleryData3)
+                                                bottomSheetDialog.dismiss()
+
+                                                SavedPrefManager.saveStringPreferences(
+                                                    mContext,
+                                                    SavedPrefManager.IMAGE_THREE,
+                                                    imageFile.toString()
+                                                )
+
+                                                var imageTwo =
+                                                    SavedPrefManager.getStringPreferences(
+                                                        mContext,
+                                                        SavedPrefManager.IMAGE_TWO
+                                                    )
+                                                var imageFTwo = File(imageTwo)
+                                                galleryData2.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(imageFTwo).into(galleryData2)
+
+                                                var imageOne =
+                                                    SavedPrefManager.getStringPreferences(
+                                                        mContext,
+                                                        SavedPrefManager.IMAGE_ONE
+                                                    )
+                                                var image = File(imageOne)
+                                                galleryData1.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(image).into(galleryData1)
+                                                count++
+
+                                            }
+
+                                            var requestGalleryImageFile: RequestBody =
+                                                RequestBody.create(
+                                                    "video/*".toMediaTypeOrNull(),
+                                                    imageFile
+                                                )
+                                            imageparts.add(
+                                                MultipartBody.Part.createFormData(
+                                                    "video",
+                                                    imageFile.getName(),
+                                                    requestGalleryImageFile
+                                                )
+                                            )
+                                        }
+                                    }
+                                    else
+                                    {
                                         Toast.makeText(
-                                            mContext,
-                                            "You not select more than 1 video!!",
+                                            activity,
+                                            "You can select either images or video in one time...",
                                             Toast.LENGTH_LONG
                                         ).show()
-
-                                    } else {
-                                        if (galleryData1.visibility == View.GONE && count == 0) {
-                                            addImageOne.visibility = View.GONE
-                                            addImageTwo.visibility = View.VISIBLE
-                                            galleryData1.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFile).into(galleryData1)
-                                            bottomSheetDialog.dismiss()
-
-                                            SavedPrefManager.saveStringPreferences(
-                                                mContext,
-                                                SavedPrefManager.IMAGE_ONE,
-                                                imageFile.toString()
-                                            )
-                                            count++
-                                        } else if (galleryData2.visibility == View.GONE && count == 1) {
-                                            addImageTwo.visibility = View.GONE
-                                            addImageThree.visibility = View.VISIBLE
-                                            galleryData2.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFile).into(galleryData2)
-                                            bottomSheetDialog.dismiss()
-
-                                            SavedPrefManager.saveStringPreferences(
-                                                mContext,
-                                                SavedPrefManager.IMAGE_TWO,
-                                                imageFile.toString()
-                                            )
-
-                                            var imageOne =
-                                                SavedPrefManager.getStringPreferences(
-                                                    mContext,
-                                                    SavedPrefManager.IMAGE_ONE
-                                                )
-                                            var image = File(imageOne)
-                                            galleryData1.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(image).into(galleryData1)
-                                            count++
-
-                                        } else if (galleryData3.visibility == View.GONE && count == 2) {
-                                            addImageThree.visibility = View.GONE
-                                            galleryData3.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFile).into(galleryData3)
-                                            bottomSheetDialog.dismiss()
-
-                                            SavedPrefManager.saveStringPreferences(
-                                                mContext,
-                                                SavedPrefManager.IMAGE_THREE,
-                                                imageFile.toString()
-                                            )
-
-                                            var imageTwo =
-                                                SavedPrefManager.getStringPreferences(
-                                                    mContext,
-                                                    SavedPrefManager.IMAGE_TWO
-                                                )
-                                            var imageFTwo = File(imageTwo)
-                                            galleryData2.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFTwo).into(galleryData2)
-
-                                            var imageOne =
-                                                SavedPrefManager.getStringPreferences(
-                                                    mContext,
-                                                    SavedPrefManager.IMAGE_ONE
-                                                )
-                                            var image = File(imageOne)
-                                            galleryData1.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(image).into(galleryData1)
-                                            count++
-
-                                        }
-
-                                        var requestGalleryImageFile: RequestBody =
-                                            RequestBody.create(
-                                                "video/*".toMediaTypeOrNull(),
-                                                imageFile
-                                            )
-                                        imageparts.add(
-                                            MultipartBody.Part.createFormData(
-                                                "video",
-                                                imageFile.getName(),
-                                                requestGalleryImageFile
-                                            )
-                                        )
                                     }
+
                                 } else {
+
                                     multiPartImageSet()
                                     bottomSheetDialog.dismiss()
                                     var requestGalleryImageFile: RequestBody =

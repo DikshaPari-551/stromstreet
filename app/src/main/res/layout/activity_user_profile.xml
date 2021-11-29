@@ -48,7 +48,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/add_post_bg"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <androidx.core.widget.NestedScrollView
@@ -240,8 +240,7 @@
                                             android:layout_centerInParent="true"
                                             android:layout_gravity="center"
                                             android:fontFamily="@font/opensans_regular"
-                                            android:paddingLeft="15dp"
-                                            android:paddingRight="15dp"
+
                                             android:text="Unfollow"
                                             android:textColor="@color/white"
                                             android:textSize="15dp"
@@ -278,8 +277,7 @@
                                             android:layout_centerInParent="true"
                                             android:layout_gravity="center"
                                             android:fontFamily="@font/opensans_regular"
-                                            android:paddingLeft="15dp"
-                                            android:paddingRight="15dp"
+
                                             android:text="Message"
                                             android:textColor="@color/white"
                                             android:textSize="15dp"

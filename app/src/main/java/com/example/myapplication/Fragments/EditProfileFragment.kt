@@ -2,6 +2,7 @@ package com.example.myapplication.Fragments
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,12 +30,20 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var logout: RelativeLayout
     lateinit var backButton: ImageView
     lateinit var userProfile: ImageView
+    lateinit var twitter: ImageView
+    lateinit var facebook: ImageView
+    lateinit var instagram: ImageView
+    lateinit var youtube: ImageView
     lateinit var mContext: Context
     lateinit var username: TextView
     lateinit var name: TextView
     lateinit var phone_no: TextView
     lateinit var email_id: TextView
     lateinit var bio: TextView
+    var facebooklink=""
+    var twitterlink=""
+    var instalink=""
+    var youtubelink=""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +62,10 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         phone_no = v.findViewById(R.id.phone_no)
         userProfile = v.findViewById(R.id.userProfile)
         email_id = v.findViewById(R.id.email_id)
-        bio = v.findViewById(R.id.bio)
+        twitter = v.findViewById(R.id.twitter)
+        facebook = v.findViewById(R.id.facebook)
+        instagram = v.findViewById(R.id.instagram)
+        youtube = v.findViewById(R.id.youtube)
 
 
 
@@ -62,6 +74,26 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
                 BottomSheetLogout()
             fragmentManager?.let { it1 -> bottomsheettt.show(it1, "bottomsheet") }
 
+        }
+        twitter.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("$twitterlink")
+            startActivity(intent)
+        }
+        facebook.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("$facebooklink")
+            startActivity(intent)
+        }
+        instagram.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("$instalink")
+            startActivity(intent)
+        }
+        youtube.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("$youtubelink")
+            startActivity(intent)
         }
         backButton = v.findViewById(R.id.back_arrow_edit_profile)
         backButton.setOnClickListener {
@@ -117,7 +149,10 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         phone_no.setText(response.result.userResult.phoneNumber)
         email_id.setText(response.result.userResult.email)
         bio.setText(response.result.userResult.bio)
-
+        twitterlink = response.result.socialLinks.twitter
+        facebooklink = response.result.socialLinks.facebook
+        instalink = response.result.socialLinks.instagram
+        youtubelink = response.result.socialLinks.youtube
         Glide.with(mContext).load(response.result.userResult.profilePic)
             .placeholder(R.drawable.circleprofile).into(userProfile)
 

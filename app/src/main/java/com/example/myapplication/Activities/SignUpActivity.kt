@@ -255,7 +255,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         var confirmPassword = confirmPasswordEt.text.toString()
 
         if (!confirmPassword.equals(password)) {
-            confirmPasswordTEXT.setText("*Please enter new password more than 6-digits.")
+            confirmPasswordTEXT.setText("*Both password should match.")
             confirmPasswordTEXT.visibility = View.VISIBLE
             confirmPasswordTEXT.setText("*Both password should match.")
 

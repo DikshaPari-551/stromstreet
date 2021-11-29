@@ -27,7 +27,6 @@ class CategoryListAdaptor(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         if(position == selectPosition) {
             holder.radioButton.isChecked = true
-            secondFragment.filterCustomListener(list.get(position)._id)
         } else {
             holder.radioButton.isChecked = false
         }

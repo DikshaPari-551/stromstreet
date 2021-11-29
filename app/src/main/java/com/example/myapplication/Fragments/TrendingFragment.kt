@@ -166,6 +166,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                         progress_bar.visibility=View.GONE
                     } else {
                         getTrendingPostApi()
+                        androidextention.disMissProgressDialog(activity)
+
                     }
                 }
             }
@@ -185,6 +187,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                     list.clear()
                     searchValue = ""
                     getTrendingPostApi()
+
                 }
             }
 

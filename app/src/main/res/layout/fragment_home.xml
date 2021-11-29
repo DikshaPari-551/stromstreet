@@ -62,7 +62,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/notificatio_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,11 +72,23 @@
                     android:padding="10dp">
 
                     <ImageView
-                        android:layout_width="13.3dp"
-                        android:layout_height="13.5dp"
+                        android:layout_width="15.3dp"
+                        android:layout_height="15.5dp"
                         android:src="@drawable/notification_icon"
                         android:visibility="visible" />
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/notificationCount"
+                        android:layout_width="12.3dp"
+                        android:layout_height="12.5dp"
+                        android:background="@drawable/bg_notification_count"
+                        android:maxLines="1"
+                        android:layout_marginLeft="8dp"
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="8dp"
+                        android:textStyle="normal" />
+                </RelativeLayout>
                 <LinearLayout
                     android:id="@+id/filter"
 

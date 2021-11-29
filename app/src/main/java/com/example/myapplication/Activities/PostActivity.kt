@@ -59,6 +59,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     var USERID: String = ""
     var postid: String = ""
     var LikeUnlike: Boolean = false
+    var isSaved: Boolean = false
     var isFollow: Boolean = false
 
     private var loginFlag: Boolean = false
@@ -116,8 +117,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         username.setOnClickListener {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")) {
-                USERID =
-                    SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
                 val i = Intent(this, UserProfile::class.java)
                 startActivity(i)
                 finish()
@@ -130,7 +129,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         profileimg.setOnClickListener {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")) {
-                USERID = SavedPrefManager.getStringPreferences(this, SavedPrefManager._id).toString()
                 val i = Intent(this, UserProfile::class.java)
                 startActivity(i)
             } else {
@@ -175,15 +173,15 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                     .equals("true")
             ) {
                 saveunsave()
-                if (click == false) {
-                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show()
-                    savePost.setImageDrawable(resources.getDrawable(R.drawable.saved_post))
-                    click = true
-                } else if (click == true) {
-                    Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show()
-                    savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
-                    click = false
-                }
+//                if (click == false) {
+//                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show()
+//                    savePost.setImageDrawable(resources.getDrawable(R.drawable.saved_post))
+//                    click = true
+//                } else if (click == true) {
+//                    Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show()
+//                    savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
+//                    click = false
+//                }
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
@@ -335,6 +333,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         androidextention.disMissProgressDialog(this)
         commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike
+        isSaved = response.result.isSave
         isFollow = response.result.isFollow
 //        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
         if (apiName.equals("PostDetails")) {
@@ -350,6 +349,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
                 commentcount.setText(response.result.commentCount.toString())
                 postid = response.result.postResult.userId._id.toString()
                 address.setText(response.result.postResult.address.toString())
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.otherUserId,postid)
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -367,6 +368,12 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
             } else if (LikeUnlike == false) {
                 video_post_like.setColorFilter(resources.getColor(R.color.white))
+            }
+
+            if (isSaved == true) {
+                savePost.setImageDrawable(resources.getDrawable(R.drawable.saved_post))
+            } else if (isSaved == false) {
+                savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
             }
 
             if (isFollow == true) {
@@ -402,6 +409,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         } else if (apiName.equals("LikeUnlike")) {
             postdetails()
         } else if (apiName.equals("FollowUnfollow")) {
+            postdetails()
+        }else if (apiName.equals("SaveUnsave")) {
             postdetails()
         }
     }
