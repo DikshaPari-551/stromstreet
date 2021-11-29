@@ -67,7 +67,7 @@ class Chat_Adaptor(
                 holder.followername.setText(list!!.get(position).senderId.fullName)
                 id=list!!.get(position).senderId._id
                 full_name=list!!.get(position).senderId.fullName
-                var filedata = list!!.get(position).receiverId.profilePic
+                var filedata = list!!.get(position).senderId.profilePic
 
                 if(filedata!=null)
                 {

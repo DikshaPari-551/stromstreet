@@ -127,8 +127,16 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
     }
 
     override fun customClick(data: Docss, type: String) {
-        try {
-            if (data.postId.mediaType.equals("IMAGE")) {
+
+        if (data.notificationType.equals("FOLLOW")) {
+            SavedPrefManager.saveStringPreferences(
+                mContext,
+                SavedPrefManager.otherUserId,
+                data.notificationBy._id
+            )
+            val intent = Intent(this, UserProfile::class.java)
+            startActivity(intent)
+        } else if (data.postId.mediaType.equals("IMAGE")) {
                 postid_(data);
                 if (data.notificationType.equals("LIKE_POST")) {
                     val intent = Intent(this, PostActivity::class.java)
@@ -146,24 +154,12 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
                     val intent = Intent(this, PostActivity2::class.java)
                     startActivity(intent)
                 }
-            } else if (data.notificationType.equals("FOLLOW")) {
-                postid_(data);
-                val intent = Intent(this, UserProfile::class.java)
-                startActivity(intent)
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
     }
 
     private fun postid_(data: Docss) {
         SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, data.postId._id)
-        SavedPrefManager.saveStringPreferences(
-            mContext,
-            SavedPrefManager.otherUserId,
-            data.notificationBy._id
-        )
+
     }
 
 //    override fun customClick(value: Docss, type: String) {

@@ -154,7 +154,7 @@ class ChatActivity : AppCompatActivity() {
             }
             if (intent.getStringExtra("profileimage") != null) {
                 profileimage = intent.getStringExtra("profileimage")!!
-                Glide.with(this).load(profileimage).into(userprofile);
+                Glide.with(this).load(profileimage).placeholder(R.drawable.circleprofile).into(userprofile);
             }
 
 

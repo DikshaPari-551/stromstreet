@@ -66,7 +66,6 @@ class ProfileChangeFragment : Fragment(), ClickListner {
     private var instagramLink: String? = ""
     private var youtubeLink: String? = ""
     private var userProfileLink: String? = ""
-    private var USER_IMAGE_UPLOADED: String? = ""
     private var imageType = ""
     lateinit var imageFile: File
     lateinit var serviceManager: ServiceManager
@@ -74,6 +73,9 @@ class ProfileChangeFragment : Fragment(), ClickListner {
     private val GALLERY = 1
     private var CAMERA: Int = 2
     lateinit var image: Uri
+    companion object{
+        private var USER_IMAGE_UPLOADED: String? = ""
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -296,6 +298,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     if (response.responseCode == "200") {
+                        USER_IMAGE_UPLOADED = "ture"
                         userProfileLink = response.result.mediaUrl
                         imageType = response.result.mediaType
 
@@ -362,7 +365,6 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                         if (path != null) {
                             imageFile = File(path)
                         }
-                        USER_IMAGE_UPLOADED = "ture"
                         uploadUserImageApi()
                     }
 
@@ -373,7 +375,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                     Glide.with(mContext).load(imageFile).into(userProfile)
 //                    userProfile.setImageURI(Uri.fromFile(imageFile))
                     bottomSheetDialog.dismiss()
-                    USER_IMAGE_UPLOADED = "ture"
+//                    USER_IMAGE_UPLOADED = "ture"
                     uploadUserImageApi()
                 }
             }

@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.bumptech.glide.Glide
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Activities.PostActivity2
 import com.example.myapplication.Activities.UserProfile
@@ -60,7 +61,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         // Log.d("NotificationTag", key + "____" + value)
                     }
                 }
-                getRemoteView(value,postid)
+                getRemoteView(value,postid,remoteMessage.data)
             }
         }
     }
@@ -83,7 +84,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     }
 
-    fun getRemoteView(value: Any?, postid: Any?) {
+    @SuppressLint("WrongConstant")
+    fun getRemoteView(value: Any?, postid: Any?, data: MutableMap<String, String>) {
 
         var intent: Intent? = null
         var pendingIntent: PendingIntent? = null
@@ -130,6 +132,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val notificationId: Int = SavedPrefManager.getIntPreferences(this, SavedPrefManager.NOTIFICATION_ID)
 
             val notification: Notification
+            val futureTarget = Glide.with(this)
+                .asBitmap()
+                .load(data!!["thumbnails"])
+                .submit()
+            val bitmap = futureTarget.get()
             if (Build.VERSION.SDK_INT >= 26) {
                 //This only needs to be run on Devices on Android O and above
                 val mNotificationManager =
@@ -144,15 +151,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 mChannel.enableLights(true)
                 mChannel.enableVibration(true)
                 mChannel.canShowBadge()
+
                 mChannel.setShowBadge(true)
                 mChannel.vibrationPattern = longArrayOf(0, 1000)
                 mNotificationManager.createNotificationChannel(mChannel)
                 notification = Notification.Builder(applicationContext, "YOUR_CHANNEL_ID")
-                    .setSmallIcon(R.drawable.splash_screen)
-                    .setContentTitle(getString(R.string.app_name))
+                    .setSmallIcon(R.drawable.notificationicon)
+                    .setContentTitle( data!!["title"])
+                    .setContentText(data!!["body"])
                     .setTicker(getString(R.string.app_name))
-                    .setLargeIcon(notifyImage)
-                    //.setContentText(fcmResponse.body)
+                    .setLargeIcon(bitmap)
+
                     .setAutoCancel(true) // .setLargeIcon(Bitmap.createScaledBitmap(notifyImage, 128, 128, false))
                     .setContentIntent(pendingIntent)
                     .setOngoing(false).build()
@@ -165,12 +174,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }
                         else {
                 val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.splash_screen)
+                    .setSmallIcon(R.drawable.notificationicon)
                     .setContentTitle(getString(R.string.app_name))
-                    .setLargeIcon(notifyImage)
-                   // .setContentText(fcmResponse.body)
-                   // .setStyle(NotificationCompat.BigTextStyle().bigText(fcmResponse.body)
-                 .setDefaults(Notification.DEFAULT_ALL)
+                    .setLargeIcon(bitmap)
+                    .setBadgeIconType(R.drawable.splash_screen)
+                    .setContentTitle( data!!["title"])
+                    .setContentText(data!!["body"])
+                   .setDefaults(Notification.DEFAULT_ALL)
                     .setPriority(NotificationManager.IMPORTANCE_HIGH)
                     .setAutoCancel(true)
                 notificationBuilder.setContentIntent(pendingIntent)
