@@ -8,7 +8,7 @@
         android:topLeftRadius="8dp"
         android:topRightRadius="8dp" />
 
-    <solid android:color="@color/reciver" />
+    <solid android:color="@color/orange" />
 
 
 </shape>
