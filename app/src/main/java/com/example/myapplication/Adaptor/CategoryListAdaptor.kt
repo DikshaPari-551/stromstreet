@@ -45,7 +45,7 @@ class CategoryListAdaptor(
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
         var radioButton = view.findViewById<RadioButton>(R.id.radio1)
-        var radioGroup = view.findViewById<RadioGroup>(R.id.group)
+
 
     }
 }

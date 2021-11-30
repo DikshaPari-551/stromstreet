@@ -280,5 +280,9 @@ class ServiceManager(var mContext: Context?) {
     ) {
         mContext?.let { Remotedatasource.current(it, true)!!.notification(page, limit) }!!.enqueue(callBack)
     }
+
+    fun getNotificationcount(callBack: ApiCallBack<LocalActivityResponse>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getNotificationCount() }!!.enqueue(callBack)
+    }
 }
 

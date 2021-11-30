@@ -93,7 +93,7 @@ class SplashActivity : AppCompatActivity() {
 //        startActivity(intent)
         AlertDialog.Builder(this)
             .setTitle("Permissions Needed")
-            .setMessage("This app needs Some permissions, Please accept all the permissions to use this application.")
+            .setMessage("This application needs some permissions, Please accept all the permissions to use this application.")
             .setPositiveButton(
                 "OK"
             ) { _, _ ->

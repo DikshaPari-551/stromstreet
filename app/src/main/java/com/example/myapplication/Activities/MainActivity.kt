@@ -30,7 +30,8 @@ import com.google.android.gms.location.LocationServices
 import java.io.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()
+{
     lateinit var menu: ImageView
     lateinit var bubble: ImageView
     lateinit var profile: ImageView
@@ -90,6 +91,7 @@ class MainActivity : AppCompatActivity() {
 
 
         menu.setOnClickListener {
+
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment())
                 .commit()
             profile.setColorFilter(resources.getColor(R.color.grey))

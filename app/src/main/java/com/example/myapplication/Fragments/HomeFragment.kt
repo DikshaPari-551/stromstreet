@@ -32,6 +32,7 @@ import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.entity.Response.LocalActivityResponse
+import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
@@ -66,8 +67,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var progress_bar: ProgressBar
     lateinit var internetConnection: LinearLayout
     lateinit var notificatio: RelativeLayout
-    lateinit var notificationCount: TextView
     lateinit var nestedScrollView: NestedScrollView
+    lateinit var totalnotif: TextView
+
     var list = ArrayList<Docss>()
     var getSearchText = ""
     var catId: String = ""
@@ -75,7 +77,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     var maxDis: Int = 0
     var page: Int = 1
     var pages: Int = 0
-    var limit : Int = 10
+    var limit: Int = 10
     var searchFlag = false
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,8 +105,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
         filter = v.findViewById(R.id.filter)
         notificatio = v.findViewById(R.id.notificatio_icon)
-        notificationCount = v.findViewById(R.id.notificationCount)
+        totalnotif = v.findViewById(R.id.totalNotification)
         locationpermission()
+
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -113,6 +116,15 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
+        if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                .equals("true"))
+        ) {
+            totalnotif.visibility = View.VISIBLE
+        }else{
+            totalnotif.visibility = View.GONE
+        }
+
+
         goButton.setOnClickListener {
             list.clear()
             searchFlag = true
@@ -120,13 +132,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             getLocalActivityApi()
         }
 
-
-        notificatio.setOnClickListener{
+        notificatio.setOnClickListener {
             if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true"))
             ) {
-            val intent = Intent(mContext, NotificationActivity::class.java)
-            startActivity(intent)
+                val intent = Intent(mContext, NotificationActivity::class.java)
+                startActivity(intent)
             } else {
                 val i = Intent(mContext, LoginActivity::class.java)
                 startActivity(i)
@@ -139,14 +150,14 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true"))
             ) {
-                if(androidextention.isOnline(mContext)) {
+                if (androidextention.isOnline(mContext)) {
                     getFragmentManager()?.beginTransaction()?.replace(
                         R.id.linear_layout,
                         ProfileFragment()
                     )
                         ?.commit()
-                }else{
-                    val intent = Intent(mContext,NoInternetActivity::class.java)
+                } else {
+                    val intent = Intent(mContext, NoInternetActivity::class.java)
                     startActivity(intent)
                 }
             } else {
@@ -200,16 +211,18 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                 ?.commit()
         }
 
-        nestedScrollView.setOnScrollChangeListener(object :  NestedScrollView.OnScrollChangeListener{
+        nestedScrollView.setOnScrollChangeListener(object :
+            NestedScrollView.OnScrollChangeListener {
             override fun onScrollChange(
-                v: NestedScrollView?,scrollX: Int,scrollY: Int,oldScrollX: Int,oldScrollY: Int) {
-                if(scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight){
+                v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int
+            ) {
+                if (scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight) {
 //                    val lastVisibleItemPosition: Int = layoutManager.findLastVisibleItemPosition()
 
                     page++
-                    progress_bar.visibility=View.VISIBLE
-                    if(page > pages) {
-                        progress_bar.visibility=View.GONE
+                    progress_bar.visibility = View.VISIBLE
+                    if (page > pages) {
+                        progress_bar.visibility = View.GONE
                     } else {
                         getLocalActivityApi()
                         androidextention.disMissProgressDialog(activity)
@@ -219,7 +232,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             }
         })
 
-        searchText.addTextChangedListener(object : TextWatcher{
+        searchText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -238,25 +251,21 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
 
         })
         return v
+        notificationCountapi()
     }
 
-    private fun address() {
-        val gcd = Geocoder(mContext, Locale.getDefault())
-        var addresses: List<Address>? = null
-        try {
-            addresses = gcd.getFromLocation(latitude!!, longitude!!, 1)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        if (addresses != null && addresses.size > 0) {
+    private fun notificationCountapi() {
+        if (androidextention.isOnline(mContext)) {
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<LocalActivityResponse> =
+                ApiCallBack<LocalActivityResponse>(this, "notificationCountapi", mContext)
             try {
-                locality = addresses[0].getLocality()
-//
-            } catch (e: NullPointerException) {
+                serviceManager.getNotificationcount(callBack)
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
-            println("locationlist" + locality)
         }
+
     }
 
     private fun getLocalActivityApi() {
@@ -272,19 +281,40 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             apiRequest.search = getSearchText
 
 //            try {
-                if (catId != null && !catId.equals("")) {
+            if (catId != null && !catId.equals("")) {
 
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
+                serviceManager.getLocalActivity(
+                    callBack,
+                    latitude,
+                    longitude,
+                    apiRequest,
+                    page.toString(),
+                    limit.toString()
+                )
 
-                } else if (getSearchText != null && !getSearchText.equals("")) {
+            } else if (getSearchText != null && !getSearchText.equals("")) {
 
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
+                serviceManager.getLocalActivity(
+                    callBack,
+                    latitude,
+                    longitude,
+                    apiRequest,
+                    page.toString(),
+                    limit.toString()
+                )
 
-                } else {
+            } else {
 
-                    serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest,page.toString(),limit.toString())
+                serviceManager.getLocalActivity(
+                    callBack,
+                    latitude,
+                    longitude,
+                    apiRequest,
+                    page.toString(),
+                    limit.toString()
+                )
 
-                }
+            }
 //            } catch (e: Exception) {
 //                e.printStackTrace()
 //            }
@@ -294,25 +324,42 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
-        progress_bar.visibility=View.GONE
+        progress_bar.visibility = View.GONE
         androidextention.disMissProgressDialog(activity)
         pages = response.result.pages
 
-        list.addAll(response.result.docs)
-        setAdapter(list)
+        try {
+            list.addAll(response.result.docs)
+            setAdapter(list)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        if (apiName.equals("notificationCountapi")) {
+            totalnotif.setText(response.result.notificationCount.toString())
+            if (response.result.notificationCount.equals(0)){
+                totalnotif.visibility = View.GONE
+            }else{
+                totalnotif.visibility = View.VISIBLE
+            }
+        }
 //        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
-        progress_bar.visibility=View.GONE
+        progress_bar.visibility = View.GONE
+if (apiName.equals("LocalActivity")){
+    Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
+}
+        else{
 
-        Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
-        progress_bar.visibility=View.GONE
+        progress_bar.visibility = View.GONE
 
         Toast.makeText(activity, "Something want wrong", Toast.LENGTH_LONG).show()
     }
@@ -324,18 +371,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         recycler_view1?.layoutManager = layoutManager
         recycler_view1?.adapter = adaptor
 
-//        recycler_view1.scrollToPosition(0)
-//         adaptor.notifyDataSetChanged()
-
-
-//        getData(page,limit)
     }
 
 
-
-
     override fun customClick(value: Docss, type: String) {
-//        USERID =   "61711c7ec473b124b7369219"
         USERID = value._id
         var lat = value.location.coordinates
         if (type.equals("profile")) {
@@ -389,6 +428,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
     override fun myScrollListener() {
-        TODO("Not yet implemented")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        notificationCountapi()
     }
 }

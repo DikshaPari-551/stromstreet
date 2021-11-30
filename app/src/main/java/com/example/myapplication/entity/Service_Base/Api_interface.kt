@@ -175,4 +175,6 @@ interface Api_interface {
         @Query("limit") limit: String?
     ): Call<LocalActivityResponse>?
 
+    @GET("user/notificationCount")
+    fun getNotificationCount(): Call<LocalActivityResponse>?
 }

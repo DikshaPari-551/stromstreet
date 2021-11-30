@@ -129,7 +129,7 @@
                             android:text="+"
                             android:textSize="35dp"
                             android:gravity="center"
-                            android:textColor="#D8D6D6"
+                            android:textColor="#FFA500"
                             />
                     </LinearLayout>
 
@@ -159,7 +159,7 @@
                             android:text="+"
                             android:textSize="35dp"
                             android:gravity="center"
-                            android:textColor="#D8D6D6"
+                            android:textColor="#FFA500"
                             />
                     </LinearLayout>
 

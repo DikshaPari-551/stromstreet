@@ -133,7 +133,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val notificationId: Int = SavedPrefManager.getIntPreferences(this, SavedPrefManager.NOTIFICATION_ID)
 
             val notification: Notification
-            val bitmap:Bitmap
+            var bitmap:Bitmap?=null
             if(data!!["thumbnails"]==null||data!!["thumbnails"].equals(""))
             {
                 val futureTarget = Glide.with(this)
@@ -141,7 +141,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     .load(R.mipmap.ic_launcher)
                     .placeholder(R.mipmap.ic_launcher)
                     .submit()
-                bitmap = futureTarget.get()
+                try {
+                    bitmap = futureTarget.get()
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
             }
             else
             {
@@ -150,7 +154,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     .load(data!!["thumbnails"])
                     .placeholder(R.mipmap.ic_launcher)
                     .submit()
-                bitmap = futureTarget.get()
+                try {
+                    bitmap = futureTarget.get()
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+
             }
 
 

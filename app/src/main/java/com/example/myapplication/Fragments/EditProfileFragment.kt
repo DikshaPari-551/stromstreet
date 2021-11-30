@@ -1,5 +1,6 @@
 package com.example.myapplication.Fragments
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -18,9 +19,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
-import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
-import okhttp3.ResponseBody
 import java.lang.Exception
 
 
@@ -66,6 +65,8 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         facebook = v.findViewById(R.id.facebook)
         instagram = v.findViewById(R.id.instagram)
         youtube = v.findViewById(R.id.youtube)
+        youtube = v.findViewById(R.id.youtube)
+        bio = v.findViewById(R.id.bio)
 
 
 
@@ -76,24 +77,20 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
 
         }
         twitter.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("$twitterlink")
-            startActivity(intent)
+            LINKDATA(twitterlink)
+
         }
         facebook.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("$facebooklink")
-            startActivity(intent)
+            LINKDATA(facebooklink)
+
         }
         instagram.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("$instalink")
-            startActivity(intent)
+            LINKDATA(instalink)
+
         }
         youtube.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("$youtubelink")
-            startActivity(intent)
+            LINKDATA(youtubelink)
+
         }
         backButton = v.findViewById(R.id.back_arrow_edit_profile)
         backButton.setOnClickListener {
@@ -126,6 +123,21 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         return v
     }
 
+    private fun LINKDATA(LINK: String)
+    {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW)
+
+            intent.data = Uri.parse("$LINK")
+            startActivity(intent)
+        }
+        catch (e: ActivityNotFoundException)
+        {
+           Toast.makeText(context,"Oops link not valid..",Toast.LENGTH_LONG)
+        }
+
+    }
+
     private fun profileApi() {
         val Token =
             SavedPrefManager.getStringPreferences(activity, SavedPrefManager.TOKEN).toString()
@@ -149,10 +161,14 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         phone_no.setText(response.result.userResult.phoneNumber)
         email_id.setText(response.result.userResult.email)
         bio.setText(response.result.userResult.bio)
-        twitterlink = response.result.socialLinks.twitter
-        facebooklink = response.result.socialLinks.facebook
-        instalink = response.result.socialLinks.instagram
-        youtubelink = response.result.socialLinks.youtube
+        try {
+            twitterlink = response.result.userResult.socialLinks.twitter
+            facebooklink = response.result.userResult.socialLinks.facebook
+            instalink = response.result.userResult.socialLinks.instagram
+            youtubelink = response.result.userResult.socialLinks.youtube
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
         Glide.with(mContext).load(response.result.userResult.profilePic)
             .placeholder(R.drawable.circleprofile).into(userProfile)
 

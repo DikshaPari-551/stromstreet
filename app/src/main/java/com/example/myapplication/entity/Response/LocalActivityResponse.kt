@@ -20,7 +20,9 @@ data class Resultt(
     @SerializedName("total") val total: Int,
     @SerializedName("limit") val limit: Int,
     @SerializedName("page") val page: Int,
-    @SerializedName("pages") val pages: Int
+    @SerializedName("pages") val pages: Int,
+    @SerializedName("notificationCount") val notificationCount: Int
+
 
 )
 

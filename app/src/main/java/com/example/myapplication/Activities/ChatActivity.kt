@@ -52,7 +52,7 @@ class ChatActivity : AppCompatActivity() {
     var profileimage:String=""
     var i=0;
     var  flag:Boolean=false
-    lateinit var timer:Timer
+     var timer:Timer= Timer()
     lateinit var adapter: Adapter
     private var hasConnection = false
     lateinit var socketInstance: SocketManager
@@ -117,7 +117,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun CHATTIMER() {
-        timer= Timer()
+
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 VIEWCHAT()
@@ -296,6 +296,7 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        timer.cancel()
         socketInstance.socket.disconnect()
 
         //socket!!.off("oneToOneChat", onNewMessage);
@@ -342,7 +343,7 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        timer.cancel()
+
     }
 }
 

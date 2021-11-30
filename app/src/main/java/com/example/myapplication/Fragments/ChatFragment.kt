@@ -30,7 +30,7 @@ class ChatFragment : Fragment() {
     var USERID_data: String=""
     lateinit var search:EditText
     private val datalist: java.util.ArrayList<Chalist> = java.util.ArrayList<Chalist>()
-    lateinit var adaptor:Chat_Adaptor
+     var adaptor:Chat_Adaptor? = null
     lateinit var socketInstance: SocketManager
     private var list: ArrayList<Chalist>? = null
 
@@ -101,7 +101,14 @@ class ChatFragment : Fragment() {
             }
 
         }
-        adaptor.filterList(filteredList)
+        try {
+            adaptor!!.filterList(filteredList)
+        }
+        catch (e:NullPointerException)
+        {
+
+        }
+
     }
 
     private fun SocketInitalize() {
