@@ -5,14 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.TrendingListAdaptor
 import com.example.myapplication.Exoplayer
@@ -27,7 +28,6 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
-import okhttp3.ResponseBody
 
 
 class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
@@ -50,6 +50,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     private var longitude: Double = 0.0
     lateinit var nestedScrollView: NestedScrollView
     lateinit var progress_bar: ProgressBar
+    lateinit var swipeRefresh: SwipeRefreshLayout
+    var progress:Boolean=true
 
     var list = ArrayList<Docss>()
     var searchValue = ""
@@ -78,6 +80,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         internetConnection = v.findViewById(R.id.no_wifi)
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
         progress_bar = v.findViewById(R.id.progress_bar)
+        swipeRefresh = v.findViewById(R.id.swipeRefresh)
 
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -98,7 +101,10 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             searchValue = searchText.text.toString()
             getTrendingPostApi()
         }
-
+        swipeRefresh.setOnRefreshListener {
+            refresh()
+            swipeRefresh.isRefreshing = false
+        }
 //        textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
 //        textLocalPostTrending.setOnClickListener{
 //            textLocalPostTrending.setTextColor(resources.getColor(R.color.orange))
@@ -198,8 +204,12 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     private fun getTrendingPostApi() {
         searchFlag = false
-        if (androidextention.isOnline(mContext)) {
+        if(progress)
+        {
             androidextention.showProgressDialog(mContext)
+        }
+        if (androidextention.isOnline(mContext)) {
+
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "LocalActivity", mContext)
@@ -274,6 +284,13 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             }
 
         }
+    }
+
+    fun refresh(){
+        progress=false
+        page = 1
+        list.clear()
+        getTrendingPostApi()
     }
 }
 

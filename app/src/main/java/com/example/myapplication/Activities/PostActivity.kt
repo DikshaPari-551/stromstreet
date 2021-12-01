@@ -55,6 +55,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     var shareLink: String = ""
     var VP_Position = 0
     var des = ""
+    var prgress:Boolean=true
     private lateinit var adapter: ImageSliderAdaptor
     var USERID: String = ""
     var postid: String = ""
@@ -172,6 +173,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
+
                 saveunsave()
 //                if (click == false) {
 //                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show()
@@ -262,7 +264,11 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     private fun postdetails() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+            if(prgress)
+            {
+                androidextention.showProgressDialog(this)
+            }
+
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "PostDetails", mContext)
@@ -286,7 +292,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         val Token =
             SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-//            androidextention.showProgressDialog(this)
+            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "SaveUnsave", mContext)
@@ -407,10 +413,13 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce> {
             }
 
         } else if (apiName.equals("LikeUnlike")) {
+            prgress=false
             postdetails()
         } else if (apiName.equals("FollowUnfollow")) {
+            prgress=false
             postdetails()
         }else if (apiName.equals("SaveUnsave")) {
+            prgress=false
             postdetails()
         }
     }

@@ -111,7 +111,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     private SimpleExoPlayer simpleExoPlayer;
     private PlayerView simpleExoPlayerView;
     private File myFile;
-    private boolean playWhenReady = true, isLiked, LikeUnlike = false, isFollow = false;
+    private boolean playWhenReady = true, isLiked, LikeUnlike = false, isFollow = false, isSaved= false;
     private boolean startAutoPlay;
     private String viedeourl = "";
     private String des = "";
@@ -249,16 +249,16 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                     .equals("true")
             ) {
                 saveunsave();
-                if (click == false) {
-                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show();
-                    savePost.setImageDrawable(getResources().getDrawable(R.drawable.saved_post));
-
-                    click = true;
-                } else if (click == true) {
-                    Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
-                    savePost.setImageDrawable(getResources().getDrawable(R.drawable.unsaved_post));
-                    click = false;
-                }
+//                if (click == false) {
+//                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show();
+//                    savePost.setImageDrawable(getResources().getDrawable(R.drawable.saved_post));
+//
+//                    click = true;
+//                } else if (click == true) {
+//                    Toast.makeText(this, "Post Unsaved", Toast.LENGTH_SHORT).show();
+//                    savePost.setImageDrawable(getResources().getDrawable(R.drawable.unsaved_post));
+//                    click = false;
+//                }
             } else {
                 Intent i = new Intent(this, LoginActivity.class);
                 startActivity(i);
@@ -373,6 +373,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         commentcount.setText(String.valueOf(response.result.getCommentCount()));
         LikeUnlike = response.result.isLike();
         isFollow = response.result.isFollow();
+        isSaved = response.result.isSave();
         if (apiName.equals("PostDetails")) {
             username.setText(response.result.getPostResult().getUserId().getUserName());
             des = response.result.getPostResult().getDescription();
@@ -386,6 +387,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             postid = response.result.getPostResult().getUserId().get_id();
             viedeourl = response.result.getPostResult().getVideoLink();
             address.setText(response.result.getPostResult().getAddress());
+            initPre23(response.result.getPostResult().getVideoLink());
             SavedPrefManager.Companion.saveStringPreferences(mContext, SavedPrefManager.otherUserId, postid);
 
             try {
@@ -394,25 +396,33 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             if (isFollow == true) {
                 follow.setText("Unfollow");
             } else if (isFollow == false) {
                 follow.setText("Follow");
             }
+
             if (LikeUnlike == true) {
                 video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartred));
             } else if (LikeUnlike == false) {
                 video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartwhite));
             }
 
-            initPre23(response.result.getPostResult().getVideoLink());
+            if (isSaved == true) {
+                savePost.setImageDrawable(getResources().getDrawable(R.drawable.saved_post));
+            } else if (isSaved == false) {
+                savePost.setImageDrawable(getResources().getDrawable(R.drawable.unsaved_post));
+            }
+
         } else if (apiName.equals("FollowUnfollow")) {
             postdetails();
-
-
         } else if (apiName.equals("LikeUnlike")) {
             postdetails();
+        } else if (apiName.equals("SaveUnsave")) {
+            postdetails();
         }
+
     }
 
 

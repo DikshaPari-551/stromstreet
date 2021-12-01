@@ -8,6 +8,7 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.location.Address
 import android.location.Geocoder
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -80,7 +81,7 @@ class AddPostFragment() : Fragment(), ClickListner {
     var locality: String = ""
     var bitmap: Bitmap? = null
 
-//    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
+    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
 
 
     companion object {
@@ -610,38 +611,42 @@ class AddPostFragment() : Fragment(), ClickListner {
                             )
                         )
                     }
-//                    else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
-//                        try {
-//                            imageUri = data?.data!!
-//                            val path = getPathFromURI(imageUri)
-//                            if (path != null) {
-//                                imageFile = File(path)
-//                            }
-//                            bitmap = ThumbnailUtils.createVideoThumbnail(
-//                                imageFile.absolutePath,
-//                                MediaStore.Video.Thumbnails.MINI_KIND
-//                            )
+                    else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+                        try {
+                            imageUri = data?.data!!
+                            val path = getPathFromURI(imageUri)
+                            if (path != null) {
+                                imageFile = File(path)
+                            }
+                            bitmap = ThumbnailUtils.createVideoThumbnail(
+                                imageFile.absolutePath,
+                                MediaStore.Video.Thumbnails.MINI_KIND
+                            )
+                            Glide.with(mContext).load(bitmap).into(galleryData1);
+                            galleryData1.visibility = View.VISIBLE
+                            addImageOne.visibility = View.GONE
+                            addImageTwo.visibility = View.GONE
+                            addImageThree.visibility = View.GONE
 //                            galleryData1.setImageBitmap(bitmap)
-//                            bottomSheetDialog.dismiss()
-//
-//
-//                            var requestGalleryImageFile: RequestBody =
-//                                RequestBody.create(
-//                                    "video/*".toMediaTypeOrNull(),
-//                                    imageFile
-//                                )
-//                            imageparts.add(
-//                                MultipartBody.Part.createFormData(
-//                                    "video",
-//                                    imageFile.getName(),
-//                                    requestGalleryImageFile
-//                                )
-//                            )
-//                        }catch (e : Exception) {
-//                            e.printStackTrace()
-//                        }
-//
-//                    }
+                            bottomSheetDialog.dismiss()
+
+
+                            var requestGalleryImageFile: RequestBody =
+                                RequestBody.create(
+                                    "video/*".toMediaTypeOrNull(),
+                                    imageFile
+                                )
+                            imageparts.add(
+                                MultipartBody.Part.createFormData(
+                                    "video",
+                                    imageFile.getName(),
+                                    requestGalleryImageFile
+                                )
+                            )
+                        }catch (e : Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

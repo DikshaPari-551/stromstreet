@@ -59,7 +59,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     lateinit var commentvalue: String
     lateinit var commentLayout: RelativeLayout
     var shareImageLinks = ArrayList<String>()
-
+    var prgress:Boolean=true
     private lateinit var adapter2: CommentImageSliderAdaptor
 
     //multiimage view
@@ -236,6 +236,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     private fun followunfollow() {
+        androidextention.showProgressDialog(this)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -249,6 +250,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     private fun likeunlike() {
+        androidextention.showProgressDialog(this)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -271,7 +273,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 
     private fun postdetails() {
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+            if(prgress)
+            {
+                androidextention.showProgressDialog(this)
+            }
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "PostDetails", mContext)
@@ -320,6 +325,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+
         if (apiName.equals("PostDetails")) {
             try {
                 username.setText(response.result.postResult.userId.userName.toString())
@@ -330,11 +336,15 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 postid = response.result.postResult.userId._id.toString()
                 address.setText(response.result.postResult.address.toString())
                 mediatype = response.result.postResult.mediaType
-
+                isFollow = response.result.isFollow
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
+            if (isFollow == true) {
+                follow1.setText("Unfollow")
+            } else if (isFollow == false) {
+                follow1.setText("Follow")
+            }
 
             LikeUnlike = response.result.isLike
             try {
@@ -400,6 +410,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             } else if (LikeUnlike == false) {
                 video_post_like.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
             }
+            prgress=false
             postdetails()
         }
         if (apiName.equals("Comment")) {
@@ -409,14 +420,21 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             Commentlist()
             commentLayout.visibility = View.VISIBLE
         }
-        isFollow = response.result.isFollow
-        if (apiName.equals("PostDetails")) {
-            if (isFollow == true) {
-                follow1.setText("Unfollow")
-            } else if (isFollow == false) {
-                follow1.setText("Follow")
-            }
+
+
+        else if (apiName.equals("FollowUnfollow")) {
+            prgress=false
+            postdetails()
         }
+
+//        isFollow = response.result.isFollow
+//        if (apiName.equals("PostDetails")) {
+//            if (isFollow == true) {
+//                follow1.setText("Unfollow")
+//            } else if (isFollow == false) {
+//                follow1.setText("Follow")
+//            }
+//        }
 
         if (apiName.equals("Commentlist")) {
             var postCommentList = ArrayList<CommentList>()

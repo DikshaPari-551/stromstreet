@@ -6,16 +6,17 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.LocationServices
+
 
 class SplashActivity : AppCompatActivity() {
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
@@ -44,22 +45,30 @@ class SplashActivity : AppCompatActivity() {
 //            startActivity(intent)
 //            finish()
 //        }, 3000) // 3000    // is the delayed time in milliseconds.
-
+//        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+//
+//            // If you do not have permission, request it
+//            ActivityCompat.requestPermissions(this as Activity,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQ_CODE)
+//        } else {
+//            // Launch the camera if the permission exists
+//            Handler().postDelayed({
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            }, 3000)
+//        }
 
     }
 
     private fun locationpermission() {
 
         // checking location permission
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // request permission
-            ActivityCompat.requestPermissions(this as Activity,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQ_CODE);
-//            locationpermission()
-            if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ifdenaye()
-            }
-        } else {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
 
+            // If you do not have permission, request it
+            ActivityCompat.requestPermissions(this as Activity,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQ_CODE)
+        } else {
+            // Launch the camera if the permission exists
             Handler().postDelayed({
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
@@ -80,13 +89,37 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(
-                    this, "Failed on getting current location",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+                 }
 
     }
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        // Called when you request permission to read and write to external storage
+        when (requestCode) {
+            LOCATION_PERMISSION_REQ_CODE -> {
+                if (grantResults.size > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    // If you get permission, launch the camera
+                    Handler().postDelayed({
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }, 3000)
+                } else {
+                    // If you do not get permission, show a Toast
+//                    Toast.makeText(
+//                        this, "Permission Denied",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                    ifdenaye()
+                }
+            }
+        }
+    }
+
 
     private fun ifdenaye() {
 //        val intent = Intent(this, LocationDeny::class.java)
@@ -98,7 +131,8 @@ class SplashActivity : AppCompatActivity() {
                 "OK"
             ) { _, _ ->
                 //Prompt the user once explanation has been shown
-                locationpermission()
+//                locationpermission()
+                System.exit(0)
             }
             .create()
             .show()

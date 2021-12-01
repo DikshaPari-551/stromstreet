@@ -13,6 +13,7 @@ import android.widget.*
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.FollowingListAdaptor
 import com.example.myapplication.LoginActivity
@@ -46,6 +47,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     lateinit var progress_bar: ProgressBar
     lateinit var internetConnection: LinearLayout
     lateinit var nestedScrollView: NestedScrollView
+    lateinit var swipeRefresh: SwipeRefreshLayout
+    var progress:Boolean=true
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     var list = ArrayList<Docss>()
@@ -74,7 +77,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         userTrendingImg=v.findViewById(R.id.user_treanding_img)
         progress_bar = v.findViewById(R.id.progress_bar)
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
-
+        swipeRefresh = v.findViewById(R.id.swipeRefresh)
+        textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -88,16 +92,18 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
             list.clear()
             searchValue = searchText.text.toString()
             getFollowingApi()
-
         }
         getFollowingApi()
 
         trandingBackButton.setOnClickListener{
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, TrendingFragment())?.commit()
-
+        }
+        swipeRefresh.setOnRefreshListener {
+            refresh()
+            swipeRefresh.isRefreshing = false
         }
 
-        textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
+
         textLocalPostTrending.setOnClickListener{
             fragmentManager?.beginTransaction()?.replace(R.id.linear_layout, HomeFragment())
                 ?.commit()
@@ -188,8 +194,12 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
     private fun getFollowingApi() {
         searchFlag = false
-        if (androidextention.isOnline(mContext)) {
+        if(progress)
+        {
             androidextention.showProgressDialog(mContext)
+        }
+        if (androidextention.isOnline(mContext)) {
+
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "FollowingActivity", mContext)
@@ -250,6 +260,12 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
             SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
             startActivity(intent)
         }
+    }
+    fun refresh(){
+        progress=false
+        page = 1
+        list.clear()
+        getFollowingApi()
     }
 }
 

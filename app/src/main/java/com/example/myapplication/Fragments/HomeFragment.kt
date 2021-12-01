@@ -19,6 +19,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.Activities.NoInternetActivity
 import com.example.myapplication.Activities.NotificationActivity
 import com.example.myapplication.Activities.PostActivity
@@ -69,7 +70,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     lateinit var notificatio: RelativeLayout
     lateinit var nestedScrollView: NestedScrollView
     lateinit var totalnotif: TextView
-
+    lateinit var swipeRefresh: SwipeRefreshLayout
+    var progress:Boolean=true
     var list = ArrayList<Docss>()
     var getSearchText = ""
     var catId: String = ""
@@ -106,6 +108,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
         filter = v.findViewById(R.id.filter)
         notificatio = v.findViewById(R.id.notificatio_icon)
         totalnotif = v.findViewById(R.id.totalNotification)
+        swipeRefresh = v.findViewById(R.id.swipeRefresh)
         locationpermission()
 
         try {
@@ -144,6 +147,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
             }
 
         }
+
+        swipeRefresh.setOnRefreshListener {
+            refresh()
+            swipeRefresh.isRefreshing = false
+        }
+
 
 
         man.setOnClickListener {
@@ -269,9 +278,13 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     }
 
     private fun getLocalActivityApi() {
+        if(progress)
+        {
+            androidextention.showProgressDialog(activity)
+        }
         searchFlag = false
         if (androidextention.isOnline(mContext)) {
-            androidextention.showProgressDialog(mContext)
+
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "LocalActivity", mContext)
@@ -433,5 +446,11 @@ if (apiName.equals("LocalActivity")){
     override fun onResume() {
         super.onResume()
         notificationCountapi()
+    }
+     fun refresh(){
+         progress=false
+         page = 1
+         list.clear()
+         getLocalActivityApi()
     }
 }
