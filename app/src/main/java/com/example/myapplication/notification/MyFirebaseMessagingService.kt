@@ -50,8 +50,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         Log.d("NotificationTag", key + "____" + value)
                     }
                     if (key.equals("postId")) {
-                        postid =
-                            remoteMessage.data!![key] // value will represend your message body... Enjoy It
+                        postid = remoteMessage.data!![key] // value will represend your message body... Enjoy It
                         SavedPrefManager.saveStringPreferences(baseContext, SavedPrefManager._id, postid.toString())
                         // Log.d("NotificationTag", key + "____" + value)
                     }

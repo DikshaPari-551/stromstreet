@@ -106,6 +106,9 @@ interface Api_interface {
     @GET("user/getPost")
     fun postDetails(@Query("postId") postId: String): Call<Responce>?
 
+    @DELETE("user/deletePost")
+    fun deletePost(@Query("_id")_id : String): Call<Responce>?
+
     @POST("user/uploadMedia")
     fun uploadMedia(@Part image: MultipartBody.Part): Call<Responce>?
 

@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
@@ -27,9 +26,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class bottomSheetDialog(
-    var flag: String,
-    var myClickListner: ClickListner
+class bottomSheetDialog(var flag: String, var myClickListner: ClickListner
 ) :
     BottomSheetDialogFragment() {
     var pic_id = 123
@@ -107,13 +104,13 @@ class bottomSheetDialog(
         }
 
         captureVideo.setOnClickListener{
-            if(captureVideoCount > 0) {
-                Toast.makeText(
-                    mContext,
-                    "You not captured more than 1 video!!",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
+//            if(captureVideoCount > 0) {
+//                Toast.makeText(
+//                    mContext,
+//                    "You not captured more than 1 video!!",
+//                    Toast.LENGTH_LONG
+//                ).show()
+//            } else {
                 val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
                 if (takeVideoIntent.resolveActivity(activity!!.packageManager) != null) {
                     startActivityForResult(
@@ -123,7 +120,7 @@ class bottomSheetDialog(
                     captureVideoCount++
                 }
             }
-        }
+//        }
         return v
     }
 

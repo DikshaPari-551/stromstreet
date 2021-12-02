@@ -3,13 +3,15 @@ package com.example.myapplication.Activities
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.myapplication.MainActivity
@@ -63,10 +65,18 @@ class SplashActivity : AppCompatActivity() {
     private fun locationpermission() {
 
         // checking location permission
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
             // If you do not have permission, request it
-            ActivityCompat.requestPermissions(this as Activity,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQ_CODE)
+            ActivityCompat.requestPermissions(
+                this as Activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQ_CODE
+            )
         } else {
             // Launch the camera if the permission exists
             Handler().postDelayed({
@@ -82,16 +92,21 @@ class SplashActivity : AppCompatActivity() {
                 try {
                     var latitude = location.latitude
                     var longitude = location.longitude
+//                    val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//                    val locatiodata: Location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+//                    val longitudenew : Double = locatiodata.getLongitude()
+//                    val latitudenew: Double = locatiodata.getLatitude()
                     SavedPrefManager.setLatitudeLocation(latitude)
                     SavedPrefManager.setLongitudeLocation(longitude)
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
             .addOnFailureListener {
-                 }
-
+            }
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String?>,
         grantResults: IntArray

@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.Activities.PostActivity;
 import com.example.myapplication.Activities.PostActivity2;
 import com.example.myapplication.Activities.UserProfile;
+import com.example.myapplication.BottomSheets.BottomSheetOptions;
+import com.example.myapplication.customclickListner.ClickListnerDelete;
 import com.example.myapplication.customclickListner.IPlayer;
 import com.example.myapplication.customclickListner.IPlayerUI;
 import com.example.myapplication.customclickListner.PlayerImp;
@@ -79,7 +81,7 @@ import java.io.File;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 
-public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTouchListener,
+public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTouchListener, ClickListnerDelete,
         OnClickListener, ExoPlayer.EventListener, PlaybackPreparer, SimpleExoPlayer.VideoListener, IPlayerUI, PlaybackControlView.VisibilityListener, ApiResponseListener<Responce> {
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -93,8 +95,6 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     public static final String URI_LIST_EXTRA = "uri_list";
     public static final String EXTENSION_LIST_EXTRA = "extension_list";
     private DefaultTrackSelector.Parameters trackSelectorParameters;
-
-
     private IPlayer player = new PlayerImp(this);
 
     private View rootView;
@@ -115,11 +115,12 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     private boolean startAutoPlay;
     private String viedeourl = "";
     private String des = "";
+    private String USERID_data = "";
 
     private LinearLayout llComment, llShare, llDownload, bottomlayout;
     private TextView tvPostLike, tvPostComment, tvPostShare, tvPostViews, tvPostUserName, tvUserImageNull, tvDPostTime, txtDiscription;
 
-    private ImageView ivHeart, ivPostDownloads, ivPostComment, ivPostShare, ivPostProfilePic, setting;
+    private ImageView ivHeart, ivPostDownloads, ivPostComment, ivPostShare, ivPostProfilePic, setting,three_dots;
     private int currentWindow = 0;
     private long playbackPosition = 0;
     private int startWindow;
@@ -155,10 +156,8 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         notifyPost = findViewById(R.id.notify_post);
         follow = findViewById(R.id.follow);
         address = findViewById(R.id.address);
-
         more = findViewById(R.id.more);
         simpleExoPlayerView = findViewById(R.id.player_view);
-
         username = findViewById(R.id.username);
         layoutMore = findViewById(R.id.text_more);
         limitTextMore = findViewById(R.id.limit_text_more);
@@ -166,11 +165,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         totalLike = findViewById(R.id.totalLike);
         commentcount = findViewById(R.id.commentcount);
         internetConnection = findViewById(R.id.no_wifi);
-
         simpleExoPlayerView = findViewById(R.id.player_view);
-
+        three_dots = findViewById(R.id.three_dots);
         spinnerSpeeds = ((Spinner) findViewById(R.id.spinner_speeds));
-
         rootView.setOnTouchListener(this);
         rootView.setOnKeyListener(this);
         if (!checkMyPermission(this))
@@ -179,11 +176,9 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         //   myFile = new File(Environment.getExternalStorageDirectory(), "videoplayback.mp4");
         video = String.valueOf(Uri.fromFile(myFile));
         backPostButton.setOnClickListener(v -> {
-//
             finish();
-
         });
-
+        USERID_data = SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.USERID).toString();
 
         comment = findViewById(R.id.comment);
         comment.setOnClickListener(v -> {
@@ -204,7 +199,13 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             more.setText("");
         });
 
-
+        if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                .equals("true")
+        ) {
+            three_dots.setVisibility(View.VISIBLE);
+        } else {
+            three_dots.setVisibility(View.GONE);
+        }
         video_post_like.setOnClickListener(v -> {
 
             if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
@@ -304,6 +305,10 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 startActivity(i);
             }
         });
+        three_dots.setOnClickListener(v -> {
+            BottomSheetOptions bottomSheet = new BottomSheetOptions(this);
+            bottomSheet.show(getSupportFragmentManager(),"");
+        });
 
 
         debugRootView = (LinearLayout) findViewById(R.id.controls_root);
@@ -368,26 +373,42 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         }
     }
 
+    private void deletepostapi() {
+        ServiceManager serviceManager = new ServiceManager(mContext);
+        ApiCallBack<Responce> callBack = new ApiCallBack<Responce>(this, "DeletePost", mContext);
+        try {
+            serviceManager.deletepost(callBack, USERID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onApiSuccess(Responce response, @Nullable String apiName) {
         commentcount.setText(String.valueOf(response.result.getCommentCount()));
         LikeUnlike = response.result.isLike();
         isFollow = response.result.isFollow();
         isSaved = response.result.isSave();
+
         if (apiName.equals("PostDetails")) {
             username.setText(response.result.getPostResult().getUserId().getUserName());
             des = response.result.getPostResult().getDescription();
             if(des.length() > 70) {
                 more.setVisibility(View.VISIBLE);
             }
-            limitTextMore.setText(response.result.getPostResult().getDescription());
-            eventType.setText(response.result.getPostResult().getCategoryId().getCategoryName().toString());
-            totalLike.setText(String.valueOf(response.result.getLikeCount()));
-            commentcount.setText(String.valueOf(response.result.getCommentCount()));
-            postid = response.result.getPostResult().getUserId().get_id();
-            viedeourl = response.result.getPostResult().getVideoLink();
-            address.setText(response.result.getPostResult().getAddress());
-            initPre23(response.result.getPostResult().getVideoLink());
+            try {
+                limitTextMore.setText(response.result.getPostResult().getDescription());
+                eventType.setText(response.result.getPostResult().getCategoryId().getCategoryName().toString());
+                totalLike.setText(String.valueOf(response.result.getLikeCount()));
+                commentcount.setText(String.valueOf(response.result.getCommentCount()));
+                postid = response.result.getPostResult().getUserId().get_id();
+                viedeourl = response.result.getPostResult().getVideoLink();
+                address.setText(response.result.getPostResult().getAddress());
+                initPre23(response.result.getPostResult().getVideoLink());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             SavedPrefManager.Companion.saveStringPreferences(mContext, SavedPrefManager.otherUserId, postid);
 
             try {
@@ -421,6 +442,12 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             postdetails();
         } else if (apiName.equals("SaveUnsave")) {
             postdetails();
+        }else if (apiName.equals("DeletePost")) {
+            finish();
+        } if (postid == USERID_data){
+            three_dots.setVisibility(View.VISIBLE);
+        }else {
+            three_dots.setVisibility(View.GONE);
         }
 
     }
@@ -791,6 +818,11 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     public void preparePlayback() {
         simpleExoPlayer.retry();
 
+    }
+
+    @Override
+    public void deletePost() {
+        deletepostapi();
     }
 
 

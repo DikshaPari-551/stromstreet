@@ -1,12 +1,11 @@
 package com.example.myapplication.Fragments
 
 import android.Manifest
+import android.R.attr
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -27,25 +26,24 @@ import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
-import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.CustomClickListnerdelete
 import com.example.myapplication.customclickListner.ScrollListener
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.entity.Response.LocalActivityResponse
-import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import okhttp3.ResponseBody
-import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
-class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, CustomClickListner2,
+
+class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
+    CustomClickListnerdelete,
     ScrollListener {
     lateinit var mContext: Context
     private val LOCATION_PERMISSION_REQ_CODE = 1000;
@@ -387,21 +385,7 @@ if (apiName.equals("LocalActivity")){
     }
 
 
-    override fun customClick(value: Docss, type: String) {
-        USERID = value._id
-        var lat = value.location.coordinates
-        if (type.equals("profile")) {
-            if (value.mediaType.toLowerCase().equals("video")) {
-                var intent = Intent(mContext, Exoplayer::class.java)
-                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
-            } else {
-                var intent = Intent(mContext, PostActivity::class.java)
-                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
-            }
-        }
-    }
+
 
     private fun locationpermission() {
         // checking location permission
@@ -446,11 +430,44 @@ if (apiName.equals("LocalActivity")){
     override fun onResume() {
         super.onResume()
         notificationCountapi()
+       // refresh()
     }
      fun refresh(){
          progress=false
          page = 1
          list.clear()
          getLocalActivityApi()
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode === Activity.RESULT_OK) {
+            val result: String = data!!.getStringExtra("result")
+            System.out.println(result)
+        }
+
+    }
+//    protected fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//    } //onActivityResult
+
+
+    override fun customClick(value: Docss, type: String, i: Int) {
+        USERID = value._id
+        var lat = value.location.coordinates
+        if (type.equals("profile")) {
+            if (value.mediaType.toLowerCase().equals("video")) {
+                var intent = Intent(mContext, Exoplayer::class.java)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+            } else {
+                var intent = Intent(mContext, PostActivity::class.java)
+                intent.putExtra("postion",i.toString())
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                startActivity(intent)
+            }
+        }
     }
 }

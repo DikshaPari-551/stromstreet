@@ -169,6 +169,10 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.postDetails(postId) }!!
             .enqueue(callBack)
     }
+    fun deletepost(callBack: ApiCallBack<Responce>, _id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.deletePost(_id) }!!
+            .enqueue(callBack)
+    }
 
     fun getLocalActivity(
         callBack: ApiCallBack<LocalActivityResponse>,

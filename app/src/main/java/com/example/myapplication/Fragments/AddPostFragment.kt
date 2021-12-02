@@ -36,7 +36,6 @@ import com.example.myapplication.util.SavedPrefManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -295,7 +294,7 @@ class AddPostFragment() : Fragment(), ClickListner {
                     androidextention.disMissProgressDialog(activity)
                     Toast.makeText(
                         mContext,
-                        "error response" + response.toString(),
+                        "Image or Video size is large. Size should be less then 30 MB. " + response.toString(),
                         Toast.LENGTH_LONG
                     ).show()
                 }

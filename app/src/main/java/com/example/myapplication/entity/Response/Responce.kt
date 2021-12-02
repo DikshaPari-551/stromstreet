@@ -71,7 +71,15 @@ data class Result(
     @SerializedName("isFollow") val isFollow : Boolean,
     @SerializedName("commentList") val commentList : List<CommentList>,
     @SerializedName("messages") val messages : ArrayList<Messages>,
-    @SerializedName("mediaResult") val mediaResult : List<MediaResult>
+    @SerializedName("mediaResult") val mediaResult : List<MediaResult>,
+    @SerializedName("location") val location : Location,
+    @SerializedName("imageLinks") val imageLinks : List<String>,
+    @SerializedName("thumbNail") val thumbNail : String,
+    @SerializedName("shareCount") val shareCount : Int,
+    @SerializedName("videoLink") val videoLink : String,
+    @SerializedName("address") val address : String,
+    @SerializedName("categoryId") val categoryId : String
+
 )
 
 data class Replies (
