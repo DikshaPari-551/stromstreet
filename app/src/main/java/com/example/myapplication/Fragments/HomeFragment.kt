@@ -74,6 +74,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     var getSearchText = ""
     var catId: String = ""
     var locality: String = ""
+    var result: String =""
+
     var maxDis: Int = 0
     var page: Int = 1
     var pages: Int = 0
@@ -347,7 +349,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         }
         if (apiName.equals("notificationCountapi")) {
             totalnotif.setText(response.result.notificationCount.toString())
-            if (response.result.notificationCount.equals(0)){
+            if (response.result.notificationCount == 0){
                 totalnotif.visibility = View.GONE
             }else{
                 totalnotif.visibility = View.VISIBLE
@@ -430,7 +432,7 @@ if (apiName.equals("LocalActivity")){
     override fun onResume() {
         super.onResume()
         notificationCountapi()
-       // refresh()
+
     }
      fun refresh(){
          progress=false
@@ -442,31 +444,31 @@ if (apiName.equals("LocalActivity")){
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode === Activity.RESULT_OK) {
-            val result: String = data!!.getStringExtra("result")
-            System.out.println(result)
+        if (requestCode == 1){
+            if (resultCode == Activity.RESULT_OK) {
+                 result = data!!.getStringExtra("result")
+                System.out.println("postposition"+result)
+                list!!.removeAt(result.toInt());
+                adaptor.notifyItemRemoved(result.toInt());
+                adaptor.notifyItemRangeChanged(result.toInt(), list.size)
+            }
         }
-
     }
-//    protected fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//    } //onActivityResult
-
 
     override fun customClick(value: Docss, type: String, i: Int) {
         USERID = value._id
         var lat = value.location.coordinates
         if (type.equals("profile")) {
             if (value.mediaType.toLowerCase().equals("video")) {
-                var intent = Intent(mContext, Exoplayer::class.java)
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
+                var intent = Intent(mContext, Exoplayer::class.java)
+                intent.putExtra("postion",i.toString())
+                startActivityForResult(intent,1)
             } else {
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 var intent = Intent(mContext, PostActivity::class.java)
                 intent.putExtra("postion",i.toString())
-                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
+                startActivityForResult(intent,1)
             }
         }
     }

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.Fragments.TrendingFragment
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.CustomClickListnerdelete
 import com.example.myapplication.entity.Response.Docss
 
 
@@ -19,7 +20,7 @@ class TrendingListAdaptor(
 
     var context: TrendingFragment,
     var list: ArrayList<Docss>,
-    var listener: CustomClickListner2
+    var listener: CustomClickListnerdelete
 
 ) : RecyclerView.Adapter<TrendingListAdaptor.MyViewHolder>()
 {
@@ -75,7 +76,7 @@ class TrendingListAdaptor(
 
         holder.mainlayout.setOnClickListener {
 
-            listener.customClick(list.get(position),"profile")
+            listener.customClick(list.get(position),"profile",position)
         }
     }
 

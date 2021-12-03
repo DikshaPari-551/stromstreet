@@ -77,6 +77,7 @@ import com.google.android.exoplayer2.util.Util;
 
 
 import java.io.File;
+import java.io.Serializable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -116,6 +117,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     private String viedeourl = "";
     private String des = "";
     private String USERID_data = "";
+    private String position = "";
 
     private LinearLayout llComment, llShare, llDownload, bottomlayout;
     private TextView tvPostLike, tvPostComment, tvPostShare, tvPostViews, tvPostUserName, tvUserImageNull, tvDPostTime, txtDiscription;
@@ -178,7 +180,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         backPostButton.setOnClickListener(v -> {
             finish();
         });
-        USERID_data = SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.USERID).toString();
+        getINent();
 
         comment = findViewById(R.id.comment);
         comment.setOnClickListener(v -> {
@@ -327,6 +329,11 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
     }
 
+    private void getINent() {
+        USERID_data = SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.USERID).toString();
+        position=getIntent().getStringExtra("postion");
+    }
+
     private void saveunsave() {
         ServiceManager serviceManager = new ServiceManager(mContext);
         ApiCallBack<Responce> callBack = new ApiCallBack<Responce>(this, "SaveUnsave", mContext);
@@ -408,7 +415,11 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            if (postid.equals(USERID_data)){
+                three_dots.setVisibility(View.VISIBLE);
+            }else {
+                three_dots.setVisibility(View.GONE);
+            }
             SavedPrefManager.Companion.saveStringPreferences(mContext, SavedPrefManager.otherUserId, postid);
 
             try {
@@ -443,13 +454,11 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         } else if (apiName.equals("SaveUnsave")) {
             postdetails();
         }else if (apiName.equals("DeletePost")) {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", (Serializable) position);
+            setResult(RESULT_OK, returnIntent);
             finish();
-        } if (postid == USERID_data){
-            three_dots.setVisibility(View.VISIBLE);
-        }else {
-            three_dots.setVisibility(View.GONE);
         }
-
     }
 
 
@@ -680,7 +689,6 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
     @Override
     public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
     }
 
     @Override

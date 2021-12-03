@@ -109,13 +109,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
         layoutMore.visibility = View.GONE
         USERID_data = SavedPrefManager.getStringPreferences(this, SavedPrefManager.USERID).toString()
 
-        if ((SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
-                .equals("true"))
-        ) {
-                       three_dots.visibility = View.VISIBLE
-        }else{
-            three_dots.visibility = View.GONE
-        }
+
         getINent()
         postdetails()
         val callback: OnPageChangeCallback = object : OnPageChangeCallback() {
@@ -440,6 +434,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
         } else if (apiName.equals("LikeUnlike")) {
             prgress = false
             postdetails()
+
         } else if (apiName.equals("FollowUnfollow")) {
             prgress = false
             postdetails()
@@ -452,11 +447,18 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
             setResult(RESULT_OK, returnIntent)
             finish()
         }
-        if (postid == USERID_data){
-            three_dots.visibility = View.VISIBLE
-        }else {
+        if ((SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                .equals("true"))
+        ) {
+            if (postid == USERID_data){
+                three_dots.visibility = View.VISIBLE
+            }else {
+                three_dots.visibility = View.GONE
+            }
+        }else{
             three_dots.visibility = View.GONE
         }
+
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {

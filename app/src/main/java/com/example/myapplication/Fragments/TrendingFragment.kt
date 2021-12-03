@@ -1,5 +1,6 @@
 package com.example.myapplication.Fragments
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.CustomClickListnerdelete
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docss
@@ -31,7 +33,7 @@ import com.example.myapplication.util.SavedPrefManager
 
 
 class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
-    CustomClickListner2 {
+    CustomClickListnerdelete {
     lateinit var mContext: Context
     lateinit var adaptor: TrendingListAdaptor
     lateinit var USERID: String
@@ -52,6 +54,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var progress_bar: ProgressBar
     lateinit var swipeRefresh: SwipeRefreshLayout
     var progress:Boolean=true
+    var result: String =""
 
     var list = ArrayList<Docss>()
     var searchValue = ""
@@ -270,28 +273,60 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         adaptor.notifyDataSetChanged()
     }
 
-    override fun customClick(value: Docss, type: String) {
+    override fun customClick(value: Docss, type: String, i: Int) {
         USERID = value._id
         if (type.equals("profile")) {
             if (value.mediaType.toLowerCase().equals("video")) {
                 var intent = Intent(mContext, Exoplayer::class.java)
+                intent.putExtra("postion",i.toString())
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
+                startActivityForResult(intent,1)
             } else {
                 var intent = Intent(mContext, PostActivity::class.java)
+                intent.putExtra("postion",i.toString())
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
+                startActivityForResult(intent,1)
             }
 
         }
     }
-
+//    override fun customClick(value: Docss, type: String) {
+//        USERID = value._id
+//        if (type.equals("profile")) {
+//            if (value.mediaType.toLowerCase().equals("video")) {
+//                var intent = Intent(mContext, Exoplayer::class.java)
+//                intent.putExtra("postion",i.toString())
+//                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//                startActivityForResult(intent,1)
+//            } else {
+//                var intent = Intent(mContext, PostActivity::class.java)
+//                intent.putExtra("postion",i.toString())
+//                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//                startActivityForResult(intent,1)
+//            }
+//
+//        }
+//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1){
+            if (resultCode == Activity.RESULT_OK) {
+                result = data!!.getStringExtra("result")
+                System.out.println("postposition"+result)
+                list!!.removeAt(result.toInt());
+                adaptor.notifyItemRemoved(result.toInt());
+                adaptor.notifyItemRangeChanged(result.toInt(), list.size)
+            }
+        }
+    }
     fun refresh(){
         progress=false
         page = 1
         list.clear()
         getTrendingPostApi()
     }
+
+
 }
 
 

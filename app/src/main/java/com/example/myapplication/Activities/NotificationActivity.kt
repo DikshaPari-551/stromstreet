@@ -110,7 +110,7 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(this)
-        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
