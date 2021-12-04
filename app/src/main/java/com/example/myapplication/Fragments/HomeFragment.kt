@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.Activities.NoInternetActivity
 import com.example.myapplication.Activities.NotificationActivity
 import com.example.myapplication.Activities.PostActivity
+import com.example.myapplication.Activities.UserProfile
 import com.example.myapplication.Adaptor.HomeAdaptor
 import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
@@ -129,10 +130,13 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
 
         goButton.setOnClickListener {
-            list.clear()
-            searchFlag = true
-            getSearchText = searchText.text.toString()
-            getLocalActivityApi()
+            if (!searchText.text.toString().equals("") && searchText.text.toString() != null){
+                list.clear()
+                searchFlag = true
+                getSearchText = searchText.text.toString()
+                getLocalActivityApi()
+            }
+
         }
 
         notificatio.setOnClickListener {
@@ -458,18 +462,32 @@ if (apiName.equals("LocalActivity")){
     override fun customClick(value: Docss, type: String, i: Int) {
         USERID = value._id
         var lat = value.location.coordinates
+        var otheruserid = value.userId
         if (type.equals("profile")) {
             if (value.mediaType.toLowerCase().equals("video")) {
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 var intent = Intent(mContext, Exoplayer::class.java)
                 intent.putExtra("postion",i.toString())
                 startActivityForResult(intent,1)
-            } else {
+            }
+
+            else {
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                 var intent = Intent(mContext, PostActivity::class.java)
                 intent.putExtra("postion",i.toString())
                 startActivityForResult(intent,1)
             }
+        }
+        else if(type.equals("userid"))
+        {
+            if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true"))
+            ) {
+            SavedPrefManager.saveStringPreferences( mContext,SavedPrefManager.otherUserId,otheruserid)
+            var intent = Intent(mContext, UserProfile::class.java)
+//            intent.putExtra("id",value._id)
+            startActivity(intent)
+        }
         }
     }
 }

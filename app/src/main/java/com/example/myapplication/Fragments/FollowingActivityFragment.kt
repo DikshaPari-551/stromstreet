@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.Activities.PostActivity
+import com.example.myapplication.Activities.UserProfile
 import com.example.myapplication.Adaptor.FollowingListAdaptor
+import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
@@ -89,10 +91,11 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         }
 
         Go.setOnClickListener{
+            if (!searchText.text.toString().equals("") && searchText.text.toString() != null){
             list.clear()
             searchValue = searchText.text.toString()
             getFollowingApi()
-        }
+        }}
         getFollowingApi()
 
         trandingBackButton.setOnClickListener{
@@ -253,14 +256,36 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     }
 
     override fun customClick(value: Docss, type: String)   {
-        USERID =   value._id
-        if (type.equals("profile")){
-            var intent = Intent(mContext, PostActivity::class.java)
-//            intent.putExtra("userId", USERID)
-            SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-            startActivity(intent)
+        USERID = value._id
+        var lat = value.location.coordinates
+        var otheruserid = value.userId
+        if (type.equals("profile")) {
+            if (value.mediaType.toLowerCase().equals("video")) {
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                var intent = Intent(mContext, Exoplayer::class.java)
+                startActivityForResult(intent,1)
+            }
+
+            else {
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                var intent = Intent(mContext, PostActivity::class.java)
+                startActivityForResult(intent,1)
+            }
+        }
+        else if(type.equals("userid"))
+        {
+            if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true"))
+            ) {
+                SavedPrefManager.saveStringPreferences( mContext,SavedPrefManager.otherUserId,otheruserid)
+                var intent = Intent(mContext, UserProfile::class.java)
+//            intent.putExtra("id",value._id)
+                startActivity(intent)
+            }
         }
     }
+
+
     fun refresh(){
         progress=false
         page = 1

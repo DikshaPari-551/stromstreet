@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.Activities.PostActivity
+import com.example.myapplication.Activities.UserProfile
 import com.example.myapplication.Adaptor.TrendingListAdaptor
 import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
@@ -100,9 +101,11 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         }
         goButton.setOnClickListener {
+            if (!searchText.text.toString().equals("") && searchText.text.toString() != null){
             list.clear()
             searchValue = searchText.text.toString()
             getTrendingPostApi()
+        }
         }
         swipeRefresh.setOnRefreshListener {
             refresh()
@@ -275,6 +278,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     override fun customClick(value: Docss, type: String, i: Int) {
         USERID = value._id
+        var otheruserid = value.userId
+
         if (type.equals("profile")) {
             if (value.mediaType.toLowerCase().equals("video")) {
                 var intent = Intent(mContext, Exoplayer::class.java)
@@ -288,6 +293,16 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                 startActivityForResult(intent,1)
             }
 
+        }    else if(type.equals("userid"))
+        {
+            if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true"))
+            ) {
+                SavedPrefManager.saveStringPreferences( mContext,SavedPrefManager.otherUserId,otheruserid)
+                var intent = Intent(mContext, UserProfile::class.java)
+//            intent.putExtra("id",value._id)
+                startActivity(intent)
+            }
         }
     }
 //    override fun customClick(value: Docss, type: String) {

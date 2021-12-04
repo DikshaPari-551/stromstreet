@@ -6,13 +6,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp">
+        android:padding="3dp"
+        android:layout_height="125dp">
 
         <ImageView
             android:id="@+id/item"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:padding="3dp"
+            android:layout_height="match_parent"
             android:scaleType="center"
             />
 

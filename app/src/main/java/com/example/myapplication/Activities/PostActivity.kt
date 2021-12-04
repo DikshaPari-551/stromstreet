@@ -110,6 +110,13 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
         USERID_data = SavedPrefManager.getStringPreferences(this, SavedPrefManager.USERID).toString()
 
 
+        if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                .equals("false")
+        ) {
+            video_post_like.setColorFilter(resources.getColor(R.color.white))
+            savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
+        }
+
         getINent()
         postdetails()
         val callback: OnPageChangeCallback = object : OnPageChangeCallback() {
@@ -350,6 +357,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+
         androidextention.disMissProgressDialog(this)
         commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike

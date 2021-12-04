@@ -107,6 +107,9 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         moreUserBio = findViewById(R.id.more_userbio)
         moreButton = findViewById(R.id.more_button)
 
+//        Userid = intent.getStringExtra("id")
+
+
         followbtn.setOnClickListener {
             followUnfollow()
         }
