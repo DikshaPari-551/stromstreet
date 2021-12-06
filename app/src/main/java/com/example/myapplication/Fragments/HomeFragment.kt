@@ -365,9 +365,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     override fun onApiErrorBody(response: String?, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
         progress_bar.visibility = View.GONE
-if (apiName.equals("LocalActivity")){
-    Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
-}
+        if (apiName.equals("LocalActivity")){
+            Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
+        }
         else{
 
         }
@@ -438,11 +438,11 @@ if (apiName.equals("LocalActivity")){
         notificationCountapi()
 
     }
-     fun refresh(){
-         progress=false
-         page = 1
-         list.clear()
-         getLocalActivityApi()
+    fun refresh(){
+        progress=false
+        page = 1
+        list.clear()
+        getLocalActivityApi()
     }
 
 
@@ -450,7 +450,7 @@ if (apiName.equals("LocalActivity")){
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1){
             if (resultCode == Activity.RESULT_OK) {
-                 result = data!!.getStringExtra("result")
+                result = data!!.getStringExtra("result")
                 System.out.println("postposition"+result)
                 list!!.removeAt(result.toInt());
                 adaptor.notifyItemRemoved(result.toInt());
@@ -483,11 +483,11 @@ if (apiName.equals("LocalActivity")){
             if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true"))
             ) {
-            SavedPrefManager.saveStringPreferences( mContext,SavedPrefManager.otherUserId,otheruserid)
-            var intent = Intent(mContext, UserProfile::class.java)
+                SavedPrefManager.saveStringPreferences( mContext,SavedPrefManager.otherUserId,otheruserid)
+                var intent = Intent(mContext, UserProfile::class.java)
 //            intent.putExtra("id",value._id)
-            startActivity(intent)
-        }
+                startActivity(intent)
+            }
         }
     }
 }

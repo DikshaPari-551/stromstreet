@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -109,13 +110,14 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
         layoutMore.visibility = View.GONE
         USERID_data = SavedPrefManager.getStringPreferences(this, SavedPrefManager.USERID).toString()
 
+        layoutMore.setMovementMethod(ScrollingMovementMethod())
 
-        if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
-                .equals("false")
-        ) {
-            video_post_like.setColorFilter(resources.getColor(R.color.white))
-            savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
-        }
+//        if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+//                .equals("true")
+//        ) {
+//            video_post_like.setColorFilter(resources.getColor(R.color.white))
+//            savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
+//        }
 
         getINent()
         postdetails()
@@ -395,26 +397,27 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+ if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                .equals("true")
+        ) {
+     if (LikeUnlike == true) {
+         video_post_like.setColorFilter(resources.getColor(R.color.red))
 
-            if (LikeUnlike == true) {
-                video_post_like.setColorFilter(resources.getColor(R.color.red))
+     } else if (LikeUnlike == false) {
+         video_post_like.setColorFilter(resources.getColor(R.color.white))
+     }
 
-            } else if (LikeUnlike == false) {
-                video_post_like.setColorFilter(resources.getColor(R.color.white))
-            }
-
-            if (isSaved == true) {
-                savePost.setImageDrawable(resources.getDrawable(R.drawable.saved_post))
-            } else if (isSaved == false) {
-                savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
-            }
-
+     if (isSaved == true) {
+         savePost.setImageDrawable(resources.getDrawable(R.drawable.saved_post))
+     } else if (isSaved == false) {
+         savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
+     }
             if (isFollow == true) {
                 follow.setText("Unfollow")
             } else if (isFollow == false) {
                 follow.setText("Follow")
             }
-
+ }
 
             try {
                 if (response.result.postResult.imageLinks.size > 1) {
@@ -432,7 +435,6 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
-
                 }
 
             } catch (e: IndexOutOfBoundsException) {

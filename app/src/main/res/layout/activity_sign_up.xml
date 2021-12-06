@@ -145,7 +145,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
                 android:background="@null"
-                android:maxLength="15"
+                android:maxLength="20"
                 android:fontFamily="@font/opensans_regular"
                 android:hint="Username"
                 android:singleLine="true"

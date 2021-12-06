@@ -237,7 +237,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(this)
         try {
-            username.setText(response.result.profileResult.userName)
+            username.setText(response.result.profileResult.fullName)
             followers.setText(response.result.followerCount.toString())
             following.setText(response.result.followingCount.toString())
             user_name = response.result.profileResult.fullName

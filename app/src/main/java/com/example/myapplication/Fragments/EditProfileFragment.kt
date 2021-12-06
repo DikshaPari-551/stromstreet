@@ -185,4 +185,10 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        profileApi()
+
+    }
+
 }

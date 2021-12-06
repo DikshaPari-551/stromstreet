@@ -44,6 +44,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.method.ScrollingMovementMethod;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -181,7 +182,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             finish();
         });
         getINent();
-
+        layoutMore.setMovementMethod(new ScrollingMovementMethod());
         comment = findViewById(R.id.comment);
         comment.setOnClickListener(v -> {
             if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)

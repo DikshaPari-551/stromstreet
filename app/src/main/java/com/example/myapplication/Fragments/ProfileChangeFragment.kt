@@ -108,7 +108,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
         backButton.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                ProfileFragment()
+                EditProfileFragment()
             )
                 ?.commit()
         }

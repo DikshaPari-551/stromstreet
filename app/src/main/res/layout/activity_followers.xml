@@ -26,6 +26,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
                 android:orientation="horizontal">
@@ -48,8 +49,6 @@
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
-
             </RelativeLayout>
 
             <LinearLayout
@@ -57,12 +56,14 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:orientation="horizontal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
 
@@ -91,7 +92,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="7dp"
                         android:background="@null"
-                        android:hint="Search posts..."
+                        android:hint="Search..."
                         android:fontFamily="@font/opensans_regular"
                         android:singleLine="true"
                         android:textColorHint="@color/black"
