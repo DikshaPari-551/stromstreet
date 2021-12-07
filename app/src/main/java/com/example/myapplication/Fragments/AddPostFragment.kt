@@ -420,19 +420,6 @@ class AddPostFragment() : Fragment(), ClickListner {
         }
     }
 
-
-//    fun StringToBitMap(image: String?): Bitmap? {
-//        return try {
-//            val encodeByte: ByteArray = Base64.decode(image, Base64.DEFAULT)
-//            val inputStream: InputStream = ByteArrayInputStream(encodeByte)
-//            BitmapFactory.decodeStream(inputStream)
-//        } catch (e: Exception) {
-//            e.message
-//            null
-//        }
-//    }
-
-
     private fun addPostData(
         requestCode: Int,
         resultCode: Int,
@@ -657,14 +644,7 @@ class AddPostFragment() : Fragment(), ClickListner {
 
     private fun setImageAndVideos() {
         if (SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_ONE) != null) {
-//            addImageOne.visibility = View.VISIBLE
-//            addImageOne.visibility = View.GONE
-//            addImageOne.visibility = View.GONE
-//            var imagef =
-//                SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_ONE)
-//            var imageFOne = File(imagef)
-//            galleryData1.visibility = View.VISIBLE
-//            Glide.with(mContext).load(imageFOne).into(galleryData1)
+
         } else if (SavedPrefManager.getStringPreferences(
                 mContext,
                 SavedPrefManager.IMAGE_TWO
@@ -673,11 +653,7 @@ class AddPostFragment() : Fragment(), ClickListner {
             addImageOne.visibility = View.GONE
             addImageOne.visibility = View.VISIBLE
             addImageOne.visibility = View.GONE
-//            var imageTwo =
-//                SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.IMAGE_TWO)
-//            var imageFTwo = File(imageTwo)
-//            galleryData2.visibility = View.VISIBLE
-//            Glide.with(mContext).load(imageFTwo).into(galleryData2)
+
         } else if (SavedPrefManager.getStringPreferences(
                 mContext,
                 SavedPrefManager.IMAGE_THREE
@@ -686,13 +662,7 @@ class AddPostFragment() : Fragment(), ClickListner {
             addImageOne.visibility = View.GONE
             addImageOne.visibility = View.GONE
             addImageOne.visibility = View.VISIBLE
-//            var imageThree = SavedPrefManager.getStringPreferences(
-//                mContext,
-//                SavedPrefManager.IMAGE_THREE
-//            )
-//            var imageFThree = File(imageThree)
-//            galleryData3.visibility = View.VISIBLE
-//            Glide.with(mContext).load(imageFThree).into(galleryData3)
+
         }
     }
 
