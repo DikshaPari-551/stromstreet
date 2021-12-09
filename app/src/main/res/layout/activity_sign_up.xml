@@ -222,7 +222,7 @@
                 android:hint="Phone number"
                 android:inputType="number"
                 android:singleLine="true"
-                android:maxLength="10"
+                android:maxLength="13"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="15sp" />
         </LinearLayout>

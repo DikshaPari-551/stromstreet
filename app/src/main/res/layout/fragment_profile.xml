@@ -50,11 +50,11 @@
         android:background="@drawable/add_post_bg"
         android:orientation="vertical"
         >
-        <androidx.core.widget.NestedScrollView
+<!--        <androidx.core.widget.NestedScrollView-->
 
-            android:layout_width="match_parent"
-            android:paddingBottom="10dp"
-            android:layout_height="match_parent">
+<!--            android:layout_width="match_parent"-->
+<!--            android:paddingBottom="10dp"-->
+<!--            android:layout_height="match_parent">-->
 
 
                 <LinearLayout
@@ -264,7 +264,7 @@
                 </LinearLayout>
 
 
-        </androidx.core.widget.NestedScrollView>
+<!--        </androidx.core.widget.NestedScrollView>-->
     </LinearLayout>
     </LinearLayout>
 

@@ -224,6 +224,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
                 e.printStackTrace()
             }
         } else {
+            androidextention.disMissProgressDialog(mContext)
             internetConnection.visibility = View.VISIBLE
         }
     }
@@ -259,6 +260,9 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         USERID = value._id
         var lat = value.location.coordinates
         var otheruserid = value.userId
+        if(androidextention.isOnline(mContext)) {
+            internetConnection.visibility = View.GONE
+
         if (type.equals("profile")) {
             if (value.mediaType.toLowerCase().equals("video")) {
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
@@ -282,6 +286,10 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 //            intent.putExtra("id",value._id)
                 startActivity(intent)
             }
+        }
+    }else {
+            androidextention.disMissProgressDialog(mContext)
+            Toast.makeText(mContext,"Please check your internet connection.", Toast.LENGTH_LONG).show()
         }
     }
 

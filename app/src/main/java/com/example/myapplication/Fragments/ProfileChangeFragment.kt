@@ -164,11 +164,6 @@ class ProfileChangeFragment : Fragment(), ClickListner {
             }
         }
 
-//                &&
-//                Validations.CheckPhoneNumber(
-//                    etphoneNumber!!,
-//                    phoneNumberProfiletext
-//                )
     }
 
     fun getProfile() {
@@ -236,11 +231,11 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                             response.responseMessage,
                             Toast.LENGTH_LONG
                         ).show()
-                        getFragmentManager()?.beginTransaction()?.replace(
-                            R.id.linear_layout,
-                            EditProfileFragment()
-                        )
-                            ?.commit()
+//                        getFragmentManager()?.beginTransaction()?.replace(
+//                            R.id.linear_layout,
+//                            EditProfileFragment()
+//                        )
+//                            ?.commit()
                     } else {
                         Toast.makeText(
                             activity,
@@ -302,7 +297,8 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                         USER_IMAGE_UPLOADED = "true"
                         userProfileLink = response.result.mediaUrl
                         imageType = response.result.mediaType
-
+//                        updateProfileDeatils()
+                        CheckValidations()
                     } else {
                         Toast.makeText(
                             mContext,

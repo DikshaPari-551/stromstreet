@@ -178,9 +178,19 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
         }
 
         video_post_like.setOnClickListener {
+            var count = 0
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
+                if(count == 0 && LikeUnlike == false){
+                    count++
+                    video_post_like.setColorFilter(resources.getColor(R.color.red))
+
+                } else {
+                    video_post_like.setColorFilter(resources.getColor(R.color.white))
+                    count = 0
+
+                }
                 likeunlike()
             } else {
                 val i = Intent(this, LoginActivity::class.java)
@@ -190,11 +200,22 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
 
 
         savePost.setOnClickListener {
+            var count = 0
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
+                if(count == 0 && isSaved == false){
+                    count++
+                    savePost.setImageDrawable(resources.getDrawable(R.drawable.saved_post))
+
+                } else {
+                    savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
+                    count = 0
+
+                }
                 saveunsave()
             } else {
+
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)
             }
@@ -234,6 +255,9 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
+
+
+
                 followunfollow()
             } else {
                 val i = Intent(this, LoginActivity::class.java)
@@ -298,10 +322,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     }
 
     private fun saveunsave() {
-        val Token =
-            SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "SaveUnsave", mContext)
@@ -316,7 +338,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     }
 
     private fun likeunlike() {
-        androidextention.showProgressDialog(mContext)
+//        androidextention.showProgressDialog(mContext)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =

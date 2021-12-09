@@ -111,6 +111,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         totalnotif = v.findViewById(R.id.totalNotification)
         swipeRefresh = v.findViewById(R.id.swipeRefresh)
         locationpermission()
+//        totalnotif.visibility = View.GONE
 
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -123,10 +124,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
                 .equals("true"))
         ) {
-            totalnotif.visibility = View.VISIBLE
-        }else{
-            totalnotif.visibility = View.GONE
+            notificationCountapi()
+
         }
+//        else{
+//            totalnotif.visibility = View.GONE
+//        }
 
 
         goButton.setOnClickListener {
@@ -264,7 +267,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         })
         return v
-        notificationCountapi()
     }
 
     private fun notificationCountapi() {
@@ -336,11 +338,15 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 //                e.printStackTrace()
 //            }
         } else {
+            androidextention.disMissProgressDialog(mContext)
+            totalnotif.visibility = View.GONE
             internetConnection.visibility = View.VISIBLE
         }
     }
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
+        internetConnection.visibility = View.GONE
+
         progress_bar.visibility = View.GONE
         androidextention.disMissProgressDialog(activity)
         pages = response.result.pages
@@ -435,8 +441,12 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     override fun onResume() {
         super.onResume()
-        notificationCountapi()
+        if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                .equals("true"))
+        ) {
+            notificationCountapi()
 
+        }
     }
     fun refresh(){
         progress=false
@@ -463,31 +473,38 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         USERID = value._id
         var lat = value.location.coordinates
         var otheruserid = value.userId
-        if (type.equals("profile")) {
-            if (value.mediaType.toLowerCase().equals("video")) {
-                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                var intent = Intent(mContext, Exoplayer::class.java)
-                intent.putExtra("postion",i.toString())
-                startActivityForResult(intent,1)
-            }
+        if(androidextention.isOnline(mContext)) {
+            internetConnection.visibility = View.GONE
 
-            else {
-                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                var intent = Intent(mContext, PostActivity::class.java)
-                intent.putExtra("postion",i.toString())
-                startActivityForResult(intent,1)
-            }
-        }
-        else if(type.equals("userid"))
-        {
-            if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
-                    .equals("true"))
-            ) {
-                SavedPrefManager.saveStringPreferences( mContext,SavedPrefManager.otherUserId,otheruserid)
-                var intent = Intent(mContext, UserProfile::class.java)
+            if (type.equals("profile")) {
+                if (value.mediaType.toLowerCase().equals("video")) {
+                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                    var intent = Intent(mContext, Exoplayer::class.java)
+                    intent.putExtra("postion", i.toString())
+                    startActivityForResult(intent, 1)
+                } else {
+                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+                    var intent = Intent(mContext, PostActivity::class.java)
+                    intent.putExtra("postion", i.toString())
+                    startActivityForResult(intent, 1)
+                }
+            } else if (type.equals("userid")) {
+                if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                        .equals("true"))
+                ) {
+                    SavedPrefManager.saveStringPreferences(
+                        mContext,
+                        SavedPrefManager.otherUserId,
+                        otheruserid
+                    )
+                    var intent = Intent(mContext, UserProfile::class.java)
 //            intent.putExtra("id",value._id)
-                startActivity(intent)
+                    startActivity(intent)
+                }
             }
+        }else {
+            androidextention.disMissProgressDialog(mContext)
+            Toast.makeText(mContext,"Please check your internet connection.", Toast.LENGTH_LONG).show()
         }
     }
 }

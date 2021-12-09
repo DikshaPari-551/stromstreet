@@ -210,10 +210,18 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             three_dots.setVisibility(View.GONE);
         }
         video_post_like.setOnClickListener(v -> {
-
+            int count = 0;
             if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
+                if(count == 0 && LikeUnlike == false){
+                    count++;
+                    video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartred));
+
+                } else {
+                    video_post_like.setImageDrawable(getResources().getDrawable(R.drawable.heartwhite));
+                    count = 0;
+                }
                 likeunlike();
             } else {
                 Intent i = new Intent(this, LoginActivity.class);
@@ -249,9 +257,20 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
 
 
         savePost.setOnClickListener(v -> {
+            int count = 0;
             if (SavedPrefManager.Companion.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
+
+                if(count == 0 && isSaved == false){
+                    count++;
+                    savePost.setImageDrawable(getResources().getDrawable(R.drawable.saved_post));
+                } else {
+                    savePost.setImageDrawable(getResources().getDrawable(R.drawable.unsaved_post));
+                    count = 0;
+
+                }
+
                 saveunsave();
 //                if (click == false) {
 //                    Toast.makeText(this, "Post Saved", Toast.LENGTH_SHORT).show();

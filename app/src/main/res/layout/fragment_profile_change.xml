@@ -209,7 +209,7 @@
                         android:layout_marginRight="20dp"
                         android:background="@null"
                         android:text=""
-                        android:maxLength="10"
+                        android:maxLength="13"
                         android:hint="Phone number"
                         android:fontFamily="@font/opensans_regular"
                         android:inputType="number"

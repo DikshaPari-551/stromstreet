@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Activities.PostActivity
@@ -34,7 +36,13 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
     lateinit var adaptor: SaveListAdaptor
     lateinit var USERID: String
     lateinit var noPost: TextView
-
+    lateinit var progress_bar: ProgressBar
+    lateinit var nestedScrollView: NestedScrollView
+    var page: Int = 1
+    var pages: Int = 0
+    var limit: Int = 15
+    var list = ArrayList<UserPostDocs>()
+    var result: String =""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +55,27 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
         mContext= activity!!
 
         savedpostlist()
-
+        progress_bar = v.findViewById(R.id.progress_bar)
+        nestedScrollView = v.findViewById(R.id.nestedScrollView)
         recyclerview=v.findViewById(R.id.recyclervieww)
+
+        nestedScrollView.setOnScrollChangeListener(object :
+            NestedScrollView.OnScrollChangeListener {
+            override fun onScrollChange(
+
+                v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int
+            ) {
+                if (scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight) {
+                    page++
+                    progress_bar.visibility = View.VISIBLE
+                    if (page > pages) {
+                        progress_bar.visibility = View.GONE
+                    } else {
+                        savedpostlist()
+                    }
+                }
+            }
+        })
 
         return  v
     }
@@ -73,10 +100,12 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
 
     override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
+        pages = response.result.pages
+
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(mContext)
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
-            var list = ArrayList<UserPostDocs>()
+//            var list = ArrayList<UserPostDocs>()
             list.addAll(response.result.docs)
             setAdapter(list)
 

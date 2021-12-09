@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,18 +23,31 @@
             android:background="@color/cream"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="146dp">
 
                 <ImageView
                     android:id="@+id/postView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="center" />
+                    android:scaleType="center"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
+                <ImageView
+                    android:id="@+id/video_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
 
-            </RelativeLayout>
+                    android:background="@drawable/ic_video_icon"
+                    android:scaleType="center"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/postView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/postView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/bio"
@@ -116,16 +130,7 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/video_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/ic_video_solid"
-            android:scaleType="fitXY"
-            android:visibility="gone" />
+
 
         <ImageView
             android:id="@+id/image_icon"

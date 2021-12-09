@@ -4,6 +4,8 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.CamcorderProfile
+import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -104,20 +106,16 @@ class bottomSheetDialog(var flag: String, var myClickListner: ClickListner
         }
 
         captureVideo.setOnClickListener{
-//            if(captureVideoCount > 0) {
-//                Toast.makeText(
-//                    mContext,
-//                    "You not captured more than 1 video!!",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            } else {
-                val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+            val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+
                 if (takeVideoIntent.resolveActivity(activity!!.packageManager) != null) {
                     startActivityForResult(
                         takeVideoIntent,
-                        CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE
+                        CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE,
+
+
                     )
-                    captureVideoCount++
+                         captureVideoCount++
                 }
             }
 //        }

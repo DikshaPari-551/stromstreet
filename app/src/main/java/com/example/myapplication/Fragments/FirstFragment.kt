@@ -41,7 +41,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
     lateinit var nestedScrollView: NestedScrollView
     var page: Int = 1
     var pages: Int = 0
-    var limit: Int = 10
+    var limit: Int = 15
     var list = ArrayList<UserPostDocs>()
     var result: String =""
 
@@ -76,9 +76,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
                 }
             }
         })
-
         return v
-
     }
 
     private fun userpostlist() {
@@ -102,6 +100,8 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
 
     override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
         androidextention.disMissProgressDialog(activity)
+        pages = response.result.pages
+
         if (response.responseCode == "200") {
             androidextention.disMissProgressDialog(mContext)
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();

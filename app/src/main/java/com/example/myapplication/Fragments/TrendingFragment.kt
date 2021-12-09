@@ -243,6 +243,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                 e.printStackTrace()
             }
         } else {
+            androidextention.disMissProgressDialog(mContext)
             internetConnection.visibility = View.VISIBLE
         }
     }
@@ -279,6 +280,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     override fun customClick(value: Docss, type: String, i: Int) {
         USERID = value._id
         var otheruserid = value.userId
+        if(androidextention.isOnline(mContext)) {
+            internetConnection.visibility = View.GONE
 
         if (type.equals("profile")) {
             if (value.mediaType.toLowerCase().equals("video")) {
@@ -303,6 +306,10 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 //            intent.putExtra("id",value._id)
                 startActivity(intent)
             }
+        }
+    }else {
+            androidextention.disMissProgressDialog(mContext)
+            Toast.makeText(mContext,"Please check your internet connection.", Toast.LENGTH_LONG).show()
         }
     }
 //    override fun customClick(value: Docss, type: String) {
