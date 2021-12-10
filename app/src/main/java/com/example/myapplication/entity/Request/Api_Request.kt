@@ -70,8 +70,10 @@ class Api_Request {
     @SerializedName("description")
     var description: String? = null
 
+
+
     @SerializedName("categoryId")
-    var categoryId: String? = null
+    var categoryId: ArrayList<String>? = null
 
     @SerializedName("videoLink")
     var videoLink: String? = null

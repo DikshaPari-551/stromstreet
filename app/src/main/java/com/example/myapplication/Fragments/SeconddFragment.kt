@@ -72,6 +72,8 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
                         progress_bar.visibility = View.GONE
                     } else {
                         savedpostlist()
+                        androidextention.disMissProgressDialog(activity)
+
                     }
                 }
             }
@@ -91,7 +93,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
 
 
             try {
-                serviceManager.getSavedList(callBack)
+                serviceManager.getSavedList(callBack, page.toString(), limit.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -72,6 +72,8 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
                         progress_bar.visibility = View.GONE
                     } else {
                         userpostlist()
+                        androidextention.disMissProgressDialog(activity)
+
                     }
                 }
             }
@@ -91,7 +93,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
             apiRequest.page = page.toString()
             apiRequest.limit = limit.toString()
             try {
-                serviceManager.getPostlist(callBack, apiRequest)
+                serviceManager.getPostlist(callBack, apiRequest, page.toString(), limit.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }

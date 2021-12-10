@@ -29,7 +29,7 @@ import com.example.myapplication.R
 import com.example.myapplication.bottomSheetDialog
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
-import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Request.Api_Request_AddPostpackage
 import com.example.myapplication.entity.Request.Location
 import com.example.myapplication.entity.Response.MediaResult
 import com.example.myapplication.entity.Response.Responce
@@ -418,7 +418,7 @@ class AddPostFragment() : Fragment(), ClickListner {
 
             }, "AddPost", mContext)
 
-        val apiRequest = Api_Request()
+        val apiRequest = Api_Request_AddPostpackage()
         val location = Location(
             "Point",
             arrayListOf(

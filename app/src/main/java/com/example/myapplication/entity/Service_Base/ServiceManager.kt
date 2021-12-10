@@ -3,6 +3,7 @@ package com.example.myapplication.entity.Service_Base
 import android.content.Context
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Request.Api_Request_AddPostpackage
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Response.UserPostResponse
@@ -88,7 +89,7 @@ class ServiceManager(var mContext: Context?) {
 
     }
 
-    fun userAddPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+    fun userAddPost(callBack: ApiCallBack<Responce>, jsonObject: Api_Request_AddPostpackage?) {
         mContext?.let { Remotedatasource.current(it, true)!!.addPost(jsonObject) }!!
             .enqueue(callBack)
 
@@ -135,9 +136,7 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.logoutUser() }!!.enqueue(callBack)
     }
 
-    fun getSavedList(callBack: ApiCallBack<UserPostResponse>) {
-        mContext?.let { Remotedatasource.current(it, true)!!.savedList() }!!.enqueue(callBack)
-    }
+
 
     fun commentOnPost(
         callBack: ApiCallBack<Responce>,
@@ -172,6 +171,19 @@ class ServiceManager(var mContext: Context?) {
     fun deletepost(callBack: ApiCallBack<Responce>, _id: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.deletePost(_id) }!!
             .enqueue(callBack)
+    }
+
+    fun getPostlist(
+        callBack: ApiCallBack<UserPostResponse>, apiRequest: Api_Request, page: String?,
+        limit: String?
+    ) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getPostList(apiRequest,page, limit) }!!
+            .enqueue(callBack)
+    }
+
+    fun getSavedList(callBack: ApiCallBack<UserPostResponse>, page: String?,
+                     limit: String?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.savedList(page, limit) }!!.enqueue(callBack)
     }
 
     fun getLocalActivity(
@@ -245,12 +257,7 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
     }
 
-    fun getPostlist(
-        callBack: ApiCallBack<UserPostResponse>, apiRequest: Api_Request
-    ) {
-        mContext?.let { Remotedatasource.current(it, true)!!.getPostList(apiRequest) }!!
-            .enqueue(callBack)
-    }
+
 
     fun getOtherPostlist(
         callBack: ApiCallBack<UserPostResponse>, userId: String, page: String?,

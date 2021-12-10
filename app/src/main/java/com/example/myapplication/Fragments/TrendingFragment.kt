@@ -59,7 +59,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     var list = ArrayList<Docss>()
     var searchValue = ""
-    var catId: String = ""
+    var catId: ArrayList<String>? = null
     var maxDis: Int = 0
     var page: Int = 1
     var pages: Int = 0
@@ -89,7 +89,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
-            catId = arguments?.getString("CAT_ID")!!
+            catId = (arguments?.getSerializable("CAT_ID") as ArrayList<String>?)!!
             maxDis = arguments?.getInt("MAX_DIS")!!
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -226,7 +226,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             apiRequest.search = searchValue
 
             try {
-                if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
+                if (catId != null && !catId!!.equals(null) || maxDis != null && maxDis > 0) {
 
                     serviceManager.getTrendingPost(callBack,latitude,longitude,apiRequest,page.toString(),limit.toString())
 

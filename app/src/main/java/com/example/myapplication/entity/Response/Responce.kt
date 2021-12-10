@@ -62,7 +62,7 @@ data class Result(
     @SerializedName("limit") val limit: Int,
     @SerializedName("page") val page: Int,
     @SerializedName("pages") val pages: Int,
-    @SerializedName("categoryResult") val categoryResult: List<CategoryResult>,
+    @SerializedName("categoryResult") val categoryResult: ArrayList<CategoryResult>,
     @SerializedName("postResult") val postResult : PostResult,
     @SerializedName("likeCount") val likeCount : Int,
     @SerializedName("commentCount") val commentCount : Int,
@@ -302,7 +302,8 @@ data class CategoryResult(
     @SerializedName("image") val image: String,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String,
-    @SerializedName("__v") val __v: Int
+    @SerializedName("__v") val __v: Int,
+    var flag: Boolean =  false,
 //    ,
 //    var flag: Boolean
 

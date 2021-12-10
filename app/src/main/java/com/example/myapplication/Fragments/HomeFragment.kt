@@ -73,7 +73,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     var progress:Boolean=true
     var list = ArrayList<Docss>()
     var getSearchText = ""
-    var catId: String = ""
+    var catId: ArrayList<String>? = null
     var locality: String = ""
     var result: String =""
 
@@ -116,7 +116,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
-            catId = arguments?.getString("CAT_ID")!!
+            catId = (arguments?.getSerializable("CAT_ID") as ArrayList<String>?)!!
             maxDis = arguments?.getInt("MAX_DIS")!!
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -300,37 +300,14 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             apiRequest.search = getSearchText
 
 //            try {
-            if (catId != null && !catId.equals("")) {
-
-                serviceManager.getLocalActivity(
-                    callBack,
-                    latitude,
-                    longitude,
-                    apiRequest,
-                    page.toString(),
-                    limit.toString()
-                )
+            if (catId != null && !catId!!.equals(null)) {
+                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest,page.toString(),limit.toString())
 
             } else if (getSearchText != null && !getSearchText.equals("")) {
-
-                serviceManager.getLocalActivity(
-                    callBack,
-                    latitude,
-                    longitude,
-                    apiRequest,
-                    page.toString(),
-                    limit.toString()
+                serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest, page.toString(), limit.toString()
                 )
-
             } else {
-
-                serviceManager.getLocalActivity(
-                    callBack,
-                    latitude,
-                    longitude,
-                    apiRequest,
-                    page.toString(),
-                    limit.toString()
+                serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest, page.toString(), limit.toString()
                 )
 
             }
