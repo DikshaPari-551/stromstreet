@@ -429,6 +429,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         progress=false
         page = 1
         list.clear()
+        catId = null
+        maxDis = 0
         getLocalActivityApi()
     }
 

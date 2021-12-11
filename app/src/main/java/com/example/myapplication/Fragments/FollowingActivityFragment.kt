@@ -30,6 +30,7 @@ import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
+import kotlin.math.max
 
 class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivityResponse>,
     CustomClickListner2 {
@@ -298,6 +299,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         progress=false
         page = 1
         list.clear()
+        catId=null
+        maxDis = 0
         getFollowingApi()
     }
 }
