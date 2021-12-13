@@ -78,8 +78,15 @@ class TrendingListAdaptor(
 
 
         holder.mainlayout.setOnClickListener {
+            try {
             listener.customClick(list.get(position),"profile",position)
+            }
+            catch (e:IndexOutOfBoundsException)
+            {
+                context.diasplay_toast("oops something wrong!!.")
+            }
         }
+
         holder.usernameMain.setOnClickListener {
             try {
                 listener.customClick(list.get(position),"userid",position)

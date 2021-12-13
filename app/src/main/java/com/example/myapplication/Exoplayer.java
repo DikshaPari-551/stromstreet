@@ -206,8 +206,10 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 .equals("true")
         ) {
             three_dots.setVisibility(View.VISIBLE);
+
         } else {
             three_dots.setVisibility(View.GONE);
+
         }
         video_post_like.setOnClickListener(v -> {
             int count = 0;
@@ -437,8 +439,10 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             }
             if (postid.equals(USERID_data)){
                 three_dots.setVisibility(View.VISIBLE);
+                follow.setVisibility(View.GONE);
             }else {
                 three_dots.setVisibility(View.GONE);
+                follow.setVisibility(View.VISIBLE);
             }
             SavedPrefManager.Companion.saveStringPreferences(mContext, SavedPrefManager.otherUserId, postid);
 

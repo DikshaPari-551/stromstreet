@@ -484,11 +484,14 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
         ) {
             if (postid == USERID_data){
                 three_dots.visibility = View.VISIBLE
+                follow.visibility = View.GONE
             }else {
                 three_dots.visibility = View.GONE
+                follow.visibility = View.VISIBLE
             }
         }else{
             three_dots.visibility = View.GONE
+            follow.visibility = View.GONE
         }
 
     }

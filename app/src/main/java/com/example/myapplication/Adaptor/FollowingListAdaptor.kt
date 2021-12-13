@@ -80,8 +80,15 @@ class FollowingListAdaptor(
         }
 
         holder.mainlayout.setOnClickListener {
+            try {
             listener.customClick(list.get(position), "profile")
         }
+            catch (e:IndexOutOfBoundsException){
+                context.diasplay_toast("oops something wrong!!.")
+            }
+        }
+
+
         holder.usernameMain.setOnClickListener {
             try {
                 listener.customClick(list.get(position),"userid")

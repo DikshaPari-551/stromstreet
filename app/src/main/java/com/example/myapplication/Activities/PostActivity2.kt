@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.CommentImageSliderAdaptor
@@ -85,6 +86,8 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     var click: Boolean = false
     var commentType = ""
     lateinit var adaptor: Post2Adapter
+    lateinit var swipeRefresh: SwipeRefreshLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +99,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             window.statusBarColor = resources.getColor(R.color.black)
         }
 
-
+        swipeRefresh = findViewById(R.id.swipeRefresh)
         post2recycler = findViewById(R.id.post2recyclerview)
         loginFlag = LoginFlag.getLoginFlag()
         follow1 = findViewById(R.id.follow1)
@@ -137,7 +140,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         getINent()
         postdetails()
         Commentlist()
-
+        swipeRefresh.setOnRefreshListener {
+            refresh()
+            swipeRefresh.isRefreshing = false
+        }
 
         follow1.setOnClickListener {
             followunfollow()
@@ -233,6 +239,11 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 //                startActivity(i)
 //            }
 //        }
+    }
+
+    private fun refresh() {
+        postdetails()
+        Commentlist()
     }
 
     private fun followunfollow() {
