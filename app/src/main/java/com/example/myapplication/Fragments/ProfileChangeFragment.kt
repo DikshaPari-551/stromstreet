@@ -32,7 +32,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -109,7 +108,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
         backButton.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
-                ProfileFragment()
+                EditProfileFragment()
             )
                 ?.commit()
         }
@@ -165,11 +164,6 @@ class ProfileChangeFragment : Fragment(), ClickListner {
             }
         }
 
-//                &&
-//                Validations.CheckPhoneNumber(
-//                    etphoneNumber!!,
-//                    phoneNumberProfiletext
-//                )
     }
 
     fun getProfile() {
@@ -230,16 +224,18 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     if (response.responseCode == "200") {
+                        USER_IMAGE_UPLOADED = "false"
+
                         Toast.makeText(
                             activity,
                             response.responseMessage,
                             Toast.LENGTH_LONG
                         ).show()
-                        getFragmentManager()?.beginTransaction()?.replace(
-                            R.id.linear_layout,
-                            EditProfileFragment()
-                        )
-                            ?.commit()
+//                        getFragmentManager()?.beginTransaction()?.replace(
+//                            R.id.linear_layout,
+//                            EditProfileFragment()
+//                        )
+//                            ?.commit()
                     } else {
                         Toast.makeText(
                             activity,
@@ -298,10 +294,14 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
                     androidextention.disMissProgressDialog(mContext)
                     if (response.responseCode == "200") {
-                        USER_IMAGE_UPLOADED = "ture"
+                        USER_IMAGE_UPLOADED = "true"
                         userProfileLink = response.result.mediaUrl
-                        imageType = response.result.mediaType
 
+
+
+                        imageType = response.result.mediaType
+//                        updateProfileDeatils()
+                        CheckValidations()
                     } else {
                         Toast.makeText(
                             mContext,

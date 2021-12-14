@@ -38,7 +38,6 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import okhttp3.ResponseBody
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -76,6 +75,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
     var pages: Int = 0
     var limit : Int = 10
     var searchFlag = false
+    companion object {
+        var data_loaded_once = false
+    }
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -364,7 +367,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>, Cus
                     longitude = location.longitude
                     SavedPrefManager.setLatitudeLocation(latitude!!)
                     SavedPrefManager.setLongitudeLocation(longitude!!)
-                    getLocalActivityApi()
+                    if(!data_loaded_once) {
+                        getLocalActivityApi()
+                        data_loaded_once = true
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
