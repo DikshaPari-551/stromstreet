@@ -24,6 +24,7 @@ import com.abedelazizshe.lightcompressorlibrary.CompressionListener
 import com.abedelazizshe.lightcompressorlibrary.VideoCompressor
 import com.abedelazizshe.lightcompressorlibrary.VideoQuality
 import com.abedelazizshe.lightcompressorlibrary.config.Configuration
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.bottomSheetDialog
@@ -36,6 +37,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.getFileSize
@@ -65,6 +67,8 @@ class AddPostFragment() : Fragment(), ClickListner {
     lateinit var addImageTwo: LinearLayout
     lateinit var addImageThree: LinearLayout
     lateinit var progressBarPost: ProgressBar
+    lateinit var lottie : LottieAnimationView
+
     var HorizontalLayout: LinearLayoutManager? = null
     lateinit var mContext: Context
     private var postDescriptionText = ""
@@ -129,6 +133,8 @@ class AddPostFragment() : Fragment(), ClickListner {
         addImageTwo = view.findViewById(R.id.add_image_two)
         addImageThree = view.findViewById(R.id.add_image_Three)
         progressBarPost = view.findViewById(R.id.progress)
+        lottie = view.findViewById(R.id.loader)
+
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -296,13 +302,15 @@ class AddPostFragment() : Fragment(), ClickListner {
 
 
     private fun uploadMultipleData() {
-        androidextention.showProgressDialog(activity)
+//        androidextention.showProgressDialog(activity)
+        lottie.initLoader(true)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
 //                    androidextention.disMissProgressDialog(activity)
                     if (response.responseCode == "200") {
-                        androidextention.showProgressDialog(activity)
+//                        androidextention.showProgressDialog(activity)
+                        lottie.initLoader(true)
                         var data: List<MediaResult> = response.result.mediaResult
                         Log.d("uploadResponse", data.toString())
                         for (i in 0 until data.size) {
@@ -326,7 +334,8 @@ class AddPostFragment() : Fragment(), ClickListner {
                 }
 
                 override fun onApiErrorBody(response: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(activity)
+//                    androidextention.disMissProgressDialog(activity)
+                    lottie.initLoader(true)
                     Toast.makeText(
                         mContext,
                         "Image or Video size is large. Size should be less then 30 MB. " + response.toString(),
@@ -335,7 +344,8 @@ class AddPostFragment() : Fragment(), ClickListner {
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(activity)
+//                    androidextention.disMissProgressDialog(activity)
+                    lottie.initLoader(false)
                     Toast.makeText(
                         mContext,
                         "failure response:" + failureMessage,
@@ -354,11 +364,14 @@ class AddPostFragment() : Fragment(), ClickListner {
 
 
     private fun addPost(data: List<MediaResult>) {
-        androidextention.showProgressDialog(activity)
+//        androidextention.showProgressDialog(activity)
+        lottie.initLoader(true)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(activity)
+//                    androidextention.disMissProgressDialog(activity)
+                    lottie.initLoader(false)
+
                     if (response.responseCode == "200") {
                         Toast.makeText(
                             activity,
@@ -399,7 +412,9 @@ class AddPostFragment() : Fragment(), ClickListner {
                 }
 
                 override fun onApiErrorBody(response: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(activity)
+//                    androidextention.disMissProgressDialog(activity)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         activity,
                         "error response" + response.toString(),
@@ -408,7 +423,9 @@ class AddPostFragment() : Fragment(), ClickListner {
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(activity)
+//                    androidextention.disMissProgressDialog(activity)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         activity,
                         "failure response:" + failureMessage,

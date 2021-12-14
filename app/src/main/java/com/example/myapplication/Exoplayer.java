@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import android.app.Activity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Activities.PostActivity;
 import com.example.myapplication.Activities.PostActivity2;
@@ -139,6 +140,8 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     private TextView follow, more, username, commentcount, totalLike, eventType, layoutMore, limitTextMore;
     private CircleImageView profileimg;
     private ImageView backPostButton, comment, video_post_like, savePost, sharePost, notifyPost;
+    private LottieAnimationView lottie;
+
     private LinearLayout internetConnection;
 
     @Override
@@ -171,6 +174,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
         simpleExoPlayerView = findViewById(R.id.player_view);
         three_dots = findViewById(R.id.three_dots);
         spinnerSpeeds = ((Spinner) findViewById(R.id.spinner_speeds));
+        lottie = findViewById(R.id.loader);
         rootView.setOnTouchListener(this);
         rootView.setOnKeyListener(this);
         if (!checkMyPermission(this))

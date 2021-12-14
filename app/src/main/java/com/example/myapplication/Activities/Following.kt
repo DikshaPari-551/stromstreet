@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Adaptor.Following_Adaptor
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
@@ -24,6 +25,7 @@ import com.example.myapplication.entity.Response.UserPostDocs
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 import java.lang.Exception
@@ -36,6 +38,8 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
     lateinit var back_arrow_chat: ImageView
     lateinit var progress_bar: ProgressBar
     lateinit var nestedScrollView: NestedScrollView
+    lateinit var lottie : LottieAnimationView
+
     var list = ArrayList<Docs>()
     var page: Int = 1
     var pages: Int = 0
@@ -54,6 +58,8 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
         back_arrow_chat=findViewById(R.id.back_arrow_chat)
         progress_bar = findViewById(R.id.progress_bar)
         nestedScrollView = findViewById(R.id.nestedScrollView)
+        lottie = findViewById(R.id.loader)
+
 
         followingApi()
 
@@ -84,6 +90,8 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
 
     private fun followunfollow() {
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
+        lottie.initLoader(true)
+
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -100,7 +108,9 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
         val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
 //        val userId ="617119fbd830986dd4a453a5"
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
+
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "Following", mContext)
@@ -119,8 +129,10 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
         if (response.responseCode == "200") {
-            androidextention.disMissProgressDialog(this)
+//            androidextention.disMissProgressDialog(this)
 //            username.setText(response.result.userName)
+            lottie.initLoader(false)
+
             pages = response.result.pages
 
 
@@ -132,10 +144,14 @@ class Following : AppCompatActivity() , ApiResponseListener<Responce>,CustomClic
 
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
+        lottie.initLoader(false)
+
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        lottie.initLoader(false)
+
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 

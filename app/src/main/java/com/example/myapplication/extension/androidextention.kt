@@ -13,8 +13,10 @@ import com.bumptech.glide.Glide
 import android.net.NetworkInfo
 
 import android.net.ConnectivityManager
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Fragments.ProfileFragment
 import java.util.*
 
@@ -98,7 +100,16 @@ object androidextention {
     }
 
 
-
+    fun LottieAnimationView.initLoader(isLoading: Boolean) {
+        if (isLoading) {
+            playAnimation()
+            visibility = View.VISIBLE
+        } else {
+            pauseAnimation()
+            animation?.reset()
+            visibility = View.GONE
+        }
+    }
 
 
 }

@@ -128,4 +128,12 @@
         </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loader"
+        style="@style/Theme.MyApplication.DefaultLottieLoader"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
 </FrameLayout>

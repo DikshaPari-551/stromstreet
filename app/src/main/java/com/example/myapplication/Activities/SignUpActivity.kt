@@ -15,6 +15,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.ValidationExt.Validations
@@ -28,6 +29,7 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.sleeponcue.extension.diasplay_toast
 import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -71,6 +73,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     lateinit var youtubeLink: EditText
     lateinit var bio_text: EditText
     lateinit var error_text: TextView
+    lateinit var lottie : LottieAnimationView
     lateinit var mContext: Context
     private var USER_IMAGE_UPLOADED: String? = ""
     lateinit var image: Uri
@@ -83,6 +86,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     private var CAMERA: Int = 2
     val CAMERA_PERM_CODE = 101
     var detailsValidationFlag = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,6 +120,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         instagramLink = findViewById(R.id.su_instagram_link)
         youtubeLink = findViewById(R.id.su_youtube_link)
         bio_text = findViewById(R.id.bio_text)
+        lottie = findViewById(R.id.loader)
 
         camera.setOnClickListener {
             askCameraPermissions()
@@ -143,7 +148,8 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
 
     private fun Signup() {
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "SignupApi", mContext)
@@ -180,7 +186,8 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     override fun onApiSuccess(response: Responce, apiName: String?) {
 
         if (response.responseCode == "200") {
-            androidextention.disMissProgressDialog(this)
+//            androidextention.disMissProgressDialog(this)
+            lottie.initLoader(false)
             Log.w("", "Response" + response.result)
             var intent = Intent(this, EmailVerificationActivity::class.java)
             intent.putExtra("FORGOTACTIVITY", "signupactivity")
@@ -199,10 +206,14 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
+        lottie.initLoader(false)
+
         Toast.makeText(this, "This email already exists.", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        lottie.initLoader(false)
+
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
@@ -353,11 +364,15 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
     }
 
     private fun uploadUserImageApi() {
-        androidextention.showProgressDialog(mContext)
+//        androidextention.showProgressDialog(mContext)
+        lottie.initLoader(true)
+
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     if (response.responseCode == "200") {
                         userProfile = response.result.mediaUrl
                         imageType = response.result.mediaType
@@ -371,7 +386,9 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
                 }
 
                 override fun onApiErrorBody(response: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         mContext,
                         "error response" + response.toString(),
@@ -380,7 +397,9 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         mContext,
                         "failure response:" + failureMessage,

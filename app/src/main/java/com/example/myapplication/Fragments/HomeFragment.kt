@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Activities.NoInternetActivity
 import com.example.myapplication.Activities.NotificationActivity
 import com.example.myapplication.Activities.PostActivity
@@ -36,6 +37,7 @@ import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -70,6 +72,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var nestedScrollView: NestedScrollView
     lateinit var totalnotif: TextView
     lateinit var swipeRefresh: SwipeRefreshLayout
+    lateinit var lottie : LottieAnimationView
     var progress:Boolean=true
     var list = ArrayList<Docss>()
     var getSearchText = ""
@@ -110,6 +113,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         notificatio = v.findViewById(R.id.notificatio_icon)
         totalnotif = v.findViewById(R.id.totalNotification)
         swipeRefresh = v.findViewById(R.id.swipeRefresh)
+        lottie = v.findViewById(R.id.loader)
         locationpermission()
 //        totalnotif.visibility = View.GONE
 
@@ -286,7 +290,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     private fun getLocalActivityApi() {
         if(progress)
         {
-            androidextention.showProgressDialog(activity)
+//            androidextention.showProgressDialog(activity)
+            lottie.initLoader(true)
         }
         searchFlag = false
         if (androidextention.isOnline(mContext)) {
@@ -318,6 +323,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             androidextention.disMissProgressDialog(mContext)
             totalnotif.visibility = View.GONE
             internetConnection.visibility = View.VISIBLE
+            lottie.initLoader(false)
+
         }
     }
 
@@ -325,7 +332,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         internetConnection.visibility = View.GONE
 
         progress_bar.visibility = View.GONE
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
         pages = response.result.pages
 
         try {
@@ -346,7 +354,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
+
         progress_bar.visibility = View.GONE
         if (apiName.equals("LocalActivity")){
             Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
@@ -358,9 +368,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
         progress_bar.visibility = View.GONE
-
         Toast.makeText(activity, "Something want wrong", Toast.LENGTH_LONG).show()
     }
 

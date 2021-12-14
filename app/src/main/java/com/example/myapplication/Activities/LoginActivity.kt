@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.airbnb.lottie.LottieAnimationView
 //import androidx.constraintlayout.motion.widget.Debug.getLocation
 import com.example.myapplication.Activities.EmailVerificationActivity
 import com.example.myapplication.Activities.ForgotPasswordActivity
@@ -22,6 +23,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import com.google.android.gms.tasks.OnCompleteListener
@@ -53,6 +55,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var deviceToken: String
     private lateinit var email: EditText
     private lateinit var password: EditText
+    lateinit var lottie : LottieAnimationView
 
     private val PASSWORD_PATTERN =
         Pattern.compile(
@@ -88,6 +91,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         merror = findViewById(R.id.text_error)
         mLayout_Login = findViewById(R.id.layout_login)
         eyeImg = findViewById(R.id.eye_img)
+        lottie = findViewById(R.id.loader)
 
 
         eyeImg.setOnClickListener {
@@ -243,7 +247,8 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
     private fun LogIn() {
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "LoginApi", mContext)
@@ -272,8 +277,8 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
-
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         if (response.responseCode == "200") {
 //            Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
             if (response.result.otpVerification == false)
@@ -296,12 +301,15 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
+
         Toast.makeText(this, "Invalid credential.", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
 
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
 

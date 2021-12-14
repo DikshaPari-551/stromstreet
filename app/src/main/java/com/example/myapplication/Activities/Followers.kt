@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Adaptor.Follower_Adaptor
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
@@ -24,6 +25,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
@@ -34,6 +36,8 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
     var otherUserId: String = ""
     lateinit var progress_bar: ProgressBar
     lateinit var nestedScrollView: NestedScrollView
+    lateinit var lottie : LottieAnimationView
+
     var list = ArrayList<Docss>()
     var page: Int = 1
     var pages: Int = 0
@@ -50,11 +54,13 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-        followerApi()
+
         recycler_view3 = findViewById(R.id.recycler_view3)
         back_arrow_chat = findViewById(R.id.back_arrow_chat)
         progress_bar = findViewById(R.id.progress_bar)
         nestedScrollView = findViewById(R.id.nestedScrollView)
+        lottie = findViewById(R.id.loader)
+        followerApi()
         back_arrow_chat.setOnClickListener {
             finish()
         }
@@ -82,7 +88,9 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
     private fun followerApi() {
         val Token = SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
+
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "Follower", mContext)
@@ -98,7 +106,9 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         if (response.responseCode == "200") {
-            androidextention.disMissProgressDialog(this)
+//            androidextention.disMissProgressDialog(this)
+            lottie.initLoader(false)
+
             pages = response.result.pages
 //            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
             list.addAll(response.result.docs)
@@ -111,10 +121,14 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
 
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
+        lottie.initLoader(false)
+
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        lottie.initLoader(false)
+
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 

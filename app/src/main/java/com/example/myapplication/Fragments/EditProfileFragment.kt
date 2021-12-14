@@ -10,20 +10,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.myapplication.*
 import com.example.myapplication.Activities.ChangePassword
 import com.example.myapplication.BottomSheets.BottomSheetLogout
+import com.example.myapplication.customclickListner.LogoutClickListener
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
-import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import java.lang.Exception
 
 
-class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
+class EditProfileFragment : Fragment(), ApiResponseListener<Responce>, LogoutClickListener {
     lateinit var layoutButtonProfileDetail: LinearLayout
     lateinit var changePassword: LinearLayout
     lateinit var logout: RelativeLayout
@@ -39,6 +41,8 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var phone_no: TextView
     lateinit var email_id: TextView
     lateinit var bio: TextView
+    lateinit var lottie : LottieAnimationView
+
     var facebooklink=""
     var twitterlink=""
     var instalink=""
@@ -53,8 +57,6 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         layoutButtonProfileDetail = v.findViewById(R.id.layout_button_profile_details)
         changePassword = v.findViewById(R.id.change_password)
         mContext = activity!!
-
-        profileApi()
         logout = v.findViewById(R.id.layout_logout_button)
         username = v.findViewById(R.id.username)
         name = v.findViewById(R.id.name)
@@ -67,12 +69,14 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         youtube = v.findViewById(R.id.youtube)
         youtube = v.findViewById(R.id.youtube)
         bio = v.findViewById(R.id.bio)
+        lottie = v.findViewById(R.id.loader)
 
+        profileApi()
 
 
         logout.setOnClickListener {
             var bottomsheettt =
-                BottomSheetLogout()
+                BottomSheetLogout(this)
             fragmentManager?.let { it1 -> bottomsheettt.show(it1, "bottomsheet") }
 
         }
@@ -142,7 +146,8 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         val Token =
             SavedPrefManager.getStringPreferences(activity, SavedPrefManager.TOKEN).toString()
 //        val Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmZiMTBjZTYzMjY0MjA4ZDA4MWExNSIsImVtYWlsIjoiYWpheUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ3MTAyMTEsImV4cCI6MTYzNDc5NjYxMX0.NirNVhYOeAlgfalbbSJ4x2KBUK8L62FKXRPENA6CdJY"
-        androidextention.showProgressDialog(activity)
+//        androidextention.showProgressDialog(activity)
+        lottie.initLoader(true)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(this, "Update", mContext)
@@ -155,12 +160,17 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
-        username.setText(response.result.userResult.userName)
-        name.setText(response.result.userResult.fullName)
-        phone_no.setText(response.result.userResult.phoneNumber)
-        email_id.setText(response.result.userResult.email)
-        bio.setText(response.result.userResult.bio)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
+        try {
+            username.setText(response.result.userResult.userName)
+            name.setText(response.result.userResult.fullName)
+            phone_no.setText(response.result.userResult.phoneNumber)
+            email_id.setText(response.result.userResult.email)
+            bio.setText(response.result.userResult.bio)
+        }catch(e: Exception) {
+            e.printStackTrace()
+        }
         try {
             twitterlink = response.result.userResult.socialLinks.twitter
             facebooklink = response.result.userResult.socialLinks.facebook
@@ -177,10 +187,14 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
+        lottie.initLoader(false)
+
         Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        lottie.initLoader(false)
+
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
@@ -189,6 +203,12 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         super.onResume()
         profileApi()
 
+    }
+
+    override fun logoutClick(value: Boolean) {
+        if(value){
+            lottie.initLoader(true)
+        }
     }
 
 }

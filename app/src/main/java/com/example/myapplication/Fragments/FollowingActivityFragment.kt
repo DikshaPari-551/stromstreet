@@ -14,6 +14,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Activities.UserProfile
 import com.example.myapplication.Adaptor.FollowingListAdaptor
@@ -28,6 +29,7 @@ import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 import kotlin.math.max
@@ -51,6 +53,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     lateinit var internetConnection: LinearLayout
     lateinit var nestedScrollView: NestedScrollView
     lateinit var swipeRefresh: SwipeRefreshLayout
+    lateinit var lottie : LottieAnimationView
+
     var progress:Boolean=true
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
@@ -82,6 +86,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
         swipeRefresh = v.findViewById(R.id.swipeRefresh)
         textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
+        lottie = v.findViewById(R.id.loader)
+
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
@@ -200,7 +206,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         searchFlag = false
         if(progress)
         {
-            androidextention.showProgressDialog(mContext)
+//            androidextention.showProgressDialog(mContext)
+            lottie.initLoader(true)
         }
         if (androidextention.isOnline(mContext)) {
 
@@ -225,13 +232,15 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
                 e.printStackTrace()
             }
         } else {
-            androidextention.disMissProgressDialog(mContext)
+//            androidextention.disMissProgressDialog(mContext)
+            lottie.initLoader(false)
             internetConnection.visibility = View.VISIBLE
         }
     }
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
         try {
             pages = response.result.pages
             list.addAll(response.result.docs)
@@ -242,10 +251,12 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 

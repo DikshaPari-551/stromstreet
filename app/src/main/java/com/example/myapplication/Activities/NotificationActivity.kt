@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Adaptor.NotificationAdaptor
 import com.example.myapplication.Exoplayer
 import com.example.myapplication.R
@@ -23,6 +24,7 @@ import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 
 class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActivityResponse>,
@@ -33,6 +35,8 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
     var otherUserId: String = ""
     lateinit var progress_bar: ProgressBar
     lateinit var nestedScrollView: NestedScrollView
+    lateinit var lottie : LottieAnimationView
+
     var list = ArrayList<Docss>()
     var page: Int = 1
     var pages: Int = 0
@@ -48,11 +52,13 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-        followerApi()
+
         recycler_view3 = findViewById(R.id.recycler_view3)
         back_arrow_chat = findViewById(R.id.back_arrow_chat)
         progress_bar = findViewById(R.id.progress_bar)
         nestedScrollView = findViewById(R.id.nestedScrollView)
+        lottie = findViewById(R.id.loader)
+        followerApi()
         back_arrow_chat.setOnClickListener {
             finish()
         }
@@ -71,7 +77,8 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
                         progress_bar.visibility = View.GONE
                     } else {
                         followerApi()
-                        androidextention.disMissProgressDialog(mContext)
+                        lottie.initLoader(false)
+//                        androidextention.disMissProgressDialog(mContext)
                     }
                 }
             }
@@ -82,7 +89,8 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
     private fun followerApi() {
         val Token = SavedPrefManager.getStringPreferences(this, SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "Follower", mContext)
@@ -98,7 +106,8 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         if (response.responseCode == "200") {
-            androidextention.disMissProgressDialog(this)
+//            androidextention.disMissProgressDialog(this)
+            lottie.initLoader(false)
             pages = response.result.pages
             list.addAll(response.result.docs)
             setAdapter(list)
@@ -109,12 +118,16 @@ class NotificationActivity : AppCompatActivity(), ApiResponseListener<LocalActiv
 
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
+
 //        Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
+
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 

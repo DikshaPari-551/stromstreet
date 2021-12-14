@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.myapplication.Activities.Followers
 import com.example.myapplication.Activities.Following
@@ -19,6 +20,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import de.hdodenhof.circleimageview.CircleImageView
@@ -44,6 +46,8 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var userBio: TextView
     lateinit var moreUserBio: TextView
     lateinit var moreButton: TextView
+    lateinit var lottie : LottieAnimationView
+
     var moreText = ""
     lateinit var buttonProfileDetail: LinearLayout
 //    lateinit var progress_bar: ProgressBar
@@ -60,7 +64,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_profile, container, false)
         mContext = activity!!
-        profileApi()
+
         tag = v.findViewById(R.id.tag)
         back_tab1 = v.findViewById(R.id.back_tab1)
         totalfollower = v.findViewById(R.id.totalfollower)
@@ -72,6 +76,16 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         userBio = v.findViewById(R.id.userbio)
         moreUserBio = v.findViewById(R.id.more_userbio)
         moreButton = v.findViewById(R.id.more_button)
+        lottie = v.findViewById(R.id.loader)
+        backButton = v.findViewById(R.id.back_arrow)
+        color_grid = v.findViewById(R.id.color_grid)
+        back_tab = v.findViewById(R.id.back_tab)
+        layout_tab1 = v.findViewById(R.id.layout_tab1)
+        layout_tab2 = v.findViewById(R.id.layout_tab2)
+        username = v.findViewById(R.id.username)
+        followers = v.findViewById(R.id.followers)
+        following = v.findViewById(R.id.following)
+        profileApi()
 //        progress_bar = v.findViewById(R.id.progress_bar)
 //        nestedScrollView = v.findViewById(R.id.nestedScrollView)
 
@@ -83,7 +97,6 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
             )
                 ?.commit()
         }
-        backButton = v.findViewById(R.id.back_arrow)
         backButton.setOnClickListener {
             getFragmentManager()?.beginTransaction()?.replace(
                 R.id.linear_layout,
@@ -92,13 +105,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
                 ?.commit()
         }
 
-        color_grid = v.findViewById(R.id.color_grid)
-        back_tab = v.findViewById(R.id.back_tab)
-        layout_tab1 = v.findViewById(R.id.layout_tab1)
-        layout_tab2 = v.findViewById(R.id.layout_tab2)
-        username = v.findViewById(R.id.username)
-        followers = v.findViewById(R.id.followers)
-        following = v.findViewById(R.id.following)
+
         color_grid.setImageDrawable(resources.getDrawable(R.drawable.color_grid))
         back_tab.setBackgroundResource(R.drawable.rectangle_tab)
         tag.setImageDrawable(resources.getDrawable(R.drawable.tag))
@@ -186,7 +193,8 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         val Token =
             SavedPrefManager.getStringPreferences(activity, SavedPrefManager.TOKEN).toString()
 //        val Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmZiMTBjZTYzMjY0MjA4ZDA4MWExNSIsImVtYWlsIjoiYWpheUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6IlVzZXIiLCJpYXQiOjE2MzQ3MTAyMTEsImV4cCI6MTYzNDc5NjYxMX0.NirNVhYOeAlgfalbbSJ4x2KBUK8L62FKXRPENA6CdJY"
-        androidextention.showProgressDialog(activity)
+//        androidextention.showProgressDialog(activity)
+        lottie.initLoader(true)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(this, "Update", mContext)
@@ -199,7 +207,8 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
         moreText = response.result.userResult.bio
         username.setText(response.result.userResult.fullName)
         userBio.setText(response.result.userResult.bio)
@@ -214,10 +223,12 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 

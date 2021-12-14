@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.myapplication.*
 import com.example.myapplication.ValidationExt.Validations
@@ -26,6 +27,7 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.entity.permission.RequestPermission
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import de.hdodenhof.circleimageview.CircleImageView
@@ -53,6 +55,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
     private lateinit var etInstagramLink: EditText
     private lateinit var etYoutubeLink: EditText
     lateinit var layoutButoonSaveChanges: RelativeLayout
+    lateinit var lottie : LottieAnimationView
     lateinit var backButton: ImageView
     private lateinit var mContext: Context
     private var etfullName: String? = ""
@@ -84,7 +87,7 @@ class ProfileChangeFragment : Fragment(), ClickListner {
         var v = inflater.inflate(R.layout.fragment_profile_change, container, false)
         mContext = activity!!.applicationContext
         serviceManager = ServiceManager(mContext)
-
+        lottie = v.findViewById(R.id.loader)
         fullNameProfileEt = v.findViewById(R.id.fullname_profile_et)
         nameProfileText = v.findViewById(R.id.name_profile_text)
         usernameProfileEt = v.findViewById(R.id.username_profile_et)
@@ -167,12 +170,14 @@ class ProfileChangeFragment : Fragment(), ClickListner {
     }
 
     fun getProfile() {
-        androidextention.showProgressDialog(mContext)
+//        androidextention.showProgressDialog(mContext)
+        lottie.initLoader(true)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
                     if (response.responseCode == "200") {
                         fullNameProfileEt.setText(response.result.userResult.fullName)
                         usernameProfileEt.setText(response.result.userResult.userName)
@@ -193,7 +198,9 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 }
 
                 override fun onApiErrorBody(response: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         mContext,
                         "Something Went Wrong" + response.toString(),
@@ -202,7 +209,9 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     Toast.makeText(mContext, "Server not responding" + failureMessage, Toast.LENGTH_LONG)
                         .show()
                 }
@@ -217,12 +226,15 @@ class ProfileChangeFragment : Fragment(), ClickListner {
     }
 
     fun updateProfileDeatils() {
-        androidextention.showProgressDialog(mContext)
+//        androidextention.showProgressDialog(mContext)
+        lottie.initLoader(true)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     if (response.responseCode == "200") {
                         USER_IMAGE_UPLOADED = "false"
 
@@ -246,7 +258,9 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 }
 
                 override fun onApiErrorBody(response: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         activity,
                         "error response" + response.toString(),
@@ -255,7 +269,9 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         activity,
                         "failure response:" + failureMessage,
@@ -288,11 +304,14 @@ class ProfileChangeFragment : Fragment(), ClickListner {
     }
 
     private fun uploadUserImageApi() {
-        androidextention.showProgressDialog(mContext)
+//        androidextention.showProgressDialog(mContext)
+        lottie.initLoader(true)
         callBack =
             ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                 override fun onApiSuccess(response: Responce, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     if (response.responseCode == "200") {
                         USER_IMAGE_UPLOADED = "true"
                         userProfileLink = response.result.mediaUrl
@@ -309,7 +328,9 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 }
 
                 override fun onApiErrorBody(response: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         mContext,
                         "error response" + response.toString(),
@@ -318,7 +339,9 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                 }
 
                 override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                    androidextention.disMissProgressDialog(mContext)
+//                    androidextention.disMissProgressDialog(mContext)
+                    lottie.initLoader(false)
+
                     Toast.makeText(
                         mContext,
                         "failure response:" + failureMessage,

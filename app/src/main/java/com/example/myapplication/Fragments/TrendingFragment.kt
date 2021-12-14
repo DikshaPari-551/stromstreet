@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Activities.UserProfile
 import com.example.myapplication.Adaptor.TrendingListAdaptor
@@ -30,6 +31,7 @@ import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 
 
@@ -54,6 +56,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var nestedScrollView: NestedScrollView
     lateinit var progress_bar: ProgressBar
     lateinit var swipeRefresh: SwipeRefreshLayout
+    lateinit var lottie : LottieAnimationView
+
     var progress:Boolean=true
     var result: String =""
 
@@ -85,6 +89,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
         progress_bar = v.findViewById(R.id.progress_bar)
         swipeRefresh = v.findViewById(R.id.swipeRefresh)
+        lottie = v.findViewById(R.id.loader)
 
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -178,7 +183,9 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                         progress_bar.visibility=View.GONE
                     } else {
                         getTrendingPostApi()
-                        androidextention.disMissProgressDialog(activity)
+//                        androidextention.disMissProgressDialog(activity)
+                        lottie.initLoader(false)
+
 
                     }
                 }
@@ -212,7 +219,9 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         searchFlag = false
         if(progress)
         {
-            androidextention.showProgressDialog(mContext)
+            lottie.initLoader(true)
+
+//            androidextention.showProgressDialog(mContext)
         }
         if (androidextention.isOnline(mContext)) {
 
@@ -243,13 +252,17 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                 e.printStackTrace()
             }
         } else {
-            androidextention.disMissProgressDialog(mContext)
+//            androidextention.disMissProgressDialog(mContext)
+            lottie.initLoader(false)
+
             internetConnection.visibility = View.VISIBLE
         }
     }
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
+
         pages = response.result.pages
 
         list.addAll(response.result.docs)
@@ -260,12 +273,16 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
+
         Toast.makeText(activity, "Data not found", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
+
         Toast.makeText(activity, "Something want wrong", Toast.LENGTH_LONG).show()
     }
 
@@ -308,7 +325,9 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             }
         }
     }else {
-            androidextention.disMissProgressDialog(mContext)
+//            androidextention.disMissProgressDialog(mContext)
+            lottie.initLoader(false)
+
             Toast.makeText(mContext,"Please check your internet connection.", Toast.LENGTH_LONG).show()
         }
     }

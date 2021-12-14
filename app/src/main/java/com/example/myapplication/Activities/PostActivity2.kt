@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.CommentImageSliderAdaptor
 import com.example.myapplication.Adaptor.ImageSliderAdaptor
@@ -30,6 +31,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
@@ -70,6 +72,8 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     lateinit var multiPost: ViewPager2
     lateinit var imageCount: TextView
     lateinit var totalImageCount: TextView
+    lateinit var lottie : LottieAnimationView
+
     var tImageCounter = 0
     var imageCounter = 1
 
@@ -121,6 +125,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         profileImage = findViewById(R.id.profileImage)
         address = findViewById(R.id.address)
         userImageComment = findViewById(R.id.user_image_comment)
+        lottie = findViewById(R.id.loader)
 
 //multiimage view
         multiPostViewer = findViewById(R.id.multi_post_viewer)
@@ -247,7 +252,8 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     private fun followunfollow() {
-        androidextention.showProgressDialog(this)
+//        androidextention.showProgressDialog(this)
+        lottie.initLoader(true)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -261,7 +267,8 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     private fun likeunlike() {
-        androidextention.showProgressDialog(this)
+//        androidextention.showProgressDialog(this)
+        lottie.initLoader(true)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -286,7 +293,8 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         if (androidextention.isOnline(this)) {
             if(prgress)
             {
-                androidextention.showProgressDialog(this)
+//                androidextention.showProgressDialog(this)
+                lottie.initLoader(true)
             }
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -336,6 +344,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+        lottie.initLoader(false)
 
         if (apiName.equals("PostDetails")) {
             try {
@@ -456,13 +465,15 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 
     fun commentLikeApi(commentId: String, commentLike: ImageView) {
         if (androidextention.isOnline(mContext)) {
-            androidextention.showProgressDialog(mContext)
+//            androidextention.showProgressDialog(mContext)
+            lottie.initLoader(true)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                     override fun onApiSuccess(response: Responce, apiName: String?) {
                         Log.d("commentlikes", response.result.toString())
                         if (response.responseCode == "200") {
+                            lottie.initLoader(false)
                             if (response.result.isLike == true) {
                                 commentLike.setImageDrawable(resources.getDrawable(R.drawable.heartred))
 //                                commentLike.setColorFilter(resources.getColor(R.color.red))
@@ -470,7 +481,8 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                                 commentLike.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
                             }
                             Commentlist()
-                            androidextention.disMissProgressDialog(mContext)
+//                            androidextention.disMissProgressDialog(mContext)
+
                         } else {
                             Toast.makeText(mContext, response.responseMessage, Toast.LENGTH_SHORT)
                                 .show()
@@ -478,13 +490,17 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                     }
 
                     override fun onApiErrorBody(response: String?, apiName: String?) {
-                        androidextention.disMissProgressDialog(mContext)
+//                        androidextention.disMissProgressDialog(mContext)
+                        lottie.initLoader(false)
+
 //                        Toast.makeText(mContext,"Server not responding.", Toast.LENGTH_SHORT).show()
 
                     }
 
                     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                        androidextention.disMissProgressDialog(mContext)
+//                        androidextention.disMissProgressDialog(mContext)
+                        lottie.initLoader(false)
+
                         Toast.makeText(mContext, "Server not responding.", Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -515,14 +531,15 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(mContext)
+//        androidextention.disMissProgressDialog(mContext)
+        lottie.initLoader(false)
 
 //        Toast.makeText(this, "Data not found.", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(mContext)
-
+//        androidextention.disMissProgressDialog(mContext)
+        lottie.initLoader(false)
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 

@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.ValidationExt.Validations
@@ -20,6 +21,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
 import java.lang.Exception
@@ -32,6 +34,8 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
     lateinit var forget_text_error: TextView
     var mContext: Context = this
     lateinit var email : String
+    lateinit var lottie : LottieAnimationView
+
 
     //    lateinit var mErrorTextForgotPassword : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +52,8 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
         forget_email = findViewById(R.id.forget_email_text)
         mErrorTextForgotPassword=findViewById(R.id.email_forgot_password)
         send_otp = findViewById(R.id.layout_otp)
+        lottie = findViewById(R.id.loader)
+
 //        mErrorTextForgotPassword = findViewById(R.id.email_forgot_password)
 
         send_otp.setOnClickListener {
@@ -72,7 +78,9 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
     }
 
     private fun forgetpassword() {
-        androidextention.showProgressDialog(this)
+//        androidextention.showProgressDialog(this)
+        lottie.initLoader(true)
+
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(this, "ForgetPassword", mContext)
@@ -89,6 +97,7 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+        lottie.initLoader(false)
         if (androidextention.isOnline(this)) {
             if (response.responseCode == "200") {
                 Toast.makeText(
@@ -110,10 +119,12 @@ class ForgotPasswordActivity : AppCompatActivity() , ApiResponseListener<Responc
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(this, "Something Went Wrong" + response.toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(this, "Server not responding" + failureMessage, Toast.LENGTH_LONG).show()
     }
 }

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.ImageSliderAdaptor
 import com.example.myapplication.BottomSheets.BottomSheetOptions
@@ -26,6 +27,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import de.hdodenhof.circleimageview.CircleImageView
 import me.relex.circleindicator.CircleIndicator3
@@ -55,6 +57,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     lateinit var viewPager2: ViewPager2
     lateinit var indicator3: CircleIndicator3
     lateinit var internetConnection: LinearLayout
+    lateinit var lottie : LottieAnimationView
     var shareImageLinks = ArrayList<String>()
     var shareLink: String = ""
     var VP_Position = 0
@@ -81,8 +84,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-        getINent()
-        postdetails()
+
         backPostButton = findViewById(R.id.back_arrow_post)
         profileimg = findViewById(R.id.profileimg)
         sharePost = findViewById(R.id.share_post)
@@ -105,7 +107,10 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
         internetConnection = findViewById(R.id.no_wifi)
         comment = findViewById(R.id.comment)
         three_dots = findViewById(R.id.three_dots)
+        lottie = findViewById(R.id.loader)
 
+        getINent()
+        postdetails()
         limitTextMore.visibility = View.VISIBLE
         layoutMore.visibility = View.GONE
         USERID_data = SavedPrefManager.getStringPreferences(this, SavedPrefManager.USERID).toString()
@@ -299,7 +304,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
         if (androidextention.isOnline(this)) {
             if (prgress) {
-                androidextention.showProgressDialog(this)
+//                androidextention.showProgressDialog(this)
+                lottie.initLoader(true)
             }
 
             val serviceManager = ServiceManager(mContext)
@@ -352,8 +358,9 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     }
 
     private fun followunfollow() {
-        androidextention.showProgressDialog(mContext)
+//        androidextention.showProgressDialog(mContext)
 //        val Token = SavedPrefManager.getStringPreferences(this,SavedPrefManager.TOKEN).toString()
+        lottie.initLoader(false)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -368,7 +375,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
 
     private fun deletePostapi() {
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
                     val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "DeletePost", mContext)
@@ -382,8 +390,9 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
 
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
 //        commentcount.setText(response.result.commentCount.toString())
+        lottie.initLoader(false)
         LikeUnlike = response.result.isLike
         isSaved = response.result.isSave
         isFollow = response.result.isFollow
@@ -497,12 +506,14 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
