@@ -1,24 +1,28 @@
 package com.example.myapplication.Fragments
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.Activities.PostActivity
+import com.example.myapplication.Activities.UserProfile
 import com.example.myapplication.Adaptor.TrendingListAdaptor
 import com.example.myapplication.Exoplayer
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.CustomClickListnerdelete
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
 import com.example.myapplication.entity.Response.Docss
@@ -27,11 +31,10 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.SavedPrefManager
-import okhttp3.ResponseBody
 
 
 class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
-    CustomClickListner2 {
+    CustomClickListnerdelete {
     lateinit var mContext: Context
     lateinit var adaptor: TrendingListAdaptor
     lateinit var USERID: String
@@ -50,10 +53,13 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     private var longitude: Double = 0.0
     lateinit var nestedScrollView: NestedScrollView
     lateinit var progress_bar: ProgressBar
+    lateinit var swipeRefresh: SwipeRefreshLayout
+    var progress:Boolean=true
+    var result: String =""
 
     var list = ArrayList<Docss>()
     var searchValue = ""
-    var catId: String = ""
+    var catId: ArrayList<String>? = null
     var maxDis: Int = 0
     var page: Int = 1
     var pages: Int = 0
@@ -78,11 +84,12 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         internetConnection = v.findViewById(R.id.no_wifi)
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
         progress_bar = v.findViewById(R.id.progress_bar)
+        swipeRefresh = v.findViewById(R.id.swipeRefresh)
 
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
-            catId = arguments?.getString("CAT_ID")!!
+            catId = (arguments?.getSerializable("CAT_ID") as ArrayList<String>?)!!
             maxDis = arguments?.getInt("MAX_DIS")!!
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -94,11 +101,16 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         }
         goButton.setOnClickListener {
+            if (!searchText.text.toString().equals("") && searchText.text.toString() != null){
             list.clear()
             searchValue = searchText.text.toString()
             getTrendingPostApi()
         }
-
+        }
+        swipeRefresh.setOnRefreshListener {
+            refresh()
+            swipeRefresh.isRefreshing = false
+        }
 //        textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
 //        textLocalPostTrending.setOnClickListener{
 //            textLocalPostTrending.setTextColor(resources.getColor(R.color.orange))
@@ -166,6 +178,8 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                         progress_bar.visibility=View.GONE
                     } else {
                         getTrendingPostApi()
+                        androidextention.disMissProgressDialog(activity)
+
                     }
                 }
             }
@@ -185,6 +199,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                     list.clear()
                     searchValue = ""
                     getTrendingPostApi()
+
                 }
             }
 
@@ -195,8 +210,12 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     private fun getTrendingPostApi() {
         searchFlag = false
-        if (androidextention.isOnline(mContext)) {
+        if(progress)
+        {
             androidextention.showProgressDialog(mContext)
+        }
+        if (androidextention.isOnline(mContext)) {
+
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<LocalActivityResponse> =
                 ApiCallBack<LocalActivityResponse>(this, "LocalActivity", mContext)
@@ -207,7 +226,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             apiRequest.search = searchValue
 
             try {
-                if (catId != null && !catId.equals("") || maxDis != null && maxDis > 0) {
+                if (catId != null && !catId!!.equals(null) || maxDis != null && maxDis > 0) {
 
                     serviceManager.getTrendingPost(callBack,latitude,longitude,apiRequest,page.toString(),limit.toString())
 
@@ -224,6 +243,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                 e.printStackTrace()
             }
         } else {
+            androidextention.disMissProgressDialog(mContext)
             internetConnection.visibility = View.VISIBLE
         }
     }
@@ -257,21 +277,80 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         adaptor.notifyDataSetChanged()
     }
 
-    override fun customClick(value: Docss, type: String) {
+    override fun customClick(value: Docss, type: String, i: Int) {
         USERID = value._id
+        var otheruserid = value.userId
+        if(androidextention.isOnline(mContext)) {
+            internetConnection.visibility = View.GONE
+
         if (type.equals("profile")) {
             if (value.mediaType.toLowerCase().equals("video")) {
                 var intent = Intent(mContext, Exoplayer::class.java)
+                intent.putExtra("postion",i.toString())
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
+                startActivityForResult(intent,1)
             } else {
                 var intent = Intent(mContext, PostActivity::class.java)
+                intent.putExtra("postion",i.toString())
                 SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
-                startActivity(intent)
+                startActivityForResult(intent,1)
             }
 
+        }    else if(type.equals("userid"))
+        {
+            if ((SavedPrefManager.getStringPreferences(activity, SavedPrefManager.KEY_IS_LOGIN)
+                    .equals("true"))
+            ) {
+                SavedPrefManager.saveStringPreferences( mContext,SavedPrefManager.otherUserId,otheruserid)
+                var intent = Intent(mContext, UserProfile::class.java)
+//            intent.putExtra("id",value._id)
+                startActivity(intent)
+            }
+        }
+    }else {
+            androidextention.disMissProgressDialog(mContext)
+            Toast.makeText(mContext,"Please check your internet connection.", Toast.LENGTH_LONG).show()
         }
     }
+//    override fun customClick(value: Docss, type: String) {
+//        USERID = value._id
+//        if (type.equals("profile")) {
+//            if (value.mediaType.toLowerCase().equals("video")) {
+//                var intent = Intent(mContext, Exoplayer::class.java)
+//                intent.putExtra("postion",i.toString())
+//                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//                startActivityForResult(intent,1)
+//            } else {
+//                var intent = Intent(mContext, PostActivity::class.java)
+//                intent.putExtra("postion",i.toString())
+//                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
+//                startActivityForResult(intent,1)
+//            }
+//
+//        }
+//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1){
+            if (resultCode == Activity.RESULT_OK) {
+                result = data!!.getStringExtra("result")
+                System.out.println("postposition"+result)
+                list!!.removeAt(result.toInt());
+                adaptor.notifyItemRemoved(result.toInt());
+                adaptor.notifyItemRangeChanged(result.toInt(), list.size)
+            }
+        }
+    }
+    fun refresh(){
+        progress=false
+        page = 1
+        list.clear()
+        catId=null
+        maxDis = 0
+        getTrendingPostApi()
+    }
+
+
 }
 
 

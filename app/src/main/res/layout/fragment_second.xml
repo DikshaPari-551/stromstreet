@@ -17,24 +17,74 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/user_treanding_img"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            >
 
             <ImageView
                 android:id="@+id/user"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerVertical="true"
+                android:visibility="visible"
+                android:padding="2dp"
                 android:src="@drawable/back_arrow" />
 
+        </LinearLayout>
 
-        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/back_arrow_tranding"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:src="@drawable/back_arrow" />
+
+        <TextView
+            android:id="@+id/trending_post_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:text="Filter"
+            android:fontFamily="@font/opensans_regular"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <ImageView-->
+<!--               -->
+<!--                android:layout_width="22dp"-->
+<!--                android:layout_height="22dp"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:src="@drawable/back_arrow" />-->
+
+
+<!--        </RelativeLayout>-->
 
     </LinearLayout>
 
@@ -218,6 +268,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/categoty_list"
                         android:layout_width="wrap_content"
+                        android:paddingLeft="10dp"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 

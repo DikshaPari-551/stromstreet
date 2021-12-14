@@ -18,3 +18,11 @@ interface CustomClickListner3 {
     fun customClick(value: UserPostDocs, type:String)
 
 }
+interface CustomClickListnerdelete {
+    fun customClick(value: Docss, type:String,i:Int)
+
+}
+interface CustomClickListneruserpost {
+    fun customClick(value: UserPostDocs, type:String,i:Int)
+
+}

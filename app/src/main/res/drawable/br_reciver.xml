@@ -8,7 +8,10 @@
         android:topLeftRadius="8dp"
         android:topRightRadius="8dp" />
 
-    <solid android:color="@color/reciver" />
+    <gradient
+        android:startColor="#f74b69"
+        android:endColor="#e58831"
+        android:type="linear" />
 
 
 </shape>

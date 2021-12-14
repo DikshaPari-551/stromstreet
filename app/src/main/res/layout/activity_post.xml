@@ -18,11 +18,10 @@
     <ImageView
         android:id="@+id/vedio"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
-        android:layout_marginBottom="55dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+
         android:background="@color/black"
-        android:scaleType="fitXY"
         android:visibility="visible"/>
 
     <LinearLayout
@@ -30,27 +29,45 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="1.2">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
 
-        <ImageView
-            android:id="@+id/back_arrow_post"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/back_arrow" />
+            <ImageView
+                android:id="@+id/back_arrow_post"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/back_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/three_dots"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/three_dots"
+                android:layout_marginRight="15dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="end"
             android:layout_weight="1.15"
-            android:gravity="bottom"
+            android:gravity="center"
+            android:paddingTop="10dp"
             android:orientation="vertical"
             android:paddingRight="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:padding="10dp">
 
                 <LinearLayout
@@ -73,9 +90,8 @@
                         android:id="@+id/totalLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_regular"
                         android:layout_gravity="center"
-                        android:text=""
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -105,9 +121,8 @@
                     android:id="@+id/commentcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_regular"
                     android:layout_gravity="center"
-                    android:text=""
+                    android:fontFamily="@font/opensans_regular"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -135,8 +150,8 @@
                     android:id="@+id/totalshare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_regular"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/opensans_regular"
                     android:text=""
                     android:textColor="@color/white"
                     android:textSize="12sp"
@@ -166,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-
+                android:visibility="gone"
                 android:padding="10dp">
 
                 <LinearLayout
@@ -178,21 +193,23 @@
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/alert_icon_white" />
+                    android:src="@drawable/alert_icon_white"
+                    android:visibility="visible" />
             </LinearLayout>
 
 
         </LinearLayout>
+
         <me.relex.circleindicator.CircleIndicator3
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="18dp"
-            app:ci_drawable_unselected="@drawable/unselected"
             android:layout_gravity="center_horizontal"
-            app:ci_drawable="@drawable/selected"
             android:layout_marginTop="12dp"
-            tools:ignore="MissingClass"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:ci_drawable="@drawable/selected"
+            app:ci_drawable_unselected="@drawable/unselected"
+            tools:ignore="MissingClass" />
 
 
         <LinearLayout
@@ -233,31 +250,35 @@
                             android:paddingTop="5dp">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:weightSum="1">
 
                                 <TextView
                                     android:id="@+id/username"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/opensans_semibold"
                                     android:paddingLeft="14dp"
                                     android:text=""
+                                    android:layout_weight="0.6"
+                                    android:singleLine="true"
                                     android:textColor="@color/white"
                                     android:textSize="18sp"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/follow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_width="110dp"
+                                    android:layout_height="30dp"
+                                    android:layout_weight="0.5"
                                     android:fontFamily="@font/opensans_regular"
-                                    android:paddingLeft="10dp"
+                                    android:gravity="center"
                                     android:text="+ follow"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/orange"
                                     android:textSize="12sp"
+                                    android:visibility="gone"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -268,39 +289,38 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:orientation="horizontal"
-                                android:weightSum="1"
-                                >
+                                android:weightSum="1">
 
                                 <ImageView
 
                                     android:layout_width="60dp"
                                     android:layout_height="15dp"
-                                    android:layout_weight="0.3"
                                     android:layout_gravity="center_vertical"
+                                    android:layout_weight="0.3"
                                     android:src="@drawable/location_white" />
 
                                 <TextView
                                     android:id="@+id/address"
-                                    android:layout_weight="0.4"
                                     android:layout_width="match_parent"
-                                    android:layout_gravity="center"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="0.4"
                                     android:fontFamily="@font/opensans_light"
+                                    android:singleLine="true"
                                     android:paddingLeft="5dp"
                                     android:paddingRight="5dp"
                                     android:text=""
-                                    android:maxLines="2"
                                     android:textColor="@color/white"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/eventType"
-                                    android:layout_weight="0.3"
                                     android:layout_width="110dp"
                                     android:layout_height="30dp"
-                                    android:gravity="center"
+                                    android:layout_weight="0.3"
                                     android:fontFamily="@font/opensans_regular"
+                                    android:gravity="center"
                                     android:text=""
                                     android:textColor="@color/white"
                                     android:textSize="12dp"
@@ -324,28 +344,30 @@
                             android:id="@+id/text_more"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textMultiLine"
+                            android:background="@null"
+                            android:clickable="false"
+                            android:editable="false"
                             android:fontFamily="@font/opensans_regular"
-                            android:textColor="@color/white"
+                            android:gravity="top|start"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
                             android:scrollbars="vertical"
                             android:scrollHorizontally="false"
-                            android:background="@null"
                             android:text=""
-                            android:gravity="top|start"
-                            android:lines="4"
-                            android:editable="false"
-                            android:clickable="false"
+                            android:textColor="@color/white"
                             android:textSize="12sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/limit_text_more"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/opensans_regular"
+                            android:singleLine="true"
                             android:textColor="@color/white"
                             android:textSize="12sp"
-                            android:singleLine="true"
-                            android:visibility="visible"/>
+                            android:scrollbars="vertical"
+                            android:visibility="visible" />
 
                         <TextView
                             android:id="@+id/more"

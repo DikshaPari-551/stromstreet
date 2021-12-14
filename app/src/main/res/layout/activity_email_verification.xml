@@ -32,9 +32,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/opensans_semibold"
-            android:text="Enter the OTP to the provided email address."
+            android:text="Enter the OTP sent to the provided email address."
             android:textColor="@color/darkgrey"
-
             android:textSize="12sp"
             android:textStyle="bold" />
 

@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.CommentImageSliderAdaptor
@@ -59,7 +60,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     lateinit var commentvalue: String
     lateinit var commentLayout: RelativeLayout
     var shareImageLinks = ArrayList<String>()
-
+    var prgress:Boolean=true
     private lateinit var adapter2: CommentImageSliderAdaptor
 
     //multiimage view
@@ -85,6 +86,8 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     var click: Boolean = false
     var commentType = ""
     lateinit var adaptor: Post2Adapter
+    lateinit var swipeRefresh: SwipeRefreshLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +99,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             window.statusBarColor = resources.getColor(R.color.black)
         }
 
-
+        swipeRefresh = findViewById(R.id.swipeRefresh)
         post2recycler = findViewById(R.id.post2recyclerview)
         loginFlag = LoginFlag.getLoginFlag()
         follow1 = findViewById(R.id.follow1)
@@ -137,7 +140,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
         getINent()
         postdetails()
         Commentlist()
-
+        swipeRefresh.setOnRefreshListener {
+            refresh()
+            swipeRefresh.isRefreshing = false
+        }
 
         follow1.setOnClickListener {
             followunfollow()
@@ -235,7 +241,13 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 //        }
     }
 
+    private fun refresh() {
+        postdetails()
+        Commentlist()
+    }
+
     private fun followunfollow() {
+        androidextention.showProgressDialog(this)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -249,6 +261,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     private fun likeunlike() {
+        androidextention.showProgressDialog(this)
         if (androidextention.isOnline(this)) {
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
@@ -271,7 +284,10 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
 
     private fun postdetails() {
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+            if(prgress)
+            {
+                androidextention.showProgressDialog(this)
+            }
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "PostDetails", mContext)
@@ -320,6 +336,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+
         if (apiName.equals("PostDetails")) {
             try {
                 username.setText(response.result.postResult.userId.userName.toString())
@@ -330,11 +347,15 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                 postid = response.result.postResult.userId._id.toString()
                 address.setText(response.result.postResult.address.toString())
                 mediatype = response.result.postResult.mediaType
-
+                isFollow = response.result.isFollow
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
+            if (isFollow == true) {
+                follow1.setText("Unfollow")
+            } else if (isFollow == false) {
+                follow1.setText("Follow")
+            }
 
             LikeUnlike = response.result.isLike
             try {
@@ -387,7 +408,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                     var filedata = response.result.postResult.thumbNail
                     shareLink = response.result.postResult.videoLink
 
-                    Glide.with(this).load(filedata).into(vedio);
+                    Glide.with(mContext).load(filedata).into(vedio);
                 } catch (e: IndexOutOfBoundsException) {
                     e.printStackTrace()
                 }
@@ -400,6 +421,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             } else if (LikeUnlike == false) {
                 video_post_like.setImageDrawable(resources.getDrawable(R.drawable.grey_heart))
             }
+            prgress=false
             postdetails()
         }
         if (apiName.equals("Comment")) {
@@ -409,14 +431,21 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
             Commentlist()
             commentLayout.visibility = View.VISIBLE
         }
-        isFollow = response.result.isFollow
-        if (apiName.equals("PostDetails")) {
-            if (isFollow == true) {
-                follow1.setText("Unfollow")
-            } else if (isFollow == false) {
-                follow1.setText("Follow")
-            }
+
+
+        else if (apiName.equals("FollowUnfollow")) {
+            prgress=false
+            postdetails()
         }
+
+//        isFollow = response.result.isFollow
+//        if (apiName.equals("PostDetails")) {
+//            if (isFollow == true) {
+//                follow1.setText("Unfollow")
+//            } else if (isFollow == false) {
+//                follow1.setText("Follow")
+//            }
+//        }
 
         if (apiName.equals("Commentlist")) {
             var postCommentList = ArrayList<CommentList>()

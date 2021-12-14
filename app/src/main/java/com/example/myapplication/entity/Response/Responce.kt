@@ -62,15 +62,24 @@ data class Result(
     @SerializedName("limit") val limit: Int,
     @SerializedName("page") val page: Int,
     @SerializedName("pages") val pages: Int,
-    @SerializedName("categoryResult") val categoryResult: List<CategoryResult>,
+    @SerializedName("categoryResult") val categoryResult: ArrayList<CategoryResult>,
     @SerializedName("postResult") val postResult : PostResult,
     @SerializedName("likeCount") val likeCount : Int,
     @SerializedName("commentCount") val commentCount : Int,
     @SerializedName("isLike") val isLike : Boolean,
+    @SerializedName("isSave") val isSave : Boolean,
     @SerializedName("isFollow") val isFollow : Boolean,
     @SerializedName("commentList") val commentList : List<CommentList>,
     @SerializedName("messages") val messages : ArrayList<Messages>,
-    @SerializedName("mediaResult") val mediaResult : List<MediaResult>
+    @SerializedName("mediaResult") val mediaResult : List<MediaResult>,
+    @SerializedName("location") val location : Location,
+    @SerializedName("imageLinks") val imageLinks : List<String>,
+    @SerializedName("thumbNail") val thumbNail : String,
+    @SerializedName("shareCount") val shareCount : Int,
+    @SerializedName("videoLink") val videoLink : String,
+    @SerializedName("address") val address : String,
+    @SerializedName("categoryId") val categoryId : String
+
 )
 
 data class Replies (
@@ -293,7 +302,8 @@ data class CategoryResult(
     @SerializedName("image") val image: String,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String,
-    @SerializedName("__v") val __v: Int
+    @SerializedName("__v") val __v: Int,
+    var flag: Boolean =  false,
 //    ,
 //    var flag: Boolean
 

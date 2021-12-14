@@ -4,6 +4,8 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.CamcorderProfile
+import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -26,9 +28,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class bottomSheetDialog(
-    var flag: String,
-    var myClickListner: ClickListner
+class bottomSheetDialog(var flag: String, var myClickListner: ClickListner
 ) :
     BottomSheetDialogFragment() {
     var pic_id = 123
@@ -36,10 +36,10 @@ class bottomSheetDialog(
     lateinit var cancel: TextView
     lateinit var gallery: TextView
     lateinit var camera: TextView
-    //    lateinit var captureVideo: TextView
+        lateinit var captureVideo: TextView
     private val GALLERY = 1
     private val CAMERA: Int = 2
-//    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
+    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
 
     private var openFlag = ""
     var imageList: ArrayList<Bitmap?> = ArrayList()
@@ -70,7 +70,7 @@ class bottomSheetDialog(
         serviceManager = ServiceManager(mContext)
         gallery = v.findViewById(R.id.gallery_open)
         camera = v.findViewById(R.id.camera_open)
-//        captureVideo = v.findViewById(R.id.capture_video)
+        captureVideo = v.findViewById(R.id.capture_video)
         cancel = v.findViewById(R.id.cancel)
 //        if(flag == "addpost") {
 //            captureVideo.visibility = View.VISIBLE
@@ -105,23 +105,19 @@ class bottomSheetDialog(
             }
         }
 
-//        captureVideo.setOnClickListener{
-//            if(captureVideoCount > 0) {
-//                Toast.makeText(
-//                    mContext,
-//                    "You not captured more than 1 video!!",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            } else {
-//                val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-//                if (takeVideoIntent.resolveActivity(activity!!.packageManager) != null) {
-//                    startActivityForResult(
-//                        takeVideoIntent,
-//                        CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE
-//                    )
-//                    captureVideoCount++
-//                }
-//            }
+        captureVideo.setOnClickListener{
+            val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+
+                if (takeVideoIntent.resolveActivity(activity!!.packageManager) != null) {
+                    startActivityForResult(
+                        takeVideoIntent,
+                        CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE,
+
+
+                    )
+                         captureVideoCount++
+                }
+            }
 //        }
         return v
     }

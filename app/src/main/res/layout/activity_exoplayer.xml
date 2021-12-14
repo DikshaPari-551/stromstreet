@@ -81,20 +81,38 @@
         android:orientation="vertical"
         android:weightSum="1.2">
 
-        <ImageView
-            android:id="@+id/back_arrow_post"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/back_arrow" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <ImageView
+                android:id="@+id/back_arrow_post"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/back_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/three_dots"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/three_dots"
+                android:layout_marginRight="15dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="end"
             android:layout_weight="1.15"
-            android:gravity="bottom"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingRight="10dp">
 
@@ -123,10 +141,9 @@
                         android:id="@+id/totalLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:fontFamily="@font/opensans_regular"
                         android:padding="5dp"
-
-                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -156,9 +173,9 @@
                     android:id="@+id/commentcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:fontFamily="@font/opensans_regular"
                     android:padding="5dp"
-                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -217,8 +234,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -273,30 +290,34 @@
                             android:paddingTop="5dp">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:weightSum="1">
 
                                 <TextView
                                     android:id="@+id/username"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/opensans_semibold"
-                                    android:paddingLeft="15dp"
+                                    android:paddingLeft="14dp"
                                     android:text=""
+                                    android:layout_weight="0.6"
+                                    android:singleLine="true"
                                     android:textColor="@color/white"
                                     android:textSize="18sp"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/follow"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_width="110dp"
+                                    android:layout_height="30dp"
+                                    android:layout_weight="0.5"
                                     android:fontFamily="@font/opensans_regular"
-                                    android:paddingLeft="10dp"
+                                    android:gravity="center"
                                     android:text="+ follow"
-                                    android:textColor="@color/white"
+                                    android:visibility="gone"
+                                    android:textColor="@color/orange"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -308,38 +329,37 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:orientation="horizontal"
-                                android:weightSum="1"
-                                >
+                                android:weightSum="1">
 
                                 <ImageView
 
                                     android:layout_width="60dp"
                                     android:layout_height="15dp"
-                                    android:layout_weight="0.3"
                                     android:layout_gravity="center_vertical"
+                                    android:layout_weight="0.3"
                                     android:src="@drawable/location_white" />
 
                                 <TextView
                                     android:id="@+id/address"
-                                    android:layout_weight="0.4"
                                     android:layout_width="match_parent"
-                                    android:layout_gravity="center"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="0.4"
                                     android:fontFamily="@font/opensans_light"
+                                    android:maxLines="2"
                                     android:paddingLeft="5dp"
                                     android:text=""
-                                    android:maxLines="2"
                                     android:textColor="@color/white"
                                     android:textSize="12dp"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/eventType"
-                                    android:layout_weight="0.3"
                                     android:layout_width="100dp"
                                     android:layout_height="30dp"
-                                    android:gravity="center"
+                                    android:layout_weight="0.3"
                                     android:fontFamily="@font/opensans_regular"
+                                    android:gravity="center"
                                     android:text=""
                                     android:textColor="@color/white"
                                     android:textSize="12dp"
@@ -363,19 +383,29 @@
                             android:id="@+id/text_more"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:clickable="false"
+                            android:editable="false"
                             android:fontFamily="@font/opensans_regular"
+                            android:gravity="top|start"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:scrollbars="vertical"
+                            android:scrollHorizontally="false"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="12sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/limit_text_more"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/opensans_regular"
+                            android:singleLine="true"
                             android:textColor="@color/white"
                             android:textSize="12sp"
-                            android:singleLine="true"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
 
 
                         <TextView

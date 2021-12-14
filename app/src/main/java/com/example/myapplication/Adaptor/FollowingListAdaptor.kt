@@ -14,6 +14,7 @@ import com.example.myapplication.Fragments.TrendingFragment
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
 import com.example.myapplication.entity.Response.Docss
+import com.example.sleeponcue.extension.diasplay_toast
 
 class FollowingListAdaptor(
 
@@ -32,6 +33,8 @@ class FollowingListAdaptor(
         var text_weather = view.findViewById<TextView>(R.id.text_weather)
         var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
         var imageIcon = view.findViewById<ImageView>(R.id.image_icon)
+        var usernameMain = view.findViewById<RelativeLayout>(R.id.usernameMain)
+
     }
 
     override fun onCreateViewHolder(
@@ -51,7 +54,7 @@ class FollowingListAdaptor(
         try {
             for(i in 0 until list.size) {
                 holder.name.setText(list[position].userDetails.userName.toString())
-                holder.bio.setText(list[position].userDetails.bio.toString())
+                holder.bio.setText(list[position].description.toString())
                 holder.location.setText(list[position].address.toString())
                 holder.text_weather.setText(list[position].categoryDetails.get(i).categoryName)
                 if (list[position].mediaType.toLowerCase().equals("video")){
@@ -77,7 +80,23 @@ class FollowingListAdaptor(
         }
 
         holder.mainlayout.setOnClickListener {
+            try {
             listener.customClick(list.get(position), "profile")
+        }
+            catch (e:IndexOutOfBoundsException){
+                context.diasplay_toast("oops something wrong!!.")
+            }
+        }
+
+
+        holder.usernameMain.setOnClickListener {
+            try {
+                listener.customClick(list.get(position),"userid")
+            }
+            catch (e:IndexOutOfBoundsException)
+            {
+                context.diasplay_toast("oops something wrong!!.")
+            }
         }
     }
 }

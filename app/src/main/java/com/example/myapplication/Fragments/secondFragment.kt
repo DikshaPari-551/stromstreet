@@ -20,7 +20,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
-import okhttp3.ResponseBody
+import java.lang.reflect.Array
 
 
 class secondFragment(var s: String) : Fragment(), FilterCustomListener {
@@ -40,7 +40,7 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
     lateinit var callBack: ApiCallBack<Responce>
     lateinit var mContext: Context
     lateinit var adaptor: CategoryListAdaptor
-    var catId: String = ""
+    var catId:  ArrayList<CategoryResult> = ArrayList<CategoryResult>()
     var maxDis: Int = 0
 
 
@@ -134,9 +134,19 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
                 ?.commit()
         }
         applyButton.setOnClickListener {
+            var list : ArrayList<String> = ArrayList<String>()
+            for (i in catId){
+                if (i.flag.equals(true)){
+                    list.add(i._id.toString())
+                }
+
+
+            }
+
             if (s.equals("home")) {
                 val bundle = Bundle()
-                bundle.putString("CAT_ID", catId)
+                bundle.putSerializable("CAT_ID", list);
+               // bundle.putString("CAT_ID", catId)
                 bundle.putInt("MAX_DIS", maxDis)
                 val fragObj = HomeFragment()
                 fragObj.arguments = bundle
@@ -147,7 +157,7 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
                     ?.commit()
             } else if (s.equals("trending")) {
                 val bundle = Bundle()
-                bundle.putString("CAT_ID", catId)
+                bundle.putSerializable("CAT_ID", list)
                 bundle.putInt("MAX_DIS", maxDis)
                 val fragObj = TrendingFragment()
                 fragObj.arguments = bundle
@@ -158,7 +168,7 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
                     ?.commit()
             } else if (s.equals("following")) {
                 val bundle = Bundle()
-                bundle.putString("CAT_ID", catId)
+                bundle.putSerializable("CAT_ID", list)
                 bundle.putInt("MAX_DIS", maxDis)
                 val fragObj = FollowingActivityFragment()
                 fragObj.arguments = bundle
@@ -177,10 +187,11 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
             androidextention.showProgressDialog(mContext)
             callBack =
                 ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
+
                     override fun onApiSuccess(response: Responce, apiName: String?) {
                         androidextention.disMissProgressDialog(mContext)
                         if (response.responseCode == "200") {
-                            val list: List<CategoryResult> = response.result.categoryResult
+                            val list: ArrayList<CategoryResult> = response.result.categoryResult
                             setCategoryListAdaptor(list)
                         } else {
                             Toast.makeText(
@@ -269,7 +280,7 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
         }
     }
 
-    fun setCategoryListAdaptor(list: List<CategoryResult>) {
+    fun setCategoryListAdaptor(list: ArrayList<CategoryResult>) {
         adaptor = CategoryListAdaptor(list, this, mContext)
         val layoutManager = LinearLayoutManager(activity)
         categoryList.layoutManager = layoutManager
@@ -278,8 +289,8 @@ class secondFragment(var s: String) : Fragment(), FilterCustomListener {
 
     }
 
-    override fun filterCustomListener(id: String) {
-        catId = id
+    override fun filterCustomListener(list: ArrayList<CategoryResult>) {
+        catId = list
     }
 
 

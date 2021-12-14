@@ -137,7 +137,7 @@
                 android:layout_marginRight="60dp"
                 android:background="@null"
 
-                android:hint="Type Message...."
+                android:hint="Type Messages..."
                 android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="15sp" />

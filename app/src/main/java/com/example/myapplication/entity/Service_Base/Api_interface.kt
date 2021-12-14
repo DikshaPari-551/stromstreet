@@ -1,6 +1,7 @@
 package com.example.myapplication.entity.Service_Base
 
 import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Request.Api_Request_AddPostpackage
 import com.example.myapplication.entity.Response.LocalActivityResponse
 import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Response.UserPostResponse
@@ -79,13 +80,11 @@ interface Api_interface {
     fun categoryList(): Call<Responce>?
 
     @POST("user/addPost")
-    fun addPost(@Body jsonObject: Api_Request?): Call<Responce>?
+    fun addPost(@Body jsonObject: Api_Request_AddPostpackage?): Call<Responce>?
 
     @PUT("user/logOut")
     fun logoutUser(): Call<Responce>?
 
-    @GET("user/savePostList")
-    fun savedList(): Call<UserPostResponse>?
 
     @POST("user/comment")
     fun comment(
@@ -106,6 +105,9 @@ interface Api_interface {
     @GET("user/getPost")
     fun postDetails(@Query("postId") postId: String): Call<Responce>?
 
+    @DELETE("user/deletePost")
+    fun deletePost(@Query("_id") _id: String): Call<Responce>?
+
     @POST("user/uploadMedia")
     fun uploadMedia(@Part image: MultipartBody.Part): Call<Responce>?
 
@@ -116,6 +118,16 @@ interface Api_interface {
     @Multipart
     @POST("admin/uploadMultipleFile")
     fun addUPost(@Part file: ArrayList<MultipartBody.Part>?): Call<Responce>?
+
+    @POST("user/userPostList")
+    fun getPostList(@Body apiRequest: Api_Request,      @Query("page") page: String?,
+                    @Query("limit") limit: String?): Call<UserPostResponse>?
+
+    @GET("user/savePostList")
+    fun savedList(
+        @Query("page") page: String?,
+        @Query("limit") limit: String?
+    ): Call<UserPostResponse>?
 
     @POST("user/localActivities")
     fun localActivity(
@@ -150,8 +162,7 @@ interface Api_interface {
     @GET("user/othersPostList")
     fun otherUserPost(@Query("userId") userId: String): Call<Responce>?
 
-    @POST("user/userPostList")
-    fun getPostList(@Body apiRequest: Api_Request): Call<UserPostResponse>?
+
 
     @GET("user/othersPostList")
     fun getOtherPostList(
@@ -175,4 +186,6 @@ interface Api_interface {
         @Query("limit") limit: String?
     ): Call<LocalActivityResponse>?
 
+    @GET("user/notificationCount")
+    fun getNotificationCount(): Call<LocalActivityResponse>?
 }

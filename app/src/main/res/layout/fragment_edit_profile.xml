@@ -108,6 +108,7 @@
                                         android:layout_marginTop="10dp"
                                         android:fontFamily="@font/opensans_light"
                                         android:text=""
+                                        android:singleLine="true"
                                         android:textColor="@color/black"
                                         android:textSize="20dp"
                                         android:textStyle="bold" />
@@ -118,8 +119,9 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/opensans_semibold"
                                         android:text=""
+                                        android:singleLine="true"
                                         android:textColor="@color/black"
-                                        android:textSize="15dp"
+                                        android:textSize="16dp"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
@@ -231,6 +233,7 @@
                                 android:fontFamily="@font/opensans_regular"
                                 android:text=""
                                 android:textColor="@color/darkgrey"
+                                android:singleLine="true"
                                 android:textSize="16dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -259,6 +262,7 @@
                                 android:fontFamily="@font/opensans_regular"
                                 android:maxLines="5"
                                 android:text=""
+                                android:singleLine="true"
                                 android:textColor="@color/darkgrey"
                                 android:textSize="16dp"
                                 android:textStyle="bold" />
@@ -282,12 +286,14 @@
                                 android:textStyle="bold" />
 
                             <ImageView
+                                android:id="@+id/twitter"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/twitter_icon" />
 
                             <ImageView
+                                android:id="@+id/facebook"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
@@ -295,6 +301,7 @@
                                 android:src="@drawable/facebook_icon" />
 
                             <ImageView
+                                android:id="@+id/instagram"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
@@ -302,6 +309,7 @@
                                 android:src="@drawable/instagram_icon" />
 
                             <ImageView
+                                android:id="@+id/youtube"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
@@ -323,7 +331,7 @@
                             android:layout_centerInParent="true"
                             android:layout_gravity="bottom"
                             android:layout_marginBottom="20dp"
-                            android:background="@drawable/rectangle_background_button">
+                            android:background="@drawable/gradient_backgrounds">
 
                             <TextView
                                 android:layout_width="wrap_content"

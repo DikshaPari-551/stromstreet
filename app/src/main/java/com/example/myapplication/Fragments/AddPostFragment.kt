@@ -2,14 +2,16 @@ package com.example.myapplication.Fragments
 
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.location.Address
 import android.location.Geocoder
+import android.media.ThumbnailUtils
 import android.net.Uri
-import android.os.Bundle
+import android.os.*
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,12 +20,16 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.abedelazizshe.lightcompressorlibrary.CompressionListener
+import com.abedelazizshe.lightcompressorlibrary.VideoCompressor
+import com.abedelazizshe.lightcompressorlibrary.VideoQuality
+import com.abedelazizshe.lightcompressorlibrary.config.Configuration
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.bottomSheetDialog
 import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.ApiCallBack
-import com.example.myapplication.entity.Request.Api_Request
+import com.example.myapplication.entity.Request.Api_Request_AddPostpackage
 import com.example.myapplication.entity.Request.Location
 import com.example.myapplication.entity.Response.MediaResult
 import com.example.myapplication.entity.Response.Responce
@@ -32,10 +38,14 @@ import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
+import com.example.sleeponcue.extension.getFileSize
+import com.example.sleeponcue.extension.getMediaPath
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -54,6 +64,7 @@ class AddPostFragment() : Fragment(), ClickListner {
     lateinit var addImageOne: LinearLayout
     lateinit var addImageTwo: LinearLayout
     lateinit var addImageThree: LinearLayout
+    lateinit var progressBarPost: ProgressBar
     var HorizontalLayout: LinearLayoutManager? = null
     lateinit var mContext: Context
     private var postDescriptionText = ""
@@ -80,7 +91,8 @@ class AddPostFragment() : Fragment(), ClickListner {
     var locality: String = ""
     var bitmap: Bitmap? = null
 
-//    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
+
+    protected val CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 3
 
 
     companion object {
@@ -92,6 +104,8 @@ class AddPostFragment() : Fragment(), ClickListner {
         var fileImageList: ArrayList<File> = ArrayList()
         var uriImageList: ArrayList<Uri> = ArrayList()
         var imageparts: ArrayList<MultipartBody.Part> = ArrayList()
+        private lateinit var playableVideoPath: String
+        private lateinit var compressVideo: File
     }
 
 
@@ -114,12 +128,33 @@ class AddPostFragment() : Fragment(), ClickListner {
         addImageOne = view.findViewById(R.id.add_image_one)
         addImageTwo = view.findViewById(R.id.add_image_two)
         addImageThree = view.findViewById(R.id.add_image_Three)
+        progressBarPost = view.findViewById(R.id.progress)
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
             longitude = SavedPrefManager.getLongitudeLocation()!!
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
+        count = 0
+        videoCount = 0
+        imageparts.clear()
+        responseImageList.clear()
+
+        SavedPrefManager.saveStringPreferences(
+            mContext,
+            SavedPrefManager.IMAGE_ONE,
+            "image_one"
+        )
+        SavedPrefManager.saveStringPreferences(
+            mContext,
+            SavedPrefManager.IMAGE_TWO,
+            "image_two"
+        )
+        SavedPrefManager.saveStringPreferences(
+            mContext,
+            SavedPrefManager.IMAGE_THREE,
+            "image_three"
+        )
         address()
         location.setText(locality)
 //api
@@ -294,7 +329,7 @@ class AddPostFragment() : Fragment(), ClickListner {
                     androidextention.disMissProgressDialog(activity)
                     Toast.makeText(
                         mContext,
-                        "error response" + response.toString(),
+                        "Image or Video size is large. Size should be less then 30 MB. " + response.toString(),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -383,7 +418,7 @@ class AddPostFragment() : Fragment(), ClickListner {
 
             }, "AddPost", mContext)
 
-        val apiRequest = Api_Request()
+        val apiRequest = Api_Request_AddPostpackage()
         val location = Location(
             "Point",
             arrayListOf(
@@ -393,8 +428,7 @@ class AddPostFragment() : Fragment(), ClickListner {
         )
         apiRequest.mediaType = imageType.toUpperCase()
         apiRequest.description = description.text.toString()
-        apiRequest.categoryId =
-            SavedPrefManager.getStringPreferences(activity, AppConst.POST_CATEGORY_ID)
+        apiRequest.categoryId = SavedPrefManager.getStringPreferences(activity, AppConst.POST_CATEGORY_ID)
         apiRequest.videoLink = videoLink
         apiRequest.address = locality
         apiRequest.imageLinks = responseImageList
@@ -467,99 +501,114 @@ class AddPostFragment() : Fragment(), ClickListner {
                                     imageFile = File(path)
                                 }
                                 if (videoType == "video") {
-                                    videoCount++
-                                    if (videoType == "video" && videoCount > 1) {
-                                        setImageAndVideos()
+                                    if(count==0)
+                                    {
+                                        videoCount++
+                                        if (videoType == "video" && videoCount > 1)
+                                        {
+                                            setImageAndVideos()
+                                            Toast.makeText(
+                                                mContext,
+                                                "You not select more than 1 video!!",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+
+                                        } else {
+                                            if (galleryData1.visibility == View.GONE && count == 0) {
+                                                addImageOne.visibility = View.GONE
+                                                addImageTwo.visibility = View.GONE
+                                                addImageThree.visibility = View.GONE
+                                                galleryData1.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(imageFile).into(galleryData1)
+                                                bottomSheetDialog.dismiss()
+
+                                                SavedPrefManager.saveStringPreferences(
+                                                    mContext,
+                                                    SavedPrefManager.IMAGE_ONE,
+                                                    imageFile.toString()
+                                                )
+                                                count++
+                                            } else if (galleryData2.visibility == View.GONE && count == 1) {
+                                                addImageTwo.visibility = View.GONE
+                                                addImageThree.visibility = View.VISIBLE
+                                                galleryData2.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(imageFile).into(galleryData2)
+                                                bottomSheetDialog.dismiss()
+
+                                                SavedPrefManager.saveStringPreferences(
+                                                    mContext,
+                                                    SavedPrefManager.IMAGE_TWO,
+                                                    imageFile.toString()
+                                                )
+
+                                                var imageOne =
+                                                    SavedPrefManager.getStringPreferences(
+                                                        mContext,
+                                                        SavedPrefManager.IMAGE_ONE
+                                                    )
+                                                var image = File(imageOne)
+                                                galleryData1.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(image).into(galleryData1)
+                                                count++
+
+                                            } else if (galleryData3.visibility == View.GONE && count == 2) {
+                                                addImageThree.visibility = View.GONE
+                                                galleryData3.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(imageFile).into(galleryData3)
+                                                bottomSheetDialog.dismiss()
+
+                                                SavedPrefManager.saveStringPreferences(
+                                                    mContext,
+                                                    SavedPrefManager.IMAGE_THREE,
+                                                    imageFile.toString()
+                                                )
+
+                                                var imageTwo =
+                                                    SavedPrefManager.getStringPreferences(
+                                                        mContext,
+                                                        SavedPrefManager.IMAGE_TWO
+                                                    )
+                                                var imageFTwo = File(imageTwo)
+                                                galleryData2.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(imageFTwo).into(galleryData2)
+
+                                                var imageOne =
+                                                    SavedPrefManager.getStringPreferences(
+                                                        mContext,
+                                                        SavedPrefManager.IMAGE_ONE
+                                                    )
+                                                var image = File(imageOne)
+                                                galleryData1.visibility = View.VISIBLE
+                                                Glide.with(mContext).load(image).into(galleryData1)
+                                                count++
+
+                                            }
+
+                                            var requestGalleryImageFile: RequestBody =
+                                                RequestBody.create(
+                                                    "video/*".toMediaTypeOrNull(),
+                                                    imageFile
+                                                )
+                                            imageparts.add(
+                                                MultipartBody.Part.createFormData(
+                                                    "video",
+                                                    imageFile.getName(),
+                                                    requestGalleryImageFile
+                                                )
+                                            )
+                                        }
+                                    }
+                                    else
+                                    {
                                         Toast.makeText(
-                                            mContext,
-                                            "You not select more than 1 video!!",
+                                            activity,
+                                            "You can select either images or video in one time...",
                                             Toast.LENGTH_LONG
                                         ).show()
-
-                                    } else {
-                                        if (galleryData1.visibility == View.GONE && count == 0) {
-                                            addImageOne.visibility = View.GONE
-                                            addImageTwo.visibility = View.VISIBLE
-                                            galleryData1.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFile).into(galleryData1)
-                                            bottomSheetDialog.dismiss()
-
-                                            SavedPrefManager.saveStringPreferences(
-                                                mContext,
-                                                SavedPrefManager.IMAGE_ONE,
-                                                imageFile.toString()
-                                            )
-                                            count++
-                                        } else if (galleryData2.visibility == View.GONE && count == 1) {
-                                            addImageTwo.visibility = View.GONE
-                                            addImageThree.visibility = View.VISIBLE
-                                            galleryData2.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFile).into(galleryData2)
-                                            bottomSheetDialog.dismiss()
-
-                                            SavedPrefManager.saveStringPreferences(
-                                                mContext,
-                                                SavedPrefManager.IMAGE_TWO,
-                                                imageFile.toString()
-                                            )
-
-                                            var imageOne =
-                                                SavedPrefManager.getStringPreferences(
-                                                    mContext,
-                                                    SavedPrefManager.IMAGE_ONE
-                                                )
-                                            var image = File(imageOne)
-                                            galleryData1.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(image).into(galleryData1)
-                                            count++
-
-                                        } else if (galleryData3.visibility == View.GONE && count == 2) {
-                                            addImageThree.visibility = View.GONE
-                                            galleryData3.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFile).into(galleryData3)
-                                            bottomSheetDialog.dismiss()
-
-                                            SavedPrefManager.saveStringPreferences(
-                                                mContext,
-                                                SavedPrefManager.IMAGE_THREE,
-                                                imageFile.toString()
-                                            )
-
-                                            var imageTwo =
-                                                SavedPrefManager.getStringPreferences(
-                                                    mContext,
-                                                    SavedPrefManager.IMAGE_TWO
-                                                )
-                                            var imageFTwo = File(imageTwo)
-                                            galleryData2.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(imageFTwo).into(galleryData2)
-
-                                            var imageOne =
-                                                SavedPrefManager.getStringPreferences(
-                                                    mContext,
-                                                    SavedPrefManager.IMAGE_ONE
-                                                )
-                                            var image = File(imageOne)
-                                            galleryData1.visibility = View.VISIBLE
-                                            Glide.with(mContext).load(image).into(galleryData1)
-                                            count++
-
-                                        }
-
-                                        var requestGalleryImageFile: RequestBody =
-                                            RequestBody.create(
-                                                "video/*".toMediaTypeOrNull(),
-                                                imageFile
-                                            )
-                                        imageparts.add(
-                                            MultipartBody.Part.createFormData(
-                                                "video",
-                                                imageFile.getName(),
-                                                requestGalleryImageFile
-                                            )
-                                        )
                                     }
+
                                 } else {
+
                                     multiPartImageSet()
                                     bottomSheetDialog.dismiss()
                                     var requestGalleryImageFile: RequestBody =
@@ -596,18 +645,26 @@ class AddPostFragment() : Fragment(), ClickListner {
                             )
                         )
                     }
-//                    else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
-//                        try {
-//                            imageUri = data?.data!!
+                    else if(requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+                        try {
+                            imageUri = data?.data!!
+                            bottomSheetDialog.dismiss()
+                            processVideo(imageUri,bottomSheetDialog)
 //                            val path = getPathFromURI(imageUri)
-//                            if (path != null) {
-//                                imageFile = File(path)
+//                            if (compressVideo != null) {
+////                                imageFile = File(path)
+//                                imageFile = compressVideo
 //                            }
 //                            bitmap = ThumbnailUtils.createVideoThumbnail(
 //                                imageFile.absolutePath,
 //                                MediaStore.Video.Thumbnails.MINI_KIND
 //                            )
-//                            galleryData1.setImageBitmap(bitmap)
+//                            Glide.with(mContext).load(bitmap).into(galleryData1);
+//                            galleryData1.visibility = View.VISIBLE
+//                            addImageOne.visibility = View.GONE
+//                            addImageTwo.visibility = View.GONE
+//                            addImageThree.visibility = View.GONE
+////                            galleryData1.setImageBitmap(bitmap)
 //                            bottomSheetDialog.dismiss()
 //
 //
@@ -623,11 +680,10 @@ class AddPostFragment() : Fragment(), ClickListner {
 //                                    requestGalleryImageFile
 //                                )
 //                            )
-//                        }catch (e : Exception) {
-//                            e.printStackTrace()
-//                        }
-//
-//                    }
+                        }catch (e : Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -845,5 +901,162 @@ class AddPostFragment() : Fragment(), ClickListner {
     ) {
         addPostData(requestCode, resultCode, data, bottomSheetDialog, imagePath)
     }
+
+    private fun processVideo(uri: Uri?, bottomSheetDialog: bottomSheetDialog) {
+        var streamableFile: File? = null
+        uri?.let {
+//            mainContents.visibility = View.VISIBLE
+//            Glide.with(applicationContext).load(uri).into(videoImage)
+
+            GlobalScope.launch {
+                // run in background as it can take a long time if the video is big,
+                // this implementation is not the best way to do it,
+                // todo(abed): improve threading
+                val job = async { getMediaPath(activity!!, uri) }
+                val path = job.await()
+
+                val desFile = saveVideoFile(path)
+
+                streamableFile = saveVideoFile(path)
+
+                playableVideoPath = if (streamableFile != null) streamableFile!!.path
+                else path
+
+                desFile?.let {
+                    var time = 0L
+                    VideoCompressor.start(
+                        context = activity!!,
+                        srcUri = uri,
+                        // srcPath = path,
+                        destPath = desFile.path,
+                        streamableFile = streamableFile?.path,
+                        listener = object : CompressionListener {
+
+                            override fun onStart() {
+                                progressBarPost.visibility = View.VISIBLE
+                                progressBarPost.progress = 0
+                            }
+                            override fun onSuccess() {
+//                                compressVideo = streamableFile!!
+                                progressBarPost.visibility = View.GONE
+                                val newSizeValue = streamableFile!!.length()
+
+                                if (streamableFile != null) {
+//                                imageFile = File(path)
+                                    imageFile = streamableFile!!
+//                                    Toast.makeText(mContext, "${getFileSize(newSizeValue)}", Toast.LENGTH_LONG).show()
+                                }
+                                bitmap = ThumbnailUtils.createVideoThumbnail(
+                                    imageFile.absolutePath,
+                                    MediaStore.Video.Thumbnails.MINI_KIND
+                                )
+                                Glide.with(mContext).load(bitmap).into(galleryData1);
+                                galleryData1.visibility = View.VISIBLE
+                                addImageOne.visibility = View.GONE
+                                addImageTwo.visibility = View.GONE
+                                addImageThree.visibility = View.GONE
+//                            galleryData1.setImageBitmap(bitmap)
+                                bottomSheetDialog.dismiss()
+
+
+                                var requestGalleryImageFile: RequestBody =
+                                    RequestBody.create(
+                                        "video/*".toMediaTypeOrNull(),
+                                        imageFile
+                                    )
+                                imageparts.add(
+                                    MultipartBody.Part.createFormData(
+                                        "video",
+                                        imageFile.getName(),
+                                        requestGalleryImageFile
+                                    )
+                                )
+                            }
+                            override fun onProgress(percent: Float) {
+
+                            }
+                            override fun onFailure(failureMessage: String) {
+                                Toast.makeText(mContext,"failure", Toast.LENGTH_LONG).show()
+                            }
+                            override fun onCancelled() {
+                            }
+                        },
+                        configureWith = Configuration(
+                            quality = VideoQuality.HIGH,
+                            frameRate = 24,
+                            isMinBitrateCheckEnabled = true,
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun saveVideoFile(filePath: String?): File? {
+        filePath?.let {
+            val videoFile = File(filePath)
+            val videoFileName = "${System.currentTimeMillis()}_${videoFile.name}"
+            val folderName = Environment.DIRECTORY_MOVIES
+            if (Build.VERSION.SDK_INT >= 30) {
+
+                val values = ContentValues().apply {
+
+                    put(
+                        MediaStore.Images.Media.DISPLAY_NAME,
+                        videoFileName
+                    )
+                    put(MediaStore.Images.Media.MIME_TYPE, "video/mp4")
+                    put(MediaStore.Images.Media.RELATIVE_PATH, folderName)
+                    put(MediaStore.Images.Media.IS_PENDING, 1)
+                }
+
+                val collection =
+                    MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+
+                val fileUri = activity!!.contentResolver.insert(collection, values)
+
+                fileUri?.let {
+                    activity!!.contentResolver.openFileDescriptor(fileUri, "rw")
+                        .use { descriptor ->
+                            descriptor?.let {
+                                FileOutputStream(descriptor.fileDescriptor).use { out ->
+                                    FileInputStream(videoFile).use { inputStream ->
+                                        val buf = ByteArray(4096)
+                                        while (true) {
+                                            val sz = inputStream.read(buf)
+                                            if (sz <= 0) break
+                                            out.write(buf, 0, sz)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    values.clear()
+                    values.put(MediaStore.Video.Media.IS_PENDING, 0)
+                    activity!!.contentResolver.update(fileUri, values, null, null)
+
+                    return File(getMediaPath(activity!!, fileUri))
+                }
+            } else {
+                val downloadsPath =
+                    activity!!.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+                val desFile = File(downloadsPath, videoFileName)
+
+                if (desFile.exists())
+                    desFile.delete()
+
+                try {
+                    desFile.createNewFile()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+                return desFile
+            }
+        }
+        return null
+    }
+
 }
 

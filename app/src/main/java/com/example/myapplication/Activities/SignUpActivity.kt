@@ -33,7 +33,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import java.io.*
 
 
@@ -255,7 +254,7 @@ class SignUpActivity : AppCompatActivity(), ApiResponseListener<Responce>, Click
         var confirmPassword = confirmPasswordEt.text.toString()
 
         if (!confirmPassword.equals(password)) {
-            confirmPasswordTEXT.setText("*Please enter new password more than 6-digits.")
+            confirmPasswordTEXT.setText("*Both password should match.")
             confirmPasswordTEXT.visibility = View.VISIBLE
             confirmPasswordTEXT.setText("*Both password should match.")
 

@@ -1,94 +1,113 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp"
 
-    android:layout_height="wrap_content">
+    android:padding="10dp">
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:paddingTop="6dp"
         android:id="@+id/layout_vedio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="1dp"
-        android:layout_height="wrap_content">
+        android:paddingTop="6dp">
 
         <LinearLayout
             android:id="@+id/mainlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="@color/cream"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="146dp">
 
                 <ImageView
                     android:id="@+id/postView"
                     android:layout_width="match_parent"
-                    android:layout_height="146dp"
-                    android:scaleType="fitXY" />
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
+                <ImageView
+                    android:id="@+id/video_icon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
 
-            </RelativeLayout>
+                    android:background="@drawable/ic_video_icon"
+                    android:scaleType="center"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/postView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/postView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/bio"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/opensans_light"
                 android:paddingRight="10dp"
-                android:textStyle="bold"
-                android:textSize="7.5sp"
-                android:id="@+id/bio"
-                android:maxLines="1"
+                android:singleLine="true"
+
+                android:text=""
                 android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"/>
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/text_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:fontFamily="@font/opensans_regular"
-                android:textStyle="bold"
-                android:id="@+id/text_weather"
-                android:textSize="8.8sp"
-                android:paddingRight="10dp"
-
-                android:textColor="@color/orange"
                 android:layout_marginLeft="10dp"
-              />
+                android:fontFamily="@font/opensans_regular"
+                android:paddingRight="10dp"
+                android:text=""
+                android:textColor="@color/orange"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="5dp">
+
                 <ImageView
-                    android:layout_width="10dp"
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:paddingBottom="5dp"
                     android:src="@drawable/placeholder"
-                    android:layout_height="12dp"
+
                     />
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/text_okhla"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:maxLines="1"
+                    android:fontFamily="@font/opensans_light"
                     android:paddingRight="10dp"
                     android:singleLine="true"
-                    android:fontFamily="@font/opensans_light"
-                    android:textSize="7.5sp"
-                    android:id="@+id/text_okhla"
+                    android:text=""
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="59dp"
+            android:id="@+id/usernameMain"
+            android:layout_width="70dp"
             android:layout_height="22dp"
             android:background="@drawable/rectangle_back"
             android:gravity="center">
@@ -101,130 +120,121 @@
                 android:fontFamily="@font/opensans_regular"
                 android:gravity="center"
                 android:paddingLeft="5dp"
-                android:paddingTop="5dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="5dp"
+
+                android:paddingRight="5dp"
+
+                android:singleLine="true"
                 android:text=""
-                android:maxLines="1"
                 android:textColor="@color/white"
-                android:textSize="7.5sp"
+                android:textSize="12dp"
                 android:textStyle="bold" />
         </RelativeLayout>
-        <ImageView
-            android:id="@+id/video_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:scaleType="fitXY"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="12dp"
-            android:layout_alignParentRight="true"
-            android:visibility="gone"
-            android:background="@drawable/ic_video_solid"
-            />
+
+
+
         <ImageView
             android:id="@+id/image_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:scaleType="fitXY"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
             android:layout_marginRight="12dp"
-            android:layout_alignParentRight="true"
-            android:visibility="gone"
             android:background="@drawable/ic_multi_image"
-            />
+            android:scaleType="fitXY"
+            android:visibility="gone" />
     </RelativeLayout>
 
-<!--    <RelativeLayout-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_weight="0.5"-->
-<!--        android:paddingTop="6dp"-->
-<!--        android:paddingRight="6dp"-->
-<!--        android:paddingLeft="3dp"-->
-<!--        android:layout_height="wrap_content">-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            android:id="@+id/layout_post_img"-->
-<!--            android:background="@color/cream"-->
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_weight="0.5"-->
+    <!--        android:paddingTop="6dp"-->
+    <!--        android:paddingRight="6dp"-->
+    <!--        android:paddingLeft="3dp"-->
+    <!--        android:layout_height="wrap_content">-->
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginLeft="5dp"-->
+    <!--            android:id="@+id/layout_post_img"-->
+    <!--            android:background="@color/cream"-->
 
-<!--            android:orientation="vertical">-->
-<!--            <RelativeLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                >-->
+    <!--            android:orientation="vertical">-->
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                >-->
 
-<!--                <ImageView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="150dp"-->
-<!--                    android:scaleType="fitXY"-->
-<!--                    android:src="@drawable/image_b" />-->
+    <!--                <ImageView-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="150dp"-->
+    <!--                    android:scaleType="fitXY"-->
+    <!--                    android:src="@drawable/image_b" />-->
 
-<!--            </RelativeLayout>-->
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Cabinet fiji MoU for."-->
-<!--                android:fontFamily="@font/opensans_light"-->
-<!--                android:textStyle="bold"-->
-<!--                android:textSize="7.5sp"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:layout_marginLeft="12dp"-->
-<!--                android:layout_marginTop="5dp"/>-->
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Event"-->
-<!--                android:fontFamily="@font/opensans_regular"-->
-<!--                android:textStyle="bold"-->
-<!--                android:textSize="8.8sp"-->
-<!--                android:id="@+id/event_text"-->
-<!--                android:textColor="@color/orange"-->
-<!--                android:layout_marginLeft="12dp"-->
-<!--               />-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_marginLeft="10dp"-->
-<!--                android:layout_marginBottom="5dp"-->
+    <!--            </RelativeLayout>-->
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="Cabinet fiji MoU for."-->
+    <!--                android:fontFamily="@font/opensans_light"-->
+    <!--                android:textStyle="bold"-->
+    <!--                android:textSize="7.5sp"-->
+    <!--                android:textColor="@color/black"-->
+    <!--                android:layout_marginLeft="12dp"-->
+    <!--                android:layout_marginTop="5dp"/>-->
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="Event"-->
+    <!--                android:fontFamily="@font/opensans_regular"-->
+    <!--                android:textStyle="bold"-->
+    <!--                android:textSize="8.8sp"-->
+    <!--                android:id="@+id/event_text"-->
+    <!--                android:textColor="@color/orange"-->
+    <!--                android:layout_marginLeft="12dp"-->
+    <!--               />-->
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_marginLeft="10dp"-->
+    <!--                android:layout_marginBottom="5dp"-->
 
-<!--                android:layout_height="wrap_content">-->
-<!--                <ImageView-->
-<!--                    android:layout_width="10dp"-->
-<!--                    android:src="@drawable/placeholder"-->
-<!--                    android:layout_height="12dp"-->
-<!--                    />-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="  Lajpat Nagar"-->
-<!--                    android:fontFamily="@font/opensans_light"-->
-<!--                    android:id="@+id/lajpat_nagar_text"-->
-<!--                    android:textSize="7.5sp"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textStyle="bold"/>-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--                <ImageView-->
+    <!--                    android:layout_width="10dp"-->
+    <!--                    android:src="@drawable/placeholder"-->
+    <!--                    android:layout_height="12dp"-->
+    <!--                    />-->
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="  Lajpat Nagar"-->
+    <!--                    android:fontFamily="@font/opensans_light"-->
+    <!--                    android:id="@+id/lajpat_nagar_text"-->
+    <!--                    android:textSize="7.5sp"-->
+    <!--                    android:textColor="@color/black"-->
+    <!--                    android:textStyle="bold"/>-->
 
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-<!--        <RelativeLayout-->
-<!--            android:layout_width="60dp"-->
-<!--            android:layout_height="23dp"-->
-<!--            android:gravity="center"-->
-<!--            android:background="@drawable/rectangle_back">-->
+    <!--            </LinearLayout>-->
+    <!--        </LinearLayout>-->
+    <!--        <RelativeLayout-->
+    <!--            android:layout_width="60dp"-->
+    <!--            android:layout_height="23dp"-->
+    <!--            android:gravity="center"-->
+    <!--            android:background="@drawable/rectangle_back">-->
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:elevation="20dp"-->
-<!--                android:paddingLeft="10dp"-->
-<!--                android:paddingTop="5dp"-->
-<!--                android:paddingRight="10dp"-->
-<!--                android:paddingBottom="5dp"-->
-<!--                android:text="Ashvh Ajs"-->
-<!--                android:fontFamily="@font/opensans_regular"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="7.5sp"-->
-<!--                android:textStyle="bold" />-->
-<!--        </RelativeLayout>-->
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:elevation="20dp"-->
+    <!--                android:paddingLeft="10dp"-->
+    <!--                android:paddingTop="5dp"-->
+    <!--                android:paddingRight="10dp"-->
+    <!--                android:paddingBottom="5dp"-->
+    <!--                android:text="Ashvh Ajs"-->
+    <!--                android:fontFamily="@font/opensans_regular"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textSize="7.5sp"-->
+    <!--                android:textStyle="bold" />-->
+    <!--        </RelativeLayout>-->
 
-<!--    </RelativeLayout>-->
+    <!--    </RelativeLayout>-->
 </LinearLayout>

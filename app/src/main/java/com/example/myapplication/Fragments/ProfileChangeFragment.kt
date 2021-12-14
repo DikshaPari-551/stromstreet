@@ -296,9 +296,6 @@ class ProfileChangeFragment : Fragment(), ClickListner {
                     if (response.responseCode == "200") {
                         USER_IMAGE_UPLOADED = "true"
                         userProfileLink = response.result.mediaUrl
-
-
-
                         imageType = response.result.mediaType
 //                        updateProfileDeatils()
                         CheckValidations()

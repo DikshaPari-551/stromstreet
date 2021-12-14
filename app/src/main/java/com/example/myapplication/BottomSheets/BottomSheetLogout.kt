@@ -91,7 +91,7 @@ class BottomSheetLogout : BottomSheetDialogFragment(), ApiResponseListener<Respo
         SavedPrefManager.saveStringPreferences(activity,SavedPrefManager.KEY_IS_LOGIN, "false")
 
         var intent =Intent(activity,
-                MainActivity::class.java)
+                LoginActivity::class.java)
             startActivity(intent)
 //            MainActivity().finish()
             (context as Activity).finishAffinity()

@@ -6,6 +6,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
@@ -33,7 +34,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             var responce: String =
                 remoteMessage.data.toString().replace("[", "").replace("]", "").replace("=", ":")
             val gson = Gson()
-        //    val fcmResponse: FCMResponse = gson.fromJson(responce, FCMResponse::class.java)
+            //    val fcmResponse: FCMResponse = gson.fromJson(responce, FCMResponse::class.java)
 //        generateNotification(remoteMessage.notification!!.title!!,remoteMessage.notification!!.body!!)
 
             if (remoteMessage.data != null) {
@@ -41,7 +42,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 var postid: Any?=null
                 var userId: Any?=null
                 for (key in remoteMessage.data!!.keys) {
-                   // value = remoteMessage.data!![key]
+                    // value = remoteMessage.data!![key]
                     if (key.equals( "notificationType")) {
                         value =
                             remoteMessage.data!![key] // value will represend your message body... Enjoy It
@@ -49,12 +50,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         Log.d("NotificationTag", key + "____" + value)
                     }
                     if (key.equals("postId")) {
-                        postid =
-                            remoteMessage.data!![key] // value will represend your message body... Enjoy It
+                        postid = remoteMessage.data!![key] // value will represend your message body... Enjoy It
                         SavedPrefManager.saveStringPreferences(baseContext, SavedPrefManager._id, postid.toString())
-                       // Log.d("NotificationTag", key + "____" + value)
+                        // Log.d("NotificationTag", key + "____" + value)
                     }
-                   else if (key.equals("userId")) {
+                    else if (key.equals("userId")) {
                         userId =
                             remoteMessage.data!![key] // value will represend your message body... Enjoy It
                         SavedPrefManager.saveStringPreferences(baseContext, SavedPrefManager.otherUserId, userId.toString())
@@ -132,11 +132,36 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val notificationId: Int = SavedPrefManager.getIntPreferences(this, SavedPrefManager.NOTIFICATION_ID)
 
             val notification: Notification
-            val futureTarget = Glide.with(this)
-                .asBitmap()
-                .load(data!!["thumbnails"])
-                .submit()
-            val bitmap = futureTarget.get()
+            var bitmap:Bitmap?=null
+            if(data!!["thumbnails"]==null||data!!["thumbnails"].equals(""))
+            {
+                val futureTarget = Glide.with(this)
+                    .asBitmap()
+                    .load(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .submit()
+                try {
+                    bitmap = futureTarget.get()
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }
+            else
+            {
+                val futureTarget = Glide.with(this)
+                    .asBitmap()
+                    .load(data!!["thumbnails"])
+                    .placeholder(R.mipmap.ic_launcher)
+                    .submit()
+                try {
+                    bitmap = futureTarget.get()
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+
+            }
+
+
             if (Build.VERSION.SDK_INT >= 26) {
                 //This only needs to be run on Devices on Android O and above
                 val mNotificationManager =
@@ -156,7 +181,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 mChannel.vibrationPattern = longArrayOf(0, 1000)
                 mNotificationManager.createNotificationChannel(mChannel)
                 notification = Notification.Builder(applicationContext, "YOUR_CHANNEL_ID")
-                    .setSmallIcon(R.drawable.notificationicon)
+                    .setSmallIcon(R.drawable.splash_screen)
                     .setContentTitle( data!!["title"])
                     .setContentText(data!!["body"])
                     .setTicker(getString(R.string.app_name))
@@ -172,22 +197,22 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                 }
             }
-                        else {
+            else {
                 val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.notificationicon)
+                    .setSmallIcon(R.drawable.splash_screen)
                     .setContentTitle(getString(R.string.app_name))
                     .setLargeIcon(bitmap)
                     .setBadgeIconType(R.drawable.splash_screen)
                     .setContentTitle( data!!["title"])
                     .setContentText(data!!["body"])
-                   .setDefaults(Notification.DEFAULT_ALL)
+                    .setDefaults(Notification.DEFAULT_ALL)
                     .setPriority(NotificationManager.IMPORTANCE_HIGH)
                     .setAutoCancel(true)
                 notificationBuilder.setContentIntent(pendingIntent)
                 val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 if (notificationManager != null) {
                     notificationManager.notify(notificationId, notificationBuilder.build())
-                            SavedPrefManager.saveIntPreferences(this, SavedPrefManager.NOTIFICATION_ID,notificationId + 1
+                    SavedPrefManager.saveIntPreferences(this, SavedPrefManager.NOTIFICATION_ID,notificationId + 1
 
                     )
                 }
@@ -195,7 +220,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
 
 
-        }
+    }
 
 //        fun generateNotification(title: String, message: String) {
 //            val intent = Intent(this, MainActivity::class.java)
@@ -228,5 +253,5 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //
 //        }
 
-    }
+}
 

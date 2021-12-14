@@ -83,12 +83,14 @@ object Validations : Activity() {
             msg.visibility = View.VISIBLE
             return false
 
-        } else if (!PASSWORD_PATTERN.matcher(value).matches()) {
-
-            msg.setText("*Please enter your valid password")
-            msg.visibility = View.VISIBLE
-            return false
-        } else if (value.length < 6) {
+        }
+//        else if (!PASSWORD_PATTERN.matcher(value).matches()) {
+//
+//            msg.setText("*Please enter your valid password")
+//            msg.visibility = View.VISIBLE
+//            return false
+//        }
+        else if (value.length < 6) {
             msg.setText("*Please enter your password more than 6-digits ")
             msg.visibility = View.VISIBLE
             return false

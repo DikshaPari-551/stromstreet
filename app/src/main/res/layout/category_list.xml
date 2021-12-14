@@ -4,13 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <RadioGroup
-        android:id="@+id/group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:layout_marginLeft="6dp"
-        android:orientation="vertical">
+
 
         <RadioButton
             android:id="@+id/radio1"
@@ -18,5 +12,5 @@
             android:layout_height="wrap_content"
             android:buttonTint="@color/orange" />
 
-    </RadioGroup>
+
 </LinearLayout>

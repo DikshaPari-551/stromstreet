@@ -62,6 +62,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var nestedScrollView: NestedScrollView
     lateinit var moreUserBio: TextView
     lateinit var moreButton: TextView
+    var filedata:String=""
+
     var list = ArrayList<UserPostDocs>()
     var page: Int = 1
     var pages: Int = 0
@@ -105,6 +107,9 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         moreUserBio = findViewById(R.id.more_userbio)
         moreButton = findViewById(R.id.more_button)
 
+//        Userid = intent.getStringExtra("id")
+
+
         followbtn.setOnClickListener {
             followUnfollow()
         }
@@ -114,7 +119,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         message.setOnClickListener({
             startActivity(
                 Intent(this, ChatActivity::class.java).putExtra("reciver_id", reciver_id)
-                    .putExtra("username", user_name)
+                    .putExtra("username", user_name).putExtra("profileimage", filedata)
             )
         })
 
@@ -232,7 +237,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     override fun onApiSuccess(response: Responce, apiName: String?) {
         androidextention.disMissProgressDialog(this)
         try {
-            username.setText(response.result.profileResult.userName)
+            username.setText(response.result.profileResult.fullName)
             followers.setText(response.result.followerCount.toString())
             following.setText(response.result.followingCount.toString())
             user_name = response.result.profileResult.fullName
@@ -248,7 +253,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         }
 
         try {
-            var filedata = response.result.profileResult.profilePic
+            filedata = response.result.profileResult.profilePic
             Glide.with(mContext).load(filedata).placeholder(R.drawable.circleprofile)
                 .into(profileImage);
         } catch (e: Exception) {

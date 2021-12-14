@@ -12,14 +12,16 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.Fragments.TrendingFragment
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.CustomClickListnerdelete
 import com.example.myapplication.entity.Response.Docss
+import com.example.sleeponcue.extension.diasplay_toast
 
 
 class TrendingListAdaptor(
 
     var context: TrendingFragment,
     var list: ArrayList<Docss>,
-    var listener: CustomClickListner2
+    var listener: CustomClickListnerdelete
 
 ) : RecyclerView.Adapter<TrendingListAdaptor.MyViewHolder>()
 {
@@ -33,6 +35,8 @@ class TrendingListAdaptor(
         var text_weather = view.findViewById<TextView>(R.id.text_weather)
         var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
         var imageIcon = view.findViewById<ImageView>(R.id.image_icon)
+        var usernameMain = view.findViewById<RelativeLayout>(R.id.usernameMain)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingListAdaptor.MyViewHolder {
@@ -49,7 +53,7 @@ class TrendingListAdaptor(
         try {
             for(i in 0 until list.size) {
                 holder.name.setText(list[position].userDetails.userName.toString())
-                holder.bio.setText(list[position].userDetails.bio.toString())
+                holder.bio.setText(list[position].description.toString())
                 holder.text_okhla.setText(list[position].address)
                 holder.text_weather.setText(list[position].categoryDetails.get(i).categoryName)
                 if (list[position].mediaType.toLowerCase().equals("video")){
@@ -74,8 +78,23 @@ class TrendingListAdaptor(
 
 
         holder.mainlayout.setOnClickListener {
+            try {
+            listener.customClick(list.get(position),"profile",position)
+            }
+            catch (e:IndexOutOfBoundsException)
+            {
+                context.diasplay_toast("oops something wrong!!.")
+            }
+        }
 
-            listener.customClick(list.get(position),"profile")
+        holder.usernameMain.setOnClickListener {
+            try {
+                listener.customClick(list.get(position),"userid",position)
+            }
+            catch (e:IndexOutOfBoundsException)
+            {
+                context.diasplay_toast("oops something wrong!!.")
+            }
         }
     }
 

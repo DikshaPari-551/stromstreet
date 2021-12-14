@@ -4,25 +4,24 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.Fragments.HomeFragment
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.CustomClickListner
 import com.example.myapplication.customclickListner.CustomClickListner2
+import com.example.myapplication.customclickListner.CustomClickListnerdelete
 import com.example.myapplication.entity.Response.Docss
 import com.example.myapplication.util.SavedPrefManager
+import com.example.sleeponcue.extension.diasplay_toast
 import java.lang.Exception
 
 class HomeAdaptor(
 
     var context: HomeFragment,
     var list: ArrayList<Docss>,
-    var listener: CustomClickListner2
+    var listener: CustomClickListnerdelete
 
     ) : RecyclerView.Adapter<HomeAdaptor.MyViewHolder>()
 {
@@ -36,6 +35,7 @@ class HomeAdaptor(
         var mainlayout = view.findViewById<LinearLayout>(R.id.mainlayout)
         var videoIcon = view.findViewById<ImageView>(R.id.video_icon)
         var imageIcon = view.findViewById<ImageView>(R.id.image_icon)
+        var usernameMain = view.findViewById<RelativeLayout>(R.id.usernameMain)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdaptor.MyViewHolder {
@@ -52,7 +52,7 @@ class HomeAdaptor(
     override fun onBindViewHolder(holder: HomeAdaptor.MyViewHolder, position: Int) {
         try {
             holder.name.setText(list[position].userDetails.userName.toString())
-            holder.bio.setText(list[position].userDetails.bio.toString())
+            holder.bio.setText(list[position].description.toString())
             holder.text_okhla.setText(list[position].address)
             for(i in 0 until list.size) {
                 holder.text_weather.setText(list[position].categoryDetails.get(i).categoryName)
@@ -84,10 +84,24 @@ class HomeAdaptor(
             e.printStackTrace()
         }
 
-
+        holder.usernameMain.setOnClickListener {
+            try {
+                   listener.customClick(list.get(position),"userid",position)
+               }
+               catch (e:IndexOutOfBoundsException)
+               {
+                   context.diasplay_toast("oops something wrong!!.")
+               }
+        }
         holder.mainlayout.setOnClickListener {
+            try {
+                listener.customClick(list.get(position),"profile",position)
+            }
+            catch (e:IndexOutOfBoundsException)
+            {
+                context.diasplay_toast("oops something wrong!!.")
+            }
 
-            listener.customClick(list.get(position),"profile")
         }
     }
 

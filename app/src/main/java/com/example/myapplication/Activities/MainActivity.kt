@@ -2,14 +2,16 @@ package com.example.myapplication
 
 import android.Manifest
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +20,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.myapplication.Activities.NoInternetActivity
 import com.example.myapplication.Fragments.*
-import com.example.myapplication.customclickListner.ClickListner
 import com.example.myapplication.entity.Response.Chalist
 import com.example.myapplication.entity.Response.Messages
 import com.example.myapplication.entity.permission.MarshMallowPermission
@@ -30,7 +31,8 @@ import com.google.android.gms.location.LocationServices
 import java.io.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()
+{
     lateinit var menu: ImageView
     lateinit var bubble: ImageView
     lateinit var profile: ImageView
@@ -65,6 +67,9 @@ class MainActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
+
+
+
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
@@ -90,6 +95,7 @@ class MainActivity : AppCompatActivity() {
 
 
         menu.setOnClickListener {
+
             supportFragmentManager.beginTransaction().replace(R.id.linear_layout, HomeFragment())
                 .commit()
             profile.setColorFilter(resources.getColor(R.color.grey))
@@ -105,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().replace(
                 R.id.linear_layout,
                 TrendingFragment()
-            ).commit()
+            ).addToBackStack(null).commit()
 
             profile.setColorFilter(resources.getColor(R.color.grey))
             menu.setColorFilter(resources.getColor(R.color.grey))

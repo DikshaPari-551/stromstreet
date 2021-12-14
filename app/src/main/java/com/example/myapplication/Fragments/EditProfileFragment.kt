@@ -1,7 +1,9 @@
 package com.example.myapplication.Fragments
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,9 +19,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
-import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
-import okhttp3.ResponseBody
 import java.lang.Exception
 
 
@@ -29,12 +29,20 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var logout: RelativeLayout
     lateinit var backButton: ImageView
     lateinit var userProfile: ImageView
+    lateinit var twitter: ImageView
+    lateinit var facebook: ImageView
+    lateinit var instagram: ImageView
+    lateinit var youtube: ImageView
     lateinit var mContext: Context
     lateinit var username: TextView
     lateinit var name: TextView
     lateinit var phone_no: TextView
     lateinit var email_id: TextView
     lateinit var bio: TextView
+    var facebooklink=""
+    var twitterlink=""
+    var instalink=""
+    var youtubelink=""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +61,11 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         phone_no = v.findViewById(R.id.phone_no)
         userProfile = v.findViewById(R.id.userProfile)
         email_id = v.findViewById(R.id.email_id)
+        twitter = v.findViewById(R.id.twitter)
+        facebook = v.findViewById(R.id.facebook)
+        instagram = v.findViewById(R.id.instagram)
+        youtube = v.findViewById(R.id.youtube)
+        youtube = v.findViewById(R.id.youtube)
         bio = v.findViewById(R.id.bio)
 
 
@@ -61,6 +74,22 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
             var bottomsheettt =
                 BottomSheetLogout()
             fragmentManager?.let { it1 -> bottomsheettt.show(it1, "bottomsheet") }
+
+        }
+        twitter.setOnClickListener {
+            LINKDATA(twitterlink)
+
+        }
+        facebook.setOnClickListener {
+            LINKDATA(facebooklink)
+
+        }
+        instagram.setOnClickListener {
+            LINKDATA(instalink)
+
+        }
+        youtube.setOnClickListener {
+            LINKDATA(youtubelink)
 
         }
         backButton = v.findViewById(R.id.back_arrow_edit_profile)
@@ -94,6 +123,21 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         return v
     }
 
+    private fun LINKDATA(LINK: String)
+    {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW)
+
+            intent.data = Uri.parse("$LINK")
+            startActivity(intent)
+        }
+        catch (e: ActivityNotFoundException)
+        {
+           Toast.makeText(context,"Oops link not valid..",Toast.LENGTH_LONG)
+        }
+
+    }
+
     private fun profileApi() {
         val Token =
             SavedPrefManager.getStringPreferences(activity, SavedPrefManager.TOKEN).toString()
@@ -117,7 +161,14 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         phone_no.setText(response.result.userResult.phoneNumber)
         email_id.setText(response.result.userResult.email)
         bio.setText(response.result.userResult.bio)
-
+        try {
+            twitterlink = response.result.userResult.socialLinks.twitter
+            facebooklink = response.result.userResult.socialLinks.facebook
+            instalink = response.result.userResult.socialLinks.instagram
+            youtubelink = response.result.userResult.socialLinks.youtube
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
         Glide.with(mContext).load(response.result.userResult.profilePic)
             .placeholder(R.drawable.circleprofile).into(userProfile)
 
@@ -133,5 +184,11 @@ class EditProfileFragment : Fragment(), ApiResponseListener<Responce> {
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        profileApi()
+
+    }
 
 }

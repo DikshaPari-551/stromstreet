@@ -1,11 +1,14 @@
 package com.example.myapplication.Fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +28,9 @@ class ChatFragment : Fragment() {
     lateinit var backButton:ImageView
 
     var USERID_data: String=""
-    lateinit var adaptor:Chat_Adaptor
+    lateinit var search:EditText
+    private val datalist: java.util.ArrayList<Chalist> = java.util.ArrayList<Chalist>()
+     var adaptor:Chat_Adaptor? = null
     lateinit var socketInstance: SocketManager
     private var list: ArrayList<Chalist>? = null
 
@@ -38,7 +43,7 @@ class ChatFragment : Fragment() {
         var v= inflater.inflate(R.layout.fragment_chat, container, false)
         recycler_view3=v.findViewById(R.id.recycler_view3)
         backButton=v.findViewById(R.id.back_arrow_chat)
-
+        search=v.findViewById(R.id.search)
 
 //
 
@@ -52,10 +57,58 @@ class ChatFragment : Fragment() {
 
 
         }
+        search.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int
+            ) {
+                //setTags(search_edittext,s.toString());
+            }
 
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+//                String styledText = "<font color=\"#FF00A0EB\">"+s+"</font>";
+//                search_edittext.setText(styledText);
+                FILTER_LIST(s.toString())
+            }
+        })
 
 
         return v
+    }
+
+    private fun FILTER_LIST(text: String)
+    {
+        val filteredList: java.util.ArrayList<Chalist> = java.util.ArrayList<Chalist>()
+
+        for (item in datalist) {
+            if(USERID_data.equals(item.receiverId._id))
+            {
+                if (item.senderId.fullName.toLowerCase().contains(text.toLowerCase())) {
+                    filteredList.add(item)
+                }
+            }
+            else
+            {
+                if (item.receiverId.fullName.toLowerCase().contains(text.toLowerCase())) {
+                    filteredList.add(item)
+                }
+            }
+
+        }
+        try {
+            adaptor!!.filterList(filteredList)
+        }
+        catch (e:NullPointerException)
+        {
+
+        }
+
     }
 
     private fun SocketInitalize() {
@@ -92,19 +145,21 @@ class ChatFragment : Fragment() {
             override fun chatlist(listdat: ArrayList<Chalist>)
             {if(listdat!=null)
             {
-                adaptor = activity?.let { Chat_Adaptor(it, listdat, USERID_data ) }!!
+                datalist.clear()
+                datalist.addAll(listdat)
+                adaptor = activity?.let { Chat_Adaptor(it, datalist, USERID_data ) }!!
                 val layoutManager = LinearLayoutManager(activity)
                 recycler_view3.layoutManager = layoutManager
                 recycler_view3.adapter = adaptor
             }
-                else
+            else
             {
 //                Toast.makeText(
 //                    this, ,
 //                    Toast.LENGTH_SHORT
 //                ).show()
             }
-               }
+            }
 
             override fun viewchat(listdat: ArrayList<Messages>) {
             }

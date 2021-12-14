@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.customclickListner.FilterCustomListener
@@ -14,7 +12,7 @@ import com.example.myapplication.entity.Response.CategoryResult
 
 
 class CategoryListAdaptor(
-    var list: List<CategoryResult>,
+    var list: ArrayList<CategoryResult>,
     var secondFragment: FilterCustomListener,
     var mContext: Context
 ) :  RecyclerView.Adapter<CategoryListAdaptor.MyViewHolder>() {
@@ -25,16 +23,33 @@ class CategoryListAdaptor(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        if(position == selectPosition) {
-            holder.radioButton.isChecked = true
-            secondFragment.filterCustomListener(list.get(position)._id)
-        } else {
-            holder.radioButton.isChecked = false
+//        if(position == selectPosition) {
+//            holder.radioButton.isChecked = true
+//        }
+//        else {
+//            holder.radioButton.isChecked = false
+//        }
+        if( list.get(position).flag)
+        {
+            holder.radioButton.isChecked=true
+        }
+        else
+        {
+            holder.radioButton.isChecked=false
         }
         holder.radioButton.setText(list.get(position).categoryName)
+
         holder.radioButton.setOnClickListener{
-            secondFragment.filterCustomListener(list.get(position)._id)
+            secondFragment.filterCustomListener(list)
             selectPosition = position
+            if(!list.get(position).flag)
+            {
+                list.get(position).flag=true
+            }
+            else
+            {
+                list.get(position).flag=false
+            }
             notifyDataSetChanged()
         }
 
@@ -46,7 +61,11 @@ class CategoryListAdaptor(
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view){
         var radioButton = view.findViewById<RadioButton>(R.id.radio1)
-        var radioGroup = view.findViewById<RadioGroup>(R.id.group)
 
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
     }
 }
