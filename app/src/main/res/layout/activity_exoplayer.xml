@@ -316,7 +316,7 @@
                                     android:fontFamily="@font/opensans_regular"
                                     android:gravity="center"
                                     android:text="+ follow"
-                                    android:visibility="visible"
+                                    android:visibility="gone"
                                     android:textColor="@color/orange"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />

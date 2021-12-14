@@ -200,17 +200,17 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
 
 
         savePost.setOnClickListener {
-            var count = 0
+            var countSaved = 0
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
-                if(count == 0 && isSaved == false){
-                    count++
+                if(countSaved == 0 && isSaved == false){
+                    countSaved++
                     savePost.setImageDrawable(resources.getDrawable(R.drawable.saved_post))
 
                 } else {
                     savePost.setImageDrawable(resources.getDrawable(R.drawable.unsaved_post))
-                    count = 0
+                    countSaved = 0
 
                 }
                 saveunsave()
@@ -383,7 +383,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     override fun onApiSuccess(response: Responce, apiName: String?) {
 
         androidextention.disMissProgressDialog(this)
-        commentcount.setText(response.result.commentCount.toString())
+//        commentcount.setText(response.result.commentCount.toString())
         LikeUnlike = response.result.isLike
         isSaved = response.result.isSave
         isFollow = response.result.isFollow

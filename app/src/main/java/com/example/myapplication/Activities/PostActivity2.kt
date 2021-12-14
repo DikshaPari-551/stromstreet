@@ -408,7 +408,7 @@ class PostActivity2 : AppCompatActivity(), ApiResponseListener<Responce>, Custom
                     var filedata = response.result.postResult.thumbNail
                     shareLink = response.result.postResult.videoLink
 
-                    Glide.with(this).load(filedata).into(vedio);
+                    Glide.with(mContext).load(filedata).into(vedio);
                 } catch (e: IndexOutOfBoundsException) {
                     e.printStackTrace()
                 }

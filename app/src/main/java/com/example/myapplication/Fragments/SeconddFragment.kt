@@ -51,9 +51,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
         // Inflate the layout for this fragment
         var v=  inflater.inflate(R.layout.fragment_secondd, container, false)
         noPost = v.findViewById(R.id.no_post)
-
         mContext= activity!!
-
         savedpostlist()
         progress_bar = v.findViewById(R.id.progress_bar)
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
@@ -86,7 +84,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
         val Token = SavedPrefManager.getStringPreferences(mContext, SavedPrefManager.TOKEN).toString()
 
         if (androidextention.isOnline(mContext)) {
-            androidextention.showProgressDialog(mContext)
+//            androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<UserPostResponse> =
                 ApiCallBack<UserPostResponse>(this, "SavedPostList", mContext)
@@ -101,7 +99,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
     }
 
     override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
         pages = response.result.pages
 
         if (response.responseCode == "200") {
@@ -116,7 +114,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(mContext)
+//        androidextention.disMissProgressDialog(mContext)
 
 //        Toast.makeText(activity, "No Post Saved", Toast.LENGTH_LONG).show()
         noPost.visibility = View.VISIBLE
@@ -124,7 +122,7 @@ class SeconddFragment : Fragment(), ApiResponseListener<UserPostResponse> , Cust
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(mContext)
+//        androidextention.disMissProgressDialog(mContext)
 
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }

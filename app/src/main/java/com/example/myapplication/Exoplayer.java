@@ -433,6 +433,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 postid = response.result.getPostResult().getUserId().get_id();
                 viedeourl = response.result.getPostResult().getVideoLink();
                 address.setText(response.result.getPostResult().getAddress());
+
                 initPre23(response.result.getPostResult().getVideoLink());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -695,12 +696,14 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         if (playbackState == ExoPlayer.STATE_ENDED) {
-            FINISH();
+            //initPre23(videoURL);
+          //  FINISH();
         }
-        updateButtonVisibilities();
+    updateButtonVisibilities();
     }
 
     private void FINISH() {
+
         finish();
         overridePendingTransition(R.anim.stay, R.anim.activity_popup_hide);
 

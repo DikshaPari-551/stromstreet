@@ -84,7 +84,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
     private fun userpostlist() {
 
         if (androidextention.isOnline(mContext)) {
-            androidextention.showProgressDialog(mContext)
+//            androidextention.showProgressDialog(mContext)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<UserPostResponse> =
                 ApiCallBack<UserPostResponse>(this, "SavedPostList", mContext)
@@ -101,7 +101,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
     }
 
     override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
-        androidextention.disMissProgressDialog(activity)
+//        androidextention.disMissProgressDialog(activity)
         pages = response.result.pages
 
         if (response.responseCode == "200") {
@@ -113,13 +113,13 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(mContext)
+//        androidextention.disMissProgressDialog(mContext)
 //        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
         noPost.visibility = View.VISIBLE
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(mContext)
+//        androidextention.disMissProgressDialog(mContext)
 
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
