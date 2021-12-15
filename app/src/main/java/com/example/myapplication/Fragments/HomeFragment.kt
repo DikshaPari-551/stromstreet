@@ -72,19 +72,20 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var nestedScrollView: NestedScrollView
     lateinit var totalnotif: TextView
     lateinit var swipeRefresh: SwipeRefreshLayout
-    lateinit var lottie : LottieAnimationView
-    var progress:Boolean=true
+    lateinit var lottie: LottieAnimationView
+    var progress: Boolean = true
     var list = ArrayList<Docss>()
     var getSearchText = ""
     var catId: ArrayList<String>? = null
     var locality: String = ""
-    var result: String =""
+    var result: String = ""
 
     var maxDis: Int = 0
     var page: Int = 1
     var pages: Int = 0
     var limit: Int = 10
     var searchFlag = false
+    var searchDataFlag = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -137,8 +138,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
 
         goButton.setOnClickListener {
-            if (!searchText.text.toString().equals("") && searchText.text.toString() != null){
-                list.clear()
+            if (!searchText.text.toString().equals("") && searchText.text.toString() != null) {
+                //  list.clear()
+                searchDataFlag = true
                 searchFlag = true
                 getSearchText = searchText.text.toString()
                 getLocalActivityApi()
@@ -288,8 +290,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     }
 
     private fun getLocalActivityApi() {
-        if(progress)
-        {
+        if (progress) {
 //            androidextention.showProgressDialog(activity)
             lottie.initLoader(true)
         }
@@ -306,13 +307,22 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
 //            try {
             if (catId != null && !catId!!.equals(null)) {
-                serviceManager.getLocalActivity(callBack,latitude,longitude,apiRequest,page.toString(),limit.toString())
+                serviceManager.getLocalActivity(
+                    callBack,
+                    latitude,
+                    longitude,
+                    apiRequest,
+                    page.toString(),
+                    limit.toString()
+                )
 
             } else if (getSearchText != null && !getSearchText.equals("")) {
-                serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest, page.toString(), limit.toString()
+                serviceManager.getLocalActivity(
+                    callBack, latitude, longitude, apiRequest, page.toString(), limit.toString()
                 )
             } else {
-                serviceManager.getLocalActivity(callBack, latitude, longitude, apiRequest, page.toString(), limit.toString()
+                serviceManager.getLocalActivity(
+                    callBack, latitude, longitude, apiRequest, page.toString(), limit.toString()
                 )
 
             }
@@ -337,6 +347,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         pages = response.result.pages
 
         try {
+            if(searchDataFlag == true) {
+                list.clear()
+            }
             list.addAll(response.result.docs)
             setAdapter(list)
         } catch (e: Exception) {
@@ -344,9 +357,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         }
         if (apiName.equals("notificationCountapi")) {
             totalnotif.setText(response.result.notificationCount.toString())
-            if (response.result.notificationCount == 0){
+            if (response.result.notificationCount == 0) {
                 totalnotif.visibility = View.GONE
-            }else{
+            } else {
                 totalnotif.visibility = View.VISIBLE
             }
         }
@@ -358,10 +371,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         lottie.initLoader(false)
 
         progress_bar.visibility = View.GONE
-        if (apiName.equals("LocalActivity")){
+        if (apiName.equals("LocalActivity")) {
             Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
-        }
-        else{
+        } else {
 
         }
 
@@ -382,8 +394,6 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         recycler_view1?.adapter = adaptor
 
     }
-
-
 
 
     private fun locationpermission() {
@@ -435,8 +445,9 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         }
     }
-    fun refresh(){
-        progress=false
+
+    fun refresh() {
+        progress = false
         page = 1
         list.clear()
         catId = null
@@ -447,10 +458,10 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1){
+        if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 result = data!!.getStringExtra("result")
-                System.out.println("postposition"+result)
+                System.out.println("postposition" + result)
                 list!!.removeAt(result.toInt());
                 adaptor.notifyItemRemoved(result.toInt());
                 adaptor.notifyItemRangeChanged(result.toInt(), list.size)
@@ -462,7 +473,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         USERID = value._id
         var lat = value.location.coordinates
         var otheruserid = value.userId
-        if(androidextention.isOnline(mContext)) {
+        if (androidextention.isOnline(mContext)) {
             internetConnection.visibility = View.GONE
 
             if (type.equals("profile")) {
@@ -491,9 +502,11 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                     startActivity(intent)
                 }
             }
-        }else {
+        } else {
             androidextention.disMissProgressDialog(mContext)
-            Toast.makeText(mContext,"Please check your internet connection.", Toast.LENGTH_LONG).show()
+            Toast.makeText(mContext, "Please check your internet connection.", Toast.LENGTH_LONG)
+                .show()
         }
     }
+
 }

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:orientation="vertical"
-
     tools:context=".Activities.ReportPost">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,8 +34,8 @@ android:orientation="vertical"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:text="Report"
                 android:fontFamily="@font/opensans_regular"
+                android:text="Report"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -57,13 +61,13 @@ android:orientation="vertical"
                 android:layout_height="217dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="12dp"
-                android:singleLine="true"
-                android:gravity="start"
-                android:inputType="textEmailAddress"
-                android:background="@null"
                 android:layout_marginRight="40dp"
-                android:hint="Write your feedback..."
+                android:background="@null"
                 android:fontFamily="@font/opensans_regular"
+                android:gravity="start"
+                android:hint="Write your feedback..."
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
                 android:textColorHint="@color/darkgrey"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -81,10 +85,20 @@ android:orientation="vertical"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_vertical"
-                android:text="Submit"
                 android:gravity="center"
+                android:text="Submit"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
     </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loader"
+        style="@style/Theme.MyApplication.DefaultLottieLoader"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+</RelativeLayout>

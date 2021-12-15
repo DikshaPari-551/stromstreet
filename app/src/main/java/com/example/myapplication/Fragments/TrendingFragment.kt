@@ -69,6 +69,7 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     var pages: Int = 0
     var limit: Int = 10
     var searchFlag = false
+    var searchDataFlag = false
 
 
     override fun onCreateView(
@@ -107,8 +108,9 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         }
         goButton.setOnClickListener {
             if (!searchText.text.toString().equals("") && searchText.text.toString() != null){
-            list.clear()
-            searchValue = searchText.text.toString()
+//            list.clear()
+                searchDataFlag = true
+                searchValue = searchText.text.toString()
             getTrendingPostApi()
         }
         }
@@ -264,7 +266,9 @@ class TrendingFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         lottie.initLoader(false)
 
         pages = response.result.pages
-
+        if(searchDataFlag == true) {
+            list.clear()
+        }
         list.addAll(response.result.docs)
         setAdapter(list)
 

@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.R
 import com.example.myapplication.entity.ApiCallBack
 import com.example.myapplication.entity.Request.Api_Request
@@ -17,6 +18,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
@@ -27,6 +29,7 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var report_text: EditText
     lateinit var submitreport: LinearLayout
     lateinit var backArrow: ImageView
+    lateinit var lottie: LottieAnimationView
     lateinit var reportvalue: String
     lateinit var _id: String
     var mContext: Context = this
@@ -43,6 +46,7 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
         report_text = findViewById(R.id.report_text)
         submitreport = findViewById(R.id.submitreport)
         backArrow = findViewById(R.id.back_arrow)
+        lottie = findViewById(R.id.loader)
         getInent()
 
         backArrow.setOnClickListener {
@@ -66,7 +70,8 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
     private fun reportpostapi() {
 
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(this, "CreateReport", mContext)
@@ -87,15 +92,18 @@ class ReportPost : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(this, "Report Sent Successfully", Toast.LENGTH_LONG).show()
         report_text.setText(null)
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
+        lottie.initLoader(false)
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 }

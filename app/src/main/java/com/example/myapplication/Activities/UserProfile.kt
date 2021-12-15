@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.myapplication.Adaptor.ProfileAdaptor
 import com.example.myapplication.Adaptor.UserProfilePostAdaptor
@@ -24,6 +25,7 @@ import com.example.myapplication.entity.Response.*
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import com.example.myapplication.util.SavedPrefManager.Companion.postid
 import de.hdodenhof.circleimageview.CircleImageView
@@ -62,6 +64,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var nestedScrollView: NestedScrollView
     lateinit var moreUserBio: TextView
     lateinit var moreButton: TextView
+    lateinit var lottie: LottieAnimationView
     var filedata:String=""
 
     var list = ArrayList<UserPostDocs>()
@@ -82,8 +85,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = resources.getColor(R.color.black)
         }
-        profileApi()
-        newPostList()
+
 
 //        color_grid=findViewById(R.id.color_grid)
 ////        back_tab=findViewById(R.id.back_tab)
@@ -106,7 +108,9 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         userbio = findViewById(R.id.userbio)
         moreUserBio = findViewById(R.id.more_userbio)
         moreButton = findViewById(R.id.more_button)
-
+        lottie = findViewById(R.id.loader)
+        profileApi()
+        newPostList()
 //        Userid = intent.getStringExtra("id")
 
 
@@ -137,7 +141,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
                         progress_bar.visibility = View.GONE
                     } else {
                         newPostList()
-                        androidextention.disMissProgressDialog(mContext)
+//                        androidextention.disMissProgressDialog(mContext)
+                        lottie.initLoader(false)
 
                     }
                 }
@@ -157,12 +162,14 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
         Userid =
             SavedPrefManager.getStringPreferences(this, SavedPrefManager.otherUserId).toString()
         if (androidextention.isOnline(mContext)) {
-            androidextention.showProgressDialog(mContext)
+//            androidextention.showProgressDialog(mContext)
+            lottie.initLoader(true)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<UserPostResponse> =
                 ApiCallBack<UserPostResponse>(object : ApiResponseListener<UserPostResponse> {
                     override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
-                        androidextention.disMissProgressDialog(mContext)
+//                        androidextention.disMissProgressDialog(mContext)
+                        lottie.initLoader(false)
                         pages = response.result.pages
 
                         list.addAll(response.result.docs)
@@ -170,12 +177,14 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
                     }
 
                     override fun onApiErrorBody(response: String?, apiName: String?) {
-                        androidextention.disMissProgressDialog(mContext)
+//                        androidextention.disMissProgressDialog(mContext)
+                        lottie.initLoader(false)
                         noPost.visibility = View.VISIBLE
                     }
 
                     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                        androidextention.disMissProgressDialog(mContext)
+//                        androidextention.disMissProgressDialog(mContext)
+                        lottie.initLoader(false)
                         Toast.makeText(mContext, "Invalid response.", Toast.LENGTH_LONG).show()
                     }
 
@@ -222,7 +231,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     private fun profileApi() {
         val Userid =
             SavedPrefManager.getStringPreferences(this, SavedPrefManager.otherUserId).toString()
-        androidextention.showProgressDialog(this)
+//        androidextention.showProgressDialog(this)
+        lottie.initLoader(true)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(this, "Profile", mContext)
@@ -235,7 +245,8 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         try {
             username.setText(response.result.profileResult.fullName)
             followers.setText(response.result.followerCount.toString())
@@ -283,13 +294,15 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         Toast.makeText(this, "No Post Found", Toast.LENGTH_LONG).show()
 
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
     }
 

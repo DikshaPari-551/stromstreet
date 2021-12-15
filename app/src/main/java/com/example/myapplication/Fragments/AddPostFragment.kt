@@ -310,7 +310,7 @@ class AddPostFragment() : Fragment(), ClickListner {
 //                    androidextention.disMissProgressDialog(activity)
                     if (response.responseCode == "200") {
 //                        androidextention.showProgressDialog(activity)
-                        lottie.initLoader(true)
+                        lottie.initLoader(false)
                         var data: List<MediaResult> = response.result.mediaResult
                         Log.d("uploadResponse", data.toString())
                         for (i in 0 until data.size) {
@@ -335,7 +335,7 @@ class AddPostFragment() : Fragment(), ClickListner {
 
                 override fun onApiErrorBody(response: String?, apiName: String?) {
 //                    androidextention.disMissProgressDialog(activity)
-                    lottie.initLoader(true)
+                    lottie.initLoader(false)
                     Toast.makeText(
                         mContext,
                         "Image or Video size is large. Size should be less then 30 MB. " + response.toString(),

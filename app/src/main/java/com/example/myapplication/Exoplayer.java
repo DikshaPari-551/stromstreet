@@ -397,6 +397,7 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     }
 
     private void postdetails() {
+//        lottie.initLoader(true);
         ServiceManager serviceManager = new ServiceManager(mContext);
         ApiCallBack<Responce> callBack = new ApiCallBack<Responce>(this, "PostDetails", mContext);
         try {

@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Fragments.HomeFragment
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
@@ -20,6 +21,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
 import okhttp3.ResponseBody
@@ -39,6 +41,7 @@ class ResetPasswordActivity : AppCompatActivity() {
     lateinit var new_pass: String
     lateinit var re_enter_pass: String
     lateinit var imgnewpass: ImageView
+    lateinit var lottie: LottieAnimationView
     lateinit var serviceManager: ServiceManager
     var passwordNotVisible = 0
     lateinit var re_enter_passeord: EditText
@@ -60,6 +63,8 @@ class ResetPasswordActivity : AppCompatActivity() {
         re_enter_passeord = findViewById(R.id.Re_enter_password)
         resetPasswordErrText = findViewById(R.id.reset_Password_errtext)
         reEnterPassword = findViewById(R.id.reset_re_neterPassword_errtext)
+        lottie = findViewById(R.id.loader)
+
         serviceManager = ServiceManager(mContext)
 
         imgnewpass.setOnClickListener {
@@ -130,11 +135,13 @@ class ResetPasswordActivity : AppCompatActivity() {
 
     private fun resetPassword() {
         if (androidextention.isOnline(this)) {
-            androidextention.showProgressDialog(this)
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
             val callBack: ApiCallBack<Responce> =
                 ApiCallBack<Responce>(object : ApiResponseListener<Responce> {
                     override fun onApiSuccess(response: Responce, apiName: String?) {
-                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+//                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+                        lottie.initLoader(false)
                         if (response.responseCode == "200") {
                             Toast.makeText(
                                 this@ResetPasswordActivity,
@@ -150,7 +157,8 @@ class ResetPasswordActivity : AppCompatActivity() {
                     }
 
                     override fun onApiErrorBody(response: String?, apiName: String?) {
-                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+//                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+                        lottie.initLoader(false)
                         Toast.makeText(
                             this@ResetPasswordActivity,
                             "Something Went Wrong " + response.toString(),
@@ -159,7 +167,8 @@ class ResetPasswordActivity : AppCompatActivity() {
                     }
 
                     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+//                        androidextention.disMissProgressDialog(this@ResetPasswordActivity)
+                        lottie.initLoader(false)
                         Toast.makeText(
                             this@ResetPasswordActivity,
                             "Server not responding " + failureMessage,

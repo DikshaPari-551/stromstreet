@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.Activities.PostActivity
 import com.example.myapplication.Adaptor.ProfileAdaptor
 import com.example.myapplication.Exoplayer
@@ -26,6 +27,7 @@ import com.example.myapplication.entity.Response.*
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 
@@ -38,6 +40,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
     lateinit var adaptor: ProfileAdaptor
     lateinit var USERID: String
     lateinit var progress_bar: ProgressBar
+    lateinit var lottie : LottieAnimationView
     lateinit var nestedScrollView: NestedScrollView
     var page: Int = 1
     var pages: Int = 0
@@ -56,6 +59,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
         noPost = v.findViewById(R.id.no_post)
         progress_bar = v.findViewById(R.id.progress_bar)
         nestedScrollView = v.findViewById(R.id.nestedScrollView)
+        lottie = v.findViewById(R.id.loader)
         mContext = activity!!
         userpostlist()
 
@@ -72,7 +76,8 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
                         progress_bar.visibility = View.GONE
                     } else {
                         userpostlist()
-                        androidextention.disMissProgressDialog(activity)
+//                        androidextention.disMissProgressDialog(activity)
+                        lottie.initLoader(false)
 
                     }
                 }
@@ -85,6 +90,7 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
 
         if (androidextention.isOnline(mContext)) {
 //            androidextention.showProgressDialog(mContext)
+            lottie.initLoader(true)
             val serviceManager = ServiceManager(mContext)
             val callBack: ApiCallBack<UserPostResponse> =
                 ApiCallBack<UserPostResponse>(this, "SavedPostList", mContext)
@@ -102,11 +108,13 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
 
     override fun onApiSuccess(response: UserPostResponse, apiName: String?) {
 //        androidextention.disMissProgressDialog(activity)
+        lottie.initLoader(false)
         pages = response.result.pages
 
         if (response.responseCode == "200") {
-            androidextention.disMissProgressDialog(mContext)
+//            androidextention.disMissProgressDialog(mContext)
 //            Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
+            lottie.initLoader(false)
             list.addAll(response.result.docs)
             setAdapter(list)
         }
@@ -115,12 +123,13 @@ class FirstFragment() : Fragment(), ApiResponseListener<UserPostResponse>,
     override fun onApiErrorBody(response: String?, apiName: String?) {
 //        androidextention.disMissProgressDialog(mContext)
 //        Toast.makeText(activity, "Something Went Wrong", Toast.LENGTH_LONG).show()
+        lottie.initLoader(false)
         noPost.visibility = View.VISIBLE
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
 //        androidextention.disMissProgressDialog(mContext)
-
+        lottie.initLoader(false)
         Toast.makeText(activity, "Server not responding", Toast.LENGTH_LONG).show()
     }
 

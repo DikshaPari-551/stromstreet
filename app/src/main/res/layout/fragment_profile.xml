@@ -253,7 +253,14 @@
                     android:id="@+id/layout_tabsss"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="10dp" />
+                    android:padding="10dp">
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/loader"
+                        style="@style/Theme.MyApplication.DefaultLottieLoader"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
+                </RelativeLayout>
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
@@ -266,10 +273,5 @@
             <!--        </androidx.core.widget.NestedScrollView>-->
         </LinearLayout>
     </LinearLayout>
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loader"
-        style="@style/Theme.MyApplication.DefaultLottieLoader"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
+
 </RelativeLayout>

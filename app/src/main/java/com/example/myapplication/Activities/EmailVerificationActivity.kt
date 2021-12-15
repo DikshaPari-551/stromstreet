@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.airbnb.lottie.LottieAnimationView
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.entity.ApiCallBack
@@ -18,6 +19,7 @@ import com.example.myapplication.entity.Response.Responce
 import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
+import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import okhttp3.ResponseBody
 import java.lang.Exception
@@ -39,6 +41,7 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
     lateinit var otp: TextView
     lateinit var et4: EditText
     lateinit var text_login: TextView
+    lateinit var lottie: LottieAnimationView
     private var activityFlag = ""
     private var timecomplete : Boolean = false
     lateinit var submit: LinearLayout
@@ -60,6 +63,8 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
         et2 = findViewById(R.id.et_2)
         et3 = findViewById(R.id.et_3)
         et4 = findViewById(R.id.et_4)
+        lottie = findViewById(R.id.loader)
+
         text_login = findViewById(R.id.text_login)
 
         et1.addTextChangedListener(GenericTextWatcher(et1, et2))
@@ -127,7 +132,8 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
         timecomplete = false
         nameapi = "ResendOtp"
 
-        androidextention.showProgressDialog(this)
+//        androidextention.showProgressDialog(this)
+        lottie.initLoader(true)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(this, "ResendOtp", mContext)
@@ -168,8 +174,8 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
 
     private fun verifyOtp() {
         nameapi = "VerifyOtp"
-
-        androidextention.showProgressDialog(this)
+        lottie.initLoader(true)
+//        androidextention.showProgressDialog(this)
         val serviceManager = ServiceManager(mContext)
         val callBack: ApiCallBack<Responce> =
             ApiCallBack<Responce>(this, "VerifyOtp", mContext)
@@ -185,12 +191,14 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
     }
 
     override fun onApiSuccess(response: Responce, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         if (androidextention.isOnline(this)) {
             if (nameapi.equals("VerifyOtp")) {
                 if (activityFlag == "forgotactivity") {
                     if (response.responseCode == "200") {
-                        androidextention.disMissProgressDialog(this)
+//                        androidextention.disMissProgressDialog(this)
+                        lottie.initLoader(false)
                         SavedPrefManager.saveStringPreferences(
                             this,
                             SavedPrefManager.TOKEN,
@@ -204,7 +212,8 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
                 } else {
                     if (response.responseCode == "200") {
                         Log.w("", "Response" + response.result)
-                        androidextention.disMissProgressDialog(this)
+//                        androidextention.disMissProgressDialog(this)
+                        lottie.initLoader(false)
                         SavedPrefManager.saveStringPreferences(
                             this,
                             SavedPrefManager.TOKEN,
@@ -218,7 +227,8 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
                 }
             } else if (nameapi.equals("ResendOtp")) {
                 if (response.responseCode == "200") {
-                    androidextention.disMissProgressDialog(this)
+//                    androidextention.disMissProgressDialog(this)
+                    lottie.initLoader(false)
 //                    Toast.makeText(this, "Success" + response.result.otp, Toast.LENGTH_LONG).show()
 
                 }
@@ -228,12 +238,14 @@ class EmailVerificationActivity : AppCompatActivity(), ApiResponseListener<Respo
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         Toast.makeText(this, "Invalid OTP", Toast.LENGTH_LONG).show()
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
-        androidextention.disMissProgressDialog(this)
+//        androidextention.disMissProgressDialog(this)
+        lottie.initLoader(false)
         Toast.makeText(this, "Server not responding", Toast.LENGTH_LONG).show()
     }
 
