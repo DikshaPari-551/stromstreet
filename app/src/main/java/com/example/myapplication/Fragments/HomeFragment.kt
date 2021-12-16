@@ -1,25 +1,29 @@
 package com.example.myapplication.Fragments
 
 import android.Manifest
-import android.R.attr
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.example.myapplication.Activities.NoInternetActivity
 import com.example.myapplication.Activities.NotificationActivity
 import com.example.myapplication.Activities.PostActivity
@@ -38,6 +42,7 @@ import com.example.myapplication.entity.Service_Base.ApiResponseListener
 import com.example.myapplication.entity.Service_Base.ServiceManager
 import com.example.myapplication.extension.androidextention
 import com.example.myapplication.extension.androidextention.initLoader
+import com.example.myapplication.util.AppConst
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -59,6 +64,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var followingPost: TextView
     lateinit var userHome: LinearLayout
     lateinit var backArrowHome: ImageView
+    lateinit var nopost_gif: ImageView
     lateinit var adaptor: HomeAdaptor
     lateinit var USERID: String
     lateinit var home_text: TextView
@@ -73,6 +79,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
     lateinit var totalnotif: TextView
     lateinit var swipeRefresh: SwipeRefreshLayout
     lateinit var lottie: LottieAnimationView
+    lateinit var nopost: TextView
+
     var progress: Boolean = true
     var list = ArrayList<Docss>()
     var getSearchText = ""
@@ -115,6 +123,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
         totalnotif = v.findViewById(R.id.totalNotification)
         swipeRefresh = v.findViewById(R.id.swipeRefresh)
         lottie = v.findViewById(R.id.loader)
+        nopost = v.findViewById(R.id.no_post)
+        nopost_gif = v.findViewById(R.id.no_post_gif)
         locationpermission()
 //        totalnotif.visibility = View.GONE
 
@@ -137,11 +147,14 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 //        }
 
 
+
         goButton.setOnClickListener {
+            AppConst.hideKeyboard(activity!!)
+
             if (!searchText.text.toString().equals("") && searchText.text.toString() != null) {
-                //  list.clear()
-                searchDataFlag = true
-                searchFlag = true
+                  list.clear()
+//                searchDataFlag = true
+//                searchFlag = true
                 getSearchText = searchText.text.toString()
                 getLocalActivityApi()
             }
@@ -294,7 +307,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 //            androidextention.showProgressDialog(activity)
             lottie.initLoader(true)
         }
-        searchFlag = false
+//        searchFlag = false
         if (androidextention.isOnline(mContext)) {
 
             val serviceManager = ServiceManager(mContext)
@@ -340,16 +353,18 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         internetConnection.visibility = View.GONE
-
+        nopost.visibility = View.GONE
+//        nopost_gif.visibility = View.GONE
+        recycler_view1.visibility = View.VISIBLE
         progress_bar.visibility = View.GONE
 //        androidextention.disMissProgressDialog(activity)
         lottie.initLoader(false)
         pages = response.result.pages
 
         try {
-            if(searchDataFlag == true) {
-                list.clear()
-            }
+//            if(searchDataFlag == true) {
+//                list.clear()
+//            }
             list.addAll(response.result.docs)
             setAdapter(list)
         } catch (e: Exception) {
@@ -363,6 +378,7 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
                 totalnotif.visibility = View.VISIBLE
             }
         }
+
 //        Toast.makeText(mContext, "Success", Toast.LENGTH_LONG).show();
     }
 
@@ -372,7 +388,13 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
 
         progress_bar.visibility = View.GONE
         if (apiName.equals("LocalActivity")) {
-            Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
+            nopost.visibility = View.VISIBLE
+//            nopost_gif.visibility = View.VISIBLE
+
+            recycler_view1.visibility = View.GONE
+
+//            Glide.with(this).load(R.drawable.no_post_gif).into(nopost_gif)
+//            Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
         } else {
 
         }

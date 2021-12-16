@@ -54,6 +54,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
     lateinit var nestedScrollView: NestedScrollView
     lateinit var swipeRefresh: SwipeRefreshLayout
     lateinit var lottie : LottieAnimationView
+    lateinit var nopost: TextView
 
     var progress:Boolean=true
     private var latitude: Double = 0.0
@@ -87,6 +88,7 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
         swipeRefresh = v.findViewById(R.id.swipeRefresh)
         textLocalPostTrending=v.findViewById(R.id.text_local_post_trending)
         lottie = v.findViewById(R.id.loader)
+        nopost = v.findViewById(R.id.no_post)
 
         try {
             latitude = SavedPrefManager.getLatitudeLocation()!!
@@ -240,6 +242,8 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
 //        androidextention.disMissProgressDialog(activity)
+        nopost.visibility = View.GONE
+        recycler_view2.visibility = View.VISIBLE
         lottie.initLoader(false)
         try {
             pages = response.result.pages
@@ -252,7 +256,10 @@ class FollowingActivityFragment : Fragment() , ApiResponseListener<LocalActivity
 
     override fun onApiErrorBody(response: String?, apiName: String?) {
         lottie.initLoader(false)
-        Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
+//        Toast.makeText(activity, "Data Not Found", Toast.LENGTH_LONG).show()
+        nopost.visibility = View.VISIBLE
+
+        recycler_view2.visibility = View.GONE
     }
 
     override fun onApiFailure(failureMessage: String?, apiName: String?) {
