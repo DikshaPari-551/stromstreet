@@ -273,6 +273,44 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="93dp"
+                android:layout_marginTop="11.5dp"
+                android:layout_marginRight="93dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:id="@+id/facebook"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/facebook_logo" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/googleicon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/gmail_logo" />
+                </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/loader"

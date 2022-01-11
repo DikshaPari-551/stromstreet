@@ -82,6 +82,12 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
     implementation "com.googlecode.mp4parser:isoparser:1.0.6"
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+
+    //facebook
+    implementation 'com.facebook.android:facebook-login:[8.1)'
+
+    implementation "com.github.parse-community.Parse-SDK-Android:facebook:1.26.0"
 
 //    lottie animation
     implementation 'com.airbnb.android:lottie:2.7.0'

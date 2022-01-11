@@ -22,5 +22,7 @@
     <string name="server_not_responding">Server not responding</string>
     <string name="api_key">AIzaSyCnH9USkTG6L2hFhDtxqc8lsff52lOo0lY</string>
 
+    <string name="facebook_app_id">265898002311354</string>
+    <string name="fb_login_protocol_scheme">fb265898002311354</string>
 
 </resources>

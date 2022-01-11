@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
@@ -26,7 +27,14 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import okhttp3.ResponseBody
 import java.util.regex.Pattern
@@ -47,6 +55,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var text_forget: TextView
     lateinit var merror: TextView
     lateinit var eyeImg: ImageView
+    lateinit  var googleicon:LinearLayout
     private var passwordNotVisible = 0
     lateinit var mLoginEmail: TextView
     lateinit var mLoginPassword: TextView
@@ -56,8 +65,10 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     private lateinit var email: EditText
     private lateinit var password: EditText
     lateinit var lottie : LottieAnimationView
-
+    var RC_SIGN_IN = 0
+    lateinit var mGoogleSignInClient: GoogleSignInClient
     private val PASSWORD_PATTERN =
+
         Pattern.compile(
             "^" +
                     "(?=.*[@#$%^&+=])" +  // at least 1 special character
@@ -69,7 +80,8 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21)
+        {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -92,7 +104,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         mLayout_Login = findViewById(R.id.layout_login)
         eyeImg = findViewById(R.id.eye_img)
         lottie = findViewById(R.id.loader)
-
+        googleicon= findViewById(R.id.googleicon)
 
         eyeImg.setOnClickListener {
             if (passwordNotVisible == 0) {
@@ -136,7 +148,9 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 
 
         }
-
+        googleicon.setOnClickListener {
+            GOOGLESIGN()
+        }
 //    private fun validation() {
 //
 //        Validations.EmailLogin(email,mLoginEmail,merror,mBackerror)
@@ -220,6 +234,58 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 ////
 ////         }
 //    }
+    }
+
+    private fun GOOGLESIGN() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("1077830200638-rvau1kgbn5afgsuac4jqorfu7u7f2pfk.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        val signInIntent = mGoogleSignInClient.signInIntent
+
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        try {
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(mContext, "Cancel", Toast.LENGTH_SHORT).show()
+            }
+            if (requestCode == RC_SIGN_IN) {
+                var task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+                handleSignInResult(task)
+            } else {
+                Log.w("error", "user cancel")
+            }
+        }catch (e: java.lang.Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private fun handleSignInResult(task: Task<GoogleSignInAccount>?) {
+        try {
+            //   var account: GoogleSignInAccount = GoogleSignInAccount.createDefault()
+            var acc = GoogleSignIn.getLastSignedInAccount(applicationContext)
+            var googletoken = acc.idToken
+//            SavedPrefManager.saveStringPreferences(
+//                this,
+//                SavedPrefManager.FIRST_NAME,
+//                acc.displayName
+//            )
+            SavedPrefManager.saveStringPreferences(this, SavedPrefManager.EMAIL, acc.email)
+            gooogleSignup(googletoken.toString())
+        } catch (e: ApiException) {
+            Log.w("error", "signInResult:failed code=" + e.statusCode)
+        }
+
+    }
+
+    private fun gooogleSignup(toString: String) {
+
     }
 
     private fun initializedControl() {
