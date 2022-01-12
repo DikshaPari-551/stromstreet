@@ -1,34 +1,49 @@
 {
   "project_info": {
-    "project_number": "882424449305",
-    "project_id": "stromstreet-189fa",
-    "storage_bucket": "stromstreet-189fa.appspot.com"
+    "project_number": "1077830200638",
+    "project_id": "stromestreet-1641893736152",
+    "storage_bucket": "stromestreet-1641893736152.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:882424449305:android:4f973e16101d0423a51d88",
+        "mobilesdk_app_id": "1:1077830200638:android:11ceb064ff3fe8a5f6106f",
         "android_client_info": {
           "package_name": "com.example.myapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "882424449305-dkmr187ies7mm5ac321l8d45lrpdurne.apps.googleusercontent.com",
+          "client_id": "1077830200638-7mtof655bsgn20tmu4o8o0bdh4h9aa9r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "6d463b233b128e928f0c6b1b0a74119f20f11a1a"
+          }
+        },
+        {
+          "client_id": "1077830200638-mn7uej0ci68qtpqehvqlvuge2s3j8td8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC_CeuDPCf2DVSXabtDbIVQC6AcIAOjreY"
+          "current_key": "AIzaSyAMKA4R_yhZuRUdxlSLuWqF4l1dpFDh40g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "882424449305-dkmr187ies7mm5ac321l8d45lrpdurne.apps.googleusercontent.com",
+              "client_id": "1077830200638-mn7uej0ci68qtpqehvqlvuge2s3j8td8.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1077830200638-2qq11moe8u54pqpb4u3ibvnlujj10vs8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stormStreets"
+              }
             }
           ]
         }

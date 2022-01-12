@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -27,6 +26,9 @@ import com.example.myapplication.extension.androidextention
 import com.example.myapplication.extension.androidextention.initLoader
 import com.example.myapplication.util.SavedPrefManager
 import com.example.sleeponcue.extension.diasplay_toast
+import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -36,7 +38,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
-import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
 import java.util.regex.Pattern
 
 
@@ -65,7 +68,9 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     private lateinit var email: EditText
     private lateinit var password: EditText
     lateinit var lottie : LottieAnimationView
+    lateinit  var facebook:LinearLayout
     var RC_SIGN_IN = 0
+    var callBackManager: CallbackManager? = null
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private val PASSWORD_PATTERN =
 
@@ -105,7 +110,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         eyeImg = findViewById(R.id.eye_img)
         lottie = findViewById(R.id.loader)
         googleicon= findViewById(R.id.googleicon)
-
+        facebook= findViewById(R.id.facebook)
         eyeImg.setOnClickListener {
             if (passwordNotVisible == 0) {
                 mPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
@@ -150,6 +155,11 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         }
         googleicon.setOnClickListener {
             GOOGLESIGN()
+
+        }
+        facebook.setOnClickListener {
+
+            facebookLogin()
         }
 //    private fun validation() {
 //
@@ -236,6 +246,89 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 //    }
     }
 
+    private fun facebookLogin() {
+
+
+        LoginManager.getInstance().logInWithReadPermissions(this, arrayListOf("email"));
+        LoginManager.getInstance()
+            .registerCallback(callBackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult?) {
+                    val accessToken = result?.accessToken!!
+                    facebookLoginResponse(accessToken)
+
+                }
+
+                override fun onCancel() {
+                }
+
+                override fun onError(error: FacebookException?) {
+                }
+
+            })
+    }
+
+    private fun facebookLoginResponse(accessToken: AccessToken)
+    {
+        val graphRequest =
+            GraphRequest.newMeRequest(accessToken,
+                object : GraphRequest.GraphJSONObjectCallback {
+                    override fun onCompleted(
+                        obj: JSONObject,
+                        response: GraphResponse
+                    ) {
+                        if (response != null) {
+                            try {
+
+                                provideData(obj, accessToken)
+
+                            } catch (e: JSONException) {
+                                e.printStackTrace()
+                            }
+                        }
+                    }
+
+                })
+
+        val param = Bundle()
+        param.putString("fieleds", "name,email,id")
+        graphRequest.parameters = param
+        graphRequest.executeAsync()
+    }
+
+    private fun provideData(obj: JSONObject, accessToken: AccessToken)
+    {
+        Log.d("facebook token:", accessToken.token)
+        var profile = Profile.getCurrentProfile()
+        //SavedPrefManager.saveStringPreferences(this,SavedPrefManager.FIRST_NAME,profile.firstName)
+//        SavedPrefManager.saveStringPreferences(this,SavedPrefManager.LAST_NAME,profile.lastName)
+//        SavedPrefManager.saveStringPreferences(this,SavedPrefManager.PROFILE_PIC,profile.getProfilePictureUri(250,250).toString())
+        var facebookToken = accessToken.token
+        if (androidextention.isOnline(this)) {
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                    ApiCallBack<Responce>(this, "socialloginApi", mContext)
+            val apiRequest = Api_Request()
+
+
+            //apiRequest.email = profile!!.firstName
+            apiRequest.socialId = profile!!.id
+            apiRequest.socialType = "facebook"
+            apiRequest.firstName =  profile!!.firstName
+            apiRequest.lastName =  profile!!.lastName
+
+
+            try {
+                serviceManager.socialLoginUser(callBack, apiRequest)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            diasplay_toast("Please check internet connection.")
+        }
+    }
+
     private fun GOOGLESIGN() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("1077830200638-rvau1kgbn5afgsuac4jqorfu7u7f2pfk.apps.googleusercontent.com")
@@ -249,7 +342,9 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callBackManager!!.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data)
+
         try {
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(mContext, "Cancel", Toast.LENGTH_SHORT).show()
@@ -269,6 +364,7 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     private fun handleSignInResult(task: Task<GoogleSignInAccount>?) {
         try {
             //   var account: GoogleSignInAccount = GoogleSignInAccount.createDefault()
+
             var acc = GoogleSignIn.getLastSignedInAccount(applicationContext)
             var googletoken = acc.idToken
 //            SavedPrefManager.saveStringPreferences(
@@ -277,18 +373,44 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
 //                acc.displayName
 //            )
             SavedPrefManager.saveStringPreferences(this, SavedPrefManager.EMAIL, acc.email)
-            gooogleSignup(googletoken.toString())
+            gooogleSignup(acc)
         } catch (e: ApiException) {
             Log.w("error", "signInResult:failed code=" + e.statusCode)
         }
 
     }
 
-    private fun gooogleSignup(toString: String) {
+    private fun gooogleSignup(acc: GoogleSignInAccount?)
+    {
+        if (androidextention.isOnline(this)) {
+//            androidextention.showProgressDialog(this)
+            lottie.initLoader(true)
+            val serviceManager = ServiceManager(mContext)
+            val callBack: ApiCallBack<Responce> =
+                ApiCallBack<Responce>(this, "socialloginApi", mContext)
+            val apiRequest = Api_Request()
+
+
+            apiRequest.email = acc!!.email
+            apiRequest.socialId = acc!!.id
+            apiRequest.socialType = "google"
+            apiRequest.firstName =  acc!!.displayName
+            apiRequest.lastName =  acc!!.familyName
+
+
+            try {
+                serviceManager.socialLoginUser(callBack, apiRequest)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            diasplay_toast("Please check internet connection.")
+        }
 
     }
 
     private fun initializedControl() {
+        callBackManager = CallbackManager.Factory.create()
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 // Log.w(TAG, "Fetching FCM registration token failed", task.exception)
@@ -345,25 +467,34 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     override fun onApiSuccess(response: Responce, apiName: String?) {
 //        androidextention.disMissProgressDialog(this)
         lottie.initLoader(false)
-        if (response.responseCode == "200") {
-//            Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
-            if (response.result.otpVerification == false)
-            {
-                var intent = Intent(applicationContext, EmailVerificationActivity::class.java)
-                startActivity(intent)
-            }
-            else if (response.result.otpVerification == true)
-            {
-                SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.TOKEN,response.result.token)
-                SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.USERID,response.result._id)
+        if (response.responseCode.equals("200") ) {
+            if (apiName!!.equals("LoginApi")) {
+                if (response.result.otpVerification == false) {
+                    var intent = Intent(applicationContext, EmailVerificationActivity::class.java)
+                    startActivity(intent)
+                } else if (response.result.otpVerification == true) {
+                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.TOKEN, response.result.token)
+                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.USERID, response.result._id)
 
-                SavedPrefManager.saveStringPreferences(mContext,SavedPrefManager.userName,response.result.userName)
-                SavedPrefManager.saveStringPreferences(this,  SavedPrefManager.KEY_IS_LOGIN,"true")
+                    SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.userName, response.result.userName)
+                    SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
+                    var intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+        } else
+            if (apiName!!.equals("socialloginApi")) {
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.TOKEN, response.result.token)
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.USERID, response.result._id)
+
+                SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager.userName, response.result.userName)
+                SavedPrefManager.saveStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN, "true")
                 var intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-        }
+    }
     }
 
     override fun onApiErrorBody(response: String?, apiName: String?) {

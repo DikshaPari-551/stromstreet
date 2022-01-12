@@ -212,9 +212,16 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         moreText = response.result.userResult.bio
         username.setText(response.result.userResult.fullName)
         userBio.setText(response.result.userResult.bio)
-        if (moreText.length > 185) {
-            moreButton.visibility = View.VISIBLE
+        try {
+            if (moreText.length > 185) {
+                moreButton.visibility = View.VISIBLE
+            }
         }
+        catch (e:NullPointerException)
+        {
+
+        }
+
         followers.setText(response.result.followerCount.toString())
         following.setText(response.result.followingCount.toString())
         Glide.with(mContext).load(response.result.userResult.profilePic)

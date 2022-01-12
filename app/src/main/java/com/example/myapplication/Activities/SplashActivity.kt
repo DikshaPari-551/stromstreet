@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.util.FacebookHandler
 import com.example.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.LocationServices
 
@@ -59,7 +60,7 @@ class SplashActivity : AppCompatActivity() {
 //                finish()
 //            }, 3000)
 //        }
-
+        FacebookHandler.printHashKey(this)
     }
 
     private fun locationpermission() {

@@ -107,6 +107,14 @@ class Api_Request {
     @SerializedName("reportType")
     var reportType: String? = null
 
+    @SerializedName("socialType")
+    var socialType: String? = null
+
+    @SerializedName("socialId")
+    var socialId: String? = null
+
+    @SerializedName("firstName")
+    var firstName: String? = null
 
 
 }

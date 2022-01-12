@@ -34,6 +34,10 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.getloginApi(jsonObject) }!!
             .enqueue(callBack)
     }
+    fun socialLoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
+        mContext?.let { Remotedatasource.current(it, true)!!.getsocialoginApi(jsonObject) }!!
+                .enqueue(callBack)
+    }
 //    fun LoginUser(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?, s: String) {
 //        mContext?.let { Remotedatasource.current(it, false)!!.getloginApi(s,jsonObject) }!!.enqueue(callBack)
 //

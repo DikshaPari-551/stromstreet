@@ -18,6 +18,8 @@ interface Api_interface {
 
     @POST("user/login")
     fun getloginApi(@Body apiRequest: Api_Request?): Call<Responce>?
+    @POST("user/socialLogin")
+    fun getsocialoginApi(@Body apiRequest: Api_Request?): Call<Responce>?
 
 //    @POST("user/login")
 //    fun getloginApi(

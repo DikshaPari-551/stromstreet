@@ -88,12 +88,17 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:[8.1)'
 
     implementation "com.github.parse-community.Parse-SDK-Android:facebook:1.26.0"
-
+//firebase crashlystic
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 //    lottie animation
     implementation 'com.airbnb.android:lottie:2.7.0'
 
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
 
 
