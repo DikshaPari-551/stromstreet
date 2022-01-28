@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.myapplication">
-    <uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES"
+    package="com.stormstreet.myapplication">
+
+    <uses-permission
+        android:name="android.permission.CONTROL_LOCATION_UPDATES"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
-        android:name="com.example.myapplication.util.App"
+        android:name=".util.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Storm Street"
@@ -27,7 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.NotificationActivity"></activity>
+        <activity android:name=".Activities.Checksocketconnection"></activity>
+        <activity android:name=".Activities.NotificationActivity" />
         <activity android:name=".Activities.LocationDeny" />
         <activity android:name=".Activities.NoInternetActivity" />
         <activity android:name=".Activities.LocationAddress" />
@@ -88,11 +90,13 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/black" />
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="my_channel_01" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activities.SignUpActivity"
@@ -110,6 +114,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -135,6 +140,7 @@
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="@string/facebook_app_id"
             android:exported="true" />
+
         <service
             android:name=".notification.MyFirebaseMessagingService"
             android:exported="false"
@@ -146,7 +152,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.myapplication.fileprovider"
+            android:authorities="com.stormstreet.myapplication.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
