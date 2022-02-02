@@ -101,7 +101,7 @@
                 android:layout_height="25dp"
                 android:background="@drawable/three_dots"
                 android:layout_marginRight="15dp"
-                android:visibility="gone"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

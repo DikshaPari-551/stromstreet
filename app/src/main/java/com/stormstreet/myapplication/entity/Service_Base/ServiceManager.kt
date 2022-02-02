@@ -255,6 +255,10 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.otherUserProfile(_id) }!!
             .enqueue(callBack)
     }
+    fun blockOtherUser(callBack: ApiCallBack<Responce>, _id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.blockOtherUser(_id) }!!
+            .enqueue(callBack)
+    }
 
     fun getOtherUserPost(callBack: ApiCallBack<Responce>, userId: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.otherUserPost(userId) }!!

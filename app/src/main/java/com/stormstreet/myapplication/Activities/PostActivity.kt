@@ -60,6 +60,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     lateinit var lottie : LottieAnimationView
     var shareImageLinks = ArrayList<String>()
     var shareLink: String = ""
+     var tag:String=""
     var VP_Position = 0
     var des = ""
     var position=""
@@ -78,7 +79,8 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21)
+        {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -140,7 +142,22 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
 
 
         three_dots.setOnClickListener {
-        var bottomSheet = BottomSheetOptions(this)
+            if ((SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                            .equals("true"))
+            ) {
+                if (postid == USERID_data){
+                    tag="delete"
+                    follow.visibility = View.GONE
+                }else {
+                    tag="report"
+                    // three_dots.visibility = View.GONE
+                    follow.visibility = View.VISIBLE
+                }
+            }else{
+                // three_dots.visibility = View.GONE
+                follow.visibility = View.GONE
+            }
+        var bottomSheet = BottomSheetOptions(this,tag)
         bottomSheet.show(supportFragmentManager,"")
         }
 
@@ -174,7 +191,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
             if (SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
                     .equals("true")
             ) {
-                var i = Intent(this, PostActivity2()::class.java)
+                var i = Intent(this, PostActivity2::class.java)
                 startActivity(i)
             } else {
                 val i = Intent(this, LoginActivity::class.java)
@@ -488,20 +505,7 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
             setResult(RESULT_OK, returnIntent)
             finish()
         }
-        if ((SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
-                .equals("true"))
-        ) {
-            if (postid == USERID_data){
-                three_dots.visibility = View.VISIBLE
-                follow.visibility = View.GONE
-            }else {
-                three_dots.visibility = View.GONE
-                follow.visibility = View.VISIBLE
-            }
-        }else{
-            three_dots.visibility = View.GONE
-            follow.visibility = View.GONE
-        }
+
 
     }
 
@@ -530,5 +534,12 @@ class PostActivity : AppCompatActivity(), ApiResponseListener<Responce>, ClickLi
 
     override fun deletePost() {
         deletePostapi()
+    }
+
+    override fun reportpost() {
+
+        val intent = Intent(this, ReportPost::class.java)
+        startActivity(intent)
+        finish()
     }
 }

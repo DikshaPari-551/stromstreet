@@ -10,6 +10,7 @@ import android.app.Activity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.stormstreet.myapplication.Activities.PostActivity2;
+import com.stormstreet.myapplication.Activities.ReportPost;
 import com.stormstreet.myapplication.Activities.UserProfile;
 import com.stormstreet.myapplication.BottomSheets.BottomSheetOptions;
 import com.stormstreet.myapplication.customclickListner.ClickListnerDelete;
@@ -329,8 +330,15 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
             }
         });
         three_dots.setOnClickListener(v -> {
-            BottomSheetOptions bottomSheet = new BottomSheetOptions(this);
-            bottomSheet.show(getSupportFragmentManager(),"");
+            if (postid.equals(USERID_data)){
+                BottomSheetOptions bottomSheet = new BottomSheetOptions(this, "delete");
+                bottomSheet.show(getSupportFragmentManager(),"");
+            }else {
+                BottomSheetOptions bottomSheet = new BottomSheetOptions(this, "report");
+                bottomSheet.show(getSupportFragmentManager(),"");
+                follow.setVisibility(View.VISIBLE);
+            }
+
         });
 
 
@@ -439,10 +447,10 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
                 e.printStackTrace();
             }
             if (postid.equals(USERID_data)){
-                three_dots.setVisibility(View.VISIBLE);
+
                 follow.setVisibility(View.GONE);
             }else {
-                three_dots.setVisibility(View.GONE);
+
                 follow.setVisibility(View.VISIBLE);
             }
             SavedPrefManager.Companion.saveStringPreferences(mContext, SavedPrefManager.otherUserId, postid);
@@ -858,6 +866,14 @@ public class Exoplayer extends AppCompatActivity implements OnKeyListener, OnTou
     @Override
     public void deletePost() {
         deletepostapi();
+    }
+
+    @Override
+    public void reportpost() {
+
+        Intent intent =new  Intent(this, ReportPost.class);
+        startActivity(intent);
+        finish();
     }
 
 

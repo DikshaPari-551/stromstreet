@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.stormstreet.myapplication.Adaptor.UserProfilePostAdaptor
+import com.stormstreet.myapplication.BottomSheets.BottomSheetOptions
 import com.stormstreet.myapplication.Exoplayer
 import com.stormstreet.myapplication.R
+import com.stormstreet.myapplication.customclickListner.ClickListnerDelete
 import com.stormstreet.myapplication.customclickListner.CustomClickListner3
 import com.stormstreet.myapplication.entity.ApiCallBack
 import com.stormstreet.myapplication.entity.Response.*
@@ -27,7 +29,8 @@ import com.stormstreet.myapplication.util.SavedPrefManager
 import de.hdodenhof.circleimageview.CircleImageView
 import java.lang.Exception
 
-class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomClickListner3 {
+class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomClickListner3,
+    ClickListnerDelete {
     lateinit var tag: ImageView
     lateinit var back_tab1: LinearLayout
     lateinit var totalfollower: LinearLayout
@@ -54,6 +57,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     lateinit var USERID: String
     lateinit var reciver_id: String
     lateinit var Userid: String
+    lateinit var three_dots:ImageView
     lateinit var user_name: String
     lateinit var progress_bar: ProgressBar
     lateinit var nestedScrollView: NestedScrollView
@@ -87,6 +91,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
 //        layout_tab1=findViewById(R.id.layout_tab1)
 ////        layout_tab2=findViewById(R.id.layout_tab2)
         back_arrow = findViewById(R.id.back_arrow)
+        three_dots= findViewById(R.id.three_dots)
         username = findViewById(R.id.username)
         followers = findViewById(R.id.followers)
         following = findViewById(R.id.following)
@@ -121,7 +126,11 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
                     .putExtra("username", user_name).putExtra("profileimage", filedata)
             )
         })
+        three_dots.setOnClickListener({
+            var bottomSheet = BottomSheetOptions(this,"block")
+            bottomSheet.show(supportFragmentManager,"")
 
+        })
         nestedScrollView.setOnScrollChangeListener(object :
             NestedScrollView.OnScrollChangeListener {
             override fun onScrollChange(
@@ -242,45 +251,55 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
     override fun onApiSuccess(response: Responce, apiName: String?) {
 //        androidextention.disMissProgressDialog(this)
         lottie.initLoader(false)
-        try {
-            username.setText(response.result.profileResult.fullName)
-            followers.setText(response.result.followerCount.toString())
-            following.setText(response.result.followingCount.toString())
-            user_name = response.result.profileResult.fullName
-            reciver_id = response.result.profileResult._id
-            userbio.setText(response.result.profileResult.bio)
-            if (userbio.text.length > 185) {
-                moreText = response.result.profileResult.bio
-                moreButton.visibility = View.VISIBLE
+
+        if(apiName!!.equals("Userblock"))
+        {
+            Toast.makeText(this, response.responseMessage, Toast.LENGTH_LONG).show()
+            finish()
+        }
+        else
+        {
+            try {
+                username.setText(response.result.profileResult.fullName)
+                followers.setText(response.result.followerCount.toString())
+                following.setText(response.result.followingCount.toString())
+                user_name = response.result.profileResult.fullName
+                reciver_id = response.result.profileResult._id
+                userbio.setText(response.result.profileResult.bio)
+                if (userbio.text.length > 185) {
+                    moreText = response.result.profileResult.bio
+                    moreButton.visibility = View.VISIBLE
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
 
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        try {
-            filedata = response.result.profileResult.profilePic
-            Glide.with(mContext).load(filedata).placeholder(R.drawable.circleprofile)
-                .into(profileImage);
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+            try {
+                filedata = response.result.profileResult.profilePic
+                Glide.with(mContext).load(filedata).placeholder(R.drawable.circleprofile)
+                    .into(profileImage);
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
 
 //        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
-        isFollow = response.result.isFollow
-        if (apiName.equals("Profile")) {
-            if (isFollow == true) {
-                followuser.setText("Unfollow")
-                message.visibility = View.VISIBLE
+            isFollow = response.result.isFollow
+            if (apiName.equals("Profile")) {
+                if (isFollow == true) {
+                    followuser.setText("Unfollow")
+                    message.visibility = View.VISIBLE
 
-            } else if (isFollow == false) {
-                followuser.setText("Follow")
-                message.visibility = View.GONE
+                } else if (isFollow == false) {
+                    followuser.setText("Follow")
+                    message.visibility = View.GONE
+                }
+            } else if (apiName.equals("FollowUnfollow")) {
+                profileApi()
             }
-        } else if (apiName.equals("FollowUnfollow")) {
-            profileApi()
         }
+
 //        else if (apiName.equals("OtherUserPostList")) {
 //            var list = ArrayList<Docs>()
 //            list.addAll(response.result.docs)
@@ -332,6 +351,25 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
             }
 
         }
+    }
+
+    override fun deletePost()
+    {
+        lottie.initLoader(true)
+        val serviceManager = ServiceManager(mContext)
+        val callBack: ApiCallBack<Responce> =
+            ApiCallBack<Responce>(this, "Userblock", mContext)
+
+        try {
+            serviceManager.blockOtherUser(callBack, Userid)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun reportpost()
+    {
+
     }
 
 }

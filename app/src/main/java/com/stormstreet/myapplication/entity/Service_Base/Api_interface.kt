@@ -163,7 +163,8 @@ interface Api_interface {
 
     @GET("user/othersPostList")
     fun otherUserPost(@Query("userId") userId: String): Call<Responce>?
-
+    @PUT("user/blockOtherUser")
+    fun blockOtherUser(@Query("userId") userId: String): Call<Responce>?
 
 
     @GET("user/othersPostList")

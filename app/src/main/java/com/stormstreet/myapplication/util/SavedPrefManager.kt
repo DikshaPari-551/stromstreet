@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.orhanobut.hawk.Hawk
+import com.stormstreet.myapplication.Exoplayer
 
 class SavedPrefManager(var context: Context) {
     private val preferences: SharedPreferences
@@ -159,6 +160,11 @@ class SavedPrefManager(var context: Context) {
     }
 
     companion object {
+
+
+
+         var _id: String="id"
+
         //preferences variables
         const val EMAIL = "email"
         const val PASSWORD = "password"
@@ -168,7 +174,7 @@ class SavedPrefManager(var context: Context) {
         const val USERID = "userid"
         const val COMMENT_ID = "commentId"
         const val userName = "userName"
-         var _id = "_id"
+
          var NOTIFICATION_ID = "NOTIFICATION_ID"
         const val postid = "postid"
         const val otherUserId = "otherUserId"
@@ -319,6 +325,15 @@ class SavedPrefManager(var context: Context) {
 
         fun getLongitudeLocation() : Double? {
             return long
+        }
+
+        @JvmStatic
+        fun saveStringPreferences(exoplayer: Exoplayer, key: String, postid: String): Any {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(exoplayer)
+            val editor = sharedPreferences.edit()
+            editor.putString(key, postid)
+            editor.apply()
+            return key
         }
     }
 

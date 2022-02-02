@@ -1,10 +1,15 @@
 package com.stormstreet.myapplication
 
 //import androidx.constraintlayout.motion.widget.Debug.getLocation
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -12,6 +17,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.facebook.*
 import com.facebook.login.LoginManager
@@ -22,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
@@ -45,8 +52,7 @@ import org.json.JSONObject
 import java.util.regex.Pattern
 
 
-class
-LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
+class LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
     lateinit var mEmailText: EditText
     lateinit var check_login: CheckBox
     lateinit var check_text_login: TextView
@@ -439,12 +445,91 @@ LoginActivity : AppCompatActivity(), ApiResponseListener<Responce> {
         })
         val token =    FirebaseMessaging.getInstance().getToken();
         System.out.println("Fetching FCM registration token failed" + token)
-//        locationpermission()
+       locationpermission()
+    }
+
+    private fun locationpermission() {
+        // checking location permission
+        if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            // If you do not have permission, request it
+            ActivityCompat.requestPermissions(
+                    this as Activity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQ_CODE
+            )
+        } else {
+            // Launch the camera if the permission exists
+
+        }
+        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    // getting the last known or current location
+                    try {
+                        var latitude = location.latitude
+                        var longitude = location.longitude
+//                    val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//                    val locatiodata: Location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+//                    val longitudenew : Double = locatiodata.getLongitude()
+//                    val latitudenew: Double = locatiodata.getLatitude()
+                        SavedPrefManager.setLatitudeLocation(latitude)
+                        SavedPrefManager.setLongitudeLocation(longitude)
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                .addOnFailureListener {
+                }
     }
 
 //    private fun locationpermission() {
 
 //    }
+override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String?>,
+        grantResults: IntArray
+) {
+    // Called when you request permission to read and write to external storage
+    when (requestCode) {
+        LOCATION_PERMISSION_REQ_CODE -> {
+            if (grantResults.size > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+            ) {
+                // If you get permission, launch the camera
+
+            } else {
+                // If you do not get permission, show a Toast
+//                    Toast.makeText(
+//                        this, "Permission Denied",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                ifdenaye()
+            }
+        }
+    }
+}
+
+    private fun ifdenaye() {
+        startActivity(intent)
+        AlertDialog.Builder(this)
+                .setTitle("Permissions Needed")
+                .setMessage("This application needs some permissions, Please accept all the permissions to use this application.")
+                .setPositiveButton(
+                        "OK"
+                ) { _, _ ->
+                    //Prompt the user once explanation has been shown
+//                locationpermission()
+                    System.exit(0)
+                }
+                .create()
+                .show()
+    }
 
     private fun LogIn() {
         if (androidextention.isOnline(this)) {

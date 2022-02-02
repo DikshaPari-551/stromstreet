@@ -16,6 +16,7 @@ import com.stormstreet.myapplication.R
 import com.stormstreet.myapplication.util.FacebookHandler
 import com.stormstreet.myapplication.util.SavedPrefManager
 import com.google.android.gms.location.LocationServices
+import com.stormstreet.myapplication.LoginActivity
 
 
 class SplashActivity : AppCompatActivity() {
@@ -62,93 +63,29 @@ class SplashActivity : AppCompatActivity() {
 
     private fun locationpermission() {
 
-        // checking location permission
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            // If you do not have permission, request it
-            ActivityCompat.requestPermissions(
-                this as Activity,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQ_CODE
-            )
-        } else {
-            // Launch the camera if the permission exists
-            Handler().postDelayed({
+        Handler().postDelayed({
+            if ((SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
+                            .equals("true"))
+            ) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-            }, 3000)
-        }
-        var fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                // getting the last known or current location
-                try {
-                    var latitude = location.latitude
-                    var longitude = location.longitude
-//                    val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//                    val locatiodata: Location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//                    val longitudenew : Double = locatiodata.getLongitude()
-//                    val latitudenew: Double = locatiodata.getLatitude()
-                    SavedPrefManager.setLatitudeLocation(latitude)
-                    SavedPrefManager.setLongitudeLocation(longitude)
+            }
+            else {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }, 3000)
 
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            .addOnFailureListener {
-            }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String?>,
-        grantResults: IntArray
-    ) {
-        // Called when you request permission to read and write to external storage
-        when (requestCode) {
-            LOCATION_PERMISSION_REQ_CODE -> {
-                if (grantResults.size > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    // If you get permission, launch the camera
-                    Handler().postDelayed({
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }, 3000)
-                } else {
-                    // If you do not get permission, show a Toast
-//                    Toast.makeText(
-//                        this, "Permission Denied",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-                    ifdenaye()
-                }
-            }
-        }
-    }
+
 
 
     private fun ifdenaye() {
 //        val intent = Intent(this, LocationDeny::class.java)
-//        startActivity(intent)
-        AlertDialog.Builder(this)
-            .setTitle("Permissions Needed")
-            .setMessage("This application needs some permissions, Please accept all the permissions to use this application.")
-            .setPositiveButton(
-                "OK"
-            ) { _, _ ->
-                //Prompt the user once explanation has been shown
-//                locationpermission()
-                System.exit(0)
-            }
-            .create()
-            .show()
+//
     }
 
 }
