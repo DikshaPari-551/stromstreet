@@ -23,8 +23,10 @@
 
             <ImageView
                 android:id="@+id/back_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/back_arrow"
+
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp" />
 
@@ -39,7 +41,15 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
+            <ImageView
+                android:id="@+id/setting"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/setting"
+                      android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+               />
 
         </RelativeLayout>
 

@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1077830200638:android:080598ecbf56aebaf6106f",
+        "mobilesdk_app_id": "1:1077830200638:android:40b56ffed57206f8f6106f",
         "android_client_info": {
           "package_name": "com.stormstreet.myapplication"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1077830200638-ogekqntmfbfudl506ok7vrlt8h9utglo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stormstreet.myapplication",
+            "certificate_hash": "4d3eee80af8923e5bedaa11fc8c038f3518550a2"
+          }
+        },
         {
           "client_id": "1077830200638-mn7uej0ci68qtpqehvqlvuge2s3j8td8.apps.googleusercontent.com",
           "client_type": 3

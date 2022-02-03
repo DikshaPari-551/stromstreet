@@ -493,7 +493,8 @@ class HomeFragment : Fragment(), ApiResponseListener<LocalActivityResponse>,
             internetConnection.visibility = View.GONE
 
             if (type.equals("profile")) {
-                if (value.mediaType.toLowerCase().equals("video")) {
+                if (value.mediaType.toLowerCase().equals("video"))
+                {
                     SavedPrefManager.saveStringPreferences(mContext, SavedPrefManager._id, USERID)
                     var intent = Intent(mContext, Exoplayer::class.java)
                     intent.putExtra("postion", i.toString())

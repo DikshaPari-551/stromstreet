@@ -1,22 +1,17 @@
 package com.stormstreet.myapplication.Activities
 
-import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
+import com.stormstreet.myapplication.LoginActivity
 import com.stormstreet.myapplication.MainActivity
 import com.stormstreet.myapplication.R
 import com.stormstreet.myapplication.util.FacebookHandler
 import com.stormstreet.myapplication.util.SavedPrefManager
-import com.google.android.gms.location.LocationServices
-import com.stormstreet.myapplication.LoginActivity
 
 
 class SplashActivity : AppCompatActivity() {
@@ -65,13 +60,13 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             if ((SavedPrefManager.getStringPreferences(this, SavedPrefManager.KEY_IS_LOGIN)
-                            .equals("true"))
+                    .equals("true"))
             ) {
+//                throw RuntimeException("Test Crash") // Force a crash
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
-            else {
+            } else {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()

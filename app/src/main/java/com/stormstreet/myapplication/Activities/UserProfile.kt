@@ -361,7 +361,7 @@ class UserProfile : AppCompatActivity(), ApiResponseListener<Responce>, CustomCl
             ApiCallBack<Responce>(this, "Userblock", mContext)
 
         try {
-            serviceManager.blockOtherUser(callBack, Userid)
+            serviceManager.blockOtherUser(callBack, reciver_id)
         } catch (e: Exception) {
             e.printStackTrace()
         }

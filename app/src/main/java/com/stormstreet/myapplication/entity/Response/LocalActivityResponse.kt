@@ -15,8 +15,8 @@ class LocalActivityResponse {
 
 }
 data class Resultt(
-
-    @SerializedName("docs") val docs: List<Docss>,
+        @SerializedName("blockUserList") val docslist: List<Docss>,
+        @SerializedName("docs") val docs: List<Docss>,
     @SerializedName("total") val total: Int,
     @SerializedName("limit") val limit: Int,
     @SerializedName("page") val page: Int,
@@ -45,7 +45,10 @@ data class Docss(
     @SerializedName("distance") val distance: Double,
     @SerializedName("userDetails") val userDetails: UserDetailss,
     @SerializedName("request") val request: String,
+    @SerializedName("fullName") val fullName: String,
     @SerializedName("followerId") val followerId: FollowerId,
+    @SerializedName("profilePic") val profilePic: String,
+
     @SerializedName("likeCount") val likeCount: Int,
     @SerializedName("categoryDetails") val categoryDetails: List<CategoryDetails>,
     @SerializedName("description") val description : String,

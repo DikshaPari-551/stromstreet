@@ -80,7 +80,11 @@ class ServiceManager(var mContext: Context?) {
             .enqueue(callBack)
 
     }
+    fun blocklist(callBack: ApiCallBack<LocalActivityResponse>) {
+        mContext?.let { Remotedatasource.current(it, true)!!.blocklist() }!!
+                .enqueue(callBack)
 
+    }
     fun updateUserDetails(callBack: ApiCallBack<Responce>, jsonObject: Api_Request?) {
         mContext?.let { Remotedatasource.current(it, true)!!.userDetails(jsonObject) }!!
             .enqueue(callBack)
@@ -259,7 +263,10 @@ class ServiceManager(var mContext: Context?) {
         mContext?.let { Remotedatasource.current(it, true)!!.blockOtherUser(_id) }!!
             .enqueue(callBack)
     }
-
+    fun UnblockOtherUser(callBack: ApiCallBack<LocalActivityResponse>, _id: String) {
+        mContext?.let { Remotedatasource.current(it, true)!!.UnblockOtherUser(_id) }!!
+            .enqueue(callBack)
+    }
     fun getOtherUserPost(callBack: ApiCallBack<Responce>, userId: String) {
         mContext?.let { Remotedatasource.current(it, true)!!.otherUserPost(userId) }!!
             .enqueue(callBack)

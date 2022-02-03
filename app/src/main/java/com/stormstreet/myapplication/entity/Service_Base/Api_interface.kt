@@ -78,6 +78,8 @@ interface Api_interface {
     @GET("user/getProfile")
     fun getProfile(): Call<Responce>?
 
+    @GET("user/blockUserIdList")
+    fun blocklist(): Call<LocalActivityResponse>?
     @GET("user/categoryList")
     fun categoryList(): Call<Responce>?
 
@@ -163,10 +165,12 @@ interface Api_interface {
 
     @GET("user/othersPostList")
     fun otherUserPost(@Query("userId") userId: String): Call<Responce>?
+
     @PUT("user/blockOtherUser")
-    fun blockOtherUser(@Query("userId") userId: String): Call<Responce>?
+    fun blockOtherUser(@Query("_id") userId: String): Call<Responce>?
 
-
+    @PUT("user/unblockOtherUser")
+    fun UnblockOtherUser(@Query("_id") userId: String): Call<LocalActivityResponse>?
     @GET("user/othersPostList")
     fun getOtherPostList(
         @Query("userId") userId: String,

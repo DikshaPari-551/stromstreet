@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.stormstreet.myapplication.Activities.BlockActivity
 import com.stormstreet.myapplication.Activities.Followers
 import com.stormstreet.myapplication.Activities.Following
 import com.stormstreet.myapplication.R
@@ -42,6 +43,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
     lateinit var moreUserBio: TextView
     lateinit var moreButton: TextView
     lateinit var lottie : LottieAnimationView
+    lateinit var setting: ImageView
 
     var moreText = ""
     lateinit var buttonProfileDetail: LinearLayout
@@ -80,6 +82,7 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
         username = v.findViewById(R.id.username)
         followers = v.findViewById(R.id.followers)
         following = v.findViewById(R.id.following)
+        setting= v.findViewById(R.id.setting)
         profileApi()
 //        progress_bar = v.findViewById(R.id.progress_bar)
 //        nestedScrollView = v.findViewById(R.id.nestedScrollView)
@@ -136,14 +139,17 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
 
         totalfollower.setOnClickListener {
             var intent = Intent(activity, Followers::class.java)
+                    .putExtra("list", "list")
             startActivity(intent)
         }
         followers.setOnClickListener {
             var intent = Intent(activity, Followers::class.java)
+                    .putExtra("list", "list")
             startActivity(intent)
         }
         folllowtext.setOnClickListener {
             var intent = Intent(activity, Followers::class.java)
+                    .putExtra("list", "list")
             startActivity(intent)
         }
 
@@ -179,6 +185,12 @@ class ProfileFragment : Fragment(), ApiResponseListener<Responce> {
                 moreButton.visibility = View.GONE
                 userBio.visibility = View.GONE
             }
+        }
+        setting.setOnClickListener {
+            startActivity(Intent(context, BlockActivity::class.java)
+
+            )
+
         }
 
         return v

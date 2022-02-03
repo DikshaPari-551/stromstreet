@@ -20,6 +20,7 @@ import com.stormstreet.myapplication.customclickListner.CustomClickListner2
 import com.stormstreet.myapplication.entity.ApiCallBack
 import com.stormstreet.myapplication.entity.Response.Docss
 import com.stormstreet.myapplication.entity.Response.LocalActivityResponse
+import com.stormstreet.myapplication.entity.Response.Responce
 import com.stormstreet.myapplication.entity.Service_Base.ApiResponseListener
 import com.stormstreet.myapplication.entity.Service_Base.ServiceManager
 import com.stormstreet.myapplication.extension.androidextention
@@ -31,6 +32,8 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
     lateinit var recycler_view3: RecyclerView
     lateinit var back_arrow_chat: ImageView
     var otherUserId: String = ""
+    var Followersdata: String = ""
+
     lateinit var progress_bar: ProgressBar
     lateinit var nestedScrollView: NestedScrollView
     lateinit var lottie : LottieAnimationView
@@ -57,7 +60,8 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
         progress_bar = findViewById(R.id.progress_bar)
         nestedScrollView = findViewById(R.id.nestedScrollView)
         lottie = findViewById(R.id.loader)
-        followerApi()
+        GETINTENT()
+
         back_arrow_chat.setOnClickListener {
             finish()
         }
@@ -79,6 +83,24 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
                 }
             }
         })
+    }
+
+    private fun GETINTENT()
+    {
+        followerApi()
+    }
+
+    private fun Blocaklist() {
+        lottie.initLoader(true)
+        val serviceManager = ServiceManager(mContext)
+        val callBack: ApiCallBack<LocalActivityResponse> =
+                ApiCallBack<LocalActivityResponse>(this, "Userblocklist", mContext)
+
+        try {
+            serviceManager.blocklist(callBack)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
 
@@ -103,14 +125,25 @@ class Followers : AppCompatActivity(), ApiResponseListener<LocalActivityResponse
 
     override fun onApiSuccess(response: LocalActivityResponse, apiName: String?) {
         if (response.responseCode == "200") {
-//            androidextention.disMissProgressDialog(this)
             lottie.initLoader(false)
-
-            pages = response.result.pages
+            if(apiName.equals("Userblocklist"))
+            {
+                pages = response.result.pages
 //            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-            list.addAll(response.result.docs)
+                list.addAll(response.result.docslist)
 //            list.addAll(response.result.docss)
-            setAdapter(list)
+                setAdapter(list)
+            }
+            else
+            {
+
+
+                list.addAll(response.result.docs)
+//            list.addAll(response.result.docss)
+                setAdapter(list)
+            }
+//            androidextention.disMissProgressDialog(this)
+
 
 
         }
